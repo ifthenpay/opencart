@@ -1,0 +1,5 @@
+1. Copiar estas duas pastas para a raiz do servidor onde se encontra o openCart
+
+2. Ir ao backoffice da plataforma instalar o módulo de pagamento Multibanco, que se encontra em Extensions>Payments, e depois clicar em Edit para introduzir a entidade e subentidade fornecida para ifthen no acto do contracto e colocar o módulo como activo. Pode inclusivé bloquear o módulo só à zona geográfica de Portugal. Ver documentação do OpenCart para ver como se estipulam zonas.
+
+3. Começar a usar!!!!

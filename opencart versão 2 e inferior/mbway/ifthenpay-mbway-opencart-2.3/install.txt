@@ -1,0 +1,9 @@
+﻿Versão 2.3x
+
+1. Copiar os ficheiros para os respectivos lugares na sua instalação opencart.
+
+2. Ir ao backoffice da plataforma instalar o módulo de pagamento Ifthenpay - MBWAY, que se encontra em Extensions de seguida seleccione "Payments", e depois clicar em Edit para introduzir a MBWAY KEY que lhe foi fornecida na celebração do contrato e colocar o módulo como activo. 
+
+3. Começar a usar!
+
+NOTA: O callback só estará ativo assim que receber um email da Ifthenpay a informar.

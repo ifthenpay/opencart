@@ -1,0 +1,163 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-payment" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+   {% if error_warning %}
+      <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      </div>
+    {% endif %}
+    {% if success %}
+      <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <img src="view/image/payment/ifthenpay.png" id="payment-logo" />
+		    <h5>{{ title_smart_payments }}</h5>
+        <h3 class="help-documentation-title">{{ title_need_help }}</h3>
+        <a href="{{acess_user_documentation_link}}" target="_blank" class="btn btn-default" id="help-documentation-btn">{{ acess_user_documentation }}</a><br />
+		    <h3 class="create-account-title">{{ create_account }}</h3>
+        <a href="https://www.ifthenpay.com/downloads/ifmb/contratomb.pdf" target="_blank" class="btn btn-default" id="create-account-btn">{{ create_account_now }}</a><br />
+      </div>
+      <div class="panel-body">
+        <h3>{{ numerous_advantages }}</h3>
+            <ul>
+                    <li>
+                        <h6>{{ free_for_users }}</h6>
+                    </li>
+                    <li>
+                        <h6>{{ payments_24_day }}</h6>
+                    </li>
+                    <li>
+                        <h6>{{ secure_payments }}</h6>
+                    </li>
+                    <li>
+                        <h6>{{ protected_user_data }}</h6>
+                    </li>
+                    <li>
+                      <h6>{{ multichannel_payments }}</h6>
+                    </li>
+                    <li>
+                        <h6>{{ directly_from_user }}</h6>
+                    </li>
+                    <li>
+                        <h6>{{ fully_checkout }}</h6>
+                    </li>
+                    <li>
+                        <h6>{{ free_app }}</h6>
+                    </li>
+                    <li>
+                        <h6>{{ more_automation }}</h6>
+                    </li>
+                </ul>
+            <div>
+              <img src="view/image/payment/multibanco.png"/>
+              <img src="view/image/payment/mbway.png"/>
+              <img src="view/image/payment/payshop.png"/>
+              <img src="view/image/payment/ccard.png"/>
+            </div>
+        <div class="container-full">
+          <div class="row">
+            <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-payment" class="form-horizontal">
+              {% if payment_ifthenpay_backofficeKey %}
+                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <div class="panel panel-default settingsModule">
+                      <div class="panel-body">
+                          <div class="form-group">
+                            <label class="control-label col-lg-3">{{ sandbox_mode }}</label>
+                            <div class="col-lg-9">
+                              <div class="btn-group" id="status" data-toggle="buttons">
+                                <label class="btn btn-default btn-on btn-lg {{ payment_ifthenpay_sandboxMode == '1' ? 'active' : '' }}">
+                                <input type="radio" value="1" name="payment_ifthenpay_sandboxMode" checked="{{ payment_ifthenpay_sandboxMode == '1' ? 'checked' : '' }}">{{ switch_enable }}</label>
+                                <label class="btn btn-default btn-off btn-lg {{ payment_ifthenpay_sandboxMode == '0' ? 'active' : '' }}">
+                                <input type="radio" value="0" name="payment_ifthenpay_sandboxMode" checked="{{ payment_ifthenpay_sandboxMode == '0' ? 'checked' : '' }}">{{ switch_disable }}</label>
+                                <small id="sandboxHelp" class="form-text text-muted">{{ sandbox_help }}</small>
+                              </div>
+                            </div>
+                          </div>
+                          {% for paymentMethod in payment_ifthenpay_userPaymentMethods %}
+                            <div class="form-group">
+                              <label class="control-label col-lg-3">{{ paymentMethod |capitalize }}</label>
+                              <div class="col-lg-9">
+                                <div class="btn-group" id="status" data-toggle="buttons">
+                                  <label class="btn btn-default btn-on btn-lg {{ _context["payment_ifthenpay_account_#{paymentMethod}"] == '1' ? 'active' : '' }}">
+                                  
+                                  <input type="radio" value="1" name="{{ "payment_ifthenpay_account_#{paymentMethod}" }}" checked={{ _context["payment_ifthenpay_account_#{paymentMethod}"] == '1' ? 'checked' : '' }}>{{ switch_enable }}</label>
+                                  <label class="btn btn-default btn-off btn-lg {{ _context["payment_ifthenpay_account_#{paymentMethod}"] == '0' ? 'active' : '' }}">
+                                  <input type="radio" value="0" name="{{ "payment_ifthenpay_account_#{paymentMethod}" }}" checked={{ _context["payment_ifthenpay_account_#{paymentMethod}"] == '0' ? 'checked' : '' }}>{{ switch_disable }}</label>
+                                </div>
+                                {% if _context["payment_ifthenpay_account_#{paymentMethod}"] %}
+                                  <div class="col-lg-9">
+                                    <a class="btn btn-primary" href="{{ "#{configure_manage_button_url}&paymentMethod=#{paymentMethod}" }}" role="button">{{ manage_btn }}</a>
+                                  </div>
+                                {% endif %}
+                              </div>
+                            </div>
+                          {% endfor %}
+                          {% for paymentMethod in ifthenpayPayments %}
+                          <div class="col-lg-9">
+                              <h4>{{ "#{dontHaveAccount_}{paymentMethod}" }}</h4>
+                              <a class="btn btn-primary" href="{{actionRequestAccount}}&paymentMethod={{paymentMethod}}" role="button">"{{"#{requestAccount_}{paymentMethod}"}}</a>
+                          </div>
+                          {% endfor %}
+                      </div>
+                  </div>
+                  {% if payment_ifthenpay_isIfthenpayPaymentMethodsSaved %}
+                    <div class="panel panel-default resetIfthenpayAccountsPanel">
+                        <div class="panel-body text-center">
+                            <h2>{{ add_new_accounts }}</h2>
+                            <div class="spinnerDivWithBtn">
+                                <button type="button" id="resetIfthenpayAccount" class="btn btn-danger btn-lg btn-block">{{ reset_accounts }}</button>
+                                {{ spinner }}
+                            </div>
+                        </div>
+                    </div>
+                  {% endif %}
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <div class="panel panel-default updateModulePanel">
+                        <div class="panel-body text-center">
+                            {% if updateIfthenpayModuleAvailable %}
+                                <img src="view/image/payment/system-update.svg" alt="update system icon">
+                                <h2>{{ newUpdateAvailable }}</h2>
+                                <div class="text-left bulletPoints">
+                                    {{ upgradeModuleBulletPoints }}
+                                </div>
+                                <a href="{{moduleUpgradeUrlDownload}}" download id="downloadUpdateModuleIfthenpay" class="btn btn-danger btn-lg btn-block" target="_blank">{{downloadUpdateModule}}</a>
+                            {% else %}
+                                <img src="view/image/payment/updated.svg" alt="update system icon">
+                                <h2>{{moduleUpToDate}}</h2>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+              {% else %}
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="inputBackofficeKey"><span data-toggle="tooltip" title="{{ help_mbwkey }}">{{ entry_backofficeKey }}</span></label>
+                    <div class="col-sm-10">
+                        <input type="text" name="payment_ifthenpay_backofficeKey" value="{{ payment_ifthenpay_backofficeKey }}"  id="inputBackofficeKey" class="form-control" />
+                    </div>
+                </div>
+              {% endif %}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{ footer }}

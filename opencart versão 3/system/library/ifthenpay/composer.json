@@ -1,0 +1,12 @@
+{
+    "name": "ifthenpay/ifthenpay",
+    "authors": [
+        {
+            "name": "Ifthenpay",
+            "email": "ricardocarvalho@ifthenpay.com"
+        }
+    ],
+    "require": {
+        "illuminate/container": "^8.29"
+    }
+}

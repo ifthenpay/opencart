@@ -1,0 +1,43 @@
+<div class="form-group">
+    <label class="control-label col-lg-3">{{ activate_cancelMbwayOrder }}</label>
+    <div class="col-lg-9">
+        <div class="btn-group" id="status" data-toggle="buttons">
+            <label class="btn btn-default btn-on btn-lg {{ payment_ifthenpay_mbway_activate_cancelMbwayOrder == '1' ? 'active' : '' }}">
+            <input type="radio" value="1" name="payment_ifthenpay_mbway_activate_cancelMbwayOrder" checked={{ payment_ifthenpay_mbway_activate_cancelMbwayOrder == '1' ? 'checked' : '' }}>{{ switch_enable }}</label>
+            <label class="btn btn-default btn-off btn-lg {{ payment_ifthenpay_mbway_activate_cancelMbwayOrder == '0' ? 'active' : '' }}">
+            <input type="radio" value="0" name="payment_ifthenpay_activate_mbway_cancelMbwayOrder" checked={{ payment_ifthenpay_mbway_activate_cancelMbwayOrder == '0' ? 'checked' : '' }}>{{ switch_disable }}</label>
+            <small id="mbwayOrderCancelHelp" class="form-text text-muted">{{ mbwayOrderCancel_help }}</small>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label" for="ifthenpayMbwayKey">{{ entry_mbway_mbwayKey }}</label>
+    <div class="col-sm-10">
+        <select name="payment_ifthenpay_mbway_mbwayKey" id="ifthenpayMbwayKey" class="form-control">
+        {% if mbway_mbwayKeys %}
+            {% for mbway_mbwayKey in mbway_mbwayKeys %}
+                <option value="{{ mbway_mbwayKey.value }}">{{ mbway_mbwayKey.value }}</option>
+            {% endfor %}
+        {% else %}
+            <option value="{{ payment_ifthenpay_mbway_mbwayKey }}" selected="selected">{{ payment_ifthenpay_mbway_mbwayKey }}</option>
+        {% endif %}
+        </select>
+    </div>
+</div>
+{% if not mbway_mbwayKeys %}
+    {{ifthenpay_chooseNewEntidadeBtn}}
+{% endif %}
+<div class="form-group">
+    <label class="col-sm-2 control-label" for="input_order_status_canceled">{{ entry_order_status_canceled }}</label>
+    <div class="col-sm-10">
+    <select name="{{ "payment_ifthenpay_mbway_order_status_canceled_id" }}" id="input_order_status_canceled" class="form-control">
+        {% for order_status in order_statuses %}
+        {% if order_status.order_status_id == payment_ifthenpay_mbway_order_status_canceled_id %}
+        <option value="{{ order_status.order_status_id }}" selected="selected">{{ order_status.name }}</option>
+        {% else %}
+        <option value="{{ order_status.order_status_id }}">{{ order_status.name }}</option>
+        {% endif %}
+        {% endfor %}
+    </select>
+    </div>
+</div>
