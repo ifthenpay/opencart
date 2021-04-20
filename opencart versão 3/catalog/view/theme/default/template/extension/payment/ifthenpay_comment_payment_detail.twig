@@ -1,0 +1,77 @@
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-order-ifthenpay">
+			<div class="panel-heading">
+				<h3>{{ifthenpayPaymentPanelTitle}}</h3>
+			</div>
+			<div class="panel-body">
+				<div class="paymentLogo">
+					<img src="{{paymentLogoUrl}}" alt=" logotipo">
+				</div>
+				<div class="paymentData">
+					{% if paymentMethod == 'multibanco' %}
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                {{ifthenpayPaymentPanelEntidade}}
+                                <span class="badge">{{entidade}}</span>
+                            </li>
+                            <li class="list-group-item">
+                                {{ifthenpayPaymentPanelReferencia}}
+                                <span class="badge">{{referencia}}</span>
+                            </li>
+                            <li class="list-group-item">
+                                {{ifthenpayPaymentPanelTotalToPay}}
+                                <span class="badge">{{totalToPay}}</span>
+                            </li>
+                        </ul>
+                    {% elseif paymentMethod == 'mbway' %}
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                {{ifthenpayPaymentPanelPhone}}
+                                <span class="badge">{{telemovel}}</span>
+                            </li>
+                            <li class="list-group-item">
+                                {{ifthenpayPaymentPanelIdPedido}}
+                                <span class="badge">{{idPedido}}</span>
+                            </li>
+                            <li class="list-group-item">
+                                {{ifthenpayPaymentPanelTotalToPay}}
+                                <span class="badge">{{totalToPay}}</span>
+                            </li>
+                        </ul>
+                        {% elseif paymentMethod == 'payshop' %}
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    {{ifthenpayPaymentPanelReferencia}}
+                                    <span class="badge">{{referencia}}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    {{ifthenpayPaymentPanelValidade}}
+                                    <span class="badge">{{validade}}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    {{ifthenpayPaymentPanelIdPedido}}
+                                    <span class="badge">{{idPedido}}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    {{ifthenpayPaymentPanelTotalToPay}}
+                                    <span class="badge">{{totalToPay}}</span>
+                                </li>
+                            </ul>
+                        {% else %}
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    {{ifthenpayPaymentPanelIdPedido}}
+                                    <span class="badge">{{idPedido}}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    {{ifthenpayPaymentPanelTotalToPay}}
+                                    <span class="badge">{{totalToPay}}</span>
+                                </li>
+                            </ul>
+                        {% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,73 @@
+{% if status == 'ok' %}
+<p>
+    {{paymentReturnTitle}}
+</p>
+{% if paymentMethod == 'mbway' and mbwayCountdownShow %}
+	{% if mbwayResend_success %}
+		<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ mbwayResend_success }}
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+	{% endif %}
+	{% if mbwayResend_error %}
+		<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ mbwayResend_error }}
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+	{% endif %}
+	<div class="panel mbwayCountdownPanel">
+		<div class="panel-body">
+			<h3>{{paymentReturnMbwayConfirmPayment}}</h3>
+			{{spinner}}
+			<div id="countdownMbway">
+				<h3 id="countdownMinutes"></h3>
+				<h3>:</h3>
+				<h3 id="countdownSeconds"></h3>
+			</div>
+			<p>{{paymentReturnMbwayConfirmPayment5Minutes}}</p>
+		</div>
+	</div>
+	<div id="cancelMbwayOrder" class="panel" style="display:none;">
+		<div class="panel-heading">
+		<img src="catalog/view/theme/default/image/payment/ifthenpay/svg/cancelOrder.svg" alt="cancel order icon">
+		</div>
+		<div class="panel-body">
+			<h3>{{paymentReturnMbwayConfirmPaymentNotificationExpired}}</h3>
+			<p>{{paymentReturnMbwayConfirmPaymentNotificationTime}}</p>
+			<p>{{paymentReturnMbwayConfirmPaymentNotificationResend}}</p>
+		</div>
+	</div>
+	<div id="confirmMbwayOrder" class="panel" style="display:none;">
+		<div class="panel-heading">
+		<img src="catalog/view/theme/default/image/payment/ifthenpay/svg/mbwayOrderConfirm.svg" alt="confirm order icon">
+		</div>
+		<div class="panel-body">
+			<h3>{{paymentReturnMbwayPaymentPaid}}</h3>
+			<p>{{paymentReturnMbwayOrderConfirmed}}</p>
+		</div>
+	</div>
+{% endif %}
+{% if paymentMethod == 'ccard' %}
+	{% if ccard_success %}
+		<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ ccard_success }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+	{% endif %}
+	{% if ccard_error %}
+		<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ ccard_error }}
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+	{% endif %}
+{% endif %}
+<div id="paymentReturnPanel" class="panel">
+	{{paymentReturnPaymentPanel}}
+</div>
+{% else %}
+	<div id="orderErrorPanel" class="panel">
+		<div class="panel-heading">
+			<img src="catalog/view/theme/default/image/payment/ifthenpay/svg/error.svg" alt="error icon">
+		</div>
+		<div class="panel-body">
+			<h3>{{paymentReturnErrorTitle}}</h3>
+			<p>{{paymentReturnErrorText}}</p>
+		</div>
+	</div>
+{% endif %}

@@ -1,0 +1,112 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Ifthenpay\Callback;
+
+use Ifthenpay\Utility\Token;
+use Ifthenpay\Utility\Status;
+use Ifthenpay\Callback\CallbackValidate;
+use Ifthenpay\Factory\Callback\CallbackDataFactory;
+
+class CallbackProcess
+{
+    protected $paymentMethod;
+    protected $paymentData;
+    protected $order;
+    protected $request;
+    protected $ifthenpayController;
+
+    public function __construct(
+        CallbackDataFactory $callbackDataFactory, 
+        CallbackValidate $callbackValidate, 
+        Status $status = null,
+        Token $token = null
+    )
+	{
+        $this->callbackDataFactory = $callbackDataFactory;
+        $this->callbackValidate = $callbackValidate;
+        $this->status = $status;
+        $this->token = $token;
+	}
+	    
+    /**
+     * Set the value of paymentMethod
+     *
+     * @return  self
+     */ 
+    public function setPaymentMethod($paymentMethod)
+    {
+        $this->paymentMethod = $paymentMethod;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of paymentData
+     *
+     * @return  self
+     */ 
+    protected function setPaymentData(): void
+    {
+        $this->paymentData = $this->callbackDataFactory->setType($this->request['payment'])
+            ->build()
+            ->getData($this->request, $this->ifthenpayController);
+
+    }
+
+    /**
+     * Set the value of order
+     *
+     * @return  self
+     */ 
+    protected function setOrder(): void
+    {
+        $this->order = $this->ifthenpayController->model_checkout_order->getOrder($this->paymentData['order_id']);
+    }
+
+    protected function executePaymentNotFound(): void
+    {
+        http_response_code(404);
+        die('Pagamento não encontrado');
+    }
+
+    protected function changeIfthenpayPaymentStatus(string $status): void
+    {
+        $this->ifthenpayController->load->model('extension/payment/ifthenpay');
+		
+		$this->ifthenpayController->model_extension_payment_ifthenpay->updatePaymentStatus(
+            $this->paymentMethod, 
+            $this->paymentData['id_ifthenpay_' . $this->request['payment']], 
+            $status
+        );
+    }
+
+    /**
+     * Set the value of request
+     *
+     * @return  self
+     */ 
+    public function setRequest(array $request)
+    {
+        $this->request = $request;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of request
+     *
+     * @return  self
+     */ 
+    public function setIfthenpayController($ifthenpayController)
+    {
+        $this->ifthenpayController = $ifthenpayController;
+        $this->ifthenpayController->load->language('extension/payment/ifthenpay');
+        $this->ifthenpayController->load->model('checkout/order');
+
+        return $this;
+    }
+
+    
+}

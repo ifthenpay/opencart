@@ -1,0 +1,30 @@
+<div class="form-group">
+    <label class="col-sm-2 control-label" for="multibanco">{{ entry_multibanco_entidade }}</label>
+    <div class="col-sm-10">
+        <select name="payment_ifthenpay_multibanco_entidade" id="ifthenpayMultibancoEntidade" class="form-control">
+        {% if multibanco_entidades %}
+            {% for multibanco_entidade in multibanco_entidades %}
+                <option value="{{ multibanco_entidade.value }}">{{ multibanco_entidade.value }}</option>
+            {% endfor %}
+        {% else %}
+            <option value="{{ payment_ifthenpay_multibanco_entidade }}" selected="selected">{{ payment_ifthenpay_multibanco_entidade }}</option>
+        {% endif %}
+        </select>
+        {{ spinner }}
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label" for="input-multibanco-subEntidade">{{ entry_multibanco_SubEntidade }}</label>
+    <div class="col-sm-10">
+        <select name="payment_ifthenpay_multibanco_subEntidade" id="ifthenpayMultibancoSubentidade" class="form-control">
+        {% if payment_ifthenpay_multibanco_subEntidade %}
+        <option value="{{ payment_ifthenpay_multibanco_subEntidade }}" selected="selected">{{ payment_ifthenpay_multibanco_subEntidade }}</option>
+        {% else %}
+        <option value="{{ choose_entity }}" selected="selected">{{ choose_entity }}</option>
+        {% endif %}
+        </select>
+    </div>
+</div>
+{% if not multibanco_entidades %}
+    {{ifthenpay_chooseNewEntidadeBtn}}
+{% endif %}
