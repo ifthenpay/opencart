@@ -180,7 +180,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      *  {@inheritdoc}
      */
-    public function has($id)
+    public function has(string $id)
     {
         return $this->bound($id);
     }
@@ -654,7 +654,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      *  {@inheritdoc}
      */
-    public function get($id)
+    public function get(string $id)
     {
         try {
             return $this->resolve($id);
