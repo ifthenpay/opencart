@@ -120,6 +120,8 @@ class ControllerExtensionPaymentIfthenpay extends Controller {
       $data['payment_ifthenpay_sandboxMode'] = $this->request->post['payment_ifthenpay_sandboxMode'];
     } else if (isset($this->configData['payment_ifthenpay_sandboxMode'])) {
       $data['payment_ifthenpay_sandboxMode'] = $this->configData['payment_ifthenpay_sandboxMode'];
+      $this->request->post['payment_ifthenpay_sandboxMode'] = $this->configData['payment_ifthenpay_sandboxMode'];
+
     } else {
       $data['payment_ifthenpay_sandboxMode'] = '0';
     }    
@@ -130,6 +132,7 @@ class ControllerExtensionPaymentIfthenpay extends Controller {
           $data['payment_ifthenpay_account_' . $paymentMethod] = $this->request->post['payment_ifthenpay_account_' . $paymentMethod];
         } else if (isset($this->configData['payment_ifthenpay_account_' . $paymentMethod])) {
           $data['payment_ifthenpay_account_' . $paymentMethod] = $this->configData['payment_ifthenpay_account_' . $paymentMethod];
+          $this->request->post['payment_ifthenpay_account_' . $paymentMethod] = $this->configData['payment_ifthenpay_account_' . $paymentMethod];
         } else {
           $data['payment_ifthenpay_account_' . $paymentMethod] = '0';
         }
@@ -143,11 +146,11 @@ class ControllerExtensionPaymentIfthenpay extends Controller {
     }
 
     $ifthenpayPayments = $this->ifthenpayContainer->getIoc()->make(Gateway::class)->getPaymentMethodsType();
-    $data['payment_ifthenpay_userPaymentMethods'] = [];
+    $data['ifthenpayPayments'] = [];
     foreach ($ifthenpayPayments as $paymentMethodType) {
       if (!in_array($paymentMethodType, $data['payment_ifthenpay_userPaymentMethods'])
       ) {
-        $data['payment_ifthenpay_userPaymentMethods'][] = $paymentMethodType;
+        $data['ifthenpayPayments'][] = $paymentMethodType;
               
       }
   }

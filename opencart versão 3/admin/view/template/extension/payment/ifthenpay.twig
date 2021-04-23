@@ -109,9 +109,9 @@
                             </div>
                           {% endfor %}
                           {% for paymentMethod in ifthenpayPayments %}
-                          <div class="col-lg-9">
-                              <h4>{{ "#{dontHaveAccount_}{paymentMethod}" }}</h4>
-                              <a class="btn btn-primary" href="{{actionRequestAccount}}&paymentMethod={{paymentMethod}}" role="button">"{{"#{requestAccount_}{paymentMethod}"}}</a>
+                          <div class="col-lg-9"> 
+                              <h4>{{ _context["dontHaveAccount_#{paymentMethod}"] }}</h4>
+                              <a class="btn btn-primary" href="{{actionRequestAccount}}&paymentMethod={{paymentMethod}}" role="button">{{_context["requestAccount_#{paymentMethod}"]}}</a>
                           </div>
                           {% endfor %}
                       </div>
