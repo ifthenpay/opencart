@@ -142,15 +142,15 @@ class ControllerExtensionPaymentIfthenpay extends Controller {
       $data['payment_ifthenpay_isIfthenpayPaymentMethodsSaved'] = false;
     }
 
-    $ifthenpayPayments = $this->ifthenpayContainer->getIoc()->make(Gateway::class)->getPaymentMethodsType();
-    $data['payment_ifthenpay_userPaymentMethods'] = [];
+   $ifthenpayPayments = $this->ifthenpayContainer->getIoc()->make(Gateway::class)->getPaymentMethodsType();
+    $data['ifthenpayPayments'] = [];
     foreach ($ifthenpayPayments as $paymentMethodType) {
       if (!in_array($paymentMethodType, $data['payment_ifthenpay_userPaymentMethods'])
       ) {
-        $data['payment_ifthenpay_userPaymentMethods'][] = $paymentMethodType;
+        $data['ifthenpayPayments'][] = $paymentMethodType;
               
       }
-  }
+    }
     $data['actionRequestAccount'] = $this->url->link('extension/payment/ifthenpay/requestNewAccount', 'user_token=' . $this->session->data['user_token'], true);
     
     $needUpgrade = $this->ifthenpayContainer->getIoc()->make(IfthenpayUpgrade::class)->checkModuleUpgrade();
