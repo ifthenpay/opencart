@@ -33,7 +33,7 @@ class WebService
             $this->response = $this->client->post(
                 $url,
                 $jsonContentType ? ['json' => $data] :
-                ['body' => $data]
+                ['form_params' => $data]
             );
             return $this;
         } catch (\Throwable $th) {
