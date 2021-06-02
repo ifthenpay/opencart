@@ -154,7 +154,6 @@ class ControllerExtensionPaymentIfthenpay extends Controller {
       }
     }
     
-    
     $data['actionRequestAccount'] = $this->url->link('extension/payment/ifthenpay/requestNewAccount', 'user_token=' . $this->session->data['user_token'], true);
     
     $needUpgrade = $this->ifthenpayContainer->getIoc()->make(IfthenpayUpgrade::class)->checkModuleUpgrade();
