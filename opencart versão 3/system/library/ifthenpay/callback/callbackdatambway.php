@@ -21,6 +21,8 @@ class CallbackDataMbway implements CallbackDataInterface
                 'mbway',
                 $request['referencia']
             )->row;
+        } else {
+            return $data;
         }
     }
 }
