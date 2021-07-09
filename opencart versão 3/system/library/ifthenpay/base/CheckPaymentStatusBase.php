@@ -8,7 +8,7 @@ use Ifthenpay\Builders\GatewayDataBuilder;
 use Ifthenpay\Contracts\Payments\PaymentStatusInterface;
 use Ifthenpay\Request\WebService;
 
-asfas
+
 abstract class CheckPaymentStatusBase
 {
     protected $gatewayDataBuilder;
