@@ -9,7 +9,7 @@ use Ifthenpay\Request\WebService;
 
 class IfthenpayUpgrade
 {
-    const MODULE_VERSION = '1.0.0';
+    const MODULE_VERSION = '1.0.1';
     private $webservice;
     
 

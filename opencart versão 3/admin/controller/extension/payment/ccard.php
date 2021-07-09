@@ -42,7 +42,7 @@ class ControllerExtensionPaymentCcard extends Controller {
         } catch (\Throwable $th) {
             $this->session->data['error_warning'] = $th->getMessage();
             $this->model_extension_payment_ccard->log($th->getMessage(), 'Error saving payment configuration');
-              $this->response->redirect($this->url->link('extension/module/ccard', 'user_token=' . $this->session->data['user_token'], true));
+              $this->response->redirect($this->url->link('extension/payment/ccard', 'user_token=' . $this->session->data['user_token'], true));
         }
 	  }
 

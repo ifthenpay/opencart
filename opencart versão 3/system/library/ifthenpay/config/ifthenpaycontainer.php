@@ -74,17 +74,11 @@ class IfthenpayContainer
         $this->ioc->bind(IfthenpaySql::class, function () {
             return new IfthenpaySql();
         });
-        /*$this->ioc->bind(Callback::class, function () {
-            return new Callback(
-                $this->ioc->make(GatewayDataBuilder::class), 
-                $this->ioc->make(WebService::class)
-            );
-        });*/
         $this->ioc->bind(IfthenpayConfigFormFactory::class, function () {
             return new IfthenpayConfigFormFactory(
                 $this->ioc, 
                 $this->ioc->make(GatewayDataBuilder::class), 
-                $this->ioc->make(Gateway::class),
+                $this->ioc->make(Gateway::class)
             );
         });
         $this->ioc->bind(IfthenpayConfigForms::class, function() {

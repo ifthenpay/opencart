@@ -44,7 +44,7 @@ class ControllerExtensionPaymentMbway extends Controller {
         } catch (\Throwable $th) {
             $this->session->data['error_warning'] = $th->getMessage();
             $this->model_extension_payment_mbway->log($th->getMessage(), 'Error saving payment configuration');
-            $this->response->redirect($this->url->link('extension/module/mbway', 'user_token=' . $this->session->data['user_token'], true));
+            $this->response->redirect($this->url->link('extension/payment/mbway', 'user_token=' . $this->session->data['user_token'], true));
         }
 	  }
 

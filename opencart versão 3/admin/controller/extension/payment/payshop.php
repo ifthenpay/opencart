@@ -44,7 +44,7 @@ class ControllerExtensionPaymentPayshop extends Controller {
         } catch (\Throwable $th) {
             $this->session->data['error_warning'] = $th->getMessage();
             $this->model_extension_payment_payshop->log($th->getMessage(), 'Error saving payment configuration');
-              $this->response->redirect($this->url->link('extension/module/payshop', 'user_token=' . $this->session->data['user_token'], true));
+              $this->response->redirect($this->url->link('extension/payment/payshop', 'user_token=' . $this->session->data['user_token'], true));
         }
 	  }
 
