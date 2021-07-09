@@ -39,8 +39,8 @@ abstract class ConfigForm
 
     protected function checkIfCallbackIsSet(): bool
     {
-        if (!isset($this->configData['payment_ifthenpay_' . $this->paymentMethod . '_urlCallback'])
-            && !isset($this->configData['payment_ifthenpay_' . $this->paymentMethod . '_chaveAntiPhishing'])
+        if (!$this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_urlCallback')
+            && !$this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_chaveAntiPhishing')
         ) {
             return false;
         }
@@ -49,7 +49,7 @@ abstract class ConfigForm
    
     protected function addToOptions(): void
     {
-        $this->ifthenpayGateway->setAccount((array) unserialize($this->configData['payment_ifthenpay_userAccount']));
+        $this->ifthenpayGateway->setAccount((array) unserialize($this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_userAccount')));
         $this->options[] = [
             'value' => $this->ifthenpayController->language->get('choose_entity')
         ];
@@ -72,62 +72,64 @@ abstract class ConfigForm
 
     protected function setGatewayBuilderData(): void
     {
-        $this->gatewayDataBuilder->setBackofficeKey($this->configData['payment_ifthenpay_backofficeKey']);
+        $backofficeKey = is_null($this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_backofficeKey')) ? $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_backofficeKey'] : $this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_backofficeKey');
+        $this->gatewayDataBuilder->setBackofficeKey($backofficeKey);
     }
 
     protected function getCallbackControllerUrl(): string
     {
         return ($this->ifthenpayController->config->get('config_secure') ? rtrim(HTTP_CATALOG, '/') : rtrim(HTTPS_CATALOG, '/')) . 
-            '/index.php?route=extension/payment/ifthenpay/callback';
+            '/index.php?route=extension/payment/' . $this->paymentMethod . '/callback';
     }
 
     protected function setIfthenpayCallback(): void
     {
         if ($this->checkIfEntidadeSubEntidadeIsSet()) {
             $this->data['displayCallbackTableInfo'] = $this->checkIfCallbackIsSet() ? true : false;
-            if (isset($this->configData['payment_ifthenpay_callback_activated_for_' . $this->paymentMethod]) &&
-                $this->configData['payment_ifthenpay_callback_activated_for_' . $this->paymentMethod]
+            if ($this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_callback_activated')
             ) {
                 $this->data['isCallbackActivated'] = true;
             } else {
                 $this->data['isCallbackActivated'] = false;
             }
 
-            if (!isset($this->configData['payment_ifthenpay_activateCallback_' . $this->paymentMethod])) {
-                $this->configData['payment_ifthenpay_activateCallback_' . $this->paymentMethod] = $this->ifthenpayController->request->post['payment_ifthenpay_activateCallback_' . $this->paymentMethod];
+            $paymentIfthenpaySandbox = $this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_sandboxMode');
+
+            if(is_null($this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_activateCallback'))) {
+                $paymentIfthenpayActivateCallback = $this->ifthenpayController->request->post['payment_' . $this->paymentMethod. '_activateCallback'];
+            } else {
+                $paymentIfthenpayActivateCallback = $this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_activateCallback');
+            }
+
+            if(!is_null($this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_activateCallback')) && isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod. '_activateCallback']) && $this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_activateCallback') !== $this->ifthenpayController->request->post['payment_' . $this->paymentMethod. '_activateCallback']) {
+                $paymentIfthenpayActivateCallback = $this->ifthenpayController->request->post['payment_' . $this->paymentMethod. '_activateCallback'];
+            }
+
+            if(!is_null($this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_sandboxMode')) && isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_sandboxMode']) && $this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_sandboxMode') !== $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_sandboxMode']) {
+                $paymentIfthenpaySandbox = $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_sandboxMode'];
             }
             
-            $activateCallback = !$this->configData['payment_ifthenpay_sandboxMode'] && 
-            $this->configData['payment_ifthenpay_activateCallback_' . $this->paymentMethod] && 
-            !$this->data['isCallbackActivated'] && !empty($this->ifthenpayController->request->post) ? true : false;
+            $activateCallback = !$paymentIfthenpaySandbox && $paymentIfthenpayActivateCallback && !$this->data['isCallbackActivated'] && 
+                !empty($this->ifthenpayController->request->post) ? true : false;
             
             $ifthenpayCallback = $this->ioc->makeWith(Callback::class, ['data' => $this->gatewayDataBuilder]);
             $ifthenpayCallback->make($this->paymentMethod, $this->getCallbackControllerUrl(), $activateCallback);
-            $this->ifthenpayController->request->post['payment_ifthenpay_callback_activated_for_' . $this->paymentMethod] = $ifthenpayCallback->getActivatedFor();
-            $this->data['payment_ifthenpay_callback_activated_for_' . $this->paymentMethod] = $ifthenpayCallback->getActivatedFor();
+            $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_callback_activated'] = $ifthenpayCallback->getActivatedFor();
+            $this->data['payment_' . $this->paymentMethod . '_callback_activated_for'] = $ifthenpayCallback->getActivatedFor();
             if ($activateCallback) {
-                $this->ifthenpayController->request->post['payment_ifthenpay_' . $this->paymentMethod . '_urlCallback'] = $ifthenpayCallback->getUrlCallback();
-                $this->ifthenpayController->request->post['payment_ifthenpay_' . $this->paymentMethod . '_chaveAntiPhishing'] = $ifthenpayCallback->getChaveAntiPhishing();
-                $this->data['payment_ifthenpay_' . $this->paymentMethod . '_urlCallback'] = $ifthenpayCallback->getUrlCallback();
-                $this->data['payment_ifthenpay_' . $this->paymentMethod . '_chaveAntiPhishing'] = $ifthenpayCallback->getChaveAntiPhishing();
-            } else if (!isset($this->configData['payment_ifthenpay_' . $this->paymentMethod . '_urlCallback']) && !isset($this->configData['payment_ifthenpay_' . $this->paymentMethod . '_chaveAntiPhishing'])) {
-                $this->data['payment_ifthenpay_' . $this->paymentMethod . '_urlCallback'] = $ifthenpayCallback->getUrlCallback();
-                $this->data['payment_ifthenpay_' . $this->paymentMethod . '_chaveAntiPhishing'] = $ifthenpayCallback->getChaveAntiPhishing();
+                $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_urlCallback'] = $ifthenpayCallback->getUrlCallback();
+                $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_chaveAntiPhishing'] = $ifthenpayCallback->getChaveAntiPhishing();
+                $this->data['payment_' . $this->paymentMethod . '_urlCallback'] = $ifthenpayCallback->getUrlCallback();
+                $this->data['payment_' . $this->paymentMethod . '_chaveAntiPhishing'] = $ifthenpayCallback->getChaveAntiPhishing();
+            } else if (!$this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_urlCallback') && !$this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_chaveAntiPhishing')) {
+                $this->data['payment_' . $this->paymentMethod . '_urlCallback'] = $ifthenpayCallback->getUrlCallback();
+                $this->data['payment_' . $this->paymentMethod . '_chaveAntiPhishing'] = $ifthenpayCallback->getChaveAntiPhishing();
                 $this->data['displayCallbackTableInfo'] = true;
             } else {
-                $this->data['payment_ifthenpay_' . $this->paymentMethod . '_urlCallback'] = $this->configData['payment_ifthenpay_' . $this->paymentMethod . '_urlCallback'];
-                $this->data['payment_ifthenpay_' . $this->paymentMethod . '_chaveAntiPhishing'] = $this->configData['payment_ifthenpay_' . $this->paymentMethod . '_chaveAntiPhishing'];
+                $this->data['payment_' . $this->paymentMethod . '_urlCallback'] = $this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_urlCallback');
+                $this->data['payment_' . $this->paymentMethod . '_chaveAntiPhishing'] = $this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_chaveAntiPhishing');
             }
         }
-    }
-
-    protected function deleteDefaultConfigValues(): void
-    {
-        $this->ifthenpayController->load->model('extension/module/ifthenpay_manage_payment_method');
-        $this->ifthenpayController->model_extension_module_ifthenpay_manage_payment_method->deleteSettingByKey('payment_ifthenpay_' . $this->paymentMethod . '_urlCallback');
-        $this->ifthenpayController->model_extension_module_ifthenpay_manage_payment_method->deleteSettingByKey('payment_ifthenpay_' . $this->paymentMethod . '_chaveAntiPhishing');
-        $this->ifthenpayController->model_extension_module_ifthenpay_manage_payment_method->deleteSettingByKey('payment_ifthenpay_callback_activated_for_' . $this->paymentMethod);
-        $this->ifthenpayController->model_extension_module_ifthenpay_manage_payment_method->deleteSettingByKey('payment_ifthenpay_activateCallback_' . $this->paymentMethod);
     }
 
     abstract protected function setOptions(): void;

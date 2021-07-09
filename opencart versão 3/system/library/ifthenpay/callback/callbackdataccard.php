@@ -10,9 +10,9 @@ class CallbackDataCCard implements CallbackDataInterface
 {
     public function getData(array $request, $ifthenpayController): array
     {
-        $ifthenpayController->load->model('extension/payment/ifthenpay');
+        $ifthenpayController->load->model('extension/payment/ccard');
 		
-		return $ifthenpayController->model_extension_payment_ifthenpay->getCCardByRequestId(
+		return $ifthenpayController->model_extension_payment_ccard->getCCardByRequestId(
             $request['requestId']
         )->row; 
     }

@@ -30,20 +30,25 @@ class CCardBase extends PaymentBase
         parent::__construct($paymentDefaultData, $gatewayBuilder, $ifthenpayGateway, $configData, $ifthenpayController, $twigDefaultData);
         $this->token = $token;
         $this->status = $status;
-        $this->paymentMethodAlias = $this->ifthenpayController->language->get('creditCardAlias');
+        $this->paymentMethodAlias = $this->ifthenpayController->language->get('ccardAlias');
     }
 
-
-    
     private function getUrlCallback(): string
     {
         return $this->paymentDefaultData->order['store_url'] . 
-            'index.php?route=extension/payment/ifthenpay/callback';
+            'index.php?route=extension/payment/ccard/callback';
+    }
+
+    protected function saveToDatabase(): void
+    {
+        $this->ifthenpayController->load->model('extension/payment/ccard');
+		
+		$this->ifthenpayController->model_extension_payment_ccard->savePayment($this->paymentDefaultData, $this->paymentGatewayResultData);
     }
 
     protected function setGatewayBuilderData(): void
     {
-        $this->gatewayBuilder->setCCardKey($this->configData['payment_ifthenpay_ccard_ccardKey']);
+        $this->gatewayBuilder->setCCardKey($this->configData['payment_ccard_ccardKey']);
         $this->gatewayBuilder->setSuccessUrl($this->getUrlCallback() . '&type=online&payment=ccard&orderId=' . $this->paymentDefaultData->order['order_id'] . '&qn=' . 
             $this->token->encrypt($this->status->getStatusSucess())
         );
@@ -53,5 +58,14 @@ class CCardBase extends PaymentBase
         $this->gatewayBuilder->setCancelUrl($this->getUrlCallback() . '&type=online&payment=ccard&orderId=' . $this->paymentDefaultData->order['order_id'] . '&qn=' . 
             $this->token->encrypt($this->status->getStatusCancel())
         );
+    }
+
+    public function getFromDatabaseById(): void
+    {
+        $this->ifthenpayController->load->model('extension/payment/ccard');
+		
+		$this->paymentDataFromDb = $this->ifthenpayController->model_extension_payment_ccard
+            ->getPaymentByOrderId($this->paymentDefaultData->order['order_id'])
+            ->row; 
     }
 }

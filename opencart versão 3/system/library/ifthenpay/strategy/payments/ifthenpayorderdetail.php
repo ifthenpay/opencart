@@ -12,7 +12,7 @@ class IfthenpayOrderDetail extends IfthenpayStrategy
 
     private function setDefaultTwigData(): void
     {
-        $this->ifthenpayController->load->language('extension/payment/ifthenpay');
+        $this->ifthenpayController->load->language('extension/payment/' . $this->order['payment_code']);
         $this->twigDefaultData->setOrderId($this->order['order_id']);
         $this->twigDefaultData->setTotalToPay($this->paymentValueFormated);
         $this->twigDefaultData->setPaymentMethod($this->getPaymentMethodName($this->order['payment_code']));

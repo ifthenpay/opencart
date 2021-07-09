@@ -1,15 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Ifthenpay\Config;
 
 use GuzzleHttp\Client;
 use Ifthenpay\Utility\Token;
 use Ifthenpay\Utility\Status;
 use Ifthenpay\Payments\Gateway;
-use Ifthenpay\Callback\Callback;
 use Ifthenpay\Request\WebService;
+use Ifthenpay\Utility\TokenExtra;
 use Ifthenpay\Config\IfthenpaySql;
 use Ifthenpay\Builders\DataBuilder;
 use Illuminate\Container\Container;
@@ -19,15 +17,20 @@ use Ifthenpay\Builders\TwigDataBuilder;
 use Ifthenpay\Callback\CallbackOffline;
 use Ifthenpay\Callback\CallbackValidate;
 use Ifthenpay\Builders\GatewayDataBuilder;
+use Ifthenpay\Payments\MbWayPaymentStatus;
+use Ifthenpay\Payments\PayshopPaymentStatus;
 use Ifthenpay\Factory\Payment\PaymentFactory;
 use Ifthenpay\Payments\Data\MbwayCancelOrder;
+use Ifthenpay\Payments\MultibancoPaymentStatus;
 use Ifthenpay\Factory\Payment\OrderDetailFactory;
 use Ifthenpay\Strategy\Callback\CallbackStrategy;
 use Ifthenpay\Strategy\Form\IfthenpayConfigForms;
 use Ifthenpay\Factory\Callback\CallbackDataFactory;
 use Ifthenpay\Factory\Payment\PaymentReturnFactory;
+use Ifthenpay\Factory\Payment\PaymentStatusFactory;
 use Ifthenpay\Strategy\Payments\IfthenpayOrderDetail;
 use Ifthenpay\Strategy\Payments\IfthenpayPaymentReturn;
+use Ifthenpay\Strategy\Payments\IfthenpayPaymentStatus;
 use Ifthenpay\Factory\Config\IfthenpayConfigFormFactory;
 
 
@@ -71,11 +74,17 @@ class IfthenpayContainer
         $this->ioc->bind(IfthenpaySql::class, function () {
             return new IfthenpaySql();
         });
+        /*$this->ioc->bind(Callback::class, function () {
+            return new Callback(
+                $this->ioc->make(GatewayDataBuilder::class), 
+                $this->ioc->make(WebService::class)
+            );
+        });*/
         $this->ioc->bind(IfthenpayConfigFormFactory::class, function () {
             return new IfthenpayConfigFormFactory(
                 $this->ioc, 
                 $this->ioc->make(GatewayDataBuilder::class), 
-                $this->ioc->make(Gateway::class)
+                $this->ioc->make(Gateway::class),
             );
         });
         $this->ioc->bind(IfthenpayConfigForms::class, function() {
@@ -93,6 +102,9 @@ class IfthenpayContainer
         });
         $this->ioc->bind(Token::class, function() {
             return new Token();
+        });
+        $this->ioc->bind(TokenExtra::class, function() {
+            return new TokenExtra();
         });
         $this->ioc->bind(PaymentReturnFactory::class, function () {
                 return new PaymentReturnFactory(
@@ -143,7 +155,8 @@ class IfthenpayContainer
                     $this->ioc->make(CallbackDataFactory::class), 
                     $this->ioc->make(CallbackValidate::class), 
                     $this->ioc->make(Status::class),
-                    $this->ioc->make(Token::class)
+                    $this->ioc->make(Token::class),
+                    $this->ioc->make(TokenExtra::class)
                 );
             }
         );
@@ -155,11 +168,34 @@ class IfthenpayContainer
             }
         );
         $this->ioc->bind(MbwayCancelOrder::class, function () {
-            return new MbwayCancelOrder($this->ioc->make(Webservice::class));
+            return new MbwayCancelOrder($this->ioc->make(GatewayDataBuilder::class), $this->ioc->make(MbWayPaymentStatus::class));
         });
         $this->ioc->bind(IfthenpayUpgrade::class, function () {
             return new IfthenpayUpgrade($this->ioc->make(Webservice::class));
         });
+        $this->ioc->bind(MbWayPaymentStatus::class, function() {
+            return new MbWayPaymentStatus($this->ioc->make(Webservice::class));
+        });
+        $this->ioc->bind(MultibancoPaymentStatus::class, function() {
+            return new MultibancoPaymentStatus($this->ioc->make(Webservice::class));
+        });
+        $this->ioc->bind(PayshopPaymentStatus::class, function() {
+            return new PayshopPaymentStatus($this->ioc->make(Webservice::class));
+        });
+        $this->ioc->bind(PaymentStatusFactory::class, function () {
+                return new PaymentStatusFactory(
+                    $this->ioc, 
+                    $this->ioc->make(GatewayDataBuilder::class),
+                    $this->ioc->make(Webservice::class)
+                );
+            }
+        );
+        $this->ioc->bind(IfthepayPaymentStatus::class, function () {
+                return new IfthenpayPaymentStatus(
+                    $this->ioc->make(PaymentStatusFactory::class)
+                );
+            }
+        );
     }
     /**
      * Get the value of ioc

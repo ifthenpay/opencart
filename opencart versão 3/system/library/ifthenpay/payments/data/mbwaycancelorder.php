@@ -4,45 +4,55 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Payments\Data;
 
-use Ifthenpay\Request\WebService;
+use Ifthenpay\Builders\GatewayDataBuilder;
+use Ifthenpay\Payments\MbWayPaymentStatus;
 
 class MbwayCancelOrder
 {
 	private $ifthenpayController;
-    private $webservice;
+    private $gatewayDataBuilder;
+    private $mbwayPaymentStatus;
 
-    public function __construct(Webservice $webservice)
+    public function __construct(GatewayDataBuilder $gatewayDataBuilder, MbWayPaymentStatus $mbwayPaymentStatus)
 	{
-        $this->webservice = $webservice;
+        $this->gatewayDataBuilder = $gatewayDataBuilder;
+        $this->mbwayPaymentStatus = $mbwayPaymentStatus;
 	}
     
     
     public function cancelOrder(): void
     {
-        if ($this->ifthenpayController->config->get('payment_ifthenpay_mbway_activate_cancelMbwayOrder')) {
-            $this->ifthenpayController->load->model('extension/payment/ifthenpay');
-            $mbwayPendingOrders = $this->ifthenpayController->model_extension_payment_ifthenpay->getAllMbwayPendingOrders();
+        if ($this->ifthenpayController->config->get('payment_mbway_activate_cancelMbwayOrder')) {
+            $this->ifthenpayController->load->model('extension/payment/mbway');
+            $mbwayPendingOrders = $this->ifthenpayController->model_extension_payment_mbway->getAllMbwayPendingOrders();
             if (!empty($mbwayPendingOrders)) {
-                $catalogCancelOrderEndpoint = $this->ifthenpayController->config->get('config_secure') ? rtrim(HTTP_CATALOG, '/') : rtrim(HTTPS_CATALOG, '/') . '/index.php?route=extension/payment/ifthenpay/cancelMbwayOrderBackend';
                 date_default_timezone_set('Europe/Lisbon');
                 foreach ($mbwayPendingOrders as $mbwayOrder) {
-                    $minutes_to_add = 30;
-                    $time = new \DateTime($mbwayOrder['date_added']);
-                    $time->add(new \DateInterval('PT' . $minutes_to_add . 'M'));
-                    $today = new \DateTime(date("Y-m-d G:i"));
-                    
-                    if ($time < $today) {
-                        $this->webservice->getRequest(
-                            $catalogCancelOrderEndpoint,
-                            [
-                            'order_id' => $mbwayOrder['order_id'],
-                            ],
-                            false
-                        );
+                    $mbwayPayment = $this->ifthenpayController->model_extension_payment_mbway->getPaymentByOrderId($mbwayOrder['order_id'])->row;
+                    $this->gatewayDataBuilder->setMbwayKey($this->ifthenpayController->config->get('payment_mbway_mbwayKey'));
+                    $this->gatewayDataBuilder->setIdPedido($mbwayPayment['id_transacao']);
+
+                    if (!$this->mbwayPaymentStatus->setData($this->gatewayDataBuilder)->getPaymentStatus()) {
+                        //$minutes_to_add = 30;
+                        $minutes_to_add = 1;
+                        $time = new \DateTime($mbwayOrder['date_added']);
+                        $time->add(new \DateInterval('PT' . $minutes_to_add . 'M'));
+                        $today = new \DateTime(date("Y-m-d G:i"));
+                        if ($time < $today) {
+                            $this->ifthenpayController->load->language('extension/payment/mbway');
+                            $this->ifthenpayController->load->model('checkout/order');
+                            $this->ifthenpayController->model_checkout_order->addOrderHistory(
+                                $mbwayOrder['order_id'], 
+                                $this->ifthenpayController->config->get('payment_mbway_order_status_canceled_id'),
+                                $this->ifthenpayController->language->get('mbwayOrderExpiredCanceled'),
+                                true,
+                                true
+                            );
+                            $this->ifthenpayController->model_extension_payment_mbway->log($mbwayOrder['order_id'], 'MB WAY order canceled with success');
+                        }
                     }
                 }
             }
-            
         }
     }
 
@@ -54,18 +64,6 @@ class MbwayCancelOrder
     public function setIfthenpayController($ifthenpayController)
     {
         $this->ifthenpayController = $ifthenpayController;
-
-        return $this;
-    }
-
-    /**
-     * Set the value of registry
-     *
-     * @return  self
-     */ 
-    public function setRegistry($registry)
-    {
-        $this->registry = $registry;
 
         return $this;
     }

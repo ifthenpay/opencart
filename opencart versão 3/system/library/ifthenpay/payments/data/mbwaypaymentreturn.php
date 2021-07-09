@@ -17,7 +17,7 @@ class MbwayPaymentReturn extends MbwayBase implements PaymentReturnInterface
         $this->twigDefaultData->setIdPedido($this->paymentGatewayResultData->idPedido);
 
         $this->twigDefaultData->setResendMbwayNotificationControllerUrl(
-            $this->ifthenpayController->url->link('extension/payment/ifthenpay/resendMbwayNotification', 
+            $this->ifthenpayController->url->link('extension/payment/mbway/resendMbwayNotification', 
                 [
                     'orderId' => $this->paymentDefaultData->order['order_id'],
                     'mbwayTelemovel' => $this->paymentGatewayResultData->telemovel,

@@ -3,7 +3,15 @@
 </div>
 <div class="panel-body">
     <div class="paymentLogo">
-        <img src="admin/view/image/payment/{{paymentMethod}}.png" alt=" logotipo">
+        {% if paymentMethod == 'multibanco' %}
+            <img src="image/payment/ifthenpay/multibanco.svg" alt="multibanco logotipo" style="width:60%;">
+        {% elseif paymentMethod == 'mbway' %}
+            <img src="image/payment/ifthenpay/mbway.svg" alt="mbway logotipo" style="width:35%;">
+        {% elseif paymentMethod == 'payshop' %}
+            <img src="image/payment/ifthenpay/payshop.svg" alt="payshop logotipo" style="width:40%;">
+        {% else %}
+            <img src="image/payment/ifthenpay/ccard.svg" alt="payshop logotipo" style="width:40%;">
+        {% endif %}
     </div>
     <div class="paymentData">
         {% if paymentMethod == 'multibanco' %}
@@ -29,7 +37,7 @@
                 </li>
                 <li class="list-group-item">
                     {{ifthenpayPaymentPanelOrder}}
-                    <span class="badge">{{orderId}}</span>
+                    <span id="mbwayOrderId" class="badge">{{orderId}}</span>
                 </li>
                 <li class="list-group-item">
                     {{ifthenpayPaymentPanelTotalToPay}}
@@ -39,7 +47,8 @@
             {% if resendMbwayNotificationControllerUrl != '' %}
                 <div>
                     <h5>{{ifthenpayPaymentPanelMbwayNotificationNotReceive}}</h5>
-                    <a class="btn btn-primary" href="{{resendMbwayNotificationControllerUrl}}?orderId={{orderId}}&mbwayTelemovel={{telemovel}}&orderTotalPay={{totalToPay}}">{{ifthenpayPaymentPanelMbwayResendNotification}}</a>
+                    <a id="resendMbwayNotificationMbway" class="btn btn-primary" href="{{resendMbwayNotificationControllerUrl}}?orderId={{orderId}}&mbwayTelemovel={{telemovel}}&orderTotalPay={{totalToPay}}">{{ifthenpayPaymentPanelMbwayResendNotification}}</a>
+                    {{spinner}}
                 </div>
             {% endif %}
         {% elseif paymentMethod == 'payshop' %}

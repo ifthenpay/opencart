@@ -17,9 +17,9 @@ class MultibancoConfigForm extends ConfigForm
 
     protected function checkIfEntidadeSubEntidadeIsSet(): bool
     {
-        if (!isset($this->configData['payment_ifthenpay_multibanco_entidade'])
-            && !isset($this->configData['payment_ifthenpay_multibanco_subEntidade']) && 
-            !isset($this->data['payment_ifthenpay_multibanco_entidade']) && !isset($this->data['payment_ifthenpay_multibanco_subEntidade'])
+        if (!isset($this->configData['payment_multibanco_entidade'])
+            && !isset($this->configData['payment_multibanco_subEntidade']) && 
+            !isset($this->data['payment_multibanco_entidade']) && !isset($this->data['payment_multibanco_subEntidade'])
         ) {
             return false;
         }
@@ -40,27 +40,26 @@ class MultibancoConfigForm extends ConfigForm
 
     public function setGatewayBuilderData(): void
     {
-        if (isset($this->ifthenpayController->request->post['payment_ifthenpay_multibanco_entidade'])) {
-            $this->data['payment_ifthenpay_multibanco_entidade'] = $this->ifthenpayController->request->post['payment_ifthenpay_multibanco_entidade'];
-        } else if (isset($this->configData['payment_ifthenpay_multibanco_entidade'])) {
-            $this->data['payment_ifthenpay_multibanco_entidade'] = $this->configData['payment_ifthenpay_multibanco_entidade'];
+        if (isset($this->ifthenpayController->request->post['payment_multibanco_entidade'])) {
+            $this->data['payment_multibanco_entidade'] = $this->ifthenpayController->request->post['payment_multibanco_entidade'];
+        } else if (isset($this->configData['payment_multibanco_entidade'])) {
+            $this->data['payment_multibanco_entidade'] = $this->configData['payment_multibanco_entidade'];
         } else {
             $this->data['multibanco_entidades'] = $this->options;
         }
         
-        if (isset($this->ifthenpayController->request->post['payment_ifthenpay_multibanco_subEntidade'])) {
-            $this->data['payment_ifthenpay_multibanco_subEntidade'] = $this->ifthenpayController->request->post['payment_ifthenpay_multibanco_subEntidade'];
-        } else if (isset($this->configData['payment_ifthenpay_multibanco_subEntidade'])) {
-            $this->data['payment_ifthenpay_multibanco_subEntidade'] = $this->configData['payment_ifthenpay_multibanco_subEntidade']; 
+        if (isset($this->ifthenpayController->request->post['payment_multibanco_subEntidade'])) {
+            $this->data['payment_multibanco_subEntidade'] = $this->ifthenpayController->request->post['payment_multibanco_subEntidade'];
+        } else if (isset($this->configData['payment_multibanco_subEntidade'])) {
+            $this->data['payment_multibanco_subEntidade'] = $this->configData['payment_multibanco_subEntidade']; 
         } else {
             $this->data['multibanco_subEntidade'] = $this->ifthenpayController->language->get('choose_entity');
         }
         parent::setGatewayBuilderData();
-        if (isset($this->data['payment_ifthenpay_multibanco_entidade']) && isset($this->data['payment_ifthenpay_multibanco_subEntidade'])) {
-            $this->gatewayDataBuilder->setEntidade($this->data['payment_ifthenpay_multibanco_entidade']);
-            $this->gatewayDataBuilder->setSubEntidade($this->data['payment_ifthenpay_multibanco_subEntidade']);
+        if (isset($this->data['payment_multibanco_entidade']) && isset($this->data['payment_multibanco_subEntidade'])) {
+            $this->gatewayDataBuilder->setEntidade($this->data['payment_multibanco_entidade']);
+            $this->gatewayDataBuilder->setSubEntidade($this->data['payment_multibanco_subEntidade']);
         }
-        
     }
 
     public function processForm(): void
@@ -72,9 +71,12 @@ class MultibancoConfigForm extends ConfigForm
 
     public function deleteConfigValues(): void
     {
-        $this->ifthenpayController->load->model('extension/module/ifthenpay_manage_payment_method');
-        $this->ifthenpayController->model_extension_module_ifthenpay_manage_payment_method->deleteSettingByKey('payment_ifthenpay_multibanco_entidade');
-        $this->ifthenpayController->model_extension_module_ifthenpay_manage_payment_method->deleteSettingByKey('payment_ifthenpay_multibanco_subEntidade');
-        $this->deleteDefaultConfigValues();    
+        $this->ifthenpayController->load->model('extension/payment/multibanco');
+        $this->ifthenpayController->model_extension_payment_multibanco->deleteSettingByKey('payment_multibanco_urlCallback');
+        $this->ifthenpayController->model_extension_payment_multibanco->deleteSettingByKey('payment_multibanco_chaveAntiPhishing');
+        $this->ifthenpayController->model_extension_payment_multibanco->deleteSettingByKey('payment_multibanco_callback_activated');
+        $this->ifthenpayController->model_extension_payment_multibanco->deleteSettingByKey('payment_multibanco_activateCallback');
+        $this->ifthenpayController->model_extension_payment_multibanco->deleteSettingByKey('payment_multibanco_entidade');
+        $this->ifthenpayController->model_extension_payment_multibanco->deleteSettingByKey('payment_multibanco_subEntidade');    
     }
 }

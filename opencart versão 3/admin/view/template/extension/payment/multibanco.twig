@@ -1,0 +1,219 @@
+{{ header }}{{ column_left }}
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="pull-right">
+				<button type="submit" form="form_module" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+				<a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+			</div>
+			<h1>{{ heading_title }}</h1>
+			<ul class="breadcrumb">
+				{% for breadcrumb in breadcrumbs %}
+				<li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class="container-fluid">
+		{% if error_warning %}
+			<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+			</div>
+		{% endif %}
+		{% if success %}
+			<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+			</div>
+		{% endif %}
+		<div class="panel panel-default">
+      		<div class="panel-heading">
+        		<img src="view/image/payment/ifthenpay/multibanco.svg" alt="multibanco logo" />
+				<h3 class="create-account-title">{{ create_account }}</h3>
+				<a href="https://www.ifthenpay.com/downloads/ifmb/contratomb.pdf" target="_blank" class="btn btn-default" id="create-account-btn">{{ create_account_now }}</a>
+      		</div>
+			  <div class="panel-body">
+        		<form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-payment" class="form-horizontal">
+					{% if payment_multibanco_backofficeKey %}
+						{% if ifthenpayPayments %}
+							<div class="col-lg-9"> 
+								<h4>{{dontHaveAccount_multibanco }}</h4>
+								<a class="btn btn-primary" href="{{actionRequestAccount}}" role="button">{{requestAccount_multibanco}}</a>
+							</div>
+						{% else %}
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+								<div class="col-sm-10">
+									<select name="payment_multibanco_status" id="input-status" class="form-control">
+										{% if payment_multibanco_status %}
+										<option value="1" selected="selected">{{ text_enabled }}</option>
+										<option value="0">{{ text_disabled }}</option>
+										{% else %}
+										<option value="1">{{ text_enabled }}</option>
+										<option value="0" selected="selected">{{ text_disabled }}</option>
+										{% endif %}
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-status">{{ sandbox_mode }}</label>
+								<div class="col-sm-10">
+									<select name="payment_multibanco_sandboxMode" id="input-status" class="form-control">
+										{% if payment_multibanco_sandboxMode %}
+										<option value="1" selected="selected">{{ text_enabled }}</option>
+										<option value="0">{{ text_disabled }}</option>
+										{% else %}
+										<option value="1">{{ text_enabled }}</option>
+										<option value="0" selected="selected">{{ text_disabled }}</option>
+										{% endif %}
+									</select>
+									<small id="sandboxHelp" class="form-text text-muted">{{ sandbox_help }}</small>
+								</div>
+							</div>
+							{% if hasCallback %}
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-status">{{ activate_callback }}</label>
+								<div class="col-sm-10">
+									<select name="payment_multibanco_activateCallback" id="input-status" class="form-control">
+										{% if payment_multibanco_activateCallback %}
+										<option value="1" selected="selected">{{ text_enabled }}</option>
+										<option value="0">{{ text_disabled }}</option>
+										{% else %}
+										<option value="1">{{ text_enabled }}</option>
+										<option value="0" selected="selected">{{ text_disabled }}</option>
+										{% endif %}
+									</select>
+								</div>
+							</div>
+							{% endif %}
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="multibanco">{{ entry_multibanco_entidade }}</label>
+								<div class="col-sm-10">
+									<select name="payment_multibanco_entidade" id="ifthenpayMultibancoEntidade" class="form-control">
+									{% if multibanco_entidades %}
+										{% for multibanco_entidade in multibanco_entidades %}
+											<option value="{{ multibanco_entidade.value }}">{{ multibanco_entidade.value }}</option>
+										{% endfor %}
+									{% else %}
+										<option value="{{ payment_multibanco_entidade }}" selected="selected">{{ payment_multibanco_entidade }}</option>
+									{% endif %}
+									</select>
+									{% if multibanco_entidades %}
+										{{ spinner }}
+									{% endif %}
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-multibanco-subEntidade">{{ entry_multibanco_SubEntidade }}</label>
+								<div class="col-sm-10">
+									<select name="payment_multibanco_subEntidade" id="ifthenpayMultibancoSubentidade" class="form-control">
+									{% if payment_multibanco_subEntidade %}
+									<option value="{{ payment_multibanco_subEntidade }}" selected="selected">{{ payment_multibanco_subEntidade }}</option>
+									{% else %}
+									<option value="{{ choose_entity }}" selected="selected">{{ choose_entity }}</option>
+									{% endif %}
+									</select>
+								</div>
+							</div>
+							{% if not multibanco_entidades %}
+								<div class="chooseNewEntidadeDiv">
+									<button class="btn btn-primary" id="chooseNewEntidade" data-paymentmethod="multibanco">{{choose_new_entity_subEntity}}</button>
+									{{ spinner }}
+								</div>
+							{% endif %}
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-order-status">{{ entry_order_status }}</label>
+								<div class="col-sm-10">
+								<select name="payment_multibanco_order_status_id" id="input-order-status" class="form-control">
+									{% for order_status in order_statuses %}
+									{% if order_status.order_status_id == payment_multibanco_order_status_id %}
+									<option value="{{ order_status.order_status_id }}" selected="selected">{{ order_status.name }}</option>
+									{% else %}
+									<option value="{{ order_status.order_status_id }}">{{ order_status.name }}</option>
+									{% endif %}
+									{% endfor %}
+								</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-order-status-complete">{{ entry_order_status_complete }}</label>
+								<div class="col-sm-10">
+									<select name="payment_multibanco_order_status_complete_id" id="input_order_status_complete" class="form-control">
+										{% for order_status in order_statuses %}
+										{% if order_status.order_status_id == payment_multibanco_order_status_complete_id %}
+										<option value="{{ order_status.order_status_id }}" selected="selected">{{ order_status.name }}</option>
+										{% else %}
+										<option value="{{ order_status.order_status_id }}">{{ order_status.name }}</option>
+										{% endif %}
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-geo-zone">{{ entry_geo_zone }}</label>
+								<div class="col-sm-10">
+									<select name="payment_multibanco_geo_zone_id" id="input-geo-zone" class="form-control">
+										<option value="0">{{ text_all_zones }}</option>
+										{% for geo_zone in geo_zones %} 
+											{% if geo_zone.geo_zone_id == payment_multibanco_geo_zone_id %}
+												<option value="{{ geo_zone.geo_zone_id }}" selected="selected">{{ geo_zone.name }}</option>
+											{% else %}
+												<option value="{{ geo_zone.geo_zone_id }}">{{ geo_zone.name }}</option>
+											{% endif %}
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-sort-order">{{ entry_sort_order }}</label>
+								<div class="col-sm-10">
+									<input type="text" name="payment_multibanco_sort_order" value="{{payment_multibanco_sort_order}}" placeholder="{{ entry_sort_order }}" id="input-sort-order" class="form-control" />
+								</div>
+							</div>
+						{% endif %}
+					{% else %}
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="inputBackofficeKey"><span data-toggle="tooltip" title="{{ help_multibanco }}">{{ entry_backofficeKey }}</span></label>
+							<div class="col-sm-10">
+								<input type="text" name="payment_multibanco_backofficeKey" value="{{ payment_multibanco_backofficeKey }}"  id="inputBackofficeKey" class="form-control" />
+							</div>
+						</div>
+					{% endif %}
+				</form>
+			  </div>
+		</div>
+		{% if displayCallbackTableInfo %}
+			<div class="panel">
+				<div class="panel-heading">
+					{% if isCallbackActivated %}
+						<span class="label label-success">{{callbackIsActivated}}</span>
+					{% else %}
+						<span class="label label-danger">{{callbackNotActivated}}</span>
+					{% endif %}
+				</div>
+				<div class="panel-body">
+					<ul class="list-group callback-list-group">
+						<li class="list-group-item">
+							{{entry_antiPhishingKey}}
+							<span class="badge">{{ payment_multibanco_chaveAntiPhishing }}</span>
+						</li>
+						<li class="list-group-item callback-list">
+							{{entry_urlCallback}}
+							<span id="callbackUrl" class="badge" style="display:none;">{{ payment_multibanco_urlCallback }}</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+		{% endif %}
+		<div class="panel panel-default resetIfthenpayAccountsPanel">
+			<div class="panel-body text-center">
+				<h2>{{ add_new_accounts }}</h2>
+				<div class="spinnerDivWithBtn">
+					<button type="button" id="resetIfthenpayAccount" class="btn btn-danger btn-lg btn-block" data-paymentmethod="multibanco">{{ reset_accounts }}</button>
+					{{ spinner }}
+				</div>
+			</div>
+		</div>
+		{{ifthenpay_updateModule}}
+	</div>
+</div>
+{{ footer }}

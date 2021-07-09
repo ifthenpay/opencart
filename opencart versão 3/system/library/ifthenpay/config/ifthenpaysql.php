@@ -9,7 +9,7 @@ use Ifthenpay\Contracts\Config\InstallerInterface;
 class IfthenpaySql implements InstallerInterface
 {
     private $ifthenpayModel;
-    private $userPaymentMethods;
+    private $userPaymentMethod;
 
     private $ifthenpaySqlTables = [
         'multibanco' => 'CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'ifthenpay_multibanco` (
@@ -53,22 +53,19 @@ class IfthenpaySql implements InstallerInterface
 
     private function createIfthenpaySql(): void
     {
-        foreach ($this->userPaymentMethods as $paymentMethod) {
-            $sql = $this->ifthenpayModel->db->query($this->ifthenpaySqlTables[$paymentMethod]);
-            if (!$sql) {
-                throw new \Exception('Error creating ifthenpay payment table!');
-            }
+        $sql = $this->ifthenpayModel->db->query($this->ifthenpaySqlTables[$this->userPaymentMethod]);
+        if (!$sql) {
+            throw new \Exception('Error creating ifthenpay payment table!');
         }
+        
     }
 
     
     private function deleteIfthenpaySql(): void
     {
-        foreach ($this->userPaymentMethods as $paymentMethod) {
-                $sql = $this->ifthenpayModel->db->query('DROP TABLE IF EXISTS ' . DB_PREFIX . 'ifthenpay_' . $paymentMethod);
-            if (!$sql) {
-                throw new \Exception('Error deleting ifthenpay payment table!');
-            }
+        $sql = $this->ifthenpayModel->db->query('DROP TABLE IF EXISTS ' . DB_PREFIX . 'ifthenpay_' . $this->paymentMethod);
+        if (!$sql) {
+            throw new \Exception('Error deleting ifthenpay payment table!');
         }
     }
 
@@ -80,7 +77,7 @@ class IfthenpaySql implements InstallerInterface
 
     public function uninstall(): void
     {
-        if ($this->userPaymentMethods) {
+        if ($this->userPaymentMethod) {
             $this->deleteIfthenpaySql();
         }
     }
@@ -90,7 +87,7 @@ class IfthenpaySql implements InstallerInterface
      *
      * @return  self
      */ 
-    public function setIfthenpayModel(\ModelExtensionPaymentIfthenpay $ifthenpayModel)
+    public function setIfthenpayModel($ifthenpayModel)
     {
         $this->ifthenpayModel = $ifthenpayModel;
 
@@ -102,9 +99,9 @@ class IfthenpaySql implements InstallerInterface
      *
      * @return  self
      */ 
-    public function setUserPaymentMethods($userPaymentMethods)
+    public function setUserPaymentMethod($userPaymentMethod)
     {
-        $this->userPaymentMethods = $userPaymentMethods;
+        $this->userPaymentMethod = $userPaymentMethod;
 
         return $this;
     }

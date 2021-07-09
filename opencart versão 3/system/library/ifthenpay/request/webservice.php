@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Ifthenpay\Request;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Message\Response;
 
 class WebService
 {
@@ -17,9 +16,14 @@ class WebService
         $this->client = $client;
     }
 
-    public function getResponse(): Response
+    public function getResponse()
     {
         return $this->response;
+    }
+
+    public function getXmlConvertedResponseToArray(): array
+    {
+        return json_decode(json_encode(json_decode((string) simplexml_load_string($this->response->getBody()->getContents()))[0]), true);
     }
 
     public function getResponseJson(): array
@@ -37,7 +41,21 @@ class WebService
             );
             return $this;
         } catch (\Throwable $th) {
-            throw $th;
+            if (get_class($th) === 'InvalidArgumentException' && $th->getMessage() === 'No method can handle the form_params config key') {
+                try {
+                    $this->response = $this->client->post(
+                        $url,
+                        $jsonContentType ? ['json' => $data] :
+                        ['body' => $data]
+                    );
+                    return $this;
+                } catch (\Throwable $th) {
+                    throw $th;
+                }
+            } else {
+                throw $th;
+            }
+            
         }
     }
 

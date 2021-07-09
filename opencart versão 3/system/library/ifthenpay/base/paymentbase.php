@@ -58,7 +58,7 @@ abstract class PaymentBase
     public function setTwigVariables(): void
     {
         $this->twigDefaultData->setIfthenpayPaymentPanelTitle(
-            $this->ifthenpayController->language->get('ifthenpayPaymentPanelTitle') . $this->paymentMethodAlias);
+            $this->ifthenpayController->language->get('ifthenpayPaymentPanelTitle'));
     }
 
     public function setPaymentTable(string $tableName): PaymentBase
@@ -67,28 +67,14 @@ abstract class PaymentBase
         return $this;
     }
 
-    public function getFromDatabaseById(): void
-    {
-        $this->ifthenpayController->load->model('extension/payment/ifthenpay');
-		
-		$this->paymentDataFromDb = $this->ifthenpayController->model_extension_payment_ifthenpay->getPaymentByOrderId(
-            $this->paymentMethod, $this->paymentDefaultData->order['order_id']
-        )->row; 
-    }
-
     public function getTwigVariables(): TwigDataBuilder
     {
         return $this->twigDefaultData;
     }
 
-    protected function saveToDatabase(): void
-    {
-        $this->ifthenpayController->load->model('extension/payment/ifthenpay');
-		
-		$this->ifthenpayController->model_extension_payment_ifthenpay->savePayment($this->paymentMethod, $this->paymentDefaultData, $this->paymentGatewayResultData);
-    }
-
     abstract protected function setGatewayBuilderData(): void;
+    abstract protected function saveToDatabase(): void;
+    abstract public function getFromDatabaseById(): void;
     
     /**
      * Get the value of paymentDataFromDb

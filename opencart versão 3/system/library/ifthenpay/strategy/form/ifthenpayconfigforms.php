@@ -10,7 +10,7 @@ class IfthenpayConfigForms
 {
     private $paymentMethod;
     private $ifthenpayController;
-    private $configData;
+    private $configForm;
 
 	public function __construct(IfthenpayConfigFormFactory $ifthenpayConfigFormFactory)
 	{
@@ -56,18 +56,6 @@ class IfthenpayConfigForms
     }
 
     /**
-     * Set the value of configData
-     *
-     * @return  self
-     */ 
-    public function setConfigData($configData)
-    {
-        $this->configData = $configData;
-
-        return $this;
-    }
-
-    /**
      * Set the value of paymentMethod
      *
      * @return  self
@@ -75,6 +63,18 @@ class IfthenpayConfigForms
     public function setPaymentMethod($paymentMethod)
     {
         $this->paymentMethod = $paymentMethod;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of configData
+     *
+     * @return  self
+     */ 
+    public function setConfigData($configData)
+    {
+        $this->configData = $configData;
 
         return $this;
     }

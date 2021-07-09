@@ -17,8 +17,8 @@ class PayshopConfigForm extends ConfigForm
 
     protected function checkIfEntidadeSubEntidadeIsSet(): bool
     {
-        if (!isset($this->configData['payment_ifthenpay_payshop_payshopKey'])
-            && !isset($this->configData['payment_ifthenpay_payshop_validade']) && !isset($this->data['payment_ifthenpay_payshop_payshopKey']) && !isset($this->data['payment_ifthenpay_payshop_validade'])
+        if (!isset($this->configData['payment_payshop_payshopKey'])
+            && !isset($this->configData['payment_payshop_validade']) && !isset($this->data['payment_payshop_payshopKey']) && !isset($this->data['payment_payshop_validade'])
         ) {
             return false;
         }
@@ -40,28 +40,25 @@ class PayshopConfigForm extends ConfigForm
 
     public function setGatewayBuilderData(): void
     {
-        if (isset($this->ifthenpayController->request->post['payment_ifthenpay_payshop_payshopKey'])) {
-            $this->data['payment_ifthenpay_payshop_payshopKey'] = $this->ifthenpayController->request->post['payment_ifthenpay_payshop_payshopKey'];
-        } else if (isset($this->configData['payment_ifthenpay_payshop_payshopKey'])) {
-            $this->data['payment_ifthenpay_payshop_payshopKey'] = $this->configData['payment_ifthenpay_payshop_payshopKey'];
+        if (isset($this->ifthenpayController->request->post['payment_payshop_payshopKey'])) {
+            $this->data['payment_payshop_payshopKey'] = $this->ifthenpayController->request->post['payment_payshop_payshopKey'];
+        } else if (isset($this->configData['payment_payshop_payshopKey'])) {
+            $this->data['payment_payshop_payshopKey'] = $this->configData['payment_payshop_payshopKey'];
         } else {
             $this->data['payshop_payshopKeys'] = $this->options;
         }
         
-        if (isset($this->ifthenpayController->request->post['payment_ifthenpay_payshop_validade'])) {
-            $this->data['payment_ifthenpay_payshop_validade'] = $this->ifthenpayController->request->post['payment_ifthenpay_payshop_validade'];
-        } else if (isset($this->configData['payment_ifthenpay_payshop_validade'])) {
-            $this->data['payment_ifthenpay_payshop_validade'] = $this->configData['payment_ifthenpay_payshop_validade']; 
-        } else {
-            $this->data['payment_ifthenpay_payshop_validade'] = null;
+        if (isset($this->ifthenpayController->request->post['payment_payshop_validade'])) {
+            $this->data['payment_payshop_validade'] = $this->ifthenpayController->request->post['payment_payshop_validade'];
+        } else if (isset($this->configData['payment_payshop_validade'])) {
+            $this->data['payment_payshop_validade'] = $this->configData['payment_payshop_validade']; 
         }
         parent::setGatewayBuilderData();
-        if (isset($this->data['payment_ifthenpay_payshop_payshopKey']) && isset($this->data['payment_ifthenpay_payshop_validade'])) {
+        if (isset($this->data['payment_payshop_payshopKey']) && isset($this->data['payment_payshop_validade'])) {
             $this->gatewayDataBuilder->setEntidade(strtoupper($this->paymentMethod));
-            $this->gatewayDataBuilder->setSubEntidade($this->data['payment_ifthenpay_payshop_payshopKey']);
-            $this->gatewayDataBuilder->setValidade($this->data['payment_ifthenpay_payshop_validade']);
+            $this->gatewayDataBuilder->setSubEntidade($this->data['payment_payshop_payshopKey']);
+            $this->gatewayDataBuilder->setValidade($this->data['payment_payshop_validade']);
         }
-        
     }
 
     public function processForm(): void
@@ -73,9 +70,12 @@ class PayshopConfigForm extends ConfigForm
 
     public function deleteConfigValues(): void
     {
-        $this->ifthenpayController->load->model('extension/module/ifthenpay_manage_payment_method');
-        $this->ifthenpayController->model_extension_module_ifthenpay_manage_payment_method->deleteSettingByKey('payment_ifthenpay_payshop_payshopKey');
-        $this->ifthenpayController->model_extension_module_ifthenpay_manage_payment_method->deleteSettingByKey('payment_ifthenpay_payshop_validade');
-        $this->deleteDefaultConfigValues();    
+        $this->ifthenpayController->load->model('extension/payment/payshop');
+        $this->ifthenpayController->model_extension_payment_payshop->deleteSettingByKey('payment_payshop_urlCallback');
+        $this->ifthenpayController->model_extension_payment_payshop->deleteSettingByKey('payment_payshop_chaveAntiPhishing');
+        $this->ifthenpayController->model_extension_payment_payshop->deleteSettingByKey('payment_payshop_callback_activated');
+        $this->ifthenpayController->model_extension_payment_payshop->deleteSettingByKey('payment_payshop_activateCallback');
+        $this->ifthenpayController->model_extension_payment_payshop->deleteSettingByKey('payment_payshop_payshopKey');
+        $this->ifthenpayController->model_extension_payment_payshop->deleteSettingByKey('payment_payshop_validade');   
     }
 }

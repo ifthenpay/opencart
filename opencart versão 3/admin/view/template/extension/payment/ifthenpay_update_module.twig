@@ -1,0 +1,15 @@
+<div class="panel panel-default updateModulePanel">
+    <div class="panel-body text-center">
+        {% if updateIfthenpayModuleAvailable %}
+            <img src="view/image/payment/ifthenpay/system-update.svg" alt="update system icon">
+            <h2>{{ newUpdateAvailable }}</h2>
+            <div class="text-left bulletPoints">
+                {{ upgradeModuleBulletPoints }}
+            </div>
+            <a href="{{moduleUpgradeUrlDownload}}" download id="downloadUpdateModuleIfthenpay" class="btn btn-danger btn-lg btn-block" target="_blank">{{downloadUpdateModule}}</a>
+        {% else %}
+            <img src="view/image/payment/ifthenpay/updated.svg" alt="update system icon">
+            <h2>{{moduleUpToDate}}</h2>
+        {% endif %}
+    </div>
+</div>

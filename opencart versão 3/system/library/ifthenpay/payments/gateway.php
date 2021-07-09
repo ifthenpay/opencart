@@ -107,10 +107,9 @@ class Gateway
         return $list;
     }
 
-    public function getPaymentLogo(string $paymentMethod): string
+    public function getPaymentLogo(string $paymentMethod, string $url): string
 	{
-		$img ='<img src="image/payment/ifthenpay/' . $paymentMethod . '.svg" alt="' . $paymentMethod . ' logo" 
-			title="'. $paymentMethod .'" style="width: {widthValue};"/>';
+		$img ='<img src="'. $url . '/image/payment/ifthenpay/' . $paymentMethod . '.svg" style="width: {widthValue};"/>';
         
             switch ($paymentMethod) {
                 case 'multibanco':

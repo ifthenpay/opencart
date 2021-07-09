@@ -23,7 +23,7 @@ class MbwayOrderDetail extends MbwayBase implements OrderDetailInterface
         if (!empty($this->paymentDataFromDb) && $this->paymentDataFromDb['status'] !== 'paid' && 
         strtolower($this->paymentDefaultData->order['order_status']) !== 'canceled') {
                 $this->twigDefaultData->setResendMbwayNotificationControllerUrl(
-                    $this->ifthenpayController->url->link('extension/payment/ifthenpay/resendMbwayNotification', 
+                    $this->ifthenpayController->url->link('extension/payment/mbway/resendMbwayNotification', 
                         [
                             'orderId' => $this->paymentDefaultData->order['order_id'],
                             'mbwayTelemovel' => $this->paymentDataFromDb['telemovel'],
@@ -32,10 +32,11 @@ class MbwayOrderDetail extends MbwayBase implements OrderDetailInterface
                     )  
                 );
             
-            if (!$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['mbwayResendNotificationSent'] && 
-            $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['mbwayCountdownShow']) {
-                    $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['mbwayCountdownShow'] = false;
-                    $this->twigDefaultData->setMbwayCountdownShow(false);
+            if (isset($this->ifthenpayController->session->data['ifthenpayPaymentReturn']['mbwayResendNotificationSent']) && 
+                !$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['mbwayResendNotificationSent'] && 
+                    $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['mbwayCountdownShow']) {
+                        $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['mbwayCountdownShow'] = false;
+                        $this->twigDefaultData->setMbwayCountdownShow(false);
             } else if ($this->ifthenpayController->session->data['ifthenpayPaymentReturn']['mbwayCountdownShow']){
                 $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['mbwayCountdownShow'] = true;
                 $this->twigDefaultData->setMbwayCountdownShow(true);

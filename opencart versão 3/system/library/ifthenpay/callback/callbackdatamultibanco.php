@@ -11,9 +11,9 @@ class CallbackDataMultibanco implements CallbackDataInterface
 {
     public function getData(array $request, $ifthenpayController): array
     {
-        $ifthenpayController->load->model('extension/payment/ifthenpay');
+        $ifthenpayController->load->model('extension/payment/multibanco');
 		
-		return $ifthenpayController->model_extension_payment_ifthenpay->getMultibancoByReferencia(
+		return $ifthenpayController->model_extension_payment_multibanco->getMultibancoByReferencia(
             $request['referencia']
         )->row; 
     }

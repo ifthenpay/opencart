@@ -13,7 +13,7 @@ class IfthenpayPaymentReturn extends IfthenpayStrategy
 
     private function setDefaultTwigData(): void
     {
-        $this->ifthenpayController->load->language('extension/payment/ifthenpay');
+        $this->ifthenpayController->load->language('extension/payment/' . $this->order['payment_code']);
         $this->twigDefaultData->setOrderId($this->order['order_id']);
         $this->twigDefaultData->setPaymentReturnErrorTitle($this->ifthenpayController->language->get('paymentReturnErrorTitle'));
         $this->twigDefaultData->setPaymentReturnErrorText($this->ifthenpayController->language->get('paymentReturnErrorText')); 

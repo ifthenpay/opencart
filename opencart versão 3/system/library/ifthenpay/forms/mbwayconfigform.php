@@ -18,7 +18,8 @@ class MbwayConfigForm extends ConfigForm
 
     protected function checkIfEntidadeSubEntidadeIsSet(): bool
     {
-        if (!isset($this->configData['payment_ifthenpay_mbway_mbwayKey']) && !isset($this->data['payment_ifthenpay_mbway_mbwayKey'])) {
+        if (!isset($this->configData['payment_mbway_mbwayKey']) && !isset($this->data['payment_mbway_mbwayKey']) && 
+            !isset($this->data['payment_mbway_mbwayKey'])) {
             return false;
         }
         return true;
@@ -37,35 +38,33 @@ class MbwayConfigForm extends ConfigForm
 
     public function setGatewayBuilderData(): void
     {
-        if (isset($this->ifthenpayController->request->post['payment_ifthenpay_mbway_mbwayKey'])) {
-            $this->data['payment_ifthenpay_mbway_mbwayKey'] = $this->ifthenpayController->request->post['payment_ifthenpay_mbway_mbwayKey'];
-        } else if (isset($this->configData['payment_ifthenpay_mbway_mbwayKey'])) {
-            $this->data['payment_ifthenpay_mbway_mbwayKey'] = $this->configData['payment_ifthenpay_mbway_mbwayKey'];
+        if (isset($this->ifthenpayController->request->post['payment_mbway_mbwayKey']) && $this->ifthenpayController->request->post['payment_mbway_mbwayKey']) {
+            $this->data['payment_mbway_mbwayKey'] = $this->ifthenpayController->request->post['payment_mbway_mbwayKey'];
+        } else if (isset($this->configData['payment_mbway_mbwayKey'])) {
+            $this->data['payment_mbway_mbwayKey'] = $this->configData['payment_mbway_mbwayKey'];
         } else {
             $this->data['mbway_mbwayKeys'] = $this->options;
         }
 
-        if (isset($this->request->post['payment_ifthenpay_mbway_order_status_canceled_id'])) {
-            $this->data['payment_ifthenpay_mbway_order_status_canceled_id'] = $this->ifthenpayController->request->post['payment_ifthenpay_mbway_order_status_canceled_id'];
+        if (isset($this->request->post['payment_mbway_order_status_canceled_id'])) {
+            $this->data['payment_mbway_order_status_canceled_id'] = $this->ifthenpayController->request->post['payment_mbway_order_status_canceled_id'];
         } else {
-            $this->data['payment_ifthenpay_mbway_order_status_canceled_id'] = $this->ifthenpayController->config->get('payment_ifthenpay_mbway_order_status_canceled_id');
+            $this->data['payment_mbway_order_status_canceled_id'] = $this->ifthenpayController->config->get('payment_mbway_order_status_canceled_id');
         }
 
         $this->ifthenpayController->load->model('localisation/order_status');
         $this->data['order_statuses'] = $this->ifthenpayController->model_localisation_order_status->getOrderStatuses();
 
-        if (isset($this->request->post['payment_ifthenpay_mbway_activate_cancelMbwayOrder'])) {
-			$this->data['payment_ifthenpay_mbway_activate_cancelMbwayOrder'] = $this->request->post['payment_ifthenpay_mbway_activate_cancelMbwayOrder'];
-		} else if (isset($this->configData['payment_ifthenpay_mbway_activate_cancelMbwayOrder'])) {
-			$this->data['payment_ifthenpay_mbway_activate_cancelMbwayOrder'] = $this->configData['payment_ifthenpay_mbway_activate_cancelMbwayOrder'];
-		} else {
-			$this->data['payment_ifthenpay_mbway_activate_cancelMbwayOrder'] = '0';
-		}    
+        if (isset($this->request->post['payment_mbway_activate_cancelMbwayOrder'])) {
+			$this->data['payment_mbway_activate_cancelMbwayOrder'] = $this->request->post['payment_mbway_activate_cancelMbwayOrder'];
+		} else if (isset($this->configData['payment_mbway_activate_cancelMbwayOrder'])) {
+			$this->data['payment_mbway_activate_cancelMbwayOrder'] = $this->configData['payment_mbway_activate_cancelMbwayOrder'];
+		} 
         
         parent::setGatewayBuilderData();
-        if (isset($this->data['payment_ifthenpay_mbway_mbwayKey'])) {
+        if (isset($this->data['payment_mbway_mbwayKey'])) {
             $this->gatewayDataBuilder->setEntidade(strtoupper($this->paymentMethod));
-            $this->gatewayDataBuilder->setSubEntidade($this->data['payment_ifthenpay_mbway_mbwayKey']);
+            $this->gatewayDataBuilder->setSubEntidade($this->data['payment_mbway_mbwayKey']);
         }
 
              
@@ -80,8 +79,11 @@ class MbwayConfigForm extends ConfigForm
 
     public function deleteConfigValues(): void
     {
-        $this->ifthenpayController->load->model('extension/module/ifthenpay_manage_payment_method');
-        $this->ifthenpayController->model_extension_module_ifthenpay_manage_payment_method->deleteSettingByKey('payment_ifthenpay_mbway_mbwayKey');
-        $this->deleteDefaultConfigValues();    
+        $this->ifthenpayController->load->model('extension/payment/mbway');
+        $this->ifthenpayController->model_extension_payment_mbway->deleteSettingByKey('payment_mbway_urlCallback');
+        $this->ifthenpayController->model_extension_payment_mbway->deleteSettingByKey('payment_mbway_chaveAntiPhishing');
+        $this->ifthenpayController->model_extension_payment_mbway->deleteSettingByKey('payment_mbway_callback_activated');
+        $this->ifthenpayController->model_extension_payment_mbway->deleteSettingByKey('payment_mbway_activateCallback');
+        $this->ifthenpayController->model_extension_payment_mbway->deleteSettingByKey('payment_mbway_mbwayKey');    
     }
 }

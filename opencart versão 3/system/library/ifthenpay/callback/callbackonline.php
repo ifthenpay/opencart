@@ -17,13 +17,20 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
             $this->executePaymentNotFound();
         } else {
             try {
-                $this->ifthenpayController->load->language('extension/payment/ifthenpay');
+                $this->ifthenpayController->load->language('extension/payment/ccard');
                 $paymentStatus = $this->status->getTokenStatus(
                     $this->token->decrypt($this->request['qn'])
                 );
                 $this->setOrder();
+                $this->ifthenpayController->load->language('extension/payment/ccard');
                 
                 if ($paymentStatus === 'success') {
+                    $this->ifthenpayController->load->model('setting/setting');
+                    $configData =  $this->ifthenpayController->model_setting_setting->getSetting('payment_ccard');
+                    if ($this->request['sk'] !== $this->tokenExtra->encript(
+                        $this->request['id'] . $this->request['amount'] . $this->request['requestId'], $configData['payment_ccard_ccardKey'])) {
+                            throw new \Exception($this->ifthenpayController->language->get('paymentSecurityToken'));
+                    }
                     $orderTotal = floatval($this->order['total']);
                     $requestValor = floatval($this->request['amount']);
                     if (round($orderTotal, 2) !== round($requestValor, 2)) {
@@ -34,7 +41,7 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
                     $this->changeIfthenpayPaymentStatus('paid');
                     $this->ifthenpayController->model_checkout_order->addOrderHistory(
                         $this->paymentData['order_id'], 
-                        $this->ifthenpayController->config->get('payment_ifthenpay_ccard_order_status_complete_id'),
+                        $this->ifthenpayController->config->get('payment_ccard_order_status_complete_id'),
                         $this->ifthenpayController->language->get('paymentConfirmedSuccess'),
                         true,
                         true
@@ -47,7 +54,7 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
                     $this->changeIfthenpayPaymentStatus('cancel');
                     $this->ifthenpayController->model_checkout_order->addOrderHistory(
                         $this->paymentData['order_id'], 
-                        $this->ifthenpayController->config->get('payment_ifthenpay_ccard_order_status_canceled_id'),
+                        $this->ifthenpayController->config->get('payment_ccard_order_status_canceled_id'),
                         $this->ifthenpayController->language->get('ccard_error_canceled'),
                         true,
                         true
@@ -59,7 +66,7 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
                     $this->changeIfthenpayPaymentStatus('error');
                     $this->ifthenpayController->model_checkout_order->addOrderHistory(
                         $this->paymentData['order_id'], 
-                        $this->ifthenpayController->config->get('payment_ifthenpay_ccard_order_status_failed_id'),
+                        $this->ifthenpayController->config->get('payment_ccard_order_status_failed_id'),
                         $this->ifthenpayController->language->get('ccard_error_failed'),
                         true,
                         true

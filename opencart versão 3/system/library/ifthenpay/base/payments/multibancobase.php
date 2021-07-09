@@ -13,7 +13,23 @@ class MultibancoBase extends PaymentBase
 
     protected function setGatewayBuilderData(): void
     {
-        $this->gatewayBuilder->setEntidade($this->configData['payment_ifthenpay_multibanco_entidade']);
-        $this->gatewayBuilder->setSubEntidade($this->configData['payment_ifthenpay_multibanco_subEntidade']);
+        $this->gatewayBuilder->setEntidade($this->configData['payment_multibanco_entidade']);
+        $this->gatewayBuilder->setSubEntidade($this->configData['payment_multibanco_subEntidade']);
+    }
+
+    protected function saveToDatabase(): void
+    {
+        $this->ifthenpayController->load->model('extension/payment/multibanco');
+		
+		$this->ifthenpayController->model_extension_payment_multibanco->savePayment($this->paymentDefaultData, $this->paymentGatewayResultData);
+    }
+
+    public function getFromDatabaseById(): void
+    {
+        $this->ifthenpayController->load->model('extension/payment/multibanco');
+		
+		$this->paymentDataFromDb = $this->ifthenpayController->model_extension_payment_multibanco
+            ->getPaymentByOrderId($this->paymentDefaultData->order['order_id'])
+            ->row; 
     }
 }

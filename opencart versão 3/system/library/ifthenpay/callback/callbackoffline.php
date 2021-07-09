@@ -21,13 +21,14 @@ class CallbackOffline extends CallbackProcess implements CallbackProcessInterfac
                 $this->setOrder();
                 $this->callbackValidate->setHttpRequest($this->request)
                 ->setOrder($this->order)
-                ->setConfigurationChaveAntiPhishing($this->ifthenpayController->config->get('payment_ifthenpay_' . $this->paymentMethod . '_chaveAntiPhishing'))
+                ->setConfigurationChaveAntiPhishing($this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_chaveAntiPhishing'))
                 ->setPaymentDataFromDb($this->paymentData)
                 ->validate();
                 $this->changeIfthenpayPaymentStatus('paid');
+                $this->ifthenpayController->load->language('extension/payment/' . $this->paymentMethod);
                 $this->ifthenpayController->model_checkout_order->addOrderHistory(
                     $this->paymentData['order_id'], 
-                    $this->ifthenpayController->config->get('payment_ifthenpay_' . $this->paymentMethod . '_order_status_complete_id'),
+                    $this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_order_status_complete_id'),
                     $this->ifthenpayController->language->get('paymentConfirmedSuccess'),
                     true,
                     true

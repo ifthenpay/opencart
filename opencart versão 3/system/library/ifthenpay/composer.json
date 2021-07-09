@@ -8,5 +8,10 @@
     ],
     "require": {
         "illuminate/container": "^8.29"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ifthenpay\\": "/ifthenpay"
+        }
     }
 }

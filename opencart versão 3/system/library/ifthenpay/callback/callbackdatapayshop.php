@@ -10,9 +10,9 @@ class CallbackDataPayshop implements CallbackDataInterface
 {
     public function getData(array $request, $ifthenpayController): array
     {
-        $ifthenpayController->load->model('extension/payment/ifthenpay');
+        $ifthenpayController->load->model('extension/payment/payshop');
 		
-		return $ifthenpayController->model_extension_payment_ifthenpay->getPayshopByIdTransacao(
+		return $ifthenpayController->model_extension_payment_payshop->getPayshopByIdTransacao(
             $request['id_transacao']
         )->row; 
     }

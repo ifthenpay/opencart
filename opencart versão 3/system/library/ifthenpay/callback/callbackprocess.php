@@ -8,6 +8,7 @@ use Ifthenpay\Utility\Token;
 use Ifthenpay\Utility\Status;
 use Ifthenpay\Callback\CallbackValidate;
 use Ifthenpay\Factory\Callback\CallbackDataFactory;
+use Ifthenpay\Utility\TokenExtra;
 
 class CallbackProcess
 {
@@ -16,18 +17,21 @@ class CallbackProcess
     protected $order;
     protected $request;
     protected $ifthenpayController;
+    protected $tokenExtra;
 
     public function __construct(
         CallbackDataFactory $callbackDataFactory, 
         CallbackValidate $callbackValidate, 
         Status $status = null,
-        Token $token = null
+        Token $token = null,
+        TokenExtra $tokenExtra = null
     )
 	{
         $this->callbackDataFactory = $callbackDataFactory;
         $this->callbackValidate = $callbackValidate;
         $this->status = $status;
         $this->token = $token;
+        $this->tokenExtra = $tokenExtra;
 	}
 	    
     /**
@@ -73,13 +77,40 @@ class CallbackProcess
 
     protected function changeIfthenpayPaymentStatus(string $status): void
     {
-        $this->ifthenpayController->load->model('extension/payment/ifthenpay');
-		
-		$this->ifthenpayController->model_extension_payment_ifthenpay->updatePaymentStatus(
-            $this->paymentMethod, 
-            $this->paymentData['id_ifthenpay_' . $this->request['payment']], 
-            $status
-        );
+        switch ($this->request['payment']) {
+            case 'multibanco':
+                $this->ifthenpayController->load->model('extension/payment/multibanco');		
+                $this->ifthenpayController->model_extension_payment_multibanco->updatePaymentStatus(
+                    $this->paymentData['id_ifthenpay_multibanco'], 
+                    $status
+                );
+                break;
+            case 'mbway':
+                $this->ifthenpayController->load->model('extension/payment/mbway');		
+                $this->ifthenpayController->model_extension_payment_mbway->updatePaymentStatus(
+                    $this->paymentData['id_ifthenpay_mbway'], 
+                    $status
+                );
+                break;
+            case 'payshop':
+                $this->ifthenpayController->load->model('extension/payment/payshop');		
+                $this->ifthenpayController->model_extension_payment_payshop->updatePaymentStatus(
+                    $this->paymentData['id_ifthenpay_payshop'], 
+                    $status
+                );
+                break;
+            case 'ccard':
+                $this->ifthenpayController->load->model('extension/payment/ccard');		
+                $this->ifthenpayController->model_extension_payment_ccard->updatePaymentStatus(
+                    $this->paymentData['id_ifthenpay_ccard'], 
+                    $status
+                );
+                break;
+            default:
+                throw new \Exception("Payment Method model not exist");
+                
+                break;
+        }
     }
 
     /**
@@ -102,9 +133,8 @@ class CallbackProcess
     public function setIfthenpayController($ifthenpayController)
     {
         $this->ifthenpayController = $ifthenpayController;
-        $this->ifthenpayController->load->language('extension/payment/ifthenpay');
+        $this->ifthenpayController->load->language('extension/payment/' . $this->paymentMethod);
         $this->ifthenpayController->load->model('checkout/order');
-
         return $this;
     }
 
