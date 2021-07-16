@@ -13,7 +13,7 @@ class IfthenpayUpgrade
     private $webservice;
     
 
-	public function __construct(Webservice $webservice)
+	public function __construct(WebService $webservice)
 	{
         $this->webservice = $webservice;
 	}

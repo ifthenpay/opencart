@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Ifthenpay\Payments;
 
 
-use Ifthenpay\Request\Webservice;
+use Ifthenpay\Request\WebService;
 use Ifthenpay\Builders\DataBuilder;
 use Ifthenpay\Builders\GatewayDataBuilder;
 use Ifthenpay\Contracts\Payments\PaymentMethodInterface;
@@ -17,7 +17,7 @@ class Payshop extends Payment implements PaymentMethodInterface
     protected $validade;
     private $payshopPedido;
 
-    public function __construct(GatewayDataBuilder $data, string $orderId, string $valor, Webservice $webservice = null)
+    public function __construct(GatewayDataBuilder $data, string $orderId, string $valor, WebService $webservice = null)
     {
         parent::__construct($orderId, $valor, $data, $webservice);
         $this->payshopKey = $data->getData()->payshopKey;

@@ -13,7 +13,7 @@ use Ifthenpay\Payments\Payshop;
 use Ifthenpay\Payments\Multibanco;
 use Ifthenpay\Builders\DataBuilder;
 use Ifthenpay\Contracts\Payments\PaymentMethodInterface;
-use Ifthenpay\Request\Webservice;
+use Ifthenpay\Request\WebService;
 
 
 class PaymentFactory extends Factory
@@ -24,7 +24,7 @@ class PaymentFactory extends Factory
     private $dataBuilder;
     private $webservice;
 
-    public function __construct(Container $ioc, DataBuilder $dataBuilder, Webservice $webservice = null)
+    public function __construct(Container $ioc, DataBuilder $dataBuilder, WebService $webservice = null)
 	{
         parent::__construct($ioc);
         $this->dataBuilder = $dataBuilder;

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Payments;
 
-use Ifthenpay\Request\Webservice;
+use Ifthenpay\Request\WebService;
 use Ifthenpay\Builders\GatewayDataBuilder;
 use Ifthenpay\Contracts\Payments\PaymentStatusInterface;
 
@@ -23,7 +23,7 @@ class PayshopPaymentStatus implements PaymentStatusInterface
     private $payshopPedido;
     private $webservice;
 
-    public function __construct(Webservice $webservice)
+    public function __construct(WebService $webservice)
     {
         $this->webservice = $webservice;
     }

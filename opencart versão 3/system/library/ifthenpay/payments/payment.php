@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Ifthenpay\Payments;
 
 use Ifthenpay\Builders\DataBuilder;
-use Ifthenpay\Request\Webservice;
+use Ifthenpay\Request\WebService;
 use Ifthenpay\Contracts\Models\PaymentModelInterface;
 
 class Payment
@@ -15,7 +15,7 @@ class Payment
     protected $dataBuilder;
     protected $webservice;
 
-    public function __construct(string $orderId, string $valor, DataBuilder $dataBuilder, Webservice $webservice = null)
+    public function __construct(string $orderId, string $valor, DataBuilder $dataBuilder, WebService $webservice = null)
     {
         $this->orderId = $orderId;
         $this->valor = $this->formatNumber(number_format(floatval($valor), 2, '.', ''));

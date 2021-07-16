@@ -20,7 +20,7 @@ abstract class CheckPaymentStatusBase
     public function __construct(
         GatewayDataBuilder $gatewayDataBuilder,
         PaymentStatusInterface $paymentStatus,
-        Webservice $webservice,
+        WebService $webservice,
         $ifthenpayController
     ) {
         $this->gatewayDataBuilder = $gatewayDataBuilder;
