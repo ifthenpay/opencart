@@ -33,8 +33,7 @@ class MbwayCancelOrder
                     $this->gatewayDataBuilder->setIdPedido($mbwayPayment['id_transacao']);
 
                     if (!$this->mbwayPaymentStatus->setData($this->gatewayDataBuilder)->getPaymentStatus()) {
-                        //$minutes_to_add = 30;
-                        $minutes_to_add = 1;
+                        $minutes_to_add = 30;
                         $time = new \DateTime($mbwayOrder['date_added']);
                         $time->add(new \DateInterval('PT' . $minutes_to_add . 'M'));
                         $today = new \DateTime(date("Y-m-d G:i"));
