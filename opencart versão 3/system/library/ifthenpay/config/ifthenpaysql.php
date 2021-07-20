@@ -63,7 +63,7 @@ class IfthenpaySql implements InstallerInterface
     
     private function deleteIfthenpaySql(): void
     {
-        $sql = $this->ifthenpayModel->db->query('DROP TABLE IF EXISTS ' . DB_PREFIX . 'ifthenpay_' . $this->paymentMethod);
+        $sql = $this->ifthenpayModel->db->query('DROP TABLE IF EXISTS ' . DB_PREFIX . 'ifthenpay_' . $this->userPaymentMethod);
         if (!$sql) {
             throw new \Exception('Error deleting ifthenpay payment table!');
         }
