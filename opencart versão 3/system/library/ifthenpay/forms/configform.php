@@ -114,8 +114,8 @@ abstract class ConfigForm
             
             $ifthenpayCallback = $this->ioc->makeWith(Callback::class, ['data' => $this->gatewayDataBuilder]);
             $ifthenpayCallback->make($this->paymentMethod, $this->getCallbackControllerUrl(), $activateCallback);
-            $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_callback_activated'] = $ifthenpayCallback->getActivatedFor();
-            $this->data['payment_' . $this->paymentMethod . '_callback_activated_for'] = $ifthenpayCallback->getActivatedFor();
+            $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_callback_activated'] = $this->data['isCallbackActivated'] ? true : $ifthenpayCallback->getActivatedFor();
+            $this->data['payment_' . $this->paymentMethod . '_callback_activated_for'] = $this->data['isCallbackActivated'] ? true : $ifthenpayCallback->getActivatedFor();
             if ($activateCallback) {
                 $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_urlCallback'] = $ifthenpayCallback->getUrlCallback();
                 $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_chaveAntiPhishing'] = $ifthenpayCallback->getChaveAntiPhishing();
