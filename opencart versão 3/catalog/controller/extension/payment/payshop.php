@@ -90,7 +90,7 @@ class ControllerExtensionPaymentPayshop extends Controller
 					->setConfigData($configData)
 					->execute();
 				$this->session->data['ifthenpayPaymentReturn'] = $ifthenpayPaymentReturn->getTwigVariables()->setStatus('ok')->toArray();
-				$this->session->data['ifthenpayPaymentReturn']['paymentLogoUrl'] = $this->config->get('site_url') . '/image/payment/ifthenpay/payshop.svg';
+				$this->session->data['ifthenpayPaymentReturn']['paymentLogoUrl'] = $this->config->get('site_url') . 'image/payment/ifthenpay/payshop.svg';
 				$comment = $this->load->view('extension/payment/ifthenpay_comment_payment_detail', $this->session->data['ifthenpayPaymentReturn']);
 				$this->load->model('checkout/order');
 				$this->model_checkout_order->addOrderHistory(
@@ -194,7 +194,7 @@ class ControllerExtensionPaymentPayshop extends Controller
 	public function changeMailOrderAdd(&$route, &$data, &$output) 
 	{
 		if ($this->session->data['payment_method']['code'] == 'payshop') {
-			$this->session->data['ifthenpayPaymentReturn']['paymentMethodLogo'] = $this->config->get('site_url') . '/image/payment/payshop.svg';
+			$this->session->data['ifthenpayPaymentReturn']['paymentMethodLogo'] = $this->config->get('site_url') . 'image/payment/ifthenpay/payshop.svg';
 			$data['comment'] = $this->load->view('mail/ifthenpayPaymentData', $this->session->data['ifthenpayPaymentReturn']);
 		}		
 	}

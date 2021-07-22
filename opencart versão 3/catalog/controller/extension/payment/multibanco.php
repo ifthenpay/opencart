@@ -91,7 +91,7 @@ class ControllerExtensionPaymentMultibanco extends Controller
 					->setConfigData($configData)
 					->execute();
 				$this->session->data['ifthenpayPaymentReturn'] = $ifthenpayPaymentReturn->getTwigVariables()->setStatus('ok')->toArray();
-				$this->session->data['ifthenpayPaymentReturn']['paymentLogoUrl'] = $this->config->get('site_url') . '/image/payment/ifthenpay/multibanco.svg';
+				$this->session->data['ifthenpayPaymentReturn']['paymentLogoUrl'] = $this->config->get('site_url') . 'image/payment/ifthenpay/multibanco.svg';
 				$comment = $this->load->view('extension/payment/ifthenpay_comment_payment_detail', $this->session->data['ifthenpayPaymentReturn']);
 				$this->load->model('checkout/order');
 				$this->model_checkout_order->addOrderHistory(
@@ -199,7 +199,7 @@ class ControllerExtensionPaymentMultibanco extends Controller
 	public function changeMailOrderAdd(&$route, &$data, &$output) 
 	{
 		if ($this->session->data['payment_method']['code'] == 'multibanco') {
-			$this->session->data['ifthenpayPaymentReturn']['paymentMethodLogo'] = $this->config->get('site_url') . '/image/payment/multibanco.svg';
+			$this->session->data['ifthenpayPaymentReturn']['paymentMethodLogo'] = $this->config->get('site_url') . '/image/payment/ifthenpay/multibanco.svg';
 			$data['comment'] = $this->load->view('mail/ifthenpayPaymentData', $this->session->data['ifthenpayPaymentReturn']);
 		}		
 	}
