@@ -3,6 +3,7 @@
 namespace Ifthenpay\Config;
 
 use GuzzleHttp\Client;
+use Ifthenpay\Utility\Mix;
 use Ifthenpay\Utility\Token;
 use Ifthenpay\Utility\Status;
 use Ifthenpay\Payments\Gateway;
@@ -59,7 +60,7 @@ class IfthenpayContainer
                 return new PaymentFactory(
                     $this->ioc, 
                     $this->ioc->make(DataBuilder::class),
-                    $this->ioc->make(Webservice::class)
+                    $this->ioc->make(WebService::class)
                 );
             }
         );
@@ -165,22 +166,22 @@ class IfthenpayContainer
             return new MbwayCancelOrder($this->ioc->make(GatewayDataBuilder::class), $this->ioc->make(MbWayPaymentStatus::class));
         });
         $this->ioc->bind(IfthenpayUpgrade::class, function () {
-            return new IfthenpayUpgrade($this->ioc->make(Webservice::class));
+            return new IfthenpayUpgrade($this->ioc->make(WebService::class));
         });
         $this->ioc->bind(MbWayPaymentStatus::class, function() {
-            return new MbWayPaymentStatus($this->ioc->make(Webservice::class));
+            return new MbWayPaymentStatus($this->ioc->make(WebService::class));
         });
         $this->ioc->bind(MultibancoPaymentStatus::class, function() {
-            return new MultibancoPaymentStatus($this->ioc->make(Webservice::class));
+            return new MultibancoPaymentStatus($this->ioc->make(WebService::class));
         });
         $this->ioc->bind(PayshopPaymentStatus::class, function() {
-            return new PayshopPaymentStatus($this->ioc->make(Webservice::class));
+            return new PayshopPaymentStatus($this->ioc->make(WebService::class));
         });
         $this->ioc->bind(PaymentStatusFactory::class, function () {
                 return new PaymentStatusFactory(
                     $this->ioc, 
                     $this->ioc->make(GatewayDataBuilder::class),
-                    $this->ioc->make(Webservice::class)
+                    $this->ioc->make(WebService::class)
                 );
             }
         );
@@ -190,6 +191,9 @@ class IfthenpayContainer
                 );
             }
         );
+        $this->ioc->bind(Mix::class, function () {
+            return new Mix();
+        });
     }
     /**
      * Get the value of ioc

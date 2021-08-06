@@ -1,5 +1,6 @@
 <?php
 
+use Ifthenpay\Utility\Mix;
 use Ifthenpay\Payments\Gateway;
 use Ifthenpay\Config\IfthenpayContainer;
 use Ifthenpay\Strategy\Callback\CallbackStrategy;
@@ -14,11 +15,13 @@ class ControllerExtensionPaymentPayshop extends Controller
 
 	public function index()
 	{
+		$this->ifthenpayContainer = new IfthenpayContainer();
+		$mix = $this->ifthenpayContainer->getIoc()->make(Mix::class);
 		$this->load->language('extension/payment/payshop');
 		$data['button_confirm'] = $this->language->get('button_confirm');
-
-		$this->document->addScript('extension/payment/javascript/ifthenpay/checkoutPayshopPage.js');
-
+		$scriptVersion = $mix->create('checkoutPayshopPage.js');
+		$this->document->addScript('extension/payment/javascript/ifthenpay/' . $scriptVersion);
+		$data['payshopScript'] = 'catalog/view/javascript/ifthenpay/' . $scriptVersion;
 		return $this->load->view('extension/payment/payshop', $data);
 	}
 
@@ -163,17 +166,22 @@ class ControllerExtensionPaymentPayshop extends Controller
 
 	public function changeHeaderStyles(&$route, &$data, &$output)
 	{
+		$this->ifthenpayContainer = new IfthenpayContainer();
+		$mix = $this->ifthenpayContainer->getIoc()->make(Mix::class);
 		if (isset($_REQUEST['route']) && $_REQUEST['route'] === 'checkout/checkout') {
-			$this->document->addStyle('catalog/view/theme/default/stylesheet/ifthenpay/paymentOptions.css');
+			$this->document->addStyle('catalog/view/theme/default/stylesheet/ifthenpay/' . $mix->create('paymentOptions.css'));
 			$data['styles'] = $this->document->getStyles();
 		}
 		if (isset($_REQUEST['route']) && $_REQUEST['route'] === 'checkout/success') {
-			$this->document->addStyle('catalog/view/theme/default/stylesheet/ifthenpay/ifthenpayConfirmPage.css');
+			$this->document->addStyle('catalog/view/theme/default/stylesheet/ifthenpay/' . $mix->create('ifthenpayConfirmPage.css'));
 			$data['styles'] = $this->document->getStyles();
 		}		
 	}
-	public function changeFooterScripts(&$route, &$data, &$output) {
-		$this->document->addScript('catalog/view/javascript/ifthenpay/checkoutPayshopPage.js');
+	public function changeFooterScripts(&$route, &$data, &$output) 
+	{
+		$this->ifthenpayContainer = new IfthenpayContainer();
+		$mix = $this->ifthenpayContainer->getIoc()->make(Mix::class);
+		$this->document->addScript('catalog/view/javascript/ifthenpay/' . $mix->create('checkoutPayshopPage.js'));
 		$data['scripts'] = $this->document->getScripts();
 	}
 
@@ -194,7 +202,7 @@ class ControllerExtensionPaymentPayshop extends Controller
 	public function changeMailOrderAdd(&$route, &$data, &$output) 
 	{
 		if ($this->session->data['payment_method']['code'] == 'payshop') {
-			$this->session->data['ifthenpayPaymentReturn']['paymentMethodLogo'] = $this->config->get('site_url') . 'image/payment/ifthenpay/payshop.svg';
+			$this->session->data['ifthenpayPaymentReturn']['paymentMethodLogo'] = $this->config->get('site_url') . 'image/payment/payshop.svg';
 			$data['comment'] = $this->load->view('mail/ifthenpayPaymentData', $this->session->data['ifthenpayPaymentReturn']);
 		}		
 	}

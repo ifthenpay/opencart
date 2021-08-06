@@ -1,5 +1,6 @@
 <?php
 
+use Ifthenpay\Utility\Mix;
 use Ifthenpay\Payments\Gateway;
 use Ifthenpay\Config\IfthenpayUpgrade;
 use Ifthenpay\Config\IfthenpayContainer;
@@ -17,11 +18,11 @@ class ControllerExtensionPaymentPayshop extends Controller {
   public function index() 
   {
     $this->ifthenpayContainer = new IfthenpayContainer();
+    $mix = $this->ifthenpayContainer->getIoc()->make(Mix::class);
     $this->load->language('extension/payment/payshop');
-
-	$this->document->setTitle($this->language->get('heading_title'));
-    $this->document->addStyle('view/stylesheet/ifthenpay/ifthenpayConfig.css');
-	$this->document->addScript('view/javascript/ifthenpay/adminConfigPage.js');
+	  $this->document->setTitle($this->language->get('heading_title'));
+    $this->document->addStyle('view/stylesheet/ifthenpay/' . $mix->create('ifthenpayConfig.css'));
+	  $this->document->addScript('view/javascript/ifthenpay/' . $mix->create('adminConfigPage.js'));
 
 	$this->load->model('extension/payment/payshop');
 	$this->load->model('setting/setting');
