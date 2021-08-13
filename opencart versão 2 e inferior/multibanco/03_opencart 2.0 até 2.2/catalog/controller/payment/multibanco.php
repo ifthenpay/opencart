@@ -20,7 +20,7 @@ class ControllerPaymentMultibanco extends Controller {
 	}
 
 	public function callback(){
-		$chave_ap_int = $this->config->get('multibanco_ap');
+		$chave_ap_int = $this->config->get('payment_multibanco_ap');
 		$chave_ap_ext = $this->request->get['chave'];
 		$entidade = $this->request->get['entidade'];
 		$referencia = $this->request->get['referencia'];
