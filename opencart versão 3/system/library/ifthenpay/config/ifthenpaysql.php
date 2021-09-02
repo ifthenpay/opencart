@@ -43,7 +43,7 @@ class IfthenpaySql implements InstallerInterface
           'ccard' => 'CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'ifthenpay_ccard` (
             `id_ifthenpay_ccard` int(10) unsigned NOT NULL auto_increment,
             `requestId` varchar(50) NOT NULL,
-            `paymentUrl` varchar(250) NOT NULL,
+            `paymentUrl` varchar(1000) NOT NULL,
             `order_id` int(11) NOT NULL,
             `status` varchar(50) NOT NULL,
             PRIMARY KEY  (`id_ifthenpay_ccard`),

@@ -30,7 +30,7 @@ class PayshopPaymentStatus implements PaymentStatusInterface
 
     private function checkEstado(): bool
     {
-        if (isset($this->payshopPedido['CodigoErro ']) && $this->payshopPedido['CodigoErro '] === '0') {
+        if (isset($this->payshopPedido['CodigoErro']) && $this->payshopPedido['CodigoErro'] === '0') {
             return true;
         }
         return false;

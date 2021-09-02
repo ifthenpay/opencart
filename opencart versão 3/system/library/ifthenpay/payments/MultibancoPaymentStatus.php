@@ -30,7 +30,7 @@ class MultibancoPaymentStatus implements PaymentStatusInterface
 
     private function checkEstado(): bool
     {
-        if (isset($this->multibancoPedido['CodigoErro ']) && $this->multibancoPedido['CodigoErro '] === '0') {
+        if (isset($this->multibancoPedido['CodigoErro']) && $this->multibancoPedido['CodigoErro'] === '0') {
             return true;
         }
         return false;
