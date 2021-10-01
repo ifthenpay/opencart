@@ -8,7 +8,7 @@ $_['heading_title_multibanco'] = 'Configurações MB WAY';
 $_['text_extension'] = 'Extensions';
 $_['text_payment'] = 'Pagamento';
 $_['text_success'] = 'Sucesso: Configuração do módulo MB WAY alterada!';
-$_['text_mbway'] = '<a onclick="window.open(\'https:www.ifthenpay.com\');"><img src="view/image/payment/ifthenpay/mbway.svg" class="mbwayLogo" alt="MB WAY Logo" title="MB WAY" style="border: 1px solid #EEEEEE; max-width: 30%;" /><br /></a>';
+$_['text_mbway'] = '<a onclick="window.open(\'https:www.ifthenpay.com\');"><img src="view/image/payment/ifthenpay/mbway.svg" class="mbwayLogo" alt="MB WAY Logo" title="MB WAY" style="border: 1px solid #EEEEEE; max-width: 15%;" /><br /></a>';
 $_['acess_user_documentation'] = 'Aceder ao Manual de Utilizador.';
 $_['create_account_now'] = 'Crie uma conta agora!';
 $_['text_home'] = 'Home';

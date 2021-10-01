@@ -8,7 +8,7 @@ $_['heading_title_payshop'] = 'Payshop Configuration';
 $_['text_extension'] = 'Extensions';
 $_['text_payment'] = 'Payment';
 $_['text_success'] = 'Success: You have modified Payshop payment module!';
-$_['text_payshop'] = '<a onclick="window.open(\'https:www.ifthenpay.com\');"><img src="view/image/payment/ifthenpay/payshop.svg" class="payshopLogo" alt="Payshop Logo" title="Payshop" style="border: 1px solid #EEEEEE; max-width: 45%;" /><br /></a>';
+$_['text_payshop'] = '<a onclick="window.open(\'https:www.ifthenpay.com\');"><img src="view/image/payment/ifthenpay/payshop.svg" class="payshopLogo" alt="Payshop Logo" title="Payshop" style="border: 1px solid #EEEEEE; max-width: 20%;" /><br /></a>';
 $_['acess_user_documentation'] = 'Access the user documentation.';
 $_['create_account_now'] = 'Create an account now!';
 

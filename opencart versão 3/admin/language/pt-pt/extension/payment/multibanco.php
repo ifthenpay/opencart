@@ -8,7 +8,7 @@ $_['heading_title_multibanco'] = 'Multibanco Configurações';
 $_['text_extension'] = 'Extensions';
 $_['text_payment'] = 'Pagamento';
 $_['text_success'] = 'Sucesso: Configuração do módulo Multibanco alterada!';
-$_['text_multibanco'] = '<a onclick="window.open(\'https:www.ifthenpay.com\');"><img src="view/image/payment/ifthenpay/multibanco.svg" class="multibancoLogo" alt="Multibanco Logo" title="Multibanco" style="border: 1px solid #EEEEEE; max-width: 20%;" /><br /></a>';
+$_['text_multibanco'] = '<a onclick="window.open(\'https:www.ifthenpay.com\');"><img src="view/image/payment/ifthenpay/multibanco.svg" class="multibancoLogo" alt="Multibanco Logo" title="Multibanco" style="border: 1px solid #EEEEEE; max-width: 10%;" /><br /></a>';
 
 $_['acess_user_documentation'] = 'Aceder ao Manual de Utilizador.';
 $_['create_account_now'] = 'Crie uma conta agora!';

@@ -8,7 +8,7 @@ $_['heading_title_multibanco'] = 'MB WAY Configuration';
 $_['text_extension'] = 'Extensions';
 $_['text_payment'] = 'Payment';
 $_['text_success'] = 'Success: You have modified MB WAY payment module!';
-$_['text_mbway'] = '<a onclick="window.open(\'https:www.ifthenpay.com\');"><img src="view/image/payment/ifthenpay/mbway.svg" class="mbwayLogo" alt="MB WAY Logo" title="MB WAY" style="border: 1px solid #EEEEEE; max-width: 30%;" /><br /></a>';
+$_['text_mbway'] = '<a onclick="window.open(\'https:www.ifthenpay.com\');"><img src="view/image/payment/ifthenpay/mbway.svg" class="mbwayLogo" alt="MB WAY Logo" title="MB WAY" style="border: 1px solid #EEEEEE; max-width: 15%;" /><br /></a>';
 $_['acess_user_documentation'] = 'Access the user documentation.';
 $_['create_account_now'] = 'Create an account now!';
 
