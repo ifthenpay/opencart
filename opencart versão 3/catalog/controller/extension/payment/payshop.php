@@ -202,7 +202,10 @@ class ControllerExtensionPaymentPayshop extends Controller
 	public function changeMailOrderAdd(&$route, &$data, &$output) 
 	{
 		if ($this->session->data['payment_method']['code'] == 'payshop') {
-			$this->session->data['ifthenpayPaymentReturn']['paymentMethodLogo'] = $this->config->get('site_url') . 'image/payment/payshop.svg';
+			$this->load->language('extension/payment/payshop');
+			$paymentMethodLogo = $this->config->get('site_url') . 'image/payment/ifthenpay/payshop.png';
+			$data['payment_method'] = $this->language->get('text_title_payshop');
+			$this->session->data['ifthenpayPaymentReturn']['paymentMethodLogo'] = $paymentMethodLogo;
 			$data['comment'] = $this->load->view('mail/ifthenpayPaymentData', $this->session->data['ifthenpayPaymentReturn']);
 		}		
 	}

@@ -208,7 +208,10 @@ class ControllerExtensionPaymentMultibanco extends Controller
 	public function changeMailOrderAdd(&$route, &$data, &$output) 
 	{
 		if ($this->session->data['payment_method']['code'] == 'multibanco') {
-			$this->session->data['ifthenpayPaymentReturn']['paymentMethodLogo'] = $this->config->get('site_url') . 'image/payment/multibanco.svg';
+			$this->load->language('extension/payment/multibanco');
+			$paymentMethodLogo = $this->config->get('site_url') . 'image/payment/ifthenpay/multibanco.png';
+			$data['payment_method'] = $this->language->get('text_title_multibanco');
+			$this->session->data['ifthenpayPaymentReturn']['paymentMethodLogo'] = $paymentMethodLogo;
 			$data['comment'] = $this->load->view('mail/ifthenpayPaymentData', $this->session->data['ifthenpayPaymentReturn']);
 		}		
 	}

@@ -12,4 +12,5 @@ $_['ccardAlias'] = 'Credit Card';
 $_['ifthenpayPaymentPanelIdPedido'] = 'IdRequest';
 $_['paymentConfirmedSuccess'] = 'Payment made with success.';
 $_['paymentSecurityToken'] = 'Payment security token is invalid';
+$_['orderIsPaid'] = 'Order has already been paid';
 ?>

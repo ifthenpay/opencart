@@ -5,12 +5,8 @@
     <div class="paymentLogo">
         {% if paymentMethod == 'multibanco' %}
             <img src="image/payment/ifthenpay/multibanco.svg" alt="multibanco logotipo" style="width:60%;">
-        {% elseif paymentMethod == 'mbway' %}
-            <img src="image/payment/ifthenpay/mbway.svg" alt="mbway logotipo" style="width:35%;">
-        {% elseif paymentMethod == 'payshop' %}
-            <img src="image/payment/ifthenpay/payshop.svg" alt="payshop logotipo" style="width:40%;">
         {% else %}
-            <img src="image/payment/ifthenpay/ccard.svg" alt="payshop logotipo" style="width:40%;">
+            <img src="image/payment/ifthenpay/{{paymentMethod}}.svg" alt="payshop logotipo">
         {% endif %}
     </div>
     <div class="paymentData">

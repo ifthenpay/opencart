@@ -5,7 +5,13 @@
             <tbody>
                 <tr>
                     <td valign="top" style="padding-top: 5px;padding-bottom: 5px;">
-                        <img src="{{paymentMethodLogo}}" alt="{{paymentMethod}} logotipo">
+                        {% if paymentMethod |lower == 'multibanco' %}
+                            <img src="{{paymentMethodLogo}}" alt=" logotipo" width="50" height="50">
+                        {% elseif paymentMethod |lower == 'ccard' %}
+                            <img src="{{paymentMethodLogo}}" alt=" logotipo" width="65" height="18">
+                        {% else %}
+                            <img src="{{paymentMethodLogo}}" alt=" logotipo" width="70" height="70">
+                        {% endif %}
                     </td>
                 </tr>
                 {% if paymentMethod |lower == 'multibanco' %}

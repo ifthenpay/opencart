@@ -216,7 +216,7 @@ class ControllerExtensionPaymentPayshop extends Controller {
     $this->model_setting_event->addEvent('ifthenpayFooter', 'catalog/view/common/footer/before', 'extension/payment/payshop/changeFooterScripts');
     $this->model_setting_event->addEvent('ifthenpayCatalogHeader', 'catalog/view/common/header/before', 'extension/payment/payshop/changeHeaderStyles');
     $this->model_setting_event->addEvent('ifthenpayCheckPayshopOrder', 'admin/model/sale/order/getOrders/after', 'extension/payment/payshop/checkPayshopOrder');
-    $this->model_setting_event->addEvent('ifthenpayOrderEmailAdd', 'catalog/view/mail/order_add/before', 'extension/payment/multibanco/changeMailOrderAdd');               
+    $this->model_setting_event->addEvent('ifthenpayOrderEmailAdd', 'catalog/view/mail/order_add/before', 'extension/payment/payshop/changeMailOrderAdd');               
   }
 
   public function uninstall() {

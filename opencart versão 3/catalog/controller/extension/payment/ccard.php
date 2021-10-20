@@ -190,8 +190,12 @@ class ControllerExtensionPaymentCcard extends Controller
 	public function changeMailOrderAdd(&$route, &$data, &$output) 
 	{
 		if ($this->session->data['payment_method']['code'] == 'ccard') {
-			$this->session->data['ifthenpayPaymentReturn']['paymentMethodLogo'] = $this->config->get('site_url') . 'image/payment/ccard.svg';
+			$this->load->language('extension/payment/ccard');
+			$paymentMethodLogo = $this->config->get('site_url') . 'image/payment/ifthenpay/ccard.png';
+			$data['payment_method'] = $this->language->get('text_title_ccard');
+			$this->session->data['ifthenpayPaymentReturn']['paymentMethodLogo'] = $paymentMethodLogo;
 			$data['comment'] = $this->load->view('mail/ifthenpayPaymentData', $this->session->data['ifthenpayPaymentReturn']);
 		}		
 	}
+
 }

@@ -6,7 +6,11 @@
 			</div>
 			<div class="panel-body">
 				<div class="paymentLogo">
-					<img src="{{paymentLogoUrl}}" alt="{{paymentMethod}} logotipo" style="width: 70px;">
+                {% if paymentMethod == 'multibanco' %}
+					<img src="{{paymentLogoUrl}}" alt="{{paymentMethod}} logotipo" style="width: 10%;">
+                {% else %}
+                    <img src="{{paymentLogoUrl}}" alt="{{paymentMethod}} logotipo" style="width: 15%;">
+                {% endif %}
 				</div>
 				<div class="paymentData">
 					{% if paymentMethod == 'multibanco' %}

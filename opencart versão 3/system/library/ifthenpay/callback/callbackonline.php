@@ -22,6 +22,9 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
                     $this->token->decrypt($this->request['qn'])
                 );
                 $this->setOrder();
+                if (strtolower($this->order['order_status']) !== 'pending') {
+                    throw new \Exception($this->ifthenpayController->language->get('orderIsPaid'));
+                }
                 $this->ifthenpayController->load->language('extension/payment/ccard');
                 
                 if ($paymentStatus === 'success') {
@@ -31,7 +34,11 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
                         $this->request['id'] . $this->request['amount'] . $this->request['requestId'], $configData['payment_ccard_ccardKey'])) {
                             throw new \Exception($this->ifthenpayController->language->get('paymentSecurityToken'));
                     }
-                    $orderTotal = floatval($this->order['total']);
+                    if ($this->order['currency_code'] !== 'EUR') {
+                        $orderTotal = $this->ifthenpayController->currency->format($this->order['total'], 'EUR', '', false);
+                    } else {
+                        $orderTotal = floatval($this->order['total']);
+                    }
                     $requestValor = floatval($this->request['amount']);
                     if (round($orderTotal, 2) !== round($requestValor, 2)) {
                         $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = '';
@@ -47,7 +54,7 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
                         true
                     );
                     
-                    $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = '';
+                    $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = $this->ifthenpayController->language->get('paymentConfirmedSuccess');
 			        $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_error'] = '';
    
                 } else if($paymentStatus === 'cancel') {
@@ -79,6 +86,8 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
                 $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
                 $this->ifthenpayController->response->redirect($this->ifthenpayController->url->link('checkout/success', true));
             } catch (\Throwable $th) {
+                $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['paymentMethod'] = 'ccard';
+                $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderView'] = false;
                 $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
                 $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = '';
                 $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_error'] = $th->getMessage();

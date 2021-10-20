@@ -10,7 +10,6 @@ use Ifthenpay\Base\Payments\CCardBase;
 class CCardPaymentReturn extends CCardBase implements PaymentReturnInterface
 {
 
-
     public function setTwigVariables(): void
     {
         parent::setTwigVariables();
@@ -20,17 +19,20 @@ class CCardPaymentReturn extends CCardBase implements PaymentReturnInterface
     public function getPaymentReturn()
     {
         $this->setGatewayBuilderData();
+        if ($this->paymentDefaultData->order['currency_code'] !== 'EUR') {
+            $orderTotal =  $this->ifthenpayController->currency->format($this->paymentDefaultData->order['total'], 'EUR', '', false);  
+        } else {
+            $orderTotal = $this->ifthenpayController->currency->format($this->paymentDefaultData->order['total'], 
+                $this->paymentDefaultData->order['currency_code'], 
+                $this->paymentDefaultData->order['currency_value'], 
+                false
+            );
+        }
         $this->paymentGatewayResultData = $this->ifthenpayGateway->execute(
             $this->paymentDefaultData->paymentMethod,
             $this->gatewayBuilder,
             strval($this->paymentDefaultData->order['order_id']),
-            strval(
-                $this->ifthenpayController->currency->format($this->paymentDefaultData->order['total'], 
-                    $this->paymentDefaultData->order['currency_code'], 
-                    $this->paymentDefaultData->order['currency_value'], 
-                    false
-                )
-            )
+            strval($orderTotal)
         )->getData();
         $this->saveToDatabase();
         $this->setTwigVariables();

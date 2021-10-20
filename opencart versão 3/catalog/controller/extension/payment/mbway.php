@@ -21,10 +21,16 @@ class ControllerExtensionPaymentMbway extends Controller
 		$this->ifthenpayContainer = new IfthenpayContainer();
 		$mix = $this->ifthenpayContainer->getIoc()->make(Mix::class);
 		$this->load->language('extension/payment/mbway');
+		$data['continue'] = $this->url->link('checkout/success');
 		$data['button_confirm'] = $this->language->get('button_confirm');
+		$data['mbwayPhoneNumber'] = $this->language->get('mbwayPhoneNumber');
 		$scriptVersion = $mix->create('checkoutMbwayPage.js');
 		$this->document->addScript('extension/payment/javascript/ifthenpay/' . $scriptVersion);
 		$data['mbwayScript'] = 'catalog/view/javascript/ifthenpay/' . $scriptVersion;
+		$data['mbwayLanguage'] = json_encode([
+			'required' => $this->language->get('error_payment_mbway_input_required'),
+			'invalid' => $this->language->get('error_payment_mbway_input_invalid')
+		]);
 		return $this->load->view('extension/payment/mbway', $data);
 	}
 
@@ -292,10 +298,10 @@ class ControllerExtensionPaymentMbway extends Controller
 		$data['scripts'] = $this->document->getScripts();
 	}
 
-	public function paymentMethodSave(&$route, &$data, &$output) 
+	/*public function paymentMethodSave(&$route, &$data, &$output) 
 	{
 		if (isset($this->session->data['payment_method']['code']) && $this->session->data['payment_method']['code'] === 'mbway') {
-			$this->load->language('extension/payment/ifthenpay');
+			$this->load->language('extension/payment/mbway');
 				$json = [];
 				if (!isset($this->request->cookie['ifthenpayMbwayPhone'])) {
 					$json['error']['warning'] = $this->language->get('error_payment_mbway_input_required');
@@ -308,7 +314,7 @@ class ControllerExtensionPaymentMbway extends Controller
 				}
 				$this->response->setOutput(json_encode($json));
 		}
-	}
+	}*/
 
 	public function changeOrderStatusFromWebservice(): void
 	{
@@ -328,7 +334,10 @@ class ControllerExtensionPaymentMbway extends Controller
 	public function changeMailOrderAdd(&$route, &$data, &$output) 
 	{
 		if ($this->session->data['payment_method']['code'] == 'mbway') {
-			$this->session->data['ifthenpayPaymentReturn']['paymentMethodLogo'] = $this->config->get('site_url') . 'image/payment/mbway.svg';
+			$this->load->language('extension/payment/mbway');
+			$paymentMethodLogo = $this->config->get('site_url') . 'image/payment/ifthenpay/mbway.png';
+			$data['payment_method'] = $this->language->get('text_title_mbway');
+			$this->session->data['ifthenpayPaymentReturn']['paymentMethodLogo'] = $paymentMethodLogo;
 			$data['comment'] = $this->load->view('mail/ifthenpayPaymentData', $this->session->data['ifthenpayPaymentReturn']);
 		}		
 	}

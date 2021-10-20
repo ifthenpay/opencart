@@ -25,4 +25,5 @@ $_['mbwayAlias'] = 'MB WAY';
 $_['ifthenpayPaymentPanelIdPedido'] = 'IdRequest';
 $_['mbwayOrderExpiredCanceled'] = 'Encomenda cancelada porque a notificação de pagamento MB WAY expitou.';
 $_['paymentConfirmedSuccess'] = 'Pagamento feito com sucesso.';
+$_['mbwayPhoneNumber'] = 'Telemóvel MB WAY';
 ?>

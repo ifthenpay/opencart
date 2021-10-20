@@ -26,8 +26,6 @@ class ModelExtensionPaymentCcard extends Model
 
         if(!$this->config->get('payment_ccard_ccardKey')) {
             $status = false;
-        } else if ($this->config->get('config_currency') !== 'EUR') {
-            $status = false;
         } else {
             $status = true;
         }
