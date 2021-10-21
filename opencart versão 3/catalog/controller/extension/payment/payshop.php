@@ -168,11 +168,11 @@ class ControllerExtensionPaymentPayshop extends Controller
 	{
 		$this->ifthenpayContainer = new IfthenpayContainer();
 		$mix = $this->ifthenpayContainer->getIoc()->make(Mix::class);
-		if (isset($_REQUEST['route']) && $_REQUEST['route'] === 'checkout/checkout') {
+		if ((isset($_REQUEST['route']) && $_REQUEST['route'] === 'checkout/checkout') || (isset($_REQUEST['_route_']) && $_REQUEST['_route_'] === 'checkout/checkout')) {
 			$this->document->addStyle('catalog/view/theme/default/stylesheet/ifthenpay/' . $mix->create('paymentOptions.css'));
 			$data['styles'] = $this->document->getStyles();
 		}
-		if (isset($_REQUEST['route']) && $_REQUEST['route'] === 'checkout/success') {
+		if ((isset($_REQUEST['route']) && $_REQUEST['route'] === 'checkout/success') || (isset($_REQUEST['_route_']) && $_REQUEST['_route_'] === 'checkout/success')) {
 			$this->document->addStyle('catalog/view/theme/default/stylesheet/ifthenpay/' . $mix->create('ifthenpayConfirmPage.css'));
 			$data['styles'] = $this->document->getStyles();
 		}		
