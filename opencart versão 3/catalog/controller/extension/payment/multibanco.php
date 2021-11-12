@@ -106,8 +106,7 @@ class ControllerExtensionPaymentMultibanco extends Controller
 					true
 				);
 				$this->session->data['payment_method']['comment'] = $comment;
-				$redirect = $ifthenpayPaymentReturn->getRedirectUrl();
-				$json['redirect'] = $redirect['redirect'] ?  $redirect['url'] : $this->url->link('checkout/success');
+				$json['redirect'] = $this->url->link('checkout/success');
 				$json['error'] = '';
 				$this->model_extension_payment_multibanco->log('', 'Payment Processed with success!');
 				$this->response->addHeader('Content-Type: application/json');

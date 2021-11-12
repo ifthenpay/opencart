@@ -94,6 +94,7 @@ class ControllerExtensionPaymentCcard extends Controller
 					->setConfigData($configData)
 					->execute();
 				$this->session->data['ifthenpayPaymentReturn'] = $ifthenpayPaymentReturn->getTwigVariables()->setStatus('ok')->toArray();
+				$this->session->data['ifthenpayPaymentReturn']['paymentRedirectUrl'] = $ifthenpayPaymentReturn->getRedirectUrl();
 				$this->session->data['ifthenpayPaymentReturn']['paymentLogoUrl'] = $this->config->get('site_url') . 'image/payment/ifthenpay/ccard.svg';
 				$comment = $this->load->view('extension/payment/ifthenpay_comment_payment_detail', $this->session->data['ifthenpayPaymentReturn']);
 				$this->load->model('checkout/order');
@@ -105,8 +106,7 @@ class ControllerExtensionPaymentCcard extends Controller
 					true
 				);
 				$this->session->data['payment_method']['comment'] = $comment;
-				$redirect = $ifthenpayPaymentReturn->getRedirectUrl();
-				$json['redirect'] = $redirect['redirect'] ?  $redirect['url'] : $this->url->link('checkout/success');
+				$json['redirect'] = $this->url->link('checkout/success');
 				$json['error'] = '';
 				$this->model_extension_payment_ccard->log('', 'Payment Processed with success!');
 				$this->response->addHeader('Content-Type: application/json');
@@ -143,6 +143,12 @@ class ControllerExtensionPaymentCcard extends Controller
 				$this->load->model('checkout/order');
 				$order_info = $this->model_checkout_order->getOrder($this->session->data['ifthenpayPaymentReturn']['orderId']);
 				if ($order_info['payment_code'] == 'ccard') {
+					if (isset($this->session->data['ifthenpayPaymentReturn']['paymentRedirectUrl'])) {
+						$redirectUrl = $this->session->data['ifthenpayPaymentReturn']['paymentRedirectUrl']['url'];
+						unset($this->session->data['ifthenpayPaymentReturn']['paymentRedirectUrl']);
+						$this->response->redirect($redirectUrl);
+					}
+					
 					if (!$ifthenpayPaymentReturn['orderView']) {
 							$this->ifthenpayContainer = new IfthenpayContainer();
 							$configData =  $this->model_setting_setting->getSetting('payment_ccard');
