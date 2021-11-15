@@ -26,6 +26,7 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
                     throw new \Exception($this->ifthenpayController->language->get('orderIsPaid'));
                 }
                 $this->ifthenpayController->load->language('extension/payment/ccard');
+                $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['paymentMethod'] = $this->paymentMethod;
                 
                 if ($paymentStatus === 'success') {
                     $this->ifthenpayController->load->model('setting/setting');
@@ -86,7 +87,6 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
                 $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
                 $this->ifthenpayController->response->redirect($this->ifthenpayController->url->link('checkout/success', true));
             } catch (\Throwable $th) {
-                $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['paymentMethod'] = 'ccard';
                 $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderView'] = false;
                 $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
                 $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = '';

@@ -159,7 +159,7 @@ class ControllerExtensionPaymentMultibanco extends Controller
 			$this->load->model('checkout/order');
 			$order_info = $this->model_checkout_order->getOrder($this->session->data['ifthenpayPaymentReturn']['orderId']);
 			if ($order_info['payment_code'] == 'multibanco') {
-				if (!$ifthenpayPaymentReturn['orderView']) {
+				if (!isset($ifthenpayPaymentReturn['orderView']) || !$ifthenpayPaymentReturn['orderView']) {
 					$this->ifthenpayContainer = new IfthenpayContainer();
 					$configData =  $this->model_setting_setting->getSetting('payment_multibanco');
 					$ifthenpayPaymentReturn = $this->ifthenpayContainer

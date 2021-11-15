@@ -145,11 +145,11 @@ class ControllerExtensionPaymentCcard extends Controller
 				if ($order_info['payment_code'] == 'ccard') {
 					if (isset($this->session->data['ifthenpayPaymentReturn']['paymentRedirectUrl'])) {
 						$redirectUrl = $this->session->data['ifthenpayPaymentReturn']['paymentRedirectUrl']['url'];
-						unset($this->session->data['ifthenpayPaymentReturn']['paymentRedirectUrl']);
+						unset($this->session->data['ifthenpayPaymentReturn']);
 						$this->response->redirect($redirectUrl);
 					}
 					
-					if (!$ifthenpayPaymentReturn['orderView']) {
+					if (!isset($ifthenpayPaymentReturn['orderView']) || !$ifthenpayPaymentReturn['orderView']) {
 							$this->ifthenpayContainer = new IfthenpayContainer();
 							$configData =  $this->model_setting_setting->getSetting('payment_ccard');
 							$ifthenpayPaymentReturn = $this->ifthenpayContainer

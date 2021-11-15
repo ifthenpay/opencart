@@ -249,7 +249,7 @@ class ControllerExtensionPaymentMbway extends Controller
 			$this->load->model('checkout/order');
 			$order_info = $this->model_checkout_order->getOrder($this->session->data['ifthenpayPaymentReturn']['orderId']);
 			if ($order_info['payment_code'] == 'mbway') {
-				if (!$ifthenpayPaymentReturn['orderView']) {
+				if (!isset($ifthenpayPaymentReturn['orderView']) || !$ifthenpayPaymentReturn['orderView']) {
 					$this->ifthenpayContainer = new IfthenpayContainer();
 					$configData =  $this->model_setting_setting->getSetting('payment_mbway');
 					$ifthenpayPaymentReturn = $this->ifthenpayContainer
@@ -296,24 +296,6 @@ class ControllerExtensionPaymentMbway extends Controller
 		}
 		$data['scripts'] = $this->document->getScripts();
 	}
-
-	/*public function paymentMethodSave(&$route, &$data, &$output) 
-	{
-		if (isset($this->session->data['payment_method']['code']) && $this->session->data['payment_method']['code'] === 'mbway') {
-			$this->load->language('extension/payment/mbway');
-				$json = [];
-				if (!isset($this->request->cookie['ifthenpayMbwayPhone'])) {
-					$json['error']['warning'] = $this->language->get('error_payment_mbway_input_required');
-				} else if(strlen($this->request->cookie['ifthenpayMbwayPhone']) < 9) {
-					$json['error']['warning'] = $this->language->get('error_payment_mbway_input_invalid');
-					$this->response->setOutput(json_encode($json));
-				} else if (!preg_match('/^([9][1236])[0-9]*$/', $this->request->cookie['ifthenpayMbwayPhone'])) {
-					$json['error']['warning'] = $this->language->get('error_payment_mbway_input_invalid');
-					
-				}
-				$this->response->setOutput(json_encode($json));
-		}
-	}*/
 
 	public function changeOrderStatusFromWebservice(): void
 	{
