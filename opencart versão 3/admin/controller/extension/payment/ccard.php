@@ -211,10 +211,8 @@ class ControllerExtensionPaymentCcard extends Controller {
   {
     $this->load->model('setting/event');
 
-    $this->model_setting_event->addEvent('ifthenpayCheckoutSuccessPage', 'catalog/view/common/success/before', 'extension/payment/ccard/changeSuccessPage');
-    $this->model_setting_event->addEvent('ifthenpayFooter', 'catalog/view/common/footer/before', 'extension/payment/ccard/changeFooterScripts');
-    $this->model_setting_event->addEvent('ifthenpayCatalogHeader', 'catalog/view/common/header/before', 'extension/payment/ccard/changeHeaderStyles');
-    $this->model_setting_event->addEvent('ifthenpayOrderEmailAdd', 'catalog/view/mail/order_add/before', 'extension/payment/ccard/changeMailOrderAdd');     
+    $this->model_setting_event->addEvent('ifthenpayCheckoutSuccessPage' . $this->paymentMethod, 'catalog/view/common/success/before', 'extension/payment/ccard/changeSuccessPage');
+    $this->model_setting_event->addEvent('ifthenpayOrderEmailAdd' . $this->paymentMethod, 'catalog/view/mail/order_add/before', 'extension/payment/ccard/changeMailOrderAdd');     
   }
 
   public function uninstall() {
@@ -224,10 +222,8 @@ class ControllerExtensionPaymentCcard extends Controller {
     $this->ifthenpayContainer = new IfthenpayContainer();
     $this->model_extension_payment_ccard->uninstall($this->ifthenpayContainer, $this->paymentMethod);
     $this->model_setting_setting->deleteSetting('payment_ccard');
-    $this->model_setting_event->deleteEventByCode('ifthenpayCheckoutSuccessPage');
-    $this->model_setting_event->deleteEventByCode('ifthenpayFooter');
-    $this->model_setting_event->deleteEventByCode('ifthenpayCatalogHeader');
-    $this->model_setting_event->deleteEventByCode('ifthenpayOrderEmailAdd');
+    $this->model_setting_event->deleteEventByCode('ifthenpayCheckoutSuccessPage' . $this->paymentMethod);
+    $this->model_setting_event->deleteEventByCode('ifthenpayOrderEmailAdd' . $this->paymentMethod);
   }
 
   protected function validate() {

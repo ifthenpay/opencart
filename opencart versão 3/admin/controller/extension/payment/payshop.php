@@ -212,11 +212,9 @@ class ControllerExtensionPaymentPayshop extends Controller {
   {
     $this->load->model('setting/event');
 
-    $this->model_setting_event->addEvent('ifthenpayCheckoutSuccessPage', 'catalog/view/common/success/before', 'extension/payment/payshop/changeSuccessPage');
-    $this->model_setting_event->addEvent('ifthenpayFooter', 'catalog/view/common/footer/before', 'extension/payment/payshop/changeFooterScripts');
-    $this->model_setting_event->addEvent('ifthenpayCatalogHeader', 'catalog/view/common/header/before', 'extension/payment/payshop/changeHeaderStyles');
+    $this->model_setting_event->addEvent('ifthenpayCheckoutSuccessPage' . $this->paymentMethod, 'catalog/view/common/success/before', 'extension/payment/payshop/changeSuccessPage');
     $this->model_setting_event->addEvent('ifthenpayCheckPayshopOrder', 'admin/model/sale/order/getOrders/after', 'extension/payment/payshop/checkPayshopOrder');
-    $this->model_setting_event->addEvent('ifthenpayOrderEmailAdd', 'catalog/view/mail/order_add/before', 'extension/payment/payshop/changeMailOrderAdd');               
+    $this->model_setting_event->addEvent('ifthenpayOrderEmailAdd' . $this->paymentMethod, 'catalog/view/mail/order_add/before', 'extension/payment/payshop/changeMailOrderAdd');               
   }
 
   public function uninstall() {
@@ -227,8 +225,6 @@ class ControllerExtensionPaymentPayshop extends Controller {
     $this->model_extension_payment_payshop->uninstall($this->ifthenpayContainer, $this->paymentMethod);
     $this->model_setting_setting->deleteSetting('payment_payshop');
     $this->model_setting_event->deleteEventByCode('ifthenpayCheckoutSuccessPage');
-    $this->model_setting_event->deleteEventByCode('ifthenpayFooter');
-    $this->model_setting_event->deleteEventByCode('ifthenpayCatalogHeader');
     $this->model_setting_event->deleteEventByCode('ifthenpayCheckPayshopOrder');
     $this->model_setting_event->deleteEventByCode('ifthenpayOrderEmailAdd');
   }

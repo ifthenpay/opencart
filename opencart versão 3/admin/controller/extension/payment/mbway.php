@@ -222,12 +222,9 @@ class ControllerExtensionPaymentMbway extends Controller {
   {
     $this->load->model('setting/event');
 
-    $this->model_setting_event->addEvent('ifthenpayCheckoutSuccessPage', 'catalog/view/common/success/before', 'extension/payment/mbway/changeSuccessPage');
-    $this->model_setting_event->addEvent('ifthenpayFooter', 'catalog/view/common/footer/before', 'extension/payment/mbway/changeFooterScripts');
-    $this->model_setting_event->addEvent('ifthenpayCatalogHeader', 'catalog/view/common/header/before', 'extension/payment/mbway/changeHeaderStyles');
+    $this->model_setting_event->addEvent('ifthenpayCheckoutSuccessPage' . $this->paymentMethod, 'catalog/view/common/success/before', 'extension/payment/mbway/changeSuccessPage');
     $this->model_setting_event->addEvent('ifthenpayCheckMbwayOrder', 'admin/model/sale/order/getOrders/after', 'extension/payment/mbway/checkMbwayOrder');
-    $this->model_setting_event->addEvent('ifthenpayCheckoutPaymentMethodSave', 'catalog/controller/checkout/payment_method/save/after', 'extension/payment/mbway/paymentMethodSave');
-    $this->model_setting_event->addEvent('ifthenpayOrderEmailAdd', 'catalog/view/mail/order_add/before', 'extension/payment/mbway/changeMailOrderAdd');          
+    $this->model_setting_event->addEvent('ifthenpayOrderEmailAdd' . $this->paymentMethod, 'catalog/view/mail/order_add/before', 'extension/payment/mbway/changeMailOrderAdd');          
   }
 
   public function uninstall() {
@@ -237,12 +234,9 @@ class ControllerExtensionPaymentMbway extends Controller {
     $this->ifthenpayContainer = new IfthenpayContainer();
     $this->model_extension_payment_mbway->uninstall($this->ifthenpayContainer, $this->paymentMethod);
     $this->model_setting_setting->deleteSetting('payment_mbway');
-    $this->model_setting_event->deleteEventByCode('ifthenpayCheckoutSuccessPage');
-    $this->model_setting_event->deleteEventByCode('ifthenpayFooter');
-    $this->model_setting_event->deleteEventByCode('ifthenpayCatalogHeader');
+    $this->model_setting_event->deleteEventByCode('ifthenpayCheckoutSuccessPage' . $this->paymentMethod);
     $this->model_setting_event->deleteEventByCode('ifthenpayCheckMbwayOrder');
-    $this->model_setting_event->deleteEventByCode('ifthenpayCheckoutPaymentMethodSave');
-    $this->model_setting_event->deleteEventByCode('ifthenpayOrderEmailAdd');
+    $this->model_setting_event->deleteEventByCode('ifthenpayOrderEmailAdd' . $this->paymentMethod);
   }
 
   protected function validate() {

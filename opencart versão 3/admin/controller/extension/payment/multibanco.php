@@ -210,11 +210,9 @@ class ControllerExtensionPaymentMultibanco extends Controller {
   {
     $this->load->model('setting/event');
 
-    $this->model_setting_event->addEvent('ifthenpayCheckoutSuccessPage', 'catalog/view/common/success/before', 'extension/payment/multibanco/changeSuccessPage');
-    $this->model_setting_event->addEvent('ifthenpayFooter', 'catalog/view/common/footer/before', 'extension/payment/multibanco/changeFooterScripts');
-    $this->model_setting_event->addEvent('ifthenpayCatalogHeader', 'catalog/view/common/header/before', 'extension/payment/multibanco/changeHeaderStyles');
+    $this->model_setting_event->addEvent('ifthenpayCheckoutSuccessPage' . $this->paymentMethod, 'catalog/view/common/success/before', 'extension/payment/multibanco/changeSuccessPage');
     $this->model_setting_event->addEvent('ifthenpayCheckMultibancoOrder', 'admin/model/sale/order/getOrders/after', 'extension/payment/multibanco/checkMultibancoOrder');     
-    $this->model_setting_event->addEvent('ifthenpayOrderEmailAdd', 'catalog/view/mail/order_add/before', 'extension/payment/multibanco/changeMailOrderAdd');          
+    $this->model_setting_event->addEvent('ifthenpayOrderEmailAdd' . $this->paymentMethod, 'catalog/view/mail/order_add/before', 'extension/payment/multibanco/changeMailOrderAdd');          
   }
 
   public function uninstall() {
@@ -224,11 +222,9 @@ class ControllerExtensionPaymentMultibanco extends Controller {
     $this->ifthenpayContainer = new IfthenpayContainer();
     $this->model_extension_payment_multibanco->uninstall($this->ifthenpayContainer, $this->paymentMethod);
     $this->model_setting_setting->deleteSetting('payment_multibanco');
-    $this->model_setting_event->deleteEventByCode('ifthenpayCheckoutSuccessPage');
-    $this->model_setting_event->deleteEventByCode('ifthenpayFooter');
-    $this->model_setting_event->deleteEventByCode('ifthenpayCatalogHeader');
+    $this->model_setting_event->deleteEventByCode('ifthenpayCheckoutSuccessPage' . $this->paymentMethod);
     $this->model_setting_event->deleteEventByCode('ifthenpayCheckMultibancoOrder');
-    $this->model_setting_event->deleteEventByCode('ifthenpayOrderEmailAdd');
+    $this->model_setting_event->deleteEventByCode('ifthenpayOrderEmailAdd' . $this->paymentMethod);
   }
 
   protected function validate() {
