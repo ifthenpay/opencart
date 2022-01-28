@@ -9,6 +9,7 @@ use Ifthenpay\Utility\Status;
 use Ifthenpay\Callback\CallbackValidate;
 use Ifthenpay\Factory\Callback\CallbackDataFactory;
 use Ifthenpay\Utility\TokenExtra;
+use Ifthenpay\Payments\Gateway;
 
 class CallbackProcess
 {
@@ -42,7 +43,7 @@ class CallbackProcess
     public function setPaymentMethod($paymentMethod)
     {
         $this->paymentMethod = $paymentMethod;
-
+        $this->ifthenpayController->load->model('extension/payment/' . $this->paymentMethod);
         return $this;
     }
 
@@ -78,28 +79,28 @@ class CallbackProcess
     protected function changeIfthenpayPaymentStatus(string $status): void
     {
         switch ($this->request['payment']) {
-            case 'multibanco':
+            case Gateway::MULTIBANCO:
                 $this->ifthenpayController->load->model('extension/payment/multibanco');		
                 $this->ifthenpayController->model_extension_payment_multibanco->updatePaymentStatus(
                     $this->paymentData['id_ifthenpay_multibanco'], 
                     $status
                 );
                 break;
-            case 'mbway':
+            case Gateway::MBWAY:
                 $this->ifthenpayController->load->model('extension/payment/mbway');		
                 $this->ifthenpayController->model_extension_payment_mbway->updatePaymentStatus(
                     $this->paymentData['id_ifthenpay_mbway'], 
                     $status
                 );
                 break;
-            case 'payshop':
+            case Gateway::PAYSHOP:
                 $this->ifthenpayController->load->model('extension/payment/payshop');		
                 $this->ifthenpayController->model_extension_payment_payshop->updatePaymentStatus(
                     $this->paymentData['id_ifthenpay_payshop'], 
                     $status
                 );
                 break;
-            case 'ccard':
+            case Gateway::CCARD:
                 $this->ifthenpayController->load->model('extension/payment/ccard');		
                 $this->ifthenpayController->model_extension_payment_ccard->updatePaymentStatus(
                     $this->paymentData['id_ifthenpay_ccard'], 

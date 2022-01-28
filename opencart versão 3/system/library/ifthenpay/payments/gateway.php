@@ -8,23 +8,38 @@ use ifthenpay\Builders\DataBuilder;
 use ifthenpay\Factory\Payment\PaymentFactory;
 use ifthenpay\Builders\GatewayDataBuilder;
 use Ifthenpay\Request\WebService;
+use Ifthenpay\Payments\Multibanco;
+use Ifthenpay\Utility\Mix;
+
 
 class Gateway
 {
-    private $webservice;
+    const MULTIBANCO = 'multibanco';
+    const MBWAY = 'mbway';
+    const PAYSHOP = 'payshop';
+    const CCARD = 'ccard';
+
+    private $webService;
     private $paymentFactory;
     private $account;
-    private $paymentMethods = ['multibanco', 'mbway', 'payshop', 'ccard'];
+    private $paymentMethods = [self::MULTIBANCO, self::MBWAY, self::PAYSHOP, self::CCARD];
+    private $paymentMethodsCanCancel = [self::MULTIBANCO, self::MBWAY, self::CCARD, self::PAYSHOP];
+    private $paymentMethodsCanOrderBackend = [self::MULTIBANCO, self::MBWAY, self::PAYSHOP];
 
-    public function __construct(WebService $webservice, PaymentFactory $paymentFactory)
+    public function __construct(WebService $webService, PaymentFactory $paymentFactory)
     {
-        $this->webservice = $webservice;
+        $this->webService = $webService;
         $this->paymentFactory = $paymentFactory;
     }
 
     public function getPaymentMethodsType(): array
     {
         return $this->paymentMethods;
+    }
+
+    public function getPaymentMethodsCanCancel(): array
+    {
+        return $this->paymentMethodsCanCancel;
     }
 
     public function checkIfthenpayPaymentMethod(string $paymentMethod): bool
@@ -37,7 +52,7 @@ class Gateway
 
     public function authenticate(string $backofficeKey): void
     {
-            $authenticate = $this->webservice->postRequest(
+            $authenticate = $this->webService->postRequest(
                 'https://www.ifthenpay.com/IfmbWS/ifmbws.asmx/' .
                 'getEntidadeSubentidadeJsonV2',
                 [
@@ -89,11 +104,11 @@ class Gateway
     public function getEntidadeSubEntidade(string $paymentMethod): array
     {
         $list = null;
-        if ($paymentMethod === 'multibanco') {
+        if ($paymentMethod === self::MULTIBANCO) {
             $list = array_filter(
                 array_column($this->account, 'Entidade'),
                 function ($value) {
-                    return is_numeric($value);
+                    return is_numeric($value) || $value === Multibanco::DYNAMIC_MB_ENTIDADE;
                 }
             );
         } else {
@@ -107,19 +122,32 @@ class Gateway
         return $list;
     }
 
+    public function checkDynamicMb(array $userAccount): bool
+    {
+        $multibancoDynamicKey = array_filter(array_column($userAccount, 'Entidade'),
+            function ($value) {
+                return $value === Multibanco::DYNAMIC_MB_ENTIDADE;
+            }
+        );
+        if ($multibancoDynamicKey) {
+            return true;
+        }
+        return false;
+    }
+
     public function getPaymentLogo(string $paymentMethod, string $url): string
 	{
-		$img ='<img src="'. $url . '/image/payment/ifthenpay/' . $paymentMethod . '.svg" style="width: {widthValue};"/>';
+		$img ='<img src="'. $url . '/image/payment/ifthenpay/' . $paymentMethod . '.svg' . '" style="width: {widthValue};"/>';
         
             switch ($paymentMethod) {
-                case 'multibanco':
+                case self::MULTIBANCO:
                     return str_replace('{widthValue}', '30px', $img);
-                case 'mbway':
+                case self::MBWAY:
                     return str_replace('{widthValue}', '50px', $img);
                     break;
-                case 'payshop':
+                case self::PAYSHOP:
                     return str_replace('{widthValue}', '70px', $img);
-                case 'ccard':
+                case self::CCARD:
                     return str_replace('{widthValue}', '65px', $img);
                 default:
             }
@@ -134,5 +162,13 @@ class Gateway
             ->setValor($valor)
             ->build();
         return $paymentMethod->buy();
+    }
+
+    /**
+     * Get the value of paymentMethodsCanOrderBackend
+     */ 
+    public function getPaymentMethodsCanOrderBackend()
+    {
+        return $this->paymentMethodsCanOrderBackend;
     }
 }

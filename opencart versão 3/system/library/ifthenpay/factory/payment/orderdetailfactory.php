@@ -9,50 +9,57 @@ use Ifthenpay\Payments\Data\MbwayOrderDetail;
 use Ifthenpay\Payments\Data\PayshopOrderDetail;
 use Ifthenpay\Payments\Data\MultibancoOrderDetail;
 use Ifthenpay\Contracts\Order\OrderDetailInterface;
+use Ifthenpay\Payments\Gateway;
+use Ifthenpay\Utility\Mix;
 
 
 class OrderDetailFactory extends StrategyFactory
 {    
     public function build(): OrderDetailInterface {
         switch (strtolower($this->type)) {
-            case 'multibanco':
+            case Gateway::MULTIBANCO:
                 return new MultibancoOrderDetail(
                     $this->paymentDefaultData, 
                     $this->gatewayBuilder, 
                     $this->ifthenpayGateway,
                     $this->configData,
                     $this->ifthenpayController,
+                    $this->mix,
                     $this->twigDefaultData
                     
             );
-            case 'mbway':
+            case Gateway::MBWAY:
                 return new MbwayOrderDetail(
                     $this->paymentDefaultData, 
                     $this->gatewayBuilder, 
                     $this->ifthenpayGateway,
                     $this->configData,
                     $this->ifthenpayController,
+                    $this->mix,
                     $this->twigDefaultData
                 );
-            case 'payshop':
+            case Gateway::PAYSHOP:
                 return new PayshopOrderDetail(
                     $this->paymentDefaultData, 
                     $this->gatewayBuilder, 
                     $this->ifthenpayGateway,
                     $this->configData,
                     $this->ifthenpayController,
+                    $this->mix,
                     $this->twigDefaultData
                 );
-            case 'ccard':
+            case Gateway::CCARD:
                 return new CCardOrderDetail(
                     $this->paymentDefaultData, 
                     $this->gatewayBuilder, 
                     $this->ifthenpayGateway,
                     $this->configData,
                     $this->ifthenpayController,
+                    $this->mix,
                     $this->twigDefaultData,
                     $this->token,
-                    $this->status
+                    $this->status,
+                    
                 );
             default:
                 throw new \Exception('Unknown Order Detail Class');

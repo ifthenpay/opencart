@@ -17,9 +17,9 @@ class MbWay extends Payment implements PaymentMethodInterface
     private $telemovel;
     private $mbwayPedido;
 
-    public function __construct(GatewayDataBuilder $data, string $orderId, string $valor, WebService $webservice = null)
+    public function __construct(GatewayDataBuilder $data, string $orderId, string $valor, WebService $webService)
     {
-        parent::__construct($orderId, $valor, $data, $webservice);
+        parent::__construct($orderId, $valor, $data, $webService);
         $this->mbwayKey = $data->getData()->mbwayKey;
         $this->telemovel = $data->getData()->telemovel;
     }
@@ -40,7 +40,7 @@ class MbWay extends Payment implements PaymentMethodInterface
 
     private function setReferencia(): void
     {
-        $this->mbwayPedido = $this->webservice->postRequest(
+        $this->mbwayPedido = $this->webService->postRequest(
             'https://ifthenpay.com/mbwayws/IfthenPayMBW.asmx/SetPedidoJSON',
             [
                     'MbWayKey' => $this->mbwayKey,

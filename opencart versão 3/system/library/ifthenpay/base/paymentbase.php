@@ -8,6 +8,7 @@ use Ifthenpay\Payments\Gateway;
 use Ifthenpay\Builders\TwigDataBuilder;
 use Ifthenpay\Builders\GatewayDataBuilder;
 use Ifthenpay\Builders\DataBuilder;
+use Ifthenpay\Utility\Mix;
 
 
 abstract class PaymentBase
@@ -15,7 +16,7 @@ abstract class PaymentBase
     protected $dataConfig;
     protected $gatewayBuilder;
     protected $paymentDefaultData;
-    protected $smartyDefaultData;
+    protected $twigDefaultData;
     protected $paymentGatewayResultData;
     protected $ifthenpayGateway;
     protected $paymentDataFromDb;
@@ -24,6 +25,7 @@ abstract class PaymentBase
     protected $paymentMethodAlias;
     protected $ifthenpayController;
     protected $redirectUrl;
+    protected $mix;
 
     public function __construct(
         DataBuilder $paymentDefaultData,
@@ -31,14 +33,16 @@ abstract class PaymentBase
         Gateway $ifthenpayGateway,
         array $configData,
         $ifthenpayController,
-        TwigDataBuilder $twigDefaultData = null
+        Mix $mix,
+        TwigDataBuilder $twigDataBuilder = null
     ) {
         $this->gatewayBuilder = $gatewayBuilder;
         $this->paymentDefaultData = $paymentDefaultData->getData();
-        $this->twigDefaultData = $twigDefaultData;
+        $this->twigDefaultData = $twigDataBuilder;
         $this->ifthenpayGateway = $ifthenpayGateway;
         $this->configData = $configData;
         $this->ifthenpayController = $ifthenpayController;
+        $this->mix = $mix;
     }
 
     public function getRedirectUrl(): array

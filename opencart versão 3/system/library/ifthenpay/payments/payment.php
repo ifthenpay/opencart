@@ -6,21 +6,20 @@ namespace Ifthenpay\Payments;
 
 use Ifthenpay\Builders\DataBuilder;
 use Ifthenpay\Request\WebService;
-use Ifthenpay\Contracts\Models\PaymentModelInterface;
 
 class Payment
 {
     protected $orderId;
     protected $valor;
     protected $dataBuilder;
-    protected $webservice;
+    protected $webService;
 
-    public function __construct(string $orderId, string $valor, DataBuilder $dataBuilder, WebService $webservice = null)
+    public function __construct(string $orderId, string $valor, DataBuilder $dataBuilder, WebService $webService)
     {
         $this->orderId = $orderId;
         $this->valor = $this->formatNumber(number_format(floatval($valor), 2, '.', ''));
         $this->dataBuilder = $dataBuilder;
-        $this->webservice = $webservice;
+        $this->webService = $webService;
     }
 
     protected function formatNumber(string $number) : string
@@ -69,11 +68,5 @@ class Payment
         }
 
         return $valorTmp;
-    }
-
-    protected function checkIfPaymentExist(string $orderId, PaymentModelInterface $paymentModel)
-    {
-        $paymentData = $paymentModel->getByOrderId($orderId);
-        return !empty($paymentData) ? $paymentData : false;
     }
 }

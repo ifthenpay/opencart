@@ -13,4 +13,5 @@ $_['ifthenpayPaymentPanelIdPedido'] = 'IdRequest';
 $_['paymentConfirmedSuccess'] = 'Payment made with success.';
 $_['paymentSecurityToken'] = 'Payment security token is invalid';
 $_['orderIsPaid'] = 'Order has already been paid';
+$_['ccardOrderExpiredCanceled'] = 'Order canceled because Credit Card payment expired.';
 ?>

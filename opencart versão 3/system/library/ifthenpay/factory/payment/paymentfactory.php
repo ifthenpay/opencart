@@ -14,6 +14,7 @@ use Ifthenpay\Payments\Multibanco;
 use Ifthenpay\Builders\DataBuilder;
 use Ifthenpay\Contracts\Payments\PaymentMethodInterface;
 use Ifthenpay\Request\WebService;
+use Ifthenpay\Payments\Gateway;
 
 
 class PaymentFactory extends Factory
@@ -21,28 +22,26 @@ class PaymentFactory extends Factory
     private $data;
     private $orderId;
     private $valor;
-    private $dataBuilder;
-    private $webservice;
+    private $webService;
 
-    public function __construct(Container $ioc, DataBuilder $dataBuilder, WebService $webservice = null)
+    public function __construct(Container $ioc, WebService $webService)
 	{
         parent::__construct($ioc);
-        $this->dataBuilder = $dataBuilder;
-        $this->webservice = $webservice;
+        $this->webService = $webService;
     }
 
     
     public function build(): PaymentMethodInterface
     {
         switch ($this->type) {
-            case 'multibanco':
-                return new Multibanco($this->data, $this->orderId, $this->valor, $this->dataBuilder);
-            case 'mbway':
-                return new MbWay($this->data, $this->orderId, $this->valor, $this->webservice, $this->dataBuilder);
-            case 'payshop':
-                return new Payshop($this->data, $this->orderId, $this->valor, $this->webservice, $this->dataBuilder);
-            case 'ccard':
-                return new CCard($this->data, $this->orderId, $this->valor, $this->webservice, $this->dataBuilder);
+            case Gateway::MULTIBANCO:
+                return new Multibanco($this->data, $this->orderId, $this->valor, $this->webService);
+            case Gateway::MBWAY:
+                return new MbWay($this->data, $this->orderId, $this->valor, $this->webService);
+            case Gateway::PAYSHOP:
+                return new Payshop($this->data, $this->orderId, $this->valor, $this->webService);
+            case Gateway::CCARD:
+                return new CCard($this->data, $this->orderId, $this->valor, $this->webService);
             default:
                 throw new \Exception("Unknown Payment Class");
         }

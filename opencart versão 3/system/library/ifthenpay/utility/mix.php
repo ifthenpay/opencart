@@ -8,7 +8,7 @@ class Mix {
    
     public function create(string $path): string
     {
-        $manifestPath = DIR_SYSTEM .'library/ifthenpay/utility/assetversionlist.json';
+        $manifestPath = DIR_SYSTEM .'library/ifthenpay/Utility/assetversionlist.json';
         if (!file_exists($manifestPath)) {
             throw new \Exception('assetVersionList file not exist');
         }

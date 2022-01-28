@@ -30,6 +30,9 @@ $_['newUpdateAvailable'] = 'Nova atualização disponível!';
 $_['moduleUpToDate'] = 'O módulo está atualizado!';
 $_['downloadUpdateModule'] = 'Download Update Módulo';
 $_['acess_user_documentation_link'] = 'https://www.ifthenpay.com/downloads/opencart/opencart_user_guide_pt.pdf';
+$_['entry_minimum_value'] = 'Valor Mínimo da Encomenda';
+$_['activate_cancelCcardOrder'] = 'Cancelar Encomenda Cartão de Crédito';
+$_['ccardOrderCancel_help'] = 'Cancele a encomenda Cartão de Crédito após os dados de pagamento  expirarem.';
 
 
 // Entry
@@ -49,7 +52,16 @@ $_['entry_antiPhishingKey'] = 'Chave Anti-Phishing';
 $_['entry_urlCallback'] = 'Url de Callback';
 $_['callbackIsActivated'] = 'Callback ativado';
 $_['callbackNotActivated'] = 'Callback não ativado';
-$_['choose_new_entity_subEntity'] = 'Escolher Nova Entidade/SubEntidade';
+$_['show_paymentMethod_logo'] = 'Mostrar o Logotipo do Método de Pagamento no Checkout';
+$_['request_new_account_success'] = 'Email a solicitar nova conta enviado com sucesso.';
+$_['request_new_account_error'] = 'Erro ao enviar email a solicitar nova conta.';
+$_['text_cron_1'] = 'Cron Job\'s são tarefas agendadas e executadas periodicamente. Para configurar o seu servidor, pode ler a <a href="http://docs.opencart.com/extension/cron/" target="_blank" class="alert-link"> documentação do opencart </ a >';
+$_['text_cron_2'] = 'Precisa definir o Cron para ser executado a cada minuto.';
+$_['text_cron_3'] = 'Quando o callback falhar pode definir um cron job para consultar o estado do pagamento.';
+$_['text_cron_2'] = 'Precisa definir o Cron para ser executado todos os dias à 1h:00m.';
+$_['entry_cron'] = 'Cron URL';
+$_['button_copy'] = 'Copy';
+$_['text_instruction'] = 'CRON Instruções';
 
 // Error
 $_['error_permission'] = 'Aviso: Não tem permissão para modificar o módulo MB WAY!';

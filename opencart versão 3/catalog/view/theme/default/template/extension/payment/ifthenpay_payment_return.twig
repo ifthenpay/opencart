@@ -3,16 +3,6 @@
 		{{paymentReturnTitle}}
 	</p>
 	{% if paymentMethod == 'mbway' and mbwayCountdownShow %}
-		{% if mbwayResend_success %}
-			<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ mbwayResend_success }}
-			<button type="button" class="close" data-dismiss="alert">&times;</button>
-			</div>
-		{% endif %}
-		{% if mbwayResend_error %}
-			<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ mbwayResend_error }}
-			<button type="button" class="close" data-dismiss="alert">&times;</button>
-			</div>
-		{% endif %}
 		<div class="panel mbwayCountdownPanel">
 			<div class="panel-body">
 				<h3>{{paymentReturnMbwayConfirmPayment}}</h3>
@@ -54,7 +44,7 @@
 {{status}}
 	<div id="orderErrorPanel" class="panel">
 		<div class="panel-heading">
-			<img src="catalog/view/theme/default/image/payment/ifthenpay/svg/error.svg" alt="error icon">
+			<img src="catalog/view/theme/default/image/ifthenpay/svg/error.svg" alt="error icon">
 		</div>
 		<div class="panel-body">
 			<h3>{{paymentReturnErrorTitle}}</h3>

@@ -16,16 +16,17 @@ namespace Ifthenpay\Payments;
 use Ifthenpay\Request\WebService;
 use Ifthenpay\Builders\GatewayDataBuilder;
 use Ifthenpay\Contracts\Payments\PaymentStatusInterface;
+use Ifthenpay\Payments\Gateway;
 
 class PayshopPaymentStatus implements PaymentStatusInterface
 {
     private $data;
     private $payshopPedido;
-    private $webservice;
+    private $webService;
 
-    public function __construct(WebService $webservice)
+    public function __construct(WebService $webService)
     {
-        $this->webservice = $webservice;
+        $this->webService = $webService;
     }
 
     private function checkEstado(): bool
@@ -38,11 +39,11 @@ class PayshopPaymentStatus implements PaymentStatusInterface
 
     private function getPayshopEstado(): void
     {
-        $this->payshopPedido = $this->webservice->postRequest(
+        $this->payshopPedido = $this->webService->postRequest(
             'https://www.ifthenpay.com/IfmbWS/WsIfmb.asmx/GetPaymentsJson',
                 [
                     'Chavebackoffice' => $this->data->getData()->backofficeKey,
-                    'Entidade' => 'PAYSHOP',
+                    'Entidade' => strtoupper(Gateway::PAYSHOP),
                     'Subentidade' => $this->data->getData()->payshopKey,
                     'dtHrInicio' => '',
                     'dtHrFim' => '',

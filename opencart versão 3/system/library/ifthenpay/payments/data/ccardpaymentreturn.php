@@ -6,9 +6,12 @@ namespace Ifthenpay\Payments\Data;
 
 use Ifthenpay\Contracts\Payments\PaymentReturnInterface;
 use Ifthenpay\Base\Payments\CCardBase;
+use Ifthenpay\Traits\Payments\ConvertCurrency;
+use Ifthenpay\Payments\Gateway;
 
 class CCardPaymentReturn extends CCardBase implements PaymentReturnInterface
 {
+    use ConvertCurrency;
 
     public function setTwigVariables(): void
     {
@@ -19,20 +22,11 @@ class CCardPaymentReturn extends CCardBase implements PaymentReturnInterface
     public function getPaymentReturn()
     {
         $this->setGatewayBuilderData();
-        if ($this->paymentDefaultData->order['currency_code'] !== 'EUR') {
-            $orderTotal =  $this->ifthenpayController->currency->format($this->paymentDefaultData->order['total'], 'EUR', '', false);  
-        } else {
-            $orderTotal = $this->ifthenpayController->currency->format($this->paymentDefaultData->order['total'], 
-                $this->paymentDefaultData->order['currency_code'], 
-                $this->paymentDefaultData->order['currency_value'], 
-                false
-            );
-        }
         $this->paymentGatewayResultData = $this->ifthenpayGateway->execute(
             $this->paymentDefaultData->paymentMethod,
             $this->gatewayBuilder,
             strval($this->paymentDefaultData->order['order_id']),
-            strval($orderTotal)
+            strval($this->convertToCurrency($this->paymentDefaultData->order, $this->ifthenpayController))
         )->getData();
         $this->saveToDatabase();
         $this->setTwigVariables();

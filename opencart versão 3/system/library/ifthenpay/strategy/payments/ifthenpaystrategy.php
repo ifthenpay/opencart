@@ -9,9 +9,13 @@ namespace Ifthenpay\Strategy\Payments;
 use Ifthenpay\Builders\DataBuilder;
 use Ifthenpay\Builders\TwigDataBuilder;
 use Ifthenpay\Factory\Payment\StrategyFactory;
+use Ifthenpay\Traits\Payments\FormatPaymentValue;
+use Ifthenpay\Utility\Mix;
 
 class IfthenpayStrategy
 {
+    use FormatPaymentValue;
+
     protected $paymentDefaultData;
     protected $twigDefaultData;
     protected $emailDefaultData;
@@ -20,19 +24,20 @@ class IfthenpayStrategy
     protected $ifthenpayController;
     protected $factory;
     protected $configData;
-
-
-
+    protected $mix;
+    
     public function __construct(
         DataBuilder $paymentDataBuilder,
         TwigDataBuilder $twigDataBuilder, 
-        StrategyFactory $factory
+        StrategyFactory $factory,
+        Mix $mix
     )
     {
         $this->paymentDefaultData = $paymentDataBuilder;
         $this->twigDefaultData = $twigDataBuilder;
         $this->emailDefaultData = [];
         $this->factory = $factory;
+        $this->mix = $mix;
     }
 
     protected function getPaymentMethodName(string $paymentCode): string 
@@ -45,6 +50,14 @@ class IfthenpayStrategy
     {
         $this->paymentDefaultData->setOrder($this->order);
         $this->paymentDefaultData->setPaymentMethod($this->getPaymentMethodName($this->order['payment_code']));
+    }
+
+    protected function setDefaultTwigData(): void
+    {
+        $this->ifthenpayController->load->language('extension/payment/' . $this->order['payment_code']);
+        $this->twigDefaultData->setOrderId($this->order['order_id']);
+        $this->twigDefaultData->setTotalToPay($this->paymentValueFormated);
+        $this->twigDefaultData->setPaymentMethod($this->getPaymentMethodName($this->order['payment_code']));        
     }
 
     /**
@@ -81,18 +94,5 @@ class IfthenpayStrategy
         $this->ifthenpayController = $ifthenpayController;
         $this->setPaymentValueFormated();        
         return $this;
-    }
-
-    /**
-     * Set the value of paymentValueFormated
-     *
-     * @return  self
-     */ 
-    private function setPaymentValueFormated()
-    {
-        $this->paymentValueFormated = $this->ifthenpayController->currency->format(
-            $this->order['total'], 
-            $this->order['currency_code'], ''
-        );
     }
 }

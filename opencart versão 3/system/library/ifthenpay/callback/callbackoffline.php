@@ -21,6 +21,7 @@ class CallbackOffline extends CallbackProcess implements CallbackProcessInterfac
                 $this->setOrder();
                 $this->callbackValidate->setHttpRequest($this->request)
                 ->setOrder($this->order)
+                ->setConfigPaidStatus($this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_order_status_id'))
                 ->setConfigurationChaveAntiPhishing($this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_chaveAntiPhishing'))
                 ->setPaymentDataFromDb($this->paymentData)
                 ->validate();

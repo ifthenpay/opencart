@@ -6,7 +6,7 @@ namespace Ifthenpay\Builders;
 
 use Ifthenpay\Builders\DataBuilder;
 use Ifthenpay\Contracts\Builders\TwigDataBuilderInterface;
-
+use Template\Twig;
 
 class TwigDataBuilder extends DataBuilder implements TwigDataBuilderInterface
 {
@@ -145,6 +145,12 @@ class TwigDataBuilder extends DataBuilder implements TwigDataBuilderInterface
     public function setIfthenpayPaymentPanelTotalToPay(string $value): TwigDataBuilderInterface
     {
         $this->data->ifthenpayPaymentPanelTotalToPay = $value;
+        return $this;
+    }
+
+    public function setIfthenpayPaymentPanelIdPedido(string $value): TwigDataBuilderInterface
+    {
+        $this->data->ifthenpayPaymentPanelIdPedido = $value;
         return $this;
     }
 

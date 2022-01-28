@@ -12,11 +12,11 @@ class MbWayPaymentStatus implements PaymentStatusInterface
 {
     private $data;
     private $mbwayPedido;
-    private $webservice;
+    private $webService;
 
-    public function __construct(WebService $webservice)
+    public function __construct(WebService $webService)
     {
-        $this->webservice = $webservice;
+        $this->webService = $webService;
     }
 
     private function checkEstado(): bool
@@ -29,7 +29,7 @@ class MbWayPaymentStatus implements PaymentStatusInterface
 
     private function getMbwayEstado(): void
     {
-        $this->mbwayPedido = $this->webservice->postRequest(
+        $this->mbwayPedido = $this->webService->postRequest(
             'https://mbway.ifthenpay.com/IfthenPayMBW.asmx/EstadoPedidosJSON',
             [
                     'MbWayKey' => $this->data->getData()->mbwayKey,

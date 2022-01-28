@@ -6,7 +6,7 @@ namespace Ifthenpay\Payments\Data;
 
 use Ifthenpay\Base\Payments\PayshopBase;
 use Ifthenpay\Contracts\Payments\PaymentReturnInterface;
-
+use Ifthenpay\Payments\Gateway;
 
 
 class PayshopPaymentReturn extends PayshopBase implements PaymentReturnInterface

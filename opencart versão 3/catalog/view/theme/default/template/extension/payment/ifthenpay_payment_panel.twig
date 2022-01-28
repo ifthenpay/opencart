@@ -6,7 +6,7 @@
         {% if paymentMethod == 'multibanco' %}
             <img src="image/payment/ifthenpay/multibanco.svg" alt="multibanco logotipo" style="width:60%;">
         {% else %}
-            <img src="image/payment/ifthenpay/{{paymentMethod}}.svg" alt="payshop logotipo">
+            <img src="image/payment/ifthenpay/{{paymentMethod}}.svg" alt="{{paymentMethod}} logotipo" style="width:100%;">
         {% endif %}
     </div>
     <div class="paymentData">
@@ -20,10 +20,17 @@
                     {{ifthenpayPaymentPanelReferencia}}
                     <span class="badge">{{referencia}}</span>
                 </li>
+                {% if validade %}
+                    <li class="list-group-item">
+                        {{ifthenpayPaymentPanelValidade}}
+                        <span class="badge">{{validade}}</span>
+                    </li>
+                {% endif %}
                 <li class="list-group-item">
                     {{ifthenpayPaymentPanelTotalToPay}}
                     <span class="badge">{{totalToPay}}</span>
                 </li>
+                
             </ul>
         {% elseif paymentMethod == 'mbway' %}
             <ul class="list-group">

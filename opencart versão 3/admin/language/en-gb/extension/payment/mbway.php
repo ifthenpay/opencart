@@ -1,5 +1,4 @@
 <?php
-
 // Heading
 $_['heading_title'] = 'MB WAY';
 $_['heading_title_multibanco'] = 'MB WAY Configuration';
@@ -8,7 +7,7 @@ $_['heading_title_multibanco'] = 'MB WAY Configuration';
 $_['text_extension'] = 'Extensions';
 $_['text_payment'] = 'Payment';
 $_['text_success'] = 'Success: You have modified MB WAY payment module!';
-$_['text_mbway'] = '<a onclick="window.open(\'https:www.ifthenpay.com\');"><img src="view/image/payment/ifthenpay/mbway.svg" class="mbwayLogo" alt="MB WAY Logo" title="MB WAY" style="border: 1px solid #EEEEEE; max-width: 15%;" /><br /></a>';
+$_['text_mbway'] = '<a onclick="window.open(\'https:www.ifthenpay.com\');"><img src="view/image/payment/ifthenpay/mbway.svg" class="mbwayLogo" alt="MB WAY Logo" title="MB WAY" style="border: 1px solid #EEEEEE; max-width: 30%;" /><br /></a>';
 $_['acess_user_documentation'] = 'Access the user documentation.';
 $_['create_account_now'] = 'Create an account now!';
 
@@ -26,7 +25,11 @@ $_['newUpdateAvailable'] = 'New update is available!';
 $_['moduleUpToDate'] = 'Your module is up to date!';
 $_['downloadUpdateModule'] = 'Download Update Module';
 $_['acess_user_documentation_link'] = 'https://www.ifthenpay.com/downloads/opencart/opencart_user_guide_en.pdf';
-
+$_['entry_minimum_value'] = 'Order Minimum Value';
+$_['error_payment_mbway_input_required'] = 'MB WAY phone is required!';
+$_['error_payment_mbway_input_invalid'] = 'MB WAY phone is invalid!';
+$_['mbwayPhoneNumber'] = 'MB WAY Phone Number';
+$_['adminResendMbwayNotification'] = 'Resend MB WAY notification';
 
 // Entry
 $_['activate_callback'] = 'Activate Callback';
@@ -42,12 +45,17 @@ $_['entry_sort_order'] = 'Sort Order:';
 $_['entry_mbway_mbwayKey'] = 'Mb WAY key';
 $_['choose_entity'] = 'Choose Entity';
 $_['activate_cancelMbwayOrder'] = 'Cancel MB WAY Order';
-$_['mbwayOrderCancel_help'] = 'Cancel MB WAY order after notification expire. This will only work, if the callback is activated.';
+$_['mbwayOrderCancel_help'] = 'Cancel MB WAY order after notification expire.';
 $_['entry_antiPhishingKey'] = 'Anti-Phishing key';
 $_['entry_urlCallback'] = 'Callback Url';
 $_['callbackIsActivated'] = 'Callback is activated';
 $_['callbackNotActivated'] = 'Callback not activated';
-$_['choose_new_entity_subEntity'] = 'Choose New Entity/SubEntity';
+$_['show_paymentMethod_logo'] = 'Show Payment Method Logo on Checkout';
+$_['request_new_account_success'] = 'Email requesting new account send with success.';
+$_['request_new_account_error'] = 'Error sending email requesting new account.';
+$_['dontHaveAccount_mbway'] = 'Don\'t have an MB WAY account?';
+$_['requestAccount_mbway'] = 'Request MB WAY account creation';
+
 
 // Error
 $_['error_permission'] = 'Warning: No permission to modify  MB WAY!';
@@ -59,7 +67,9 @@ $_['reset_account_success'] = 'Ifthenpay account reseted with success!';
 $_['reset_account_error'] = 'Error Reseting Ifthenpay Accounts!';
 $_['text_cron_1'] = 'Cron Job\'s are scheduled tasks that are run periodically. To setup your servers to use cron job you can read the <a href="http://docs.opencart.com/extension/cron/" target="_blank" class="alert-link">opencart documentation</a> page.';
 $_['text_cron_2'] = 'You need to set your Cron task to run every minute.';
+$_['text_cron_3'] = 'When the callback fails, you can set a cron job to check the payment status.';
+$_['text_cron_4'] = 'You need to set Cron to run every day at 1:00 am.';
 $_['entry_cron'] = 'Cron URL';
 $_['button_copy'] = 'Copy';
-$_['text_instruction']     = 'CRON Instructions';
+$_['text_instruction'] = 'CRON Instructions';
 ?>

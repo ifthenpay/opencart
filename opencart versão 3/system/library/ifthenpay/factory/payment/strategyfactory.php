@@ -11,6 +11,7 @@ use Ifthenpay\Payments\Gateway;
 use Illuminate\Container\Container;
 use Ifthenpay\Builders\TwigDataBuilder;
 use Ifthenpay\Builders\GatewayDataBuilder;
+use Ifthenpay\Utility\Mix;
 
 
 abstract class StrategyFactory extends Factory
@@ -20,13 +21,13 @@ abstract class StrategyFactory extends Factory
     protected $gatewayBuilder;
     protected $ifthenpayGateway;
     protected $configData;
-    protected $utility;
-    protected $ifthenpayController;
+    protected $mix;
     
     public function __construct(
         Container $ioc,
         GatewayDataBuilder $gatewayBuilder,
         Gateway $ifthenpayGateway,
+        Mix $mix,
         Token $token = null,
         Status $status = null
     )
@@ -34,6 +35,7 @@ abstract class StrategyFactory extends Factory
         parent::__construct($ioc);
         $this->gatewayBuilder = $gatewayBuilder;
         $this->ifthenpayGateway = $ifthenpayGateway;
+        $this->mix = $mix;
         $this->token = $token;
         $this->status = $status;
     }
@@ -73,17 +75,6 @@ abstract class StrategyFactory extends Factory
     {
         $this->configData = $configData;
 
-        return $this;
-    }
-
-    /**
-     * Set the value of ifthenpayController
-     *
-     * @return  self
-     */ 
-    public function setIfthenpayController($ifthenpayController)
-    {
-        $this->ifthenpayController = $ifthenpayController;
         return $this;
     }
 }

@@ -11,14 +11,11 @@ use Ifthenpay\Contracts\Payments\PaymentReturnInterface;
 class IfthenpayPaymentReturn extends IfthenpayStrategy
 {
 
-    private function setDefaultTwigData(): void
+    protected function setDefaultTwigData(): void
     {
-        $this->ifthenpayController->load->language('extension/payment/' . $this->order['payment_code']);
-        $this->twigDefaultData->setOrderId($this->order['order_id']);
+        parent::setDefaultTwigData();
         $this->twigDefaultData->setPaymentReturnErrorTitle($this->ifthenpayController->language->get('paymentReturnErrorTitle'));
         $this->twigDefaultData->setPaymentReturnErrorText($this->ifthenpayController->language->get('paymentReturnErrorText')); 
-        $this->twigDefaultData->setTotalToPay($this->paymentValueFormated);
-        $this->twigDefaultData->setPaymentMethod($this->getPaymentMethodName($this->order['payment_code']));
         $this->twigDefaultData->setPaymentReturnTitle($this->ifthenpayController->language->get('paymentReturnTitle'));
         $this->twigDefaultData->setIfthenpayPaymentPanelTotalToPay($this->ifthenpayController->language->get('ifthenpayPaymentPanelTotalToPay'));
         $this->twigDefaultData->setOrderView(true);

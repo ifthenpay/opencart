@@ -9,19 +9,19 @@ use Ifthenpay\Request\WebService;
 
 class IfthenpayUpgrade
 {
-    const MODULE_VERSION = '1.0.5';
-    private $webservice;
+    const MODULE_VERSION = '1.1.0';
+    private $webService;
     
 
-	public function __construct(WebService $webservice)
+	public function __construct(WebService $webService)
 	{
-        $this->webservice = $webservice;
+        $this->webService = $webService;
 	}
 
     
     public function checkModuleUpgrade(): array
     {
-        $response = $this->webservice->getRequest('https://ifthenpay.com/modulesUpgrade/opencart/upgrade.json')->getResponseJson();
+        $response = $this->webService->getRequest('https://ifthenpay.com/modulesUpgrade/opencart/upgrade.json')->getResponseJson();
         if (version_compare(str_replace('v', '', $response['version']), self::MODULE_VERSION, '>')) {
             return [
                 'upgrade' => true,

@@ -22,10 +22,22 @@ $_['sandbox_help'] = 'Activate sandbox mode, to test the module without activati
 $_['sandbox_mode'] = 'Sandbox Mode';
 $_['dontHaveAccount_ccard'] = 'Don\'t have an Credit Card account?';
 $_['requestAccount_ccard'] = 'Request Credit Card account creation';
+$_['activate_cancelCcardOrder'] = 'Cancel Credit Card Order';
+$_['ccardOrderCancel_help'] = 'Cancel Credit Card order after payment data expire.';
 $_['newUpdateAvailable'] = 'New update is available!';
 $_['moduleUpToDate'] = 'Your module is up to date!';
 $_['downloadUpdateModule'] = 'Download Update Module';
 $_['acess_user_documentation_link'] = 'https://www.ifthenpay.com/downloads/opencart/opencart_user_guide_en.pdf';
+$_['entry_minimum_value'] = 'Order Minimum Value';
+$_['request_new_account_success'] = 'Email requesting new account send with success.';
+$_['request_new_account_error'] = 'Error sending email requesting new account.';
+$_['text_cron_1'] = 'Cron Job\'s are scheduled tasks that are run periodically. To setup your servers to use cron job you can read the <a href="http://docs.opencart.com/extension/cron/" target="_blank" class="alert-link">opencart documentation</a> page.';
+$_['text_cron_2'] = 'You need to set your Cron task to run every minute.';
+$_['text_cron_3'] = 'When the callback fails, you can set a cron job to check the payment status.';
+$_['text_cron_4'] = 'You need to set Cron to run every day at 1:00 am.';
+$_['entry_cron'] = 'Cron URL';
+$_['button_copy'] = 'Copy';
+$_['text_instruction'] = 'CRON Instructions';
 
 
 // Entry
@@ -45,7 +57,7 @@ $_['entry_antiPhishingKey'] = 'Anti-Phishing key';
 $_['entry_urlCallback'] = 'Callback Url';
 $_['callbackIsActivated'] = 'Callback is activated';
 $_['callbackNotActivated'] = 'Callback not activated';
-$_['choose_new_entity_subEntity'] = 'Choose New Entity/SubEntity';
+$_['show_paymentMethod_logo'] = 'Show Payment Method Logo on Checkout';
 
 // Error
 $_['error_permission'] = 'Warning: No permission to modify Credit Card!';

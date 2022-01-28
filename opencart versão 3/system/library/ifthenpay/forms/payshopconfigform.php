@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Ifthenpay\Forms;
 
 use Ifthenpay\Forms\ConfigForm;
+use Ifthenpay\Payments\Gateway;
 
 class PayshopConfigForm extends ConfigForm
 {
-    protected $paymentMethod = 'payshop';
+    protected $paymentMethod = Gateway::PAYSHOP;
 
     public function setOptions(): void
     {
@@ -27,14 +28,18 @@ class PayshopConfigForm extends ConfigForm
 
     public function getForm(): array
     {
-        $this->setOptions();
-        $this->setHasCallback();
         $this->data['entry_payshop_payshopKey'] = $this->ifthenpayController->language->get('entry_payshop_payshopKey');
         $this->data['entry_payshop_validade'] = $this->ifthenpayController->language->get('entry_payshop_validade');
         $this->data['payshop_validade_helper'] = $this->ifthenpayController->language->get('payshop_validade_helper');
-        $this->setGatewayBuilderData(); 
-        $this->setIfthenpayCallback();         
-
+        if ($this->ifthenpayController->config->get('payment_payshop_userPaymentMethods') && 
+        $this->ifthenpayController->config->get('payment_payshop_userAccount')) {
+            $this->setOptions();
+            $this->setHasCallback();
+            $this->setGatewayBuilderData(); 
+            $this->setIfthenpayCallback();
+        } else {
+            $this->setDefaultGatewayBuilderData();
+        }
         return $this->data;
     }
 
@@ -44,10 +49,10 @@ class PayshopConfigForm extends ConfigForm
             $this->data['payment_payshop_payshopKey'] = $this->ifthenpayController->request->post['payment_payshop_payshopKey'];
         } else if (isset($this->configData['payment_payshop_payshopKey'])) {
             $this->data['payment_payshop_payshopKey'] = $this->configData['payment_payshop_payshopKey'];
+            $this->data['payshop_payshopKeys'] = $this->options;
         } else {
             $this->data['payshop_payshopKeys'] = $this->options;
         }
-        
         if (isset($this->ifthenpayController->request->post['payment_payshop_validade'])) {
             $this->data['payment_payshop_validade'] = $this->ifthenpayController->request->post['payment_payshop_validade'];
         } else if (isset($this->configData['payment_payshop_validade'])) {
@@ -61,12 +66,12 @@ class PayshopConfigForm extends ConfigForm
         }
     }
 
-    public function processForm(): void
+   /* public function processForm(): void
     {
         $this->setHasCallback();
         $this->setGatewayBuilderData();
         $this->setIfthenpayCallback();
-    }
+    }*/
 
     public function deleteConfigValues(): void
     {

@@ -36,7 +36,7 @@
 						{% if ifthenpayPayments %}
 							<div class="col-lg-9"> 
 								<h4>{{dontHaveAccount_payshop }}</h4>
-								<a class="btn btn-primary" href="{{actionRequestAccount}}" role="button">{{requestAccount_payshop}}</a>
+								<a class="btn btn-primary" id="requestNewAccount" href="{{actionRequestAccount}}" role="button">{{requestAccount_payshop}}</a>
 							</div>
 						{% else %}
 							<div class="form-group">
@@ -53,48 +53,81 @@
 									</select>
 								</div>
 							</div>
-							<div class="form-group">
-								<label class="col-sm-2 control-label" for="input-status">{{ sandbox_mode }}</label>
-								<div class="col-sm-10">
-									<select name="payment_payshop_sandboxMode" id="input-status" class="form-control">
-										{% if payment_payshop_sandboxMode %}
-										    <option value="1" selected="selected">{{ text_enabled }}</option>
-										    <option value="0">{{ text_disabled }}</option>
-										{% else %}
-										    <option value="1">{{ text_enabled }}</option>
-										    <option value="0" selected="selected">{{ text_disabled }}</option>
-										{% endif %}
-									</select>
-									<small id="sandboxHelp" class="form-text text-muted">{{ sandbox_help }}</small>
-								</div>
-							</div>
 							{% if hasCallback %}
-							<div class="form-group">
-								<label class="col-sm-2 control-label" for="input-status">{{ activate_callback }}</label>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-status">{{ sandbox_mode }}</label>
+									<div class="col-sm-10">
+										<select name="payment_payshop_sandboxMode" id="input-status" class="form-control">
+											{% if payment_payshop_sandboxMode %}
+												<option value="1" selected="selected">{{ text_enabled }}</option>
+												<option value="0">{{ text_disabled }}</option>
+											{% else %}
+												<option value="1">{{ text_enabled }}</option>
+												<option value="0" selected="selected">{{ text_disabled }}</option>
+											{% endif %}
+										</select>
+										<small id="sandboxHelp" class="form-text text-muted">{{ sandbox_help }}</small>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-status">{{ activate_callback }}</label>
+									<div class="col-sm-10">
+										<select name="payment_payshop_activateCallback" id="input-status" class="form-control">
+											{% if payment_payshop_activateCallback %}
+												<option value="1" selected="selected">{{ text_enabled }}</option>
+												<option value="0">{{ text_disabled }}</option>
+											{% else %}
+												<option value="1">{{ text_enabled }}</option>
+												<option value="0" selected="selected">{{ text_disabled }}</option>
+											{% endif %}
+										</select>
+									</div>
+								</div>
+							{% endif %}
+							 <div class="form-group">
+								<label class="col-sm-2 control-label" for="input-status">{{ activate_cancelPayshopOrder }}</label>
 								<div class="col-sm-10">
-									<select name="payment_payshop_activateCallback" id="input-status" class="form-control">
-										{% if payment_payshop_activateCallback %}
-										    <option value="1" selected="selected">{{ text_enabled }}</option>
-										    <option value="0">{{ text_disabled }}</option>
+									<select name="payment_payshop_activate_cancelPayshopOrder" id="input-status" class="form-control">
+										{% if payment_payshop_activate_cancelPayshopOrder %}
+										<option value="1" selected="selected">{{ text_enabled }}</option>
+										<option value="0">{{ text_disabled }}</option>
 										{% else %}
-										    <option value="1">{{ text_enabled }}</option>
-										    <option value="0" selected="selected">{{ text_disabled }}</option>
+										<option value="1">{{ text_enabled }}</option>
+										<option value="0" selected="selected">{{ text_disabled }}</option>
 										{% endif %}
 									</select>
 								</div>
 							</div>
+							{% if payment_payshop_activate_cancelPayshopOrder %}
+								<div class="panel panel-default">
+									<div class="panel-heading"><i class="fa fa-question-circle"></i> {{ text_instruction }}</div>
+									<div class="panel-body">
+										<p>{{ text_cron_1 }}</p>
+										<p>{{ text_cron_2 }}</p>
+										<div class="form-group">
+										<div class="input-group">
+											<div class="input-group-addon">{{ entry_cron }}
+											</div>
+											<input type="text" value="wget -q -O /dev/null &quot;{{ cron }}&quot; --read-timeout=5400" id="input-cron" class="form-control"/>
+											<div class="input-group-btn">
+											<button type="button" id="button-copy" data-toggle="tooltip" title="{{ button_copy }}" class="btn btn-default"><i class="fa fa-copy"></i></button>
+											</div>
+										</div>
+										</div>
+									</div>
+									</div>
 							{% endif %}
 							<div class="form-group">
                                 <label class="col-sm-2 control-label" for="ifthenpayPayshopKey">{{ entry_payshop_payshopKey }}</label>
                                 <div class="col-sm-10">
-                                    <select name="payment_payshop_payshopKey" id="ifthenpayPayshopKey" class="form-control">
-                                    {% if payshop_payshopKeys %}
+									 <select name="payment_payshop_payshopKey" id="ifthenpayPayshopKey" class="form-control">
                                         {% for payshop_payshopKey in payshop_payshopKeys %}
-                                            <option value="{{ payshop_payshopKey.value }}">{{ payshop_payshopKey.value }}</option>
+											{% if payshop_payshopKey.value == payment_payshop_payshopKey %}
+												<option value="{{ payment_payshop_payshopKey }}" selected="selected">{{ payment_payshop_payshopKey }}</option>
+											{% else %}
+                                            	<option value="{{ payshop_payshopKey.value }}">{{ payshop_payshopKey.value }}</option>
+											{% endif %}
                                         {% endfor %}
-                                    {% else %}
-                                        <option value="{{ payment_payshop_payshopKey }}" selected="selected">{{ payment_payshop_payshopKey }}</option>
-                                    {% endif %}
                                     </select>
                                     {{ spinner }}
                                 </div>
@@ -106,12 +139,20 @@
                                     <small id="sandboxHelp" class="form-text text-muted">{{payshop_validade_helper}}</small>
                                 </div>
                             </div>
-                            {% if not payshop_payshopKeys %}
-                                <div class="chooseNewEntidadeDiv">
-									<button class="btn btn-primary" id="chooseNewEntidade" data-paymentmethod="payshop">{{choose_new_entity_subEntity}}</button>
-									{{ spinner }}
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-order-status_canceled">{{ entry_order_status_canceled }}</label>
+								<div class="col-sm-10">
+								<select name="payment_payshop_order_status_canceled_id" id="input-order-status_canceled" class="form-control">
+									{% for order_status in order_statuses %}
+                                        {% if order_status.order_status_id == payment_payshop_order_status_canceled_id %}
+                                            <option value="{{ order_status.order_status_id }}" selected="selected">{{ order_status.name }}</option>
+                                        {% else %}
+                                            <option value="{{ order_status.order_status_id }}">{{ order_status.name }}</option>
+                                        {% endif %}
+									{% endfor %}
+								</select>
 								</div>
-                            {% endif %}
+							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label" for="input-order-status">{{ entry_order_status }}</label>
 								<div class="col-sm-10">
@@ -156,6 +197,26 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-sort-order">{{ entry_minimum_value }}</label>
+								<div class="col-sm-10">
+									<input type="number" id="input-minimum-value" name="payment_multibanco_minimum_value" value="{{payment_multibanco_minimum_value}}" step="0.01" placeholder="0.00" class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-status">{{ show_paymentMethod_logo }}</label>
+								<div class="col-sm-10">
+									<select name="payment_payshop_showPaymentMethodLogo" id="input-status" class="form-control">
+										{% if payment_payshop_showPaymentMethodLogo %}
+											<option value="1" selected="selected">{{ text_enabled }}</option>
+											<option value="0">{{ text_disabled }}</option>
+										{% else %}
+											<option value="1">{{ text_enabled }}</option>
+											<option value="0" selected="selected">{{ text_disabled }}</option>
+										{% endif %}
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-2 control-label" for="input-sort-order">{{ entry_sort_order }}</label>
 								<div class="col-sm-10">
 									<input type="text" name="payment_payshop_sort_order" value="{{payment_payshop_sort_order}}" placeholder="{{ entry_sort_order }}" id="input-sort-order" class="form-control" />
@@ -195,12 +256,30 @@
 					</ul>
 				</div>
 			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading"><i class="fa fa-question-circle"></i> {{ text_instruction }}</div>
+				<div class="panel-body">
+					<p>{{ text_cron_1 }}</p>
+					<p>{{ text_cron_3 }}</p>
+					<p>{{ text_cron_4 }}</p>
+					<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon">{{ entry_cron }}
+						</div>
+						<input type="text" value="wget -q -O /dev/null &quot;{{ cron_check_payment_status }}&quot; --read-timeout=5400" id="input-cron-paymentStatus" class="form-control"/>
+						<div class="input-group-btn">
+						<button type="button" id="button-copy-payment-status" data-toggle="tooltip" title="{{ button_copy }}" class="btn btn-default"><i class="fa fa-copy"></i></button>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
 		{% endif %}
 		<div class="panel panel-default resetIfthenpayAccountsPanel">
 			<div class="panel-body text-center">
 				<h2>{{ add_new_accounts }}</h2>
 				<div class="spinnerDivWithBtn">
-					<button type="button" id="resetIfthenpayAccount" class="btn btn-danger btn-lg btn-block" data-paymentmethod="payshop">{{ reset_accounts }}</button>
+					<a id="resetIfthenpayAccount" href="{{resetIfthnepayAccountsUrl}}" class="btn btn-danger btn-lg btn-block" data-paymentmethod="payshop">{{ reset_accounts }}</a>
 					{{ spinner }}
 				</div>
 			</div>

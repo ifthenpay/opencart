@@ -21,11 +21,11 @@ class MultibancoPaymentStatus implements PaymentStatusInterface
 {
     private $data;
     private $multibancoPedido;
-    private $webservice;
+    private $webService;
 
-    public function __construct(WebService $webservice)
+    public function __construct(WebService $webService)
     {
-        $this->webservice = $webservice;
+        $this->webService = $webService;
     }
 
     private function checkEstado(): bool
@@ -38,7 +38,7 @@ class MultibancoPaymentStatus implements PaymentStatusInterface
 
     private function getMultibancoEstado(): void
     {
-        $this->multibancoPedido = $this->webservice->getRequest(
+        $this->multibancoPedido = $this->webService->getRequest(
             'https://www.ifthenpay.com/IfmbWS/WsIfmb.asmx/GetPaymentsJson',
                 [
                     'Chavebackoffice' => $this->data->getData()->backofficeKey,

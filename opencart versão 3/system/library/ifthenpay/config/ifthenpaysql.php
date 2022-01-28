@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ifthenpay\Config;
 
 use Ifthenpay\Contracts\Config\InstallerInterface;
+use Ifthenpay\Payments\Gateway;
 
 class IfthenpaySql implements InstallerInterface
 {
@@ -12,16 +13,18 @@ class IfthenpaySql implements InstallerInterface
     private $userPaymentMethod;
 
     private $ifthenpaySqlTables = [
-        'multibanco' => 'CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'ifthenpay_multibanco` (
+        Gateway::MULTIBANCO => 'CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'ifthenpay_' . Gateway::MULTIBANCO . '` (
             `id_ifthenpay_multibanco` int(10) unsigned NOT NULL auto_increment,
             `entidade` varchar(5) NOT NULL,
             `referencia` varchar(9) NOT NULL,
             `order_id` int(11) NOT NULL,
             `status` varchar(50) NOT NULL,
+            `requestId` varchar(50),
+            `validade` varchar(15),
             PRIMARY KEY  (`id_ifthenpay_multibanco`),
             INDEX `referencia` (`referencia`)
           ) ENGINE=MyISAM DEFAULT CHARSET=utf8;',
-        'mbway' => 'CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'ifthenpay_mbway` (
+        Gateway::MBWAY => 'CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'ifthenpay_' . Gateway::MBWAY . '` (
             `id_ifthenpay_mbway` int(10) unsigned NOT NULL auto_increment,
             `id_transacao` varchar(20) NOT NULL,
             `telemovel` varchar(20) NOT NULL,
@@ -30,7 +33,7 @@ class IfthenpaySql implements InstallerInterface
             PRIMARY KEY  (`id_ifthenpay_mbway`),
             INDEX `idTransacao` (`id_transacao`)
           ) ENGINE=MyISAM DEFAULT CHARSET=utf8;',
-        'payshop' => 'CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'ifthenpay_payshop` (
+        Gateway::PAYSHOP => 'CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'ifthenpay_' . Gateway::PAYSHOP . '` (
             `id_ifthenpay_payshop` int(10) unsigned NOT NULL auto_increment,
             `id_transacao` varchar(20) NOT NULL,
             `referencia` varchar(13) NOT NULL,
@@ -40,10 +43,9 @@ class IfthenpaySql implements InstallerInterface
             PRIMARY KEY  (`id_ifthenpay_payshop`),
             INDEX `idTransacao` (`id_transacao`)
           ) ENGINE=MyISAM DEFAULT CHARSET=utf8;',
-          'ccard' => 'CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'ifthenpay_ccard` (
+        Gateway::CCARD => 'CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'ifthenpay_' . Gateway::CCARD . '` (
             `id_ifthenpay_ccard` int(10) unsigned NOT NULL auto_increment,
             `requestId` varchar(50) NOT NULL,
-            `paymentUrl` varchar(1000) NOT NULL,
             `order_id` int(11) NOT NULL,
             `status` varchar(50) NOT NULL,
             PRIMARY KEY  (`id_ifthenpay_ccard`),

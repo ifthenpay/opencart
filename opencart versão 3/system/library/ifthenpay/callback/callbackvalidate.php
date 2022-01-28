@@ -10,6 +10,7 @@ class CallbackValidate
     private $order;
     private $configurationChaveAntiPhishing;
     private $paymentDataFromDb;
+    private $configPaidStatus;
 
     private function validateOrder(): void
     {
@@ -29,8 +30,8 @@ class CallbackValidate
 
     private function validateOrderStatus(): void
     {
-        if ($this->paymentDataFromDb['status'] === 'paid') {
-                throw new \Exception('Encomenda já foi paga.');
+        if ($this->paymentDataFromDb['status'] === 'paid' && $this->order['order_status'] === $this->configPaidStatus) {
+            throw new \Exception('Encomenda já foi paga.');
         }
     }
 
@@ -98,6 +99,18 @@ class CallbackValidate
     public function setPaymentDataFromDb(array $paymentDataFromDb)
     {
         $this->paymentDataFromDb = $paymentDataFromDb;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of configPaidStatus
+     *
+     * @return  self
+     */ 
+    public function setConfigPaidStatus($configPaidStatus)
+    {
+        $this->configPaidStatus = $configPaidStatus;
 
         return $this;
     }

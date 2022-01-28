@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Strategy\Payments;
 
-use Ifthenpay\Factory\Payment\PaymentStatusFactory;
-
+use Ifthenpay\Factory\Payment\PaymentChangeStatusFactory;
 
 class IfthenpayPaymentStatus
 {
@@ -13,7 +12,7 @@ class IfthenpayPaymentStatus
     private $paymentMethod;
 
     public function __construct(
-        PaymentStatusFactory $factory
+        PaymentChangeStatusFactory $factory
     )
     {
         $this->factory = $factory;

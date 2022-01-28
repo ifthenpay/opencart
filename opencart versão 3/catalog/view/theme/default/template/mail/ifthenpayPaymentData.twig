@@ -30,6 +30,16 @@
                     <td valign="top" align="right" style="padding-top: 6px; padding-bottom: 6px; padding-right: 2px;">
                         {{referencia}}
                     </td>
+                    {% if validade %}
+                        <tr>
+                            <td valign="top" align="left" style="padding-top: 6px; padding-bottom: 6px;">
+                                <strong>&nbsp;{{ifthenpayPaymentPanelValidade}}</strong>
+                            </td>
+                            <td valign="top" align="right" style="padding-top: 6px; padding-bottom: 6px; padding-right: 2px;">
+                                {{validade}}
+                            </td>
+                        </tr>
+                    {% endif %}
                 </tr>
                 {% endif %}
                 {% if paymentMethod |lower == 'payshop' %}

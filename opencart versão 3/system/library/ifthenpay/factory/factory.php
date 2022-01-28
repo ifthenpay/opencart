@@ -29,4 +29,16 @@ class Factory
 
         return $this;
     }
+
+    /**
+     * Set the value of ifthenpayController
+     *
+     * @return  self
+     */ 
+    public function setIfthenpayController($ifthenpayController)
+    {
+        $this->ifthenpayController = $ifthenpayController;
+
+        return $this;
+    }
 }

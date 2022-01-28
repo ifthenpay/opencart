@@ -11,10 +11,11 @@ use Ifthenpay\Payments\Gateway;
 use Ifthenpay\Builders\DataBuilder;
 use Ifthenpay\Builders\TwigDataBuilder;
 use Ifthenpay\Builders\GatewayDataBuilder;
+use Ifthenpay\Utility\Mix;
 
 class CCardBase extends PaymentBase
 {
-    protected $paymentMethod = 'ccard';
+    protected $paymentMethod = Gateway::CCARD;
     private $token;
 
     public function __construct(
@@ -23,11 +24,12 @@ class CCardBase extends PaymentBase
         Gateway $ifthenpayGateway,
         array $configData,
         $ifthenpayController,
-        TwigDataBuilder $twigDefaultData = null,
+        Mix $mix,
+        TwigDataBuilder $twigDataBuilder = null,
         Token $token = null,
         Status $status = null
     ) {
-        parent::__construct($paymentDefaultData, $gatewayBuilder, $ifthenpayGateway, $configData, $ifthenpayController, $twigDefaultData);
+        parent::__construct($paymentDefaultData, $gatewayBuilder, $ifthenpayGateway, $configData, $ifthenpayController, $mix, $twigDataBuilder);
         $this->token = $token;
         $this->status = $status;
         $this->paymentMethodAlias = $this->ifthenpayController->language->get('ccardAlias');
