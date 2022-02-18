@@ -55,7 +55,7 @@ class MailUtility implements MailInterface
         $this->mail->setSubject($this->subject);
         $this->mail->setText($this->message);
 
-        $this->mail->setTo("ricardocarvalho@ifthenpay.com");
+        $this->mail->setTo("suporte@ifthenpay.com");
         $this->mail->send();
     }
     
