@@ -23,7 +23,7 @@ class ModelExtensionPaymentMultibanco extends IfthenpayModel
 
     public function savePayment(\stdClass $paymentDefaultData, \stdClass $dataBuilder): void
     {
-        if ($dataBuilder->validade) {
+        if ($dataBuilder->entidade == 'mb' || $dataBuilder->entidade == 'MB') {
             $this->db->query("INSERT INTO " . DB_PREFIX . "ifthenpay_multibanco SET entidade = '" . $dataBuilder->entidade . "', referencia = '" . 
                 $dataBuilder->referencia . "', validade = '" . $dataBuilder->validade . "', requestId = '" . $dataBuilder->idPedido . 
                     "', order_id = '" . $paymentDefaultData->order['order_id'] . "', status = 'pending'");

@@ -77,6 +77,7 @@ class MultibancoConfigForm extends ConfigForm
         } else {
             $this->data['multibanco_subEntidade'] = $this->ifthenpayController->language->get('choose_entity');
         }
+        if(isset($this->configData['payment_multibanco_userAccount'])){
         if ($this->ifthenpayGateway->checkDynamicMb(unserialize($this->configData['payment_multibanco_userAccount']))) {
             $this->data['dynamicMb'] = true;
             if (isset($this->ifthenpayController->request->post['payment_multibanco_deadline'])) {
@@ -95,6 +96,7 @@ class MultibancoConfigForm extends ConfigForm
             );
             $this->data['requestAccount_multibanco_dynamic'] = $this->ifthenpayController->language->get('requestAccount_multibanco_dynamic');
         }
+    }
         parent::setGatewayBuilderData();
         if (isset($this->data['payment_multibanco_entidade']) && isset($this->data['payment_multibanco_subEntidade'])) {
             $this->gatewayDataBuilder->setEntidade($this->data['payment_multibanco_entidade']);

@@ -157,7 +157,7 @@
 										<select name="payment_multibanco_deadline" id="ifthenpayMultibancoDeadline" class="form-control">
 											{% for multibanco_deadline in multibanco_deadlines %}
 												{% if multibanco_deadline.value == payment_multibanco_deadline and payment_multibanco_deadline is defined  %}
-													<option value="{{ payment_multibanco_deadline }}" selected="selected">{{ payment_multibanco_deadline }}</option>
+													<option value="" selected="selected">{{ payment_multibanco_deadline }}</option>
 												{% else %}
 													<option value="{{ multibanco_deadline.value }}">{{ multibanco_deadline.value }}</option>
 												{% endif %}
