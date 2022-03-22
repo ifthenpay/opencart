@@ -18,7 +18,8 @@ class MultibancoPaymentReturn extends MultibancoBase implements PaymentReturnInt
         $this->twigDefaultData->setReferencia($this->paymentGatewayResultData->referencia);
         $this->twigDefaultData->setIfthenpayPaymentPanelEntidade($this->ifthenpayController->language->get('ifthenpayPaymentPanelEntidade'));
         $this->twigDefaultData->setIfthenpayPaymentPanelReferencia($this->ifthenpayController->language->get('ifthenpayPaymentPanelReferencia'));
-        if ($this->paymentGatewayResultData->validade) {
+        
+        if (isset($this->paymentGatewayResultData->validade) && $this->paymentGatewayResultData->validade) {
             $this->twigDefaultData->setValidade($this->paymentGatewayResultData->validade);
             $this->twigDefaultData->setIfthenpayPaymentPanelValidade($this->ifthenpayController->language->get('ifthenpayPaymentPanelValidade'));
         }

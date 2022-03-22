@@ -41,7 +41,7 @@ class ModelExtensionPaymentMultibanco extends IfthenpayModel
 
     public function updatePendingMultibanco(string $id, \stdClass $paymentDefaultData, \stdClass $dataBuilder): void
     {
-        if ($dataBuilder->validade) {
+        if ($dataBuilder->entidade == 'mb' || $dataBuilder->entidade == 'MB') {
             $this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_multibanco` SET `entidade` = '" . $dataBuilder->entidade . 
                     "', `referencia` = '" . $dataBuilder->referencia . "', `order_id` = '" . $paymentDefaultData->order['order_id'] . 
                     "', `status` = 'pending', `requestId` = '" . $dataBuilder->idPedido . 
