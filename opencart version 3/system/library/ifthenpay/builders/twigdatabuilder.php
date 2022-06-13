@@ -93,9 +93,9 @@ class TwigDataBuilder extends DataBuilder implements TwigDataBuilderInterface
         return $this;
     }
 
-    public function setPaymentReturnMbwayConfirmPayment5Minutes(string $value): TwigDataBuilderInterface
+    public function setPaymentReturnMbwayConfirmPaymentMinutes(string $value): TwigDataBuilderInterface
     {
-        $this->data->paymentReturnMbwayConfirmPayment5Minutes = $value;
+        $this->data->paymentReturnMbwayConfirmPaymentMinutes = $value;
         return $this;
     }
 

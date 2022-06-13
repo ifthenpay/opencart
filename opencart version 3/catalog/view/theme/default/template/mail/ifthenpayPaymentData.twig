@@ -6,11 +6,13 @@
                 <tr>
                     <td valign="top" style="padding-top: 5px;padding-bottom: 5px;">
                         {% if paymentMethod |lower == 'multibanco' %}
-                            <img src="{{paymentMethodLogo}}" alt=" logotipo" width="50" height="50">
+                            <img src="{{paymentMethodLogo}}" alt=" logotipo" width="133" height="38">
+                        {% elseif paymentMethod |lower == 'mbway' %}
+                            <img src="{{paymentMethodLogo}}" alt=" logotipo" width="82" height="38">
+                        {% elseif paymentMethod |lower == 'payshop' %}
+                            <img src="{{paymentMethodLogo}}" alt=" logotipo" width="143" height="38">
                         {% elseif paymentMethod |lower == 'ccard' %}
-                            <img src="{{paymentMethodLogo}}" alt=" logotipo" width="65" height="18">
-                        {% else %}
-                            <img src="{{paymentMethodLogo}}" alt=" logotipo" width="70" height="70">
+                            <img src="{{paymentMethodLogo}}" alt=" logotipo" width="133" height="38">
                         {% endif %}
                     </td>
                 </tr>

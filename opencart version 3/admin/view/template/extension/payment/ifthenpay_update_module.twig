@@ -6,9 +6,12 @@
             <div class="text-left bulletPoints">
                 {{ upgradeModuleBulletPoints }}
             </div>
-            <a href="{{moduleUpgradeUrlDownload}}" download id="downloadUpdateModuleIfthenpay" class="btn btn-danger btn-lg btn-block" target="_blank">{{downloadUpdateModule}}</a>
+            <div class="col-md-3 col-lg-4"></div>
+			<div class="col-md-6 col-lg-4">
+                <a href="{{moduleUpgradeUrlDownload}}" download id="downloadUpdateModuleIfthenpay" class="btn btn-danger btn-lg btn-block" target="_blank">{{downloadUpdateModule}}</a>
+            </div>
         {% else %}
-            <img src="view/image/payment/ifthenpay/updated.svg" alt="update system icon">
+            <img src="view/image/payment/ifthenpay/updated.png" alt="update system icon">
             <h2>{{moduleUpToDate}}</h2>
         {% endif %}
     </div>

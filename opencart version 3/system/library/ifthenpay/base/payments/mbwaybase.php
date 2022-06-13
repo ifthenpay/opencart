@@ -22,7 +22,7 @@ class MbwayBase extends PaymentBase
         $this->twigDefaultData->setIfthenpayPaymentPanelMbwayNotificationNotReceive($this->ifthenpayController->language->get('ifthenpayPaymentPanelMbwayNotificationNotReceive'));
         $this->twigDefaultData->setIfthenpayPaymentPanelMbwayResendNotification($this->ifthenpayController->language->get('ifthenpayPaymentPanelMbwayResendNotification'));
         $this->twigDefaultData->setSpinner($this->ifthenpayController->load->view('extension/payment/spinner'));
-        $this->twigDefaultData->setPaymentReturnMbwayConfirmPayment5Minutes($this->ifthenpayController->language->get('paymentReturnMbwayConfirmPayment5Minutes'));
+        $this->twigDefaultData->setPaymentReturnMbwayConfirmPaymentMinutes($this->ifthenpayController->language->get('paymentReturnMbwayConfirmPaymentMinutes'));
         $this->twigDefaultData->setPaymentReturnMbwayConfirmPaymentNotificationExpired($this->ifthenpayController->language->get('paymentReturnMbwayConfirmPaymentNotificationExpired'));
         $this->twigDefaultData->setPaymentReturnMbwayConfirmPaymentNotificationTime($this->ifthenpayController->language->get('paymentReturnMbwayConfirmPaymentNotificationTime'));
         $this->twigDefaultData->setPaymentReturnMbwayConfirmPaymentNotificationResend($this->ifthenpayController->language->get('paymentReturnMbwayConfirmPaymentNotificationResend'));

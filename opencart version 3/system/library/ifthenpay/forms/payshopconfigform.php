@@ -18,8 +18,9 @@ class PayshopConfigForm extends ConfigForm
 
     protected function checkIfEntidadeSubEntidadeIsSet(): bool
     {
-        if (!isset($this->configData['payment_payshop_payshopKey'])
-            && !isset($this->configData['payment_payshop_validade']) && !isset($this->data['payment_payshop_payshopKey']) && !isset($this->data['payment_payshop_validade'])
+
+        if (
+            !isset($this->configData['payment_payshop_payshopKey']) && !isset($this->data['payment_payshop_payshopKey'])
         ) {
             return false;
         }
@@ -31,11 +32,13 @@ class PayshopConfigForm extends ConfigForm
         $this->data['entry_payshop_payshopKey'] = $this->ifthenpayController->language->get('entry_payshop_payshopKey');
         $this->data['entry_payshop_validade'] = $this->ifthenpayController->language->get('entry_payshop_validade');
         $this->data['payshop_validade_helper'] = $this->ifthenpayController->language->get('payshop_validade_helper');
-        if ($this->ifthenpayController->config->get('payment_payshop_userPaymentMethods') && 
-        $this->ifthenpayController->config->get('payment_payshop_userAccount')) {
+        if (
+            $this->ifthenpayController->config->get('payment_payshop_userPaymentMethods') &&
+            $this->ifthenpayController->config->get('payment_payshop_userAccount')
+        ) {
             $this->setOptions();
             $this->setHasCallback();
-            $this->setGatewayBuilderData(); 
+            $this->setGatewayBuilderData();
             $this->setIfthenpayCallback();
         } else {
             $this->setDefaultGatewayBuilderData();
@@ -45,18 +48,21 @@ class PayshopConfigForm extends ConfigForm
 
     public function setGatewayBuilderData(): void
     {
+
+        if (!empty($this->options)) {
+            $this->data['payshop_payshopKeys'] = $this->options;
+        }
+
         if (isset($this->ifthenpayController->request->post['payment_payshop_payshopKey'])) {
             $this->data['payment_payshop_payshopKey'] = $this->ifthenpayController->request->post['payment_payshop_payshopKey'];
         } else if (isset($this->configData['payment_payshop_payshopKey'])) {
             $this->data['payment_payshop_payshopKey'] = $this->configData['payment_payshop_payshopKey'];
-            $this->data['payshop_payshopKeys'] = $this->options;
-        } else {
-            $this->data['payshop_payshopKeys'] = $this->options;
         }
+        
         if (isset($this->ifthenpayController->request->post['payment_payshop_validade'])) {
             $this->data['payment_payshop_validade'] = $this->ifthenpayController->request->post['payment_payshop_validade'];
         } else if (isset($this->configData['payment_payshop_validade'])) {
-            $this->data['payment_payshop_validade'] = $this->configData['payment_payshop_validade']; 
+            $this->data['payment_payshop_validade'] = $this->configData['payment_payshop_validade'];
         }
         parent::setGatewayBuilderData();
         if (isset($this->data['payment_payshop_payshopKey']) && isset($this->data['payment_payshop_validade'])) {
@@ -66,12 +72,6 @@ class PayshopConfigForm extends ConfigForm
         }
     }
 
-   /* public function processForm(): void
-    {
-        $this->setHasCallback();
-        $this->setGatewayBuilderData();
-        $this->setIfthenpayCallback();
-    }*/
 
     public function deleteConfigValues(): void
     {
@@ -81,6 +81,6 @@ class PayshopConfigForm extends ConfigForm
         $this->ifthenpayController->model_extension_payment_payshop->deleteSettingByKey('payment_payshop_callback_activated');
         $this->ifthenpayController->model_extension_payment_payshop->deleteSettingByKey('payment_payshop_activateCallback');
         $this->ifthenpayController->model_extension_payment_payshop->deleteSettingByKey('payment_payshop_payshopKey');
-        $this->ifthenpayController->model_extension_payment_payshop->deleteSettingByKey('payment_payshop_validade');   
+        $this->ifthenpayController->model_extension_payment_payshop->deleteSettingByKey('payment_payshop_validade');
     }
 }

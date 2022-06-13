@@ -84,7 +84,9 @@ class Gateway
         foreach ($this->account as $account) {
             if (in_array(strtolower($account['Entidade']), $this->paymentMethods)) {
                 $userPaymentMethods[] = strtolower($account['Entidade']);
-            } elseif (is_numeric($account['Entidade'])) {
+
+            // additional verification required to add the dynamic reference to multibanco payment method    
+            } elseif (is_numeric($account['Entidade']) || $account['Entidade'] === "MB" || $account['Entidade'] === "mb") {
                 $userPaymentMethods[] = $this->paymentMethods[0];
             }
         }
@@ -137,20 +139,11 @@ class Gateway
 
     public function getPaymentLogo(string $paymentMethod, string $url): string
 	{
-		$img ='<img src="'. $url . '/image/payment/ifthenpay/' . $paymentMethod . '.svg' . '" style="width: {widthValue};"/>';
-        
-            switch ($paymentMethod) {
-                case self::MULTIBANCO:
-                    return str_replace('{widthValue}', '30px', $img);
-                case self::MBWAY:
-                    return str_replace('{widthValue}', '50px', $img);
-                    break;
-                case self::PAYSHOP:
-                    return str_replace('{widthValue}', '70px', $img);
-                case self::CCARD:
-                    return str_replace('{widthValue}', '65px', $img);
-                default:
-            }
+        $tagStart = '<img ';
+        $tagEnd = '>';
+        $src = 'src="'. $url . '/image/payment/ifthenpay/' . $paymentMethod . '_ck.png" ';
+
+        return $tagStart . $src . $tagEnd;
 	}
 
     public function execute(string $paymentMethod, GatewayDataBuilder $data, string $orderId, string $valor): DataBuilder

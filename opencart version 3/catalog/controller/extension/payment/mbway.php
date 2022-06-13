@@ -13,6 +13,18 @@ class ControllerExtensionPaymentMbway extends IfthenpayControllerCatalog
 
 	public function index()
 	{
+		$variablesForJavascript = [
+      'paymentMethodLanguage' => [
+        'required' => $this->language->get('error_payment_mbway_input_required'),
+        'invalid' => $this->language->get('error_payment_mbway_input_invalid'),
+        'mbwayPhoneNumber' => $this->language->get('mbwayPhoneNumber'),
+      ],
+      'mbwaySvgUrl' => 'image/payment/ifthenpay/mbway.svg'
+    ];
+
+		$data['phpVariables'] = json_encode($variablesForJavascript);
+
+
 		$mix = $this->ifthenpayContainer->getIoc()->make(Mix::class);
 		$data['continue'] = $this->url->link('checkout/success');
 		$data['button_confirm'] = $this->language->get('button_confirm');

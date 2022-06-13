@@ -42,27 +42,23 @@ class MbwayConfigForm extends ConfigForm
 
     public function setGatewayBuilderData(): void
     {
+
+        if (!empty($this->options)) {
+            $this->data['mbway_mbwayKeys'] = $this->options;
+        }
+        
         if (isset($this->ifthenpayController->request->post['payment_mbway_mbwayKey']) && $this->ifthenpayController->request->post['payment_mbway_mbwayKey']) {
             $this->data['payment_mbway_mbwayKey'] = $this->ifthenpayController->request->post['payment_mbway_mbwayKey'];
         } else if (isset($this->configData['payment_mbway_mbwayKey'])) {
             $this->data['payment_mbway_mbwayKey'] = $this->configData['payment_mbway_mbwayKey'];
-            $this->data['mbway_mbwayKeys'] = $this->options;
-        } else {
-            $this->data['mbway_mbwayKeys'] = $this->options;
         }
+        
         parent::setGatewayBuilderData();
         if (isset($this->data['payment_mbway_mbwayKey'])) {
             $this->gatewayDataBuilder->setEntidade(strtoupper($this->paymentMethod));
             $this->gatewayDataBuilder->setSubEntidade($this->data['payment_mbway_mbwayKey']);
         }  
     }
-
-    /*public function processForm(): void
-    {
-        $this->setHasCallback();
-        $this->setGatewayBuilderData();
-        $this->setIfthenpayCallback();
-    }*/
 
     public function deleteConfigValues(): void
     {

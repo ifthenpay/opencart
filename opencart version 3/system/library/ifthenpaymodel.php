@@ -85,16 +85,23 @@ class IfthenpayModel extends Model {
 			"' OR zone_id = '0')"
 		);
 
-        if ($this->config->get('payment_' . $this->paymentMethod . '_minimum_value') > 0 && 
-		$this->config->get('payment_' . $this->paymentMethod . '_minimum_value') > $total) {
+
+
+		if (($this->config->get('payment_' . $this->paymentMethod . '_minimum_value') > 0 && 
+				$this->config->get('payment_' . $this->paymentMethod . '_minimum_value') > $total) ||
+				($this->config->get('payment_' . $this->paymentMethod . '_maximum_value') > 0 && 
+				$this->config->get('payment_' . $this->paymentMethod . '_maximum_value') < $total)) 
+				{
             $this->paymentStatus = false;
-        } else if (!$this->config->get('payment_' . $this->paymentMethod . '_geo_zone_id')) {
+        }
+				 else if (!$this->config->get('payment_' . $this->paymentMethod . '_geo_zone_id')) {
             $this->paymentStatus = true;
         } else if ($query->num_rows) {
             $this->paymentStatus = true;
         } else {
             $this->paymentStatus = false;
         }
+
 		if($this->request->get['route'] === 'api/payment/methods' && 
 		!in_array($this->paymentMethod, $this->ifthenpayContainer->getIoc()->make(Gateway::class)->getPaymentMethodsCanOrderBackend())) {
 			$this->paymentStatus = false;

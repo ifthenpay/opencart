@@ -15,7 +15,7 @@ interface TwigDataBuilderInterface extends DataBuilderInterface
     public function setRememberControllerUrl(string $value): TwigDataBuilderInterface;
     public function setMbwayCountdownShow(bool $value): TwigDataBuilderInterface;
     public function setPaymentReturnMbwayConfirmPayment(string $value): TwigDataBuilderInterface;
-    public function setPaymentReturnMbwayConfirmPayment5Minutes(string $value): TwigDataBuilderInterface;
+    public function setPaymentReturnMbwayConfirmPaymentMinutes(string $value): TwigDataBuilderInterface;
     public function setPaymentReturnMbwayConfirmPaymentNotificationExpired(string $value): TwigDataBuilderInterface;
     public function setPaymentReturnMbwayConfirmPaymentNotificationTime(string $value): TwigDataBuilderInterface;
     public function setPaymentReturnMbwayConfirmPaymentNotificationResend(string $value): TwigDataBuilderInterface;

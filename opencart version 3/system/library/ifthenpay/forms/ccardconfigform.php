@@ -43,16 +43,19 @@ class CCardConfigForm extends ConfigForm
 
     public function setGatewayBuilderData(): void
     {
+        
         if ($this->ifthenpayController->config->get('payment_ccard_userPaymentMethods') && 
         $this->ifthenpayController->config->get('payment_ccard_userAccount')) {
+
+            if (!empty($this->options)) {
+                $this->data['ccard_ccardKeys'] = $this->options;
+            }
+
             parent::setGatewayBuilderData();
             if (isset($this->ifthenpayController->request->post['payment_ccard_ccardKey'])) {
                 $this->data['payment_ccard_ccardKey'] = $this->ifthenpayController->request->post['payment_ccard_ccardKey'];
             } else if (isset($this->configData['payment_ccard_ccardKey'])) {
                 $this->data['payment_ccard_ccardKey'] = $this->configData['payment_ccard_ccardKey'];
-                $this->data['ccard_ccardKeys'] = $this->options;
-            } else {
-                $this->data['ccard_ccardKeys'] = $this->options;
             }
     
             if (isset($this->ifthenpayController->request->post['payment_ccard_order_status_failed_id'])) {
@@ -75,11 +78,6 @@ class CCardConfigForm extends ConfigForm
         
     }
 
-    /*public function processForm(): void
-    {
-        $this->setHasCallback();
-        $this->setGatewayBuilderData();
-    }*/
 
     public function deleteConfigValues(): void
     {

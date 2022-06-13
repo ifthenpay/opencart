@@ -136,7 +136,7 @@ class IfthenpayController extends Controller {
     public function requestNewAccount()
     {
         try {
-            $this->ioc->make(MailInterface::class)
+            $this->ifthenpayContainer->getIoc()->make(MailInterface::class)
                 ->setIfthenpayController($this)
                 ->setPaymentMethod($this->paymentMethod)
                 ->setSubject('Associar conta ' . $this->paymentMethod . ' ao contrato')
@@ -160,38 +160,49 @@ class IfthenpayController extends Controller {
         }
     }
 
+    /**
+     * Resets a single payment method to the point where it is still installed,
+     * but you are required to input the backoffice key again
+     */
     public function resetUserAccounts()
     {
-        $backofficeKey = $this->configData['payment_' . $this->paymentMethod . '_backofficeKey'];
         try {
+            $backofficeKey = $this->configData['payment_' . $this->paymentMethod . '_backofficeKey'] ?? NULL;
+
+            // handle error if there is no backoffice key installed 
             if (!$backofficeKey) {
                 $this->response->addHeader('Content-Type: application/json');
                 $this->response->setOutput(json_encode([
                     'success' => null,
                     'validationError' => $this->language->get('error_backofficeKey_required')
                 ]));
+                throw new Exception("reset_account_error");
             }
             $gateway = $this->ifthenpayContainer->getIoc()->make(Gateway::class);
             $gateway->authenticate($backofficeKey);
-            $this->{$this->dynamicModelName}->install($this->paymentMethod);
-            $this->configData['payment_' . $this->paymentMethod . '_userPaymentMethods'] = serialize($gateway->getPaymentMethods());
-            $this->configData['payment_' . $this->paymentMethod . '_userAccount'] = serialize($gateway->getAccount());
-            $this->model_setting_setting->editSetting('payment_' . $this->paymentMethod, $this->configData);
+
+            // deleting the payment method from database
+            $this->model_setting_setting->deleteSetting('payment_' . $this->paymentMethod);
+            // log the account reset
             $this->{$this->dynamicModelName}->log('Ifthenpay account reseted with success');
+
+            // prepare and set the response...before redirecting??
             $this->response->addHeader('Content-Type: application/json');
             $this->response->setOutput(json_encode([
                 'success' => $this->language->get('reset_account_success')
             ]));
-        } catch (\Throwable $th) {
+        } 
+        catch (Throwable $e) {
             $this->{$this->dynamicModelName}->log([
                 'backofficeKey' => $backofficeKey,
-                'errorMessage' => $th->getMessage()
+                'errorMessage' => $e->getMessage()
             ], 'Error reseting ifthenpay account');
             $this->response->addHeader('Content-Type: application/json');
             $this->response->addHeader('HTTP/1.0 400 Bad Request');
             $this->response->setOutput(json_encode([
-                'error' => $this->language->get('reset_account_error')
+                'error' => $this->language->get($e->getMessage())
             ]));
+
         }
     }
 

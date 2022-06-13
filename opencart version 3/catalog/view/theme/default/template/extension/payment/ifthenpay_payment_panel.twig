@@ -4,9 +4,13 @@
 <div class="panel-body">
     <div class="paymentLogo">
         {% if paymentMethod == 'multibanco' %}
-            <img src="image/payment/ifthenpay/multibanco.svg" alt="multibanco logotipo" style="width:60%;">
-        {% else %}
-            <img src="image/payment/ifthenpay/{{paymentMethod}}.svg" alt="{{paymentMethod}} logotipo" style="width:100%;">
+            <img src="image/payment/ifthenpay/multibanco.png" alt="multibanco logotipo" style="width: 133px; height: 38px">
+        {% elseif paymentMethod == 'mbway' %}
+            <img src="image/payment/ifthenpay/{{paymentMethod}}.png" alt="{{paymentMethod}} logotipo" style="width: 82px; height: 38px">
+        {% elseif paymentMethod == 'payshop' %}
+            <img src="image/payment/ifthenpay/{{paymentMethod}}.png" alt="{{paymentMethod}} logotipo" style="width: 143px; height: 38px">
+        {% elseif paymentMethod == 'ccard' %}
+            <img src="image/payment/ifthenpay/{{paymentMethod}}.png" alt="{{paymentMethod}} logotipo" style="width: 133px; height: 38px">
         {% endif %}
     </div>
     <div class="paymentData">
