@@ -21,7 +21,7 @@ class MbWayPaymentStatus implements PaymentStatusInterface
 
     private function checkEstado(): bool
     {
-        if ($this->mbwayPedido['EstadoPedidos'][0]['Estado'] === '000') {
+        if (isset($this->mbwayPedido['EstadoPedidos'][0]['Estado']) && $this->mbwayPedido['EstadoPedidos'][0]['Estado'] === '000') {
             return true;
         }
         return false;

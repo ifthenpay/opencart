@@ -38,7 +38,7 @@ abstract class CheckPaymentStatusBase
     protected function savePaymentStatus(array $payment): void
     {
         $this->ifthenpayController->{$this->dynamicModelName}->updatePaymentStatus(
-            $payment['id_ifthenpay_ccard'], 
+            $payment['id_ifthenpay_' . $this->paymentMethod], 
             'paid'
         );
         $this->ifthenpayController->load->language('extension/payment/' . $this->paymentMethod);
