@@ -14,13 +14,13 @@ class ControllerExtensionPaymentMbway extends IfthenpayControllerCatalog
 	public function index()
 	{
 		$variablesForJavascript = [
-      'paymentMethodLanguage' => [
-        'required' => $this->language->get('error_payment_mbway_input_required'),
-        'invalid' => $this->language->get('error_payment_mbway_input_invalid'),
-        'mbwayPhoneNumber' => $this->language->get('mbwayPhoneNumber'),
-      ],
-      'mbwaySvgUrl' => 'image/payment/ifthenpay/mbway.svg'
-    ];
+			'paymentMethodLanguage' => [
+				'required' => $this->language->get('error_payment_mbway_input_required'),
+				'invalid' => $this->language->get('error_payment_mbway_input_invalid'),
+				'mbwayPhoneNumber' => $this->language->get('mbwayPhoneNumber'),
+			],
+			'mbwaySvgUrl' => 'image/payment/ifthenpay/mbway.svg'
+		];
 
 		$data['phpVariables'] = json_encode($variablesForJavascript);
 
@@ -38,7 +38,7 @@ class ControllerExtensionPaymentMbway extends IfthenpayControllerCatalog
 		return $this->load->view('extension/payment/mbway', $data);
 	}
 
-	
+
 	public function resendMbwayNotification()
 	{
 		$orderId = $this->request->get['orderId'];
@@ -79,28 +79,27 @@ class ControllerExtensionPaymentMbway extends IfthenpayControllerCatalog
 	public function cancelMbwayOrder()
 	{
 		try {
-			if(isset($this->request->post['orderId']) && $this->request->post['orderId'] !== '') {
+			if (isset($this->request->post['orderId']) && $this->request->post['orderId'] !== '') {
 				$this->load->model('checkout/order');
 				$this->load->model('setting/setting');
 				$mbwayPayment = $this->model_extension_payment_mbway->getPaymentByOrderId($this->request->post['orderId'])->row;
 				$configData =  $this->model_setting_setting->getSetting('payment_mbway');
-				$order_info = $this->model_checkout_order->getOrder($this->request->post['orderId']);
-            	$gatewayDataBuilder = $this->ifthenpayContainer->getIoc()->make(GatewayDataBuilder::class);
+				$gatewayDataBuilder = $this->ifthenpayContainer->getIoc()->make(GatewayDataBuilder::class);
 				$mbwayPaymentStatus = $this->ifthenpayContainer->getIoc()->make(PaymentStatusFactory::class)->setType($this->paymentMethod)->build();
 				$gatewayDataBuilder->setMbwayKey($configData['payment_mbway_mbwayKey']);
-            	$gatewayDataBuilder->setIdPedido($mbwayPayment['id_transacao']);
-                if ($order_info['order_status_id'] === $this->config->get('payment_mbway_order_status_complete_id') && 
-				$mbwayPaymentStatus->setData($gatewayDataBuilder)->getPaymentStatus()) {
-					$this->response->addHeader('Content-Type: application/json');
-					$this->response->setOutput(json_encode([
-						'orderStatus' => 'paid'
-					]));
-                } else {
-					$this->response->addHeader('Content-Type: application/json');
-					$this->response->setOutput(json_encode([
-						'orderStatus' => 'pending'
-					]));
-                }
+				$gatewayDataBuilder->setIdPedido($mbwayPayment['id_transacao']);
+
+
+				$mbwayKey = $configData['payment_mbway_mbwayKey'];
+				$requestId = $mbwayPayment['id_transacao'];
+
+				$mbwayPaymentStatus = $mbwayPaymentStatus->getPaymentStatusWithArgs($mbwayKey, $requestId);
+
+
+				$this->response->addHeader('Content-Type: application/json');
+				$this->response->setOutput(json_encode($mbwayPaymentStatus));
+
+				return;
 			} else {
 				$this->model_extension_payment_mbway->log([
 					'requestData' => $this->request->post,
@@ -112,16 +111,16 @@ class ControllerExtensionPaymentMbway extends IfthenpayControllerCatalog
 					'error' => 'orderId is required!'
 				]));
 			}
-        } catch (\Throwable $th) {
+		} catch (\Throwable $th) {
 			$this->model_extension_payment_mbway->log([
 				'requestData' => $this->request->post,
 				'errorMessage' => $th->getMessage()
 			], 'Error cancel mbway order from countdown');
-            $this->response->addHeader('Content-Type: application/json');
+			$this->response->addHeader('Content-Type: application/json');
 			$this->response->addHeader('HTTP/1.0 400 Bad Request');
 			$this->response->setOutput(json_encode([
 				'error' => $th->getMessage()
 			]));
-        }
+		}
 	}
 }

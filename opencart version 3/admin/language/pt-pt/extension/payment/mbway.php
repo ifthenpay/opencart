@@ -36,6 +36,12 @@ $_['error_payment_mbway_input_invalid'] = 'Telemóvel MB WAY é inválido!';
 $_['mbwayPhoneNumber'] = 'Telemóvel MB WAY';
 $_['adminResendMbwayNotification'] = 'Resend MB WAY notification';
 
+$_['entry_mbway_transaction_id']	= 'ID de Transação MB WAY';
+$_['entry_amount']	= 'Valor';
+$_['msg_callback_test_empty_fields']	= 'Preencha todos os campos!';
+$_['entry_test_callback']	= 'Testar Callback';
+$_['btn_test']	= 'Testar';
+
 
 // Entry
 $_['activate_callback'] = 'Ativar Callback';
@@ -71,13 +77,22 @@ $_['error_backofficeKey_already_reset'] = 'Chave de acesso ao backoffice já se 
 $_['error_backofficeKey_error'] = 'Erro a salvar a chave de acesso ao backoffice!';
 $_['reset_account_success'] = 'Conta Ifthenpay reinicializada com sucesso!';
 $_['reset_account_error'] = 'Erro a reinicializar conta Ifthenpay!';
-$_['text_cron_1'] = 'Cron Job\'s são tarefas agendadas e executadas periodicamente. Para configurar o seu servidor, pode ler a <a href="http://docs.opencart.com/extension/cron/" target="_blank" class="alert-link"> documentação do opencart </ a >';
-$_['text_cron_2'] = 'Precisa definir o Cron para ser executado a cada minuto.';
-$_['text_cron_3'] = 'Quando o callback falhar pode definir um cron job para consultar o estado do pagamento.';
-$_['text_cron_2'] = 'Precisa definir o Cron para ser executado todos os dias à 1h:00m.';
-$_['entry_cron'] = 'Cron URL';
-$_['button_copy'] = 'Copy';
-$_['text_instruction'] = 'CRON Instruções';
+
+
+$_['label_cron_url'] = 'URL do Cron';
+$_['btn_copy'] = 'Copiar';
+
+$_['text_cron_documentation'] = 'Cron Job\'s são tarefas agendadas e executadas periodicamente. Para configurar o seu servidor, pode ler a <a href="http://docs.opencart.com/extension/cron/" target="_blank" class="alert-link"> documentação do opencart </a>.';
+
+$_['head_cancel_cron'] = '(Cron Job) Cancelar encomendas com MB WAY';
+$_['text_cancel_cron_desc'] = 'Pode definir um cron job para alterar o estado da encomenda para "Cancelada", se a encomenda não for paga dentro de 30 minutos após a confirmação da encomenda.';
+$_['text_cancel_cron_schedule'] = 'Temporize o cron job para ser executado a cada 1 minuto.';
+
+$_['head_check_cron'] = '(Cron Job) Verificar o estado de encomendas com MB WAY';
+$_['text_check_cron_desc'] = 'Se não for possivel ativar o callback, pode definir o cron job abaixo para consultar o estado do pagamento.';
+$_['text_check_cron_schedule'] = 'Temporize o cron job para ser executado a cada dia às 1h:00m.';
+
+
 $_['error_invalid_max_number'] = 'Aviso: Valor de encomenda máximo inválido!';
 $_['error_invalid_min_number'] = 'Aviso: Valor de encomenda mínimo inválido!';
 $_['error_incompatible_min_max'] = 'Aviso: Valor de encomenda mínimo e máximo não são compativeis!';

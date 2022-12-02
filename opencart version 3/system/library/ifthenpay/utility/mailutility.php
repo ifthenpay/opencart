@@ -10,6 +10,7 @@ use Mail;
 class MailUtility implements MailInterface
 {
    private $message;
+   private $messageHtml;
    private $subject;
    private $messageBody;
    private $paymentMethod;
@@ -25,7 +26,7 @@ class MailUtility implements MailInterface
       $this->mail = $mail;
    }
 
-   private function setUpdateUserAccountUrl(): string
+   public function getUpdateUserAccountUrl(): string
    {
       return ($this->ifthenpayController->config->get('config_secure') ? rtrim(HTTP_CATALOG, '/') : rtrim(HTTPS_CATALOG, '/')) .
          '/index.php?route=extension/payment/' . $this->paymentMethod . '/updateUserAccount&user_token=' . $this->userToken;
@@ -36,7 +37,7 @@ class MailUtility implements MailInterface
       $this->storeName = $this->ifthenpayController->config->get('config_name');
       $this->messageBody .= "backofficeKey: " . $this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_backofficeKey') .  "\n\n";
       $this->messageBody .= "Email Cliente: " .  $this->ifthenpayController->config->get('config_email') . "\n\n";
-      $this->messageBody .= "Atualizar Conta Cliente: " . $this->setUpdateUserAccountUrl() . "\n\n";
+      $this->messageBody .= "Atualizar Conta Cliente: " . $this->getUpdateUserAccountUrl() . "\n\n";
       $this->messageBody .= "Pedido enviado automaticamente pelo sistema OpenCart da loja [$this->storeName]";
       return $this->messageBody;
    }
@@ -59,6 +60,10 @@ class MailUtility implements MailInterface
       $this->mail->setSubject($this->subject);
       $this->mail->setText($this->message);
 
+      if (isset($this->messageHtml) && !empty($this->messageHtml)) {
+         $this->mail->setHtml($this->messageHtml);
+      }
+
       $this->mail->setTo("suporte@ifthenpay.com");
       $this->mail->send();
    }
@@ -73,6 +78,12 @@ class MailUtility implements MailInterface
    public function setMessageBody(string $messageBody): MailInterface
    {
       $this->message = $messageBody . $this->setDefaultMessageBody();
+      return $this;
+   }
+
+   public function setHtmlMessageBody(string $messageBody): MailInterface
+   {
+      $this->messageHtml = $messageBody;
       return $this;
    }
 

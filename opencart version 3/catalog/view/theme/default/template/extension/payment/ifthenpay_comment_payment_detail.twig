@@ -55,10 +55,12 @@
                                     {{ifthenpayPaymentPanelReferencia}}
                                     <span class="badge">{{referencia}}</span>
                                 </li>
+                                {% if validade %}
                                 <li class="list-group-item">
                                     {{ifthenpayPaymentPanelValidade}}
                                     <span class="badge">{{validade}}</span>
                                 </li>
+                                {% endif %}
                                 <li class="list-group-item">
                                     {{ifthenpayPaymentPanelIdPedido}}
                                     <span class="badge">{{idPedido}}</span>

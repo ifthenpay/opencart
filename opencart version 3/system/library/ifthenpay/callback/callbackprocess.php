@@ -72,6 +72,16 @@ class CallbackProcess
 
     protected function executePaymentNotFound(): void
     {
+        if (isset($this->request['test']) && $this->request['test'] === 'true') {
+
+            http_response_code(200);
+            $response = [
+                'status' => 'warning',
+                'message' => 'Payment not found for payment method ' . $this->paymentMethod
+            ];
+            die(json_encode($response));
+        }
+
         http_response_code(404);
         die('Pagamento não encontrado');
     }

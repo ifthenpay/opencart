@@ -2,84 +2,103 @@
 	<h5>{{ifthenpayPaymentPanelTitle}}</h5>
 </div>
 <div class="panel-body">
-    <div class="paymentLogo">
-        {% if paymentMethod == 'multibanco' %}
-            <img src="image/payment/ifthenpay/multibanco.png" alt="multibanco logotipo" style="width: 133px; height: 38px">
-        {% elseif paymentMethod == 'mbway' %}
-            <img src="image/payment/ifthenpay/{{paymentMethod}}.png" alt="{{paymentMethod}} logotipo" style="width: 82px; height: 38px">
-        {% elseif paymentMethod == 'payshop' %}
-            <img src="image/payment/ifthenpay/{{paymentMethod}}.png" alt="{{paymentMethod}} logotipo" style="width: 143px; height: 38px">
-        {% elseif paymentMethod == 'ccard' %}
-            <img src="image/payment/ifthenpay/{{paymentMethod}}.png" alt="{{paymentMethod}} logotipo" style="width: 133px; height: 38px">
-        {% endif %}
-    </div>
-    <div class="paymentData">
-        {% if paymentMethod == 'multibanco' %}
-            <ul class="list-group">
-                <li class="list-group-item">
-                    {{ifthenpayPaymentPanelEntidade}}
-                    <span class="badge">{{entidade}}</span>
-                </li>
-                <li class="list-group-item">
-                    {{ifthenpayPaymentPanelReferencia}}
-                    <span class="badge">{{referencia}}</span>
-                </li>
-                {% if validade %}
-                    <li class="list-group-item">
-                        {{ifthenpayPaymentPanelValidade}}
-                        <span class="badge">{{validade}}</span>
-                    </li>
-                {% endif %}
-                <li class="list-group-item">
-                    {{ifthenpayPaymentPanelTotalToPay}}
-                    <span class="badge">{{totalToPay}}</span>
-                </li>
-                
-            </ul>
-        {% elseif paymentMethod == 'mbway' %}
-            <ul class="list-group">
-                <li class="list-group-item">
-                    {{ifthenpayPaymentPanelPhone}}
-                    <span class="badge">{{telemovel}}</span>
-                </li>
-                <li class="list-group-item">
-                    {{ifthenpayPaymentPanelOrder}}
-                    <span id="mbwayOrderId" class="badge">{{orderId}}</span>
-                </li>
-                <li class="list-group-item">
-                    {{ifthenpayPaymentPanelTotalToPay}}
-                    <span class="badge">{{totalToPay}}</span>
-                </li>
-            </ul>
-            {% if resendMbwayNotificationControllerUrl != '' %}
-                <div>
-                    <h5>{{ifthenpayPaymentPanelMbwayNotificationNotReceive}}</h5>
-                    <a id="resendMbwayNotificationMbway" class="btn btn-primary" href="{{resendMbwayNotificationControllerUrl}}?orderId={{orderId}}&mbwayTelemovel={{telemovel}}&orderTotalPay={{totalToPay}}">{{ifthenpayPaymentPanelMbwayResendNotification}}</a>
-                    {{spinner}}
-                </div>
-            {% endif %}
-        {% elseif paymentMethod == 'payshop' %}
-            <ul class="list-group">
-                <li class="list-group-item">
-                    {{ifthenpayPaymentPanelReferencia}}
-                    <span class="badge">{{referencia}}</span>
-                </li>
-                <li class="list-group-item">
-                    {{ifthenpayPaymentPanelValidade}}
-                    <span class="badge">{{validade}}</span>
-                </li>
-                <li class="list-group-item">
-                    {{ifthenpayPaymentPanelTotalToPay}}
-                    <span class="badge">{{totalToPay}}</span>
-                </li>
-            </ul>
-        {% else %}
-            <ul class="list-group">
-                <li class="list-group-item">
-                    {{ifthenpayPaymentPanelTotalToPay}}
-                    <span class="badge">{{totalToPay}}</span>
-                </li>
-            </ul>
-        {% endif %}
-    </div>
+	<div class="paymentLogo">
+		{% if paymentMethod == 'multibanco' %}
+			<img src="image/payment/ifthenpay/multibanco.png" alt="multibanco logotipo" style="width: 133px; height: 38px">
+		{% elseif paymentMethod == 'mbway' %}
+			<img src="image/payment/ifthenpay/{{paymentMethod}}.png" alt="{{paymentMethod}} logotipo" style="width: 82px; height: 38px">
+		{% elseif paymentMethod == 'payshop' %}
+			<img src="image/payment/ifthenpay/{{paymentMethod}}.png" alt="{{paymentMethod}} logotipo" style="width: 143px; height: 38px">
+		{% elseif paymentMethod == 'ccard' %}
+			<img src="image/payment/ifthenpay/{{paymentMethod}}.png" alt="{{paymentMethod}} logotipo" style="width: 133px; height: 38px">
+		{% endif %}
+	</div>
+	<div class="paymentData">
+		{% if paymentMethod == 'multibanco' %}
+
+			<table class="table if_table">
+				<tbody>
+					<tr>
+						<td class="if_td_desc">{{ifthenpayPaymentPanelEntidade}}</td>
+						<td class="if_td_value">{{entidade}}</td>
+					</tr>
+					<tr>
+						<td class="if_td_desc">{{ifthenpayPaymentPanelReferencia}}</td>
+						<td class="if_td_value">{{referencia}}</td>
+					</tr>
+					{% if validade %}
+						<tr>
+							<td class="if_td_desc">{{ifthenpayPaymentPanelValidade}}</td>
+							<td class="if_td_value">{{validade}}</td>
+						</tr>
+					{% endif %}
+					<tr>
+						<td class="if_td_desc">{{ifthenpayPaymentPanelTotalToPay}}</td>
+						<td class="if_td_value">{{totalToPay}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<p class="ifthenpay_info">{{ifthenpayPaymentPanelProcessed}}</p>
+
+		{% elseif paymentMethod == 'mbway' %}
+
+			<table class="table if_table">
+				<tbody>
+					<tr>
+						<td class="if_td_desc">{{ifthenpayPaymentPanelPhone}}</td>
+						<td class="if_td_value">{{telemovel}}</td>
+					</tr>
+					<tr>
+						<td class="if_td_desc">{{ifthenpayPaymentPanelOrder}}</td>
+						<td id="mbwayOrderId" class="if_td_value">{{orderId}}</td>
+					</tr>
+					<tr>
+						<td class="if_td_desc">{{ifthenpayPaymentPanelTotalToPay}}</td>
+						<td class="if_td_value">{{totalToPay}}</td>
+					</tr>
+				</tbody>
+			</table>
+
+			{% if resendMbwayNotificationControllerUrl != '' %}
+
+				<div>
+					<h5>{{ifthenpayPaymentPanelMbwayNotificationNotReceive}}</h5>
+					<a id="resendMbwayNotificationMbway" class="btn btn-primary" href="{{resendMbwayNotificationControllerUrl}}?orderId={{orderId}}&mbwayTelemovel={{telemovel}}&orderTotalPay={{totalToPay}}">{{ifthenpayPaymentPanelMbwayResendNotification}}</a>
+					{{spinner}}
+				</div>
+			{% endif %}
+		{% elseif paymentMethod == 'payshop' %}
+
+			<table class="table if_table">
+				<tbody>
+					<tr>
+						<td class="if_td_desc">{{ifthenpayPaymentPanelReferencia}}</td>
+						<td class="if_td_value">{{referencia}}</td>
+					</tr>
+					{% if validade %}
+						<tr>
+							<td class="if_td_desc">{{ifthenpayPaymentPanelValidade}}</td>
+							<td class="if_td_value">{{validade}}</td>
+						</tr>
+					{% endif %}
+					<tr>
+						<td class="if_td_desc">{{ifthenpayPaymentPanelTotalToPay}}</td>
+						<td class="if_td_value">{{totalToPay}}</td>
+					</tr>
+				</tbody>
+			</table>
+
+		{% else %}
+
+			<table class="table if_table">
+				<tbody>
+					<tr>
+						<td class="if_td_desc">{{ifthenpayPaymentPanelTotalToPay}}</td>
+						<td class="if_td_value">{{totalToPay}}</td>
+					</tr>
+				</tbody>
+			</table>
+
+		{% endif %}
+	</div>
 </div>

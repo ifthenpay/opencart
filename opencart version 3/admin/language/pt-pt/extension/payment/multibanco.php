@@ -34,6 +34,16 @@ $_['acess_user_documentation_link'] = 'https://www.ifthenpay.com/downloads/openc
 $_['entry_minimum_value'] = 'Valor Mínimo da Encomenda';
 $_['entry_maximum_value'] = 'Valor Máximo da Encomenda';
 $_['resendPaymentData']	= 'Envie um email da encomenda com os dados de pagamento';
+$_['entry_reference']	= 'Referência';
+$_['entry_amount']	= 'Valor';
+$_['msg_callback_test_empty_fields']	= 'Preencha todos os campos!';
+$_['entry_test_callback']	= 'Testar Callback';
+$_['btn_test']	= 'Testar';
+
+
+
+
+
 
 
 // Error
@@ -69,13 +79,22 @@ $_['dontHaveAccount_multibanco_dynamic'] = 'Não tem conta de Multibanco dinâmi
 $_['requestAccount_multibanco_dynamic'] = 'Solicitar criação de conta Multibanco dinâmica';
 $_['activate_cancelMultibancoOrder'] = 'Cancelar Encomenda Multibanco';
 $_['multibancoOrderCancel_help'] = 'Cancele a encomenda Multibanco após a referência expirar.';
-$_['text_cron_1'] = 'Cron Job\'s são tarefas agendadas e executadas periodicamente. Para configurar o seu servidor, pode ler a <a href="http://docs.opencart.com/extension/cron/" target="_blank" class="alert-link"> documentação do opencart </ a >';
-$_['text_cron_2'] = 'Precisa definir o Cron para ser executado a cada minuto.';
-$_['text_cron_3'] = 'Quando o callback falhar pode definir um cron job para consultar o estado do pagamento.';
-$_['text_cron_4'] = 'Precisa definir o Cron para ser executado todos os dias à 1h:00m.';
-$_['entry_cron'] = 'Cron URL';
-$_['button_copy'] = 'Copy';
-$_['text_instruction'] = 'CRON Instruções';
+
+
+$_['label_cron_url'] = 'URL do Cron';
+$_['btn_copy'] = 'Copiar';
+
+$_['text_cron_documentation'] = 'Cron Job\'s são tarefas agendadas e executadas periodicamente. Para configurar o seu servidor, pode ler a <a href="http://docs.opencart.com/extension/cron/" target="_blank" class="alert-link"> documentação do opencart </a>.';
+
+$_['head_cancel_cron'] = '(Cron Job) Cancelar encomendas com Multibanco';
+$_['text_cancel_cron_desc'] = 'Pode definir um cron job para alterar o estado da encomenda para "Cancelada", se a encomenda não for paga dentro da validade. Necessita de atribuir Validade da Referência Multibanco definida para funcionar.';
+$_['text_cancel_cron_schedule'] = 'Temporize o cron job para ser executado a cada 1 minuto.';
+
+$_['head_check_cron'] = '(Cron Job) Verificar o estado de encomendas com Multibanco';
+$_['text_check_cron_desc'] = 'Se não for possivel ativar o callback, pode definir o cron job abaixo para consultar o estado do pagamento.';
+$_['text_check_cron_schedule'] = 'Temporize o cron job para ser executado a cada dia às 1h:00m.';
+
+
 $_['error_invalid_max_number'] = 'Aviso: Valor de encomenda máximo inválido!';
 $_['error_invalid_min_number'] = 'Aviso: Valor de encomenda mínimo inválido!';
 $_['error_incompatible_min_max'] = 'Aviso: Valor de encomenda mínimo e máximo não são compativeis!';

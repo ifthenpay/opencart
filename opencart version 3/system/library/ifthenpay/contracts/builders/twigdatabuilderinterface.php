@@ -20,10 +20,13 @@ interface TwigDataBuilderInterface extends DataBuilderInterface
     public function setPaymentReturnMbwayConfirmPaymentNotificationTime(string $value): TwigDataBuilderInterface;
     public function setPaymentReturnMbwayConfirmPaymentNotificationResend(string $value): TwigDataBuilderInterface;
     public function setPaymentReturnMbwayPaymentPaid(string $value): TwigDataBuilderInterface;
+    public function setPaymentReturnMbwayPaymentRefused(string $value): TwigDataBuilderInterface;
+    public function setPaymentReturnMbwayPaymentError(string $value): TwigDataBuilderInterface;
     public function setPaymentReturnMbwayOrderConfirmed(string $value): TwigDataBuilderInterface;
     public function setIfthenpayPaymentPanelEntidade(string $value): TwigDataBuilderInterface;
     public function setIfthenpayPaymentPanelReferencia(string $value): TwigDataBuilderInterface;
     public function setIfthenpayPaymentPanelTotalToPay(string $value): TwigDataBuilderInterface;
+    public function setIfthenpayPaymentPanelProcessed(string $value): TwigDataBuilderInterface;
     public function setIfthenpayPaymentPanelIdPedido(string $value): TwigDataBuilderInterface;
     public function setIfthenpayPaymentPanelPhone(string $value): TwigDataBuilderInterface;
     public function setIfthenpayPaymentPanelOrder(string $value): TwigDataBuilderInterface;

@@ -10,9 +10,12 @@ use Ifthenpay\Contracts\Payments\PaymentStatusInterface;
 
 class MbWayPaymentStatus implements PaymentStatusInterface
 {
-    private $data;
-    private $mbwayPedido;
     private $webService;
+
+    private static $statusRefusedByUser = '020';
+    private static $statusPaid = '000';
+    private static $statusPending = '123';
+
 
     public function __construct(WebService $webService)
     {
@@ -55,5 +58,45 @@ class MbWayPaymentStatus implements PaymentStatusInterface
         $this->data = $data;
 
         return $this;
+    }
+
+    public function getPaymentStatusWithArgs($mbwayKey, $requestId)
+    {
+        $response = $this->webService->postRequest(
+            'https://mbway.ifthenpay.com/IfthenPayMBW.asmx/EstadoPedidosJSON',
+            [
+                'MbWayKey' => $mbwayKey,
+                'canal' => '03',
+                'idspagamento' => $requestId
+            ]
+        )->getResponseJson();
+
+        try {
+            $status = $response['EstadoPedidos'][0]['Estado'];
+
+
+            if ($status === self::$statusPending) {
+                return
+                    ['orderStatus' => 'pending'];
+            }
+            if ($status === self::$statusRefusedByUser) {
+                return 
+                    ['orderStatus' => 'refused']
+                ;
+            }
+            if ($status === self::$statusPaid) {
+                return 
+                    ['orderStatus' => 'paid']
+                ;
+            }
+
+            return 
+                ['orderStatus' => 'error']
+            ;
+        } catch (\Throwable $th) {
+            return 
+                ['orderStatus' => 'error']
+            ;
+        }
     }
 }

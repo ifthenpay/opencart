@@ -36,6 +36,11 @@ $_['error_payment_mbway_input_required'] = 'MB WAY phone is required!';
 $_['error_payment_mbway_input_invalid'] = 'MB WAY phone is invalid!';
 $_['mbwayPhoneNumber'] = 'MB WAY Phone Number';
 $_['adminResendMbwayNotification'] = 'Resend MB WAY notification';
+$_['entry_mbway_transaction_id']	= 'MB WAY transaction ID';
+$_['entry_amount']	= 'Amount';
+$_['msg_callback_test_empty_fields']	= 'Please fill all fields';
+$_['entry_test_callback']	= 'Test Callback';
+$_['btn_test']	= 'Test';
 
 // Entry
 $_['activate_callback'] = 'Activate Callback';
@@ -73,13 +78,22 @@ $_['error_backofficeKey_error'] = 'Error saving Backoffice key!';
 
 $_['reset_account_success'] = 'Ifthenpay account reset with success!';
 $_['reset_account_error'] = 'Error Reseting Ifthenpay Accounts!';
-$_['text_cron_1'] = 'Cron Job\'s are scheduled tasks that are run periodically. To setup your servers to use cron job you can read the <a href="http://docs.opencart.com/extension/cron/" target="_blank" class="alert-link">opencart documentation</a> page.';
-$_['text_cron_2'] = 'You need to set your Cron task to run every minute.';
-$_['text_cron_3'] = 'When the callback fails, you can set a cron job to check the payment status.';
-$_['text_cron_4'] = 'You need to set Cron to run every day at 1:00 am.';
-$_['entry_cron'] = 'Cron URL';
-$_['button_copy'] = 'Copy';
-$_['text_instruction'] = 'CRON Instructions';
+
+
+$_['label_cron_url'] = 'Cron URL';
+$_['btn_copy'] = 'Copy';
+
+$_['text_cron_documentation'] = 'Cron Job\'s are scheduled tasks that are run periodically. To setup your servers to use cron job you can read the <a href="http://docs.opencart.com/extension/cron/" target="_blank" class="alert-link">opencart documentation</a> page.';
+
+$_['head_cancel_cron'] = '(Cron Job) Cancel MB WAY Order';
+$_['text_cancel_cron_desc'] = 'You can set up this cron job to change orders status to "Canceled", if order is not payed within 30 minutes after order confirmation.';
+$_['text_cancel_cron_schedule'] = 'Schedule the cron job to run every 1 minute.';
+
+$_['head_check_cron'] = '(Cron Job) Check Status of MB WAY Order';
+$_['text_check_cron_desc'] = 'If it is not possible to activate the Callback, you can set up this cron job to check the payment status of the orders instead.';
+$_['text_check_cron_schedule'] = 'Schedule the cron job to run every day at 1:00 am.';
+
+
 $_['error_invalid_max_number'] = 'Warning: Order Maximum Value invalid number!';
 $_['error_invalid_min_number'] = 'Warning: Order Minimum Value invalid number!';
 $_['error_incompatible_min_max'] = 'Warning: Order Minimum and Maximum Values are not compatible!';

@@ -15,25 +15,63 @@
 				<p>{{paymentReturnMbwayConfirmPaymentMinutes}}</p>
 			</div>
 		</div>
+
+
 		<div id="confirmMbwayOrder" class="panel" style="display:none;">
 			<div class="panel-heading">
-			<img src="catalog/view/theme/default/image/ifthenpay/svg/mbwayOrderConfirm.svg" alt="confirm order icon">
+				<img src="catalog/view/theme/default/image/ifthenpay/png/ifthenpay_success.png" alt="confirm order icon">
 			</div>
 			<div class="panel-body">
 				<h3>{{paymentReturnMbwayPaymentPaid}}</h3>
 				<p>{{paymentReturnMbwayOrderConfirmed}}</p>
 			</div>
 		</div>
+
+		<div id="refusedMbwayOrder" class="panel" style="display:none;">
+			<div class="panel-heading">
+				<img src="catalog/view/theme/default/image/ifthenpay/png/ifthenpay_warning.png" alt="refused order icon">
+			</div>
+			<div class="panel-body">
+				<h3>{{paymentReturnMbwayPaymentRefused}}</h3>
+				<p>{{paymentReturnMbwayOrderRefused}}</p>
+			</div>
+		</div>
+
+		<div id="errorMbwayOrder" class="panel" style="display:none;">
+			<div class="panel-heading">
+				<img src="catalog/view/theme/default/image/ifthenpay/png/ifthenpay_error.png" alt="error order icon">
+			</div>
+			<div class="panel-body">
+				<h3>{{paymentReturnMbwayPaymentError}}</h3>
+				<p>{{paymentReturnMbwayOrderError}}</p>
+			</div>
+		</div>
+		<div id="timeoutMbwayOrder" class="panel" style="display:none;">
+			<div class="panel-heading">
+				<img src="catalog/view/theme/default/image/ifthenpay/png/ifthenpay_error.png" alt="timeout order icon">
+			</div>
+			<div class="panel-body">
+				<h3>{{paymentReturnMbwayPaymentTimeOut}}</h3>
+				<p>{{paymentReturnMbwayOrderTimeOut}}</p>
+			</div>
+		</div>
+		
+
+
 	{% endif %}
 	{% if paymentMethod == 'ccard' %}
 		{% if ccard_success %}
-			<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ ccard_success }}
+			<div class="alert alert-success alert-dismissible">
+				<i class="fa fa-check-circle"></i>
+				{{ ccard_success }}
 				<button type="button" class="close" data-dismiss="alert">&times;</button>
 			</div>
 		{% endif %}
 		{% if ccard_error %}
-			<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ ccard_error }}
-			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert alert-danger alert-dismissible">
+				<i class="fa fa-exclamation-circle"></i>
+				{{ ccard_error }}
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
 			</div>
 		{% endif %}
 	{% endif %}
@@ -41,7 +79,7 @@
 		{{paymentReturnPaymentPanel}}
 	</div>
 {% else %}
-{{status}}
+	{{status}}
 	<div id="orderErrorPanel" class="panel">
 		<div class="panel-heading">
 			<img src="catalog/view/theme/default/image/ifthenpay/svg/error.svg" alt="error icon">

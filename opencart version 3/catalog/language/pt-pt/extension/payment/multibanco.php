@@ -8,6 +8,7 @@ $_['ifthenpayPaymentPanelTitle'] = 'Pagamento por Multibanco';
 $_['ifthenpayPaymentPanelEntidade'] = 'Entidade:';
 $_['ifthenpayPaymentPanelReferencia'] = 'Referencia:';
 $_['ifthenpayPaymentPanelTotalToPay'] = 'Valor:';
+$_['ifthenpayPaymentPanelProcessed'] = 'Processado por ifthenpay';
 $_['multibancoAlias'] = 'Multibanco';
 $_['paymentConfirmedSuccess'] = 'Pagamento feito com sucesso.';
 ?>

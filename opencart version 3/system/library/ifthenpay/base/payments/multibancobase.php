@@ -16,7 +16,7 @@ class MultibancoBase extends PaymentBase
     {
         $this->gatewayBuilder->setEntidade($this->configData['payment_multibanco_entidade']);
         $this->gatewayBuilder->setSubEntidade($this->configData['payment_multibanco_subEntidade']);
-        if (isset($this->configData['payment_multibanco_deadline']) && $this->configData['payment_multibanco_deadline']) {
+        if (isset($this->configData['payment_multibanco_deadline']) && $this->configData['payment_multibanco_deadline'] != '') {
             $this->gatewayBuilder->setValidade($this->configData['payment_multibanco_deadline']);
         }
         

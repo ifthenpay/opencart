@@ -39,13 +39,21 @@ $_['entry_maximum_value'] = 'Order Maximum Value';
 $_['help_entry_maximum_value'] = 'Only show customer this payment method if order value equal or less than maximum value';
 $_['request_new_account_success'] = 'Email requesting new account send with success.';
 $_['request_new_account_error'] = 'Error sending email requesting new account.';
-$_['text_cron_1'] = 'Cron Job\'s are scheduled tasks that are run periodically. To setup your servers to use cron job you can read the <a href="http://docs.opencart.com/extension/cron/" target="_blank" class="alert-link">opencart documentation</a> page.';
-$_['text_cron_2'] = 'You need to set your Cron task to run every minute.';
-$_['text_cron_3'] = 'When the callback fails, you can set a cron job to check the payment status.';
-$_['text_cron_4'] = 'You need to set Cron to run every day at 1:00 am.';
-$_['entry_cron'] = 'Cron URL';
-$_['button_copy'] = 'Copy';
-$_['text_instruction'] = 'CRON Instructions';
+
+
+$_['label_cron_url'] = 'Cron URL';
+$_['btn_copy'] = 'Copy';
+
+$_['text_cron_documentation'] = 'Cron Job\'s are scheduled tasks that are run periodically. To setup your servers to use cron job you can read the <a href="http://docs.opencart.com/extension/cron/" target="_blank" class="alert-link">opencart documentation</a> page.';
+
+$_['head_cancel_cron'] = '(Cron Job) Cancel Credit Card Order';
+$_['text_cancel_cron_desc'] = 'You can set up this cron job to change orders status to "Canceled", if order is not payed within 30 minutes after order confirmation.';
+$_['text_cancel_cron_schedule'] = 'Schedule the cron job to run every 1 minute.';
+
+$_['head_check_cron'] = '(Cron Job) Check Status of Credit Card Order';
+$_['text_check_cron_desc_1'] = 'This method does not make use of the callback function to change order state, this is handled internally. To test credit card payed orders you must use a test card which you can request from Ifthenpay.';
+$_['text_check_cron_desc_2'] = 'If having issues updating status of payed orders, you can set up this cron job to check the payment status of the orders instead.';
+$_['text_check_cron_schedule'] = 'Schedule the cron job to run every day at 1:00 am.';
 
 
 // Entry

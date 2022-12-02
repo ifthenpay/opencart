@@ -61,13 +61,22 @@ $_['sandboxActivated'] = 'Modo Sandbox activo';
 $_['show_paymentMethod_logo'] = 'Mostrar o Logotipo do Método de Pagamento no Checkout';
 $_['request_new_account_success'] = 'Email a solicitar nova conta enviado com sucesso.';
 $_['request_new_account_error'] = 'Erro ao enviar email a solicitar nova conta.';
-$_['text_cron_1'] = 'Cron Job\'s são tarefas agendadas e executadas periodicamente. Para configurar o seu servidor, pode ler a <a href="http://docs.opencart.com/extension/cron/" target="_blank" class="alert-link"> documentação do opencart </ a >';
-$_['text_cron_2'] = 'Precisa definir o Cron para ser executado a cada minuto.';
-$_['text_cron_3'] = 'Quando o callback falhar pode definir um cron job para consultar o estado do pagamento.';
-$_['text_cron_2'] = 'Precisa definir o Cron para ser executado todos os dias à 1h:00m.';
-$_['entry_cron'] = 'Cron URL';
-$_['button_copy'] = 'Copy';
-$_['text_instruction'] = 'CRON Instruções';
+
+
+$_['label_cron_url'] = 'URL do Cron';
+$_['btn_copy'] = 'Copiar';
+
+$_['text_cron_documentation'] = 'Cron Job\'s são tarefas agendadas e executadas periodicamente. Para configurar o seu servidor, pode ler a <a href="http://docs.opencart.com/extension/cron/" target="_blank" class="alert-link"> documentação do opencart </a>.';
+
+$_['head_cancel_cron'] = '(Cron Job) Cancelar encomendas com Cartão de Crédito';
+$_['text_cancel_cron_desc'] = 'Pode definir um cron job para alterar o estado da encomenda para "Cancelada", se a encomenda não for paga dentro de 30 minutos após a confirmação da encomenda.';
+$_['text_cancel_cron_schedule'] = 'Temporize o cron job para ser executado a cada 1 minuto.';
+
+$_['head_check_cron'] = '(Cron Job) Verificar o estado de encomendas com Cartão de Crédito';
+$_['text_check_cron_desc_1'] = 'Este método não usa a função de callback para alterar o estado da encomenda, este é tratado internamente. Para testar encomendas pagas por Cartão de Crédito deve usar um cartão de testes, o qual pode pedir a Ifthenpay';
+$_['text_check_cron_desc_2'] = 'Se tiver problemas a atualização do estado da encomenda, pode definir um cron job para consultar o estado do pagamento.';
+$_['text_check_cron_schedule'] = 'Temporize o cron job para ser executado a cada dia às 1h:00m.';
+
 
 // Error
 $_['error_permission'] = 'Aviso: Não tem permissão para modificar o módulo MB WAY!';

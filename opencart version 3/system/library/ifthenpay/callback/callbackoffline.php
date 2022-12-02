@@ -18,6 +18,11 @@ class CallbackOffline extends CallbackProcess implements CallbackProcessInterfac
             $this->executePaymentNotFound();
         } else {
             try {
+
+                if(isset($this->paymentData['status']) && $this->paymentData['status'] === 'paid' && (isset($_GET['test']) && $_GET['test'] === 'true')) {
+                    throw new \Exception('Pagamento já efetuado');
+                }
+
                 $this->setOrder();
                 $this->callbackValidate->setHttpRequest($this->request)
                 ->setOrder($this->order)
@@ -34,9 +39,35 @@ class CallbackOffline extends CallbackProcess implements CallbackProcessInterfac
                     true,
                     true
                 );
+
+                if (isset($_GET['test']) && $_GET['test'] === 'true') {
+                    http_response_code(200);
+
+                    $response = [
+                        'status' => 'success',
+                        'message' => 'Callback received and validated with success for payment method ', pathinfo(__FILE__)['filename'] . $this->paymentMethod
+                    ];
+
+
+                    die(json_encode($response));
+                }
+
                 http_response_code(200);
                 die('ok');           
             } catch (\Throwable $th) {
+
+                if (isset($_GET['test']) && $_GET['test'] === 'true') {
+                    http_response_code(200);
+
+                    $response = [
+                        'status' => 'warning',
+                        'message' => $th->getMessage(),
+                    ];
+
+
+                    die(json_encode($response));
+                }
+
                 http_response_code(400);
                 die($th->getMessage());
             }

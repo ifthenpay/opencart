@@ -11,19 +11,25 @@ use Ifthenpay\Payments\Gateway;
 class MultibancoConfigForm extends ConfigForm
 {
     protected $paymentMethod = Gateway::MULTIBANCO;
-
-    private function setValidity(): array
+/**
+ * returns array of number of days to be used in the deadline select
+ * example: [['value' => 1], ['value' => 2]]
+ * the conversion to string is required because zero was being interpreted as ""
+ *
+ * @return array
+ */
+    private function getValidity(): array
     {
         $deadlines = [];
 
         for ($i = 0; $i < 32; $i++) {
             $deadlines[] = [
-                'value' => $i
+                'value' => "" . $i
             ];
         }
         foreach ([45, 60, 90, 120] as $value) {
             $deadlines[] = [
-                'value' => $value
+                'value' => "" . $value
             ];
         }
         return $deadlines;
@@ -125,7 +131,7 @@ class MultibancoConfigForm extends ConfigForm
             if ($this->ifthenpayGateway->checkDynamicMb(unserialize($this->configData['payment_multibanco_userAccount']))) {
                 $this->data['dynamicMb'] = true;
 
-                $this->data['multibanco_deadlines'] = $this->setValidity();
+                $this->data['multibanco_deadlines'] = $this->getValidity();
 
                 if (isset($this->ifthenpayController->request->post['payment_multibanco_deadline'])) {
                     $this->data['payment_multibanco_deadline'] = $this->ifthenpayController->request->post['payment_multibanco_deadline'];

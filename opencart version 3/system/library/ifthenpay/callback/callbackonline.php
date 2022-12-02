@@ -35,7 +35,6 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
                     $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
                     $this->ifthenpayController->model_extension_payment_ccard->log([
                         'paymentData' => $this->paymentData,
-                        'order' => $this->order,
                     ], 'order already paid');
                     $this->ifthenpayController->response->redirect($this->ifthenpayController->url->link($checkoutLink, true));
                 } else {
@@ -54,10 +53,16 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
                         } else {
                             $orderTotal = floatval($this->order['total']);
                         }
-                        $requestValor = floatval($this->request['amount']);
-                        if (round($orderTotal, 2) !== round($requestValor, 2)) {
+                        $requestValue = floatval($this->request['amount']);
+                        if (round($orderTotal, 2) !== round($requestValue, 2)) {
                             $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = '';
                             $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_error'] = $this->ifthenpayController->language->get('ccard_error_message');
+
+                            $this->ifthenpayController->model_extension_payment_ccard->log([
+                                'orderTotal' => $orderTotal,
+                                'requestValue' => $requestValue,
+                                'paymentData' => $this->paymentData
+                            ], 'Payment value by credit card not valid');
                         }
                         $this->changeIfthenpayPaymentStatus('paid');
                         $this->ifthenpayController->model_checkout_order->addOrderHistory(
@@ -83,6 +88,10 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
                         $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = '';
                         $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_error'] = $this->ifthenpayController->language->get('ccard_error_canceled');
                         $checkoutLink = 'checkout/failure';
+
+                        $this->ifthenpayController->model_extension_payment_ccard->log([
+                            'paymentData' => $this->paymentData
+                        ], 'Payment by credit card canceled by the client');
                     } else {
                         $this->changeIfthenpayPaymentStatus('error');
                         $this->ifthenpayController->model_checkout_order->addOrderHistory(
@@ -96,6 +105,16 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
                         $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = '';
                         $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_error'] = $this->ifthenpayController->language->get('ccard_error_failed');
                         $checkoutLink = 'checkout/failure';
+
+                        $errorMsg = [];
+                        if (isset($this->request['error'])) {
+                            $errorMsg = $this->request['error'];
+                        }
+
+                        $this->ifthenpayController->model_extension_payment_ccard->log([
+                            'error' => $errorMsg,
+                            'paymentData' => $this->paymentData
+                        ], 'Error processing credit card payment');
                     }
 
                     $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
@@ -107,6 +126,12 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
                 $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = '';
                 $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_error'] = $th->getMessage();
                 $checkoutLink = 'checkout/failure';
+
+                $this->ifthenpayController->model_extension_payment_ccard->log([
+                    'error' => $th->getMessage(),
+                    'paymentData' => $this->paymentData
+                ], 'Error processing credit card payment - internal error');
+
                 $this->ifthenpayController->response->redirect($this->ifthenpayController->url->link($checkoutLink, true));
             }
         }

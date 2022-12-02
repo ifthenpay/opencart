@@ -123,6 +123,18 @@ class TwigDataBuilder extends DataBuilder implements TwigDataBuilderInterface
         return $this;
     }
 
+    public function setPaymentReturnMbwayPaymentRefused(string $value): TwigDataBuilderInterface
+    {
+        $this->data->paymentReturnMbwayPaymentRefused = $value;
+        return $this;
+    }
+
+    public function setPaymentReturnMbwayPaymentError(string $value): TwigDataBuilderInterface
+    {
+        $this->data->paymentReturnMbwayPaymentError = $value;
+        return $this;
+    }
+
     public function setPaymentReturnMbwayOrderConfirmed(string $value): TwigDataBuilderInterface
     {
         $this->data->paymentReturnMbwayOrderConfirmed = $value;
@@ -145,6 +157,12 @@ class TwigDataBuilder extends DataBuilder implements TwigDataBuilderInterface
     public function setIfthenpayPaymentPanelTotalToPay(string $value): TwigDataBuilderInterface
     {
         $this->data->ifthenpayPaymentPanelTotalToPay = $value;
+        return $this;
+    }
+
+    public function setIfthenpayPaymentPanelProcessed(string $value): TwigDataBuilderInterface
+    {
+        $this->data->ifthenpayPaymentPanelProcessed = $value;
         return $this;
     }
 

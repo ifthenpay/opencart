@@ -114,16 +114,18 @@
 								<div class="panel panel-default">
 									<div class="panel-heading">
 										<i class="fa fa-question-circle"></i>
-										{{ text_instruction }}</div>
+										{{ head_cancel_cron }}</div>
+
 									<div class="panel-body">
-										<p>{{ text_cron_1 }}</p>
-										<p>{{ text_cron_2 }}</p>
+										<p>{{ text_cron_documentation }}</p>
+										<p>{{ text_cancel_cron_desc }}</p>
+										<p>{{ text_cancel_cron_schedule }}</p>
 										<div class="input-group">
-											<div class="input-group-addon">{{ entry_cron }}
+											<div class="input-group-addon">{{ label_cron_url }}
 											</div>
 											<input type="text" value="wget -q -O /dev/null &quot;{{ cron }}&quot; --read-timeout=5400" id="input-cron" class="form-control"/>
 											<div class="input-group-btn">
-												<button type="button" id="button-copy" data-toggle="tooltip" title="{{ button_copy }}" class="btn btn-default">
+												<button type="button" id="button-copy" data-toggle="tooltip" title="{{ btn_copy }}" class="btn btn-default">
 													<i class="fa fa-copy"></i>
 												</button>
 											</div>
@@ -208,7 +210,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label" for="input-sort-order">
+								<label class="col-sm-2 control-label" for="input-minimum-value">
 									<span data-toggle="tooltip" title="{{ help_entry_minimum_value }}">{{ entry_minimum_value }}</span>
 								</label>
 								<div class="col-sm-10">
@@ -216,11 +218,11 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label" for="input-sort-order">
+								<label class="col-sm-2 control-label" for="input-maximum-value">
 									<span data-toggle="tooltip" title="{{ help_entry_maximum_value }}">{{ entry_maximum_value }}</span>
 								</label>
 								<div class="col-sm-10">
-									<input type="number" id="input-minimum-value" name="payment_mbway_maximum_value" value="{{payment_mbway_maximum_value}}" step="0.01" placeholder="0.00" class="form-control" min="0"/>
+									<input type="number" id="input-maximum-value" name="payment_mbway_maximum_value" value="{{payment_mbway_maximum_value}}" step="0.01" placeholder="0.00" class="form-control" min="0"/>
 								</div>
 							</div>
 							<div class="form-group">
@@ -291,23 +293,21 @@
 					</div>
 				</div>
 
-
-			</div>
-			<div class="panel panel-default">
+				<div class="panel panel-default ml-15px mr-15px">
 				<div class="panel-heading">
 					<i class="fa fa-question-circle"></i>
-					{{ text_instruction }}</div>
+					{{ head_check_cron }}</div>
 				<div class="panel-body">
-					<p>{{ text_cron_1 }}</p>
-					<p>{{ text_cron_3 }}</p>
-					<p>{{ text_cron_4 }}</p>
+						<p>{{ text_cron_documentation }}</p>
+						<p>{{ text_check_cron_desc }}</p>
+						<p>{{ text_check_cron_schedule }}</p>
 					<div class="form-group">
 						<div class="input-group">
-							<div class="input-group-addon">{{ entry_cron }}
+							<div class="input-group-addon">{{ label_cron_url }}
 							</div>
 							<input type="text" value="wget -q -O /dev/null &quot;{{ cron_check_payment_status }}&quot; --read-timeout=5400" id="input-cron-paymentStatus" class="form-control"/>
 							<div class="input-group-btn">
-								<button type="button" id="button-copy-payment-status" data-toggle="tooltip" title="{{ button_copy }}" class="btn btn-default">
+								<button type="button" id="button-copy-payment-status" data-toggle="tooltip" title="{{ btn_copy }}" class="btn btn-default">
 									<i class="fa fa-copy"></i>
 								</button>
 							</div>
@@ -315,6 +315,49 @@
 					</div>
 				</div>
 			</div>
+			</div>
+
+
+			{# Test callback panel #}
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<i class="fa fa-question-circle"></i>
+					{{ entry_test_callback }}
+				</div>
+
+				<div class="panel-body form-horizontal">
+
+					<div id="callback_result" data-msgemptyfields="{{ msg_callback_test_empty_fields }}"></div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="mbway_transaction_id">
+							{{ entry_mbway_transaction_id }}
+						</label>
+						<div class="col-sm-10">
+							<input type="text" id="mbway_transaction_id" name="mbway_transaction_id" class="form-control"/>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="amount">
+							{{ entry_amount }}
+						</label>
+						<div class="col-sm-10">
+							<input type="text" id="amount" name="amount" class="form-control"/>
+						</div>
+					</div>
+
+
+					<div class="pull-right">
+						<button id="test_callback" type="button" data-toggle="tooltip" data-paymentmethod="mbway" title="{{ button_save }}" data-url="{{test_callback_controller_url}}" class="btn btn-primary">
+							{{ btn_test }}
+						</button>
+					</div>
+
+				</div>
+			</div>
+
 		{% endif %}
 
 		{% if payment_mbway_backofficeKey %}

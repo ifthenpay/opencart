@@ -27,6 +27,8 @@ class MbwayBase extends PaymentBase
         $this->twigDefaultData->setPaymentReturnMbwayConfirmPaymentNotificationTime($this->ifthenpayController->language->get('paymentReturnMbwayConfirmPaymentNotificationTime'));
         $this->twigDefaultData->setPaymentReturnMbwayConfirmPaymentNotificationResend($this->ifthenpayController->language->get('paymentReturnMbwayConfirmPaymentNotificationResend'));
         $this->twigDefaultData->setPaymentReturnMbwayPaymentPaid($this->ifthenpayController->language->get('paymentReturnMbwayPaymentPaid'));
+        $this->twigDefaultData->setPaymentReturnMbwayPaymentRefused($this->ifthenpayController->language->get('paymentReturnMbwayPaymentRefused'));
+        $this->twigDefaultData->setPaymentReturnMbwayPaymentError($this->ifthenpayController->language->get('paymentReturnMbwayPaymentError'));
         $this->twigDefaultData->setPaymentReturnMbwayOrderConfirmed($this->ifthenpayController->language->get('paymentReturnMbwayOrderConfirmed'));
     }
     protected function setGatewayBuilderData(): void
