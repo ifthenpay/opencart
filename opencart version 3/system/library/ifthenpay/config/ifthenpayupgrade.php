@@ -9,20 +9,20 @@ use Ifthenpay\Request\WebService;
 
 class IfthenpayUpgrade
 {
-    const MODULE_VERSION = '1.1.5';
+    const MODULE_VERSION = '1.1.6';
     private $webService;
-    
 
-	public function __construct(WebService $webService)
-	{
+
+    public function __construct(WebService $webService)
+    {
         $this->webService = $webService;
-	}
+    }
 
     public function getModuleVersion(): string
     {
         return self::MODULE_VERSION;
     }
-    
+
     public function checkModuleUpgrade(): array
     {
         $response = $this->webService->getRequest('https://ifthenpay.com/modulesUpgrade/opencart/upgrade.json')->getResponseJson();
@@ -35,16 +35,16 @@ class IfthenpayUpgrade
         }
         return [
             'upgrade' => false,
-        ]; 
+        ];
     }
-    
-    
+
+
 
     /**
      * Set the value of paymentMethod
      *
      * @return  self
-     */ 
+     */
     public function setPaymentMethod($paymentMethod)
     {
         $this->paymentMethod = $paymentMethod;

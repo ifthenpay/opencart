@@ -19,6 +19,9 @@ class IfthenpayPaymentReturn extends IfthenpayStrategy
         $this->twigDefaultData->setPaymentReturnTitle($this->ifthenpayController->language->get('paymentReturnTitle'));
         $this->twigDefaultData->setIfthenpayPaymentPanelTotalToPay($this->ifthenpayController->language->get('ifthenpayPaymentPanelTotalToPay'));
         $this->twigDefaultData->setOrderView(true);
+        $base_url = HTTP_SERVER ?? '';
+
+        $this->twigDefaultData->setBaseUrl($base_url);
     }
 
     public function execute(): PaymentReturnInterface

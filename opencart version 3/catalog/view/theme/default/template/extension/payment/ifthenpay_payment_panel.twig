@@ -2,17 +2,11 @@
 	<h5>{{ifthenpayPaymentPanelTitle}}</h5>
 </div>
 <div class="panel-body">
+
 	<div class="paymentLogo">
-		{% if paymentMethod == 'multibanco' %}
-			<img src="image/payment/ifthenpay/multibanco.png" alt="multibanco logotipo" style="width: 133px; height: 38px">
-		{% elseif paymentMethod == 'mbway' %}
-			<img src="image/payment/ifthenpay/{{paymentMethod}}.png" alt="{{paymentMethod}} logotipo" style="width: 82px; height: 38px">
-		{% elseif paymentMethod == 'payshop' %}
-			<img src="image/payment/ifthenpay/{{paymentMethod}}.png" alt="{{paymentMethod}} logotipo" style="width: 143px; height: 38px">
-		{% elseif paymentMethod == 'ccard' %}
-			<img src="image/payment/ifthenpay/{{paymentMethod}}.png" alt="{{paymentMethod}} logotipo" style="width: 133px; height: 38px">
-		{% endif %}
+			<img src="{{baseUrl}}admin/view/image/payment/ifthenpay/{{paymentMethod}}_ck.png" alt="multibanco logotipo" style="height: 38px">
 	</div>
+
 	<div class="paymentData">
 		{% if paymentMethod == 'multibanco' %}
 

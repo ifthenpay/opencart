@@ -104,7 +104,13 @@ class DataBuilder implements DataBuilderInterface
         $this->data->status = $value;
         return $this;
     }
-    
+
+    public function setBaseUrl(string $value): DataBuilderInterface
+    {
+        $this->data->baseUrl = $value;
+        return $this;
+    }
+
 
     public function toArray(): array
     {

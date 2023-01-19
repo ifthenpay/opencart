@@ -52,13 +52,13 @@ class Gateway
 
     public function authenticate(string $backofficeKey): void
     {
-            $authenticate = $this->webService->postRequest(
-                'https://www.ifthenpay.com/IfmbWS/ifmbws.asmx/' .
-                'getEntidadeSubentidadeJsonV2',
-                [
-                   'chavebackoffice' => $backofficeKey,
-                ]
-            )->getResponseJson();
+        $authenticate = $this->webService->postRequest(
+            'https://www.ifthenpay.com/IfmbWS/ifmbws.asmx/' .
+            'getEntidadeSubentidadeJsonV2',
+            [
+                'chavebackoffice' => $backofficeKey,
+            ]
+        )->getResponseJson();
 
         if (!$authenticate[0]['Entidade'] && empty($authenticate[0]['SubEntidade'])) {
             throw new \Exception('Backoffice key is invalid');
@@ -85,7 +85,7 @@ class Gateway
             if (in_array(strtolower($account['Entidade']), $this->paymentMethods)) {
                 $userPaymentMethods[] = strtolower($account['Entidade']);
 
-            // additional verification required to add the dynamic reference to multibanco payment method    
+                // additional verification required to add the dynamic reference to multibanco payment method    
             } elseif (is_numeric($account['Entidade']) || $account['Entidade'] === "MB" || $account['Entidade'] === "mb") {
                 $userPaymentMethods[] = $this->paymentMethods[0];
             }
@@ -126,7 +126,8 @@ class Gateway
 
     public function checkDynamicMb(array $userAccount): bool
     {
-        $multibancoDynamicKey = array_filter(array_column($userAccount, 'Entidade'),
+        $multibancoDynamicKey = array_filter(
+            array_column($userAccount, 'Entidade'),
             function ($value) {
                 return $value === Multibanco::DYNAMIC_MB_ENTIDADE;
             }
@@ -137,14 +138,21 @@ class Gateway
         return false;
     }
 
-    public function getPaymentLogo(string $paymentMethod, string $url): string
-	{
+    public function getPaymentLogo(string $paymentMethod): string
+    {
+        $base_url = HTTP_SERVER ?? '';
+
         $tagStart = '<img ';
         $tagEnd = '>';
-        $src = 'src="'. $url . '/image/payment/ifthenpay/' . $paymentMethod . '_ck.png" ';
+        $srcUrl = 'src="' . $base_url . 'admin/view/image/payment/ifthenpay/' . $paymentMethod . '_ck.png" ';
+        $srcRel = 'src="' . 'admin/view/image/payment/ifthenpay/' . $paymentMethod . '_ck.png" ';
 
-        return $tagStart . $src . $tagEnd;
-	}
+        if (strlen($srcUrl) < 128 - strlen($tagStart) - strlen($tagEnd)) {
+            return $tagStart . $srcUrl . $tagEnd;
+        }
+
+        return $tagStart . $srcRel . $tagEnd;
+    }
 
     public function execute(string $paymentMethod, GatewayDataBuilder $data, string $orderId, string $valor): DataBuilder
     {
@@ -159,7 +167,7 @@ class Gateway
 
     /**
      * Get the value of paymentMethodsCanOrderBackend
-     */ 
+     */
     public function getPaymentMethodsCanOrderBackend()
     {
         return $this->paymentMethodsCanOrderBackend;

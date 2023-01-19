@@ -107,7 +107,7 @@ abstract class ConfigForm
             'href' => $this->ifthenpayController->url->link(
                 'common/dashboard',
                 'user_token=' .
-                    $this->ifthenpayController->session->data['user_token'],
+                $this->ifthenpayController->session->data['user_token'],
                 true
             )
         );
@@ -117,7 +117,7 @@ abstract class ConfigForm
             'href' => $this->ifthenpayController->url->link(
                 'marketplace/extension',
                 'user_token=' . $this->ifthenpayController->session->data['user_token'] .
-                    '&type=payment',
+                '&type=payment',
                 true
             )
         );
@@ -127,7 +127,7 @@ abstract class ConfigForm
             'href' => $this->ifthenpayController->url->link(
                 'extension/payment/' . $this->paymentMethod,
                 'user_token=' .
-                    $this->ifthenpayController->session->data['user_token'],
+                $this->ifthenpayController->session->data['user_token'],
                 true
             )
         );
@@ -140,13 +140,13 @@ abstract class ConfigForm
         $this->data['action'] = $this->ifthenpayController->url->link(
             'extension/payment/' . $this->paymentMethod,
             'user_token=' .
-                $this->ifthenpayController->session->data['user_token'],
+            $this->ifthenpayController->session->data['user_token'],
             true
         );
         $this->data['cancel'] = $this->ifthenpayController->url->link(
             'marketplace/extension',
             'user_token=' .
-                $this->ifthenpayController->session->data['user_token'] . '&type=payment',
+            $this->ifthenpayController->session->data['user_token'] . '&type=payment',
             true
         );
 
@@ -173,7 +173,7 @@ abstract class ConfigForm
     {
         $this->setDefaultGatewayBuilderData();
 
-        
+
         $this->data['test_callback_controller_url'] = $this->ifthenpayController->url->link(
             'extension/payment/' . $this->paymentMethod . '/testCallback',
             'user_token=' . $this->ifthenpayController->session->data['user_token'],
@@ -194,7 +194,7 @@ abstract class ConfigForm
 
         $this->data['text_' . $this->paymentMethod] = $this->ifthenpayController->language->get('text_' . $this->paymentMethod) .
             '<img src="view/image/payment/ifthenpay/' . $this->paymentMethod . '.svg' . '" class="' . $this->paymentMethod .
-            ' Logo" alt="' . $this->paymentMethod  . 'Logo" title="' . $this->paymentMethod . '" /><br /></a>';
+            ' Logo" alt="' . $this->paymentMethod . 'Logo" title="' . $this->paymentMethod . '" /><br /></a>';
 
         if (isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_backofficeKey'])) {
             $this->data['payment_' . $this->paymentMethod . '_backofficeKey'] = $this->ifthenpayController
@@ -322,7 +322,7 @@ abstract class ConfigForm
 
         $this->data['actionRequestAccount'] = $this->ifthenpayController->url->link(
             'extension/payment/' . $this->paymentMethod .
-                '/requestNewAccount',
+            '/requestNewAccount',
             'user_token=' . $this->ifthenpayController->session->data['user_token'],
             true
         );
@@ -343,7 +343,7 @@ abstract class ConfigForm
 
         $this->data['actionRequestAccount'] = $this->ifthenpayController->url->link(
             'extension/payment/' . $this->paymentMethod .
-                '/requestNewAccount',
+            '/requestNewAccount',
             'user_token=' . $this->ifthenpayController->session->data['user_token'],
             true
         );
@@ -373,7 +373,7 @@ abstract class ConfigForm
         $this->saveCronToken('checkPaymentStatusCron', 'cron_check_payment_status');
         $this->data['spinner'] = $this->ifthenpayController->load->view('extension/payment/spinner', $this->data);
         $this->data['ifthenpay_updateModule'] = $this->ifthenpayController->load->view('extension/payment/ifthenpay_update_module', $this->data);
-        $backofficeKey = is_null($this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_backofficeKey')) ?
+        $backofficeKey = is_null($this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_backofficeKey')) ? 
             $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_backofficeKey'] :
             $this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_backofficeKey');
         $this->gatewayDataBuilder->setBackofficeKey($backofficeKey);
@@ -398,12 +398,13 @@ abstract class ConfigForm
 
                 $isAlreadyActivated = $this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_callback_activated') === '1' ? true : false;
 
-                $isActivating = $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_activateCallback'] === '1' ? true : false;
+                $isActivating = isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_activateCallback']) &&
+                    $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_activateCallback'] === '1' ? true : false;
 
-                $isSandboxMode = $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_sandboxMode'] === '1' ? true : false;
+                $isSandboxMode = isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_sandboxMode']) &&
+                    $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_sandboxMode'] === '1' ? true : false;
 
                 $mustActivate = !$isAlreadyActivated && $isActivating && !$isSandboxMode;
-
 
                 $ifthenpayCallback = $this->ioc->makeWith(Callback::class, ['data' => $this->gatewayDataBuilder]);
                 $ifthenpayCallback->make($this->paymentMethod, $this->getCallbackControllerUrl(), $mustActivate);
@@ -513,7 +514,7 @@ abstract class ConfigForm
         if ($this->validate()) {
             if (!empty($this->configData)) {
                 // default payment_multibanco_deadline to empty string in order to clear the record from database when no deadline is set
-                if(!isset($this->ifthenpayController->request->post['payment_multibanco_deadline'])) {
+                if (!isset($this->ifthenpayController->request->post['payment_multibanco_deadline'])) {
                     $this->ifthenpayController->request->post['payment_multibanco_deadline'] = '';
                 }
 
@@ -537,7 +538,7 @@ abstract class ConfigForm
                 $this->ifthenpayController->url->link(
                     'extension/payment/' . $this->paymentMethod,
                     'user_token=' .
-                        $this->ifthenpayController->session->data['user_token'],
+                    $this->ifthenpayController->session->data['user_token'],
                     true
                 )
             );

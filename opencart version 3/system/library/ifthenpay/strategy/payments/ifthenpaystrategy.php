@@ -25,10 +25,10 @@ class IfthenpayStrategy
     protected $factory;
     protected $configData;
     protected $mix;
-    
+
     public function __construct(
         DataBuilder $paymentDataBuilder,
-        TwigDataBuilder $twigDataBuilder, 
+        TwigDataBuilder $twigDataBuilder,
         StrategyFactory $factory,
         Mix $mix
     )
@@ -40,7 +40,7 @@ class IfthenpayStrategy
         $this->mix = $mix;
     }
 
-    protected function getPaymentMethodName(string $paymentCode): string 
+    protected function getPaymentMethodName(string $paymentCode): string
     {
         $parts = explode('_', $paymentCode);
         return end($parts);
@@ -57,14 +57,18 @@ class IfthenpayStrategy
         $this->ifthenpayController->load->language('extension/payment/' . $this->order['payment_code']);
         $this->twigDefaultData->setOrderId($this->order['order_id']);
         $this->twigDefaultData->setTotalToPay($this->paymentValueFormated);
-        $this->twigDefaultData->setPaymentMethod($this->getPaymentMethodName($this->order['payment_code']));        
+        $this->twigDefaultData->setPaymentMethod($this->getPaymentMethodName($this->order['payment_code']));
+
+        $base_url = HTTP_SERVER ?? 'lost';
+
+        $this->twigDefaultData->setBaseUrl($base_url);
     }
 
     /**
      * Set the value of configData
      *
      * @return  self
-     */ 
+     */
     public function setConfigData($configData)
     {
         $this->configData = $configData;
@@ -76,7 +80,7 @@ class IfthenpayStrategy
      * Set the value of order
      *
      * @return  self
-     */ 
+     */
     public function setOrder(array $order)
     {
         $this->order = $order;
@@ -88,11 +92,11 @@ class IfthenpayStrategy
      * Set the value of ifthenpayController
      *
      * @return  self
-     */ 
+     */
     public function setIfthenpayController($ifthenpayController)
     {
         $this->ifthenpayController = $ifthenpayController;
-        $this->setPaymentValueFormated();        
+        $this->setPaymentValueFormated();
         return $this;
     }
 }

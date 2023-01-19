@@ -22,4 +22,5 @@ interface DataBuilderInterface
     public function setPaymentUrl(string $value): DataBuilderInterface;
     public function setPaymentStatus(string $value): DataBuilderInterface;
     public function setOrder($value): DataBuilderInterface;
+    public function setBaseUrl(string $value): DataBuilderInterface;
 }

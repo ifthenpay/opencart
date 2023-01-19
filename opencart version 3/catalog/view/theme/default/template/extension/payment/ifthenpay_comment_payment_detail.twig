@@ -6,11 +6,7 @@
 			</div>
 			<div class="panel-body">
 				<div class="paymentLogo">
-                {% if paymentMethod == 'multibanco' %}
-					<img src="catalog/view/theme/default/image/ifthenpay/png/multibanco.png" alt="{{paymentMethod}} logotipo" />
-                {% else %}
-                    <img src="catalog/view/theme/default/image/ifthenpay/png/{{paymentMethod}}.png" alt="{{paymentMethod}} logotipo" />
-                {% endif %}
+					<img src="{{baseUrl}}admin/view/image/payment/ifthenpay/{{paymentMethod}}_ck.png" alt="{{paymentMethod}} logotipo" />
 				</div>
 				<div class="paymentData">
 					{% if paymentMethod == 'multibanco' %}

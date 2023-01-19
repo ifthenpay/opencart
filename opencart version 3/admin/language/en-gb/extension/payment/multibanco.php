@@ -33,12 +33,12 @@ $_['entry_minimum_value'] = 'Order Minimum Value';
 $_['help_entry_minimum_value'] = 'Only show customer this payment method if order value equal or greater than minimum value';
 $_['entry_maximum_value'] = 'Order Maximum Value';
 $_['help_entry_maximum_value'] = 'Only show customer this payment method if order value equal or less than maximum value';
-$_['resendPaymentData']	= 'Send email of order with payment data';
-$_['entry_reference']	= 'Reference';
-$_['entry_amount']	= 'Amount';
-$_['msg_callback_test_empty_fields']	= 'Please fill all fields';
-$_['entry_test_callback']	= 'Test Callback';
-$_['btn_test']	= 'Test';
+$_['resendPaymentData'] = 'Send email of order with payment data';
+$_['entry_reference'] = 'Reference';
+$_['entry_amount'] = 'Amount';
+$_['msg_callback_test_empty_fields'] = 'Please fill all fields';
+$_['entry_test_callback'] = 'Test Callback';
+$_['btn_test'] = 'Test';
 
 
 
@@ -66,6 +66,8 @@ $_['callbackNotActivated'] = 'Callback not activated';
 $_['sandboxActivated'] = 'Sandbox mode activated';
 $_['activate_cancelMultibancoOrder'] = 'Cancel Multibanco Order';
 $_['multibancoOrderCancel_help'] = 'Cancel Multibanco order after reference expire.';
+$_['payment_multibanco_deadline_help'] = 'This field specifies the expiration, in days, of the generated reference. Select 0 for the reference to expire at 23:59 on the day it is generated. Select 1 or more for the reference to expire after the selected number of days, starting at 23:59 on the day it was generated.';
+
 $_['show_paymentMethod_logo'] = 'Show Payment Method Logo on Checkout';
 $_['entry_multibanco_deadline'] = 'Multibanco Reference Deadline';
 $_['multibanco_deadline'] = 'Choose Deadline';
@@ -74,7 +76,7 @@ $_['request_new_account_error'] = 'Error sending email requesting new account.';
 $_['dontHaveAccount_multibanco_dynamic'] = 'Don\'t have an Dynamic Multibanco account?';
 $_['requestAccount_multibanco_dynamic'] = 'Request Dynamic Multibanco account creation';
 $_['dontHaveAccount_multibanco'] = 'Don\'t have an Multibanco account?';
-$_['requestAccount_multibanco'] = 'Request Multibanco account creation'; 
+$_['requestAccount_multibanco'] = 'Request Multibanco account creation';
 
 // Error
 $_['error_permission'] = 'Warning: No permission to modify  Multibanco!';

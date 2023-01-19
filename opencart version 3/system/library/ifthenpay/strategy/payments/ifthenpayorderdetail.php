@@ -14,6 +14,9 @@ class IfthenpayOrderDetail extends IfthenpayStrategy
     {
         parent::setDefaultTwigData();
         $this->twigDefaultData->setOrderView(false);
+        $base_url = HTTP_SERVER ?? '';
+
+        $this->twigDefaultData->setBaseUrl($base_url);
     }
 
     public function execute(): OrderDetailInterface
