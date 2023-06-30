@@ -1,19 +1,36 @@
-<div class="field required" id="ifthenpayMbwayPhoneDiv">
-  <div class="control input-container center">
-    <img src="catalog/view/theme/default/image/ifthenpay/png/mbway.png" class="" style="height: 38px; width: 83px;" alt="mbway logo">
-    <input name="ifthenpayMbwayPhone" class="text input-mbway form-control" type="text" id="ifthenpayMbwayPhone" placeholder="{{mbwayPhoneNumber}}">
-  </div>
-</div>
+<form class="form-horizontal" id="ifthenpayMbwayPhoneDiv">
+	<label class="control-label" style="margin-bottom: 15px; margin-top: 20px;">{{ entry_mbway_phone_number }}</label>
+	<div class="form-group">
 
+
+		<div class="col-sm-1" style="margin-bottom: 20px; min-height: 38px; min-width: 83px;">
+			<img src="catalog/view/theme/default/image/ifthenpay/png/mbway.png" class="" style="height: 38px; width: 83px;" alt="mbway logo">
+		</div>
+
+		<div class="col-sm-4" style="margin-bottom: 20px;">
+
+			<select name="mbway_country_code" class="form-control" id="ifthenpayMbwayCountryCode">
+				{% for country_code_option in mbwayCountryCodeOptions %}
+					<option value="{{ country_code_option.value }}" {% if country_code_option.value == 351 %} selected {% endif %}>{{ country_code_option.name }}</option>
+				{% endfor %}
+			</select>
+
+		</div>
+		<div class="col-sm-4" style="margin-bottom: 20px;">
+			<input type="text" name="ifthenpayMbwayPhone" value="" id="ifthenpayMbwayPhone" class="form-control"/>
+		</div>
+	</div>
+</form>
 
 <div class="buttons">
-  <div class="pull-right">
+	<div class="pull-right">
     <input type="button" value="{{ button_confirm }}" id="button-confirm" data-loading-text="{{ text_loading }}" class="btn btn-primary" />
-  </div>
+	</div>
 </div>
+
 <link href="{{mbwayStyle}}" rel="stylesheet" type="text/css">
 <script type="text/javascript">
-  var mbwayLanguage = {{mbwayLanguage}};
-  var phpVariables = {{phpVariables}};
+	var mbwayLanguage = {{ mbwayLanguage }};
+var phpVariables = {{ phpVariables }};
 </script>
 <script type="text/javascript" src="{{mbwayScript}}"></script>

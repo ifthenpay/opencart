@@ -40,7 +40,7 @@
 				<tbody>
 					<tr>
 						<td class="if_td_desc">{{ifthenpayPaymentPanelPhone}}</td>
-						<td class="if_td_value">{{telemovel}}</td>
+						<td class="if_td_value">+{{mobile_prefix}} {{mobile_sufix}}</td>
 					</tr>
 					<tr>
 						<td class="if_td_desc">{{ifthenpayPaymentPanelOrder}}</td>
@@ -57,7 +57,7 @@
 
 				<div>
 					<h5>{{ifthenpayPaymentPanelMbwayNotificationNotReceive}}</h5>
-					<a id="resendMbwayNotificationMbway" class="btn btn-primary" href="{{resendMbwayNotificationControllerUrl}}?orderId={{orderId}}&mbwayTelemovel={{telemovel}}&orderTotalPay={{totalToPay}}">{{ifthenpayPaymentPanelMbwayResendNotification}}</a>
+					<a id="resendMbwayNotificationMbway" class="btn btn-primary" href="{{resendMbwayNotificationControllerUrl}}?orderId={{orderId}}&mbwayTelemovel={{mobile_prefix}}-{{mobile_sufix}}&orderTotalPay={{totalToPay}}">{{ifthenpayPaymentPanelMbwayResendNotification}}</a>
 					{{spinner}}
 				</div>
 			{% endif %}

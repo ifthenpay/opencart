@@ -10,6 +10,7 @@ use Ifthenpay\Strategy\Payments\IfthenpayPaymentReturn;
 class ControllerExtensionPaymentMbway extends IfthenpayControllerCatalog
 {
 	protected $paymentMethod = Gateway::MBWAY;
+	private const COUNTRY_CODES_PATH = DIR_SYSTEM . 'library/ifthenpay/utility/CountryCodes.json';
 
 	public function index()
 	{
@@ -35,18 +36,64 @@ class ControllerExtensionPaymentMbway extends IfthenpayControllerCatalog
 			'required' => $this->language->get('error_payment_mbway_input_required'),
 			'invalid' => $this->language->get('error_payment_mbway_input_invalid')
 		]);
+		$data['mbwayCountryCodeOptions'] = $this->generateCountryCodeOptions();
+
+
+
 		return $this->load->view('extension/payment/mbway', $data);
+	}
+
+	/**
+	 * loads country codes from json file and returns an array of options for the select input
+	 * will select the correct language based on the current language, and if not found, will default to english
+	 * @return array
+	 */
+	private function generateCountryCodeOptions(): array
+	{
+		$lang = $this->language->get('code');
+
+		// Read JSON file contents
+		$jsonData = file_get_contents(self::COUNTRY_CODES_PATH);
+
+		// Parse JSON data into an associative array
+		$countryCodes = json_decode($jsonData, true);
+
+		// get correct language key
+		$lang = strtoupper($lang);
+		$lang = (isset($countryCodes['mobile_prefixes']) && isset($countryCodes['mobile_prefixes'][0]) && isset($countryCodes['mobile_prefixes'][0][$lang])) ? $lang : 'EN';
+
+
+		$countryCodeOptions = [];
+		foreach ($countryCodes['mobile_prefixes'] as $country) {
+
+			if ($country['Ativo'] != 1) {
+				continue; // skip this one
+			}
+
+			$countryCodeOptions[] = [
+				'value' => $country['Indicativo'],
+				'name' => $country[$lang] . ' (+' . $country['Indicativo'] . ')'
+			];
+		}
+
+		return $countryCodeOptions;
 	}
 
 
 	public function resendMbwayNotification()
 	{
+
+		if (isset($this->request->get['mbwayTelemovel'])) {
+			$this->request->get['mbwayTelemovel'] = str_replace('-', '#', $this->request->get['mbwayTelemovel']);
+		}
+
+
 		$orderId = $this->request->get['orderId'];
 		$this->model_extension_payment_mbway->log($orderId, 'Start resending mbway notification');
 		$this->load->model('setting/setting');
 		$this->load->model('checkout/order');
 		$order_info = $this->model_checkout_order->getOrder($orderId);
-		$configData =  $this->model_setting_setting->getSetting('payment_' . $this->paymentMethod);
+		$configData = $this->model_setting_setting->getSetting('payment_' . $this->paymentMethod);
 		try {
 			$ifthenpayPaymentReturn = $this->ifthenpayContainer
 				->getIoc()
@@ -83,7 +130,7 @@ class ControllerExtensionPaymentMbway extends IfthenpayControllerCatalog
 				$this->load->model('checkout/order');
 				$this->load->model('setting/setting');
 				$mbwayPayment = $this->model_extension_payment_mbway->getPaymentByOrderId($this->request->post['orderId'])->row;
-				$configData =  $this->model_setting_setting->getSetting('payment_mbway');
+				$configData = $this->model_setting_setting->getSetting('payment_mbway');
 				$gatewayDataBuilder = $this->ifthenpayContainer->getIoc()->make(GatewayDataBuilder::class);
 				$mbwayPaymentStatus = $this->ifthenpayContainer->getIoc()->make(PaymentStatusFactory::class)->setType($this->paymentMethod)->build();
 				$gatewayDataBuilder->setMbwayKey($configData['payment_mbway_mbwayKey']);
