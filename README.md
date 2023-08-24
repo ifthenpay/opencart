@@ -13,7 +13,7 @@ Download versions of the ifthenpay extension for Opencart.
 
 # Ifthenpay payment extension for Opencart 4
 
-Ler em ![Português](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/pt.png) [Português](README.pt.md), e ![Inglês](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/en.png) [Inglês](README.md)
+Read in ![Português](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/pt.png) [Português](README.pt.md), e ![Inglês](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/en.png) [Inglês](README.md)
 
 [1. Introduction](#introduction)
 
@@ -52,6 +52,7 @@ Ler em ![Português](https://github.com/ifthenpay/opencart/raw/assets/version4/a
 
 # Introduction
 ![ifthenpay](https://ifthenpay.com/images/all_payments_logo_final.png)
+</br>
 **This is the ifthenpay extension for the Opencart ecommerce platform.**
 
 **Multibanco** is a Portuguese payment method that allows the consumer to pay through a bank reference. This extension enables the generation of payment references that the consumer can use to pay for their order at an ATM (Multibanco) or through an online home banking service. This extension utilizes ifthenpay, one of the various available gateways in Portugal.
@@ -86,7 +87,7 @@ Use the table below to check the compatibility of the Ifthenpay extension with y
 
 
 # Installation
-Please download the installation file of the ifthenpay extension for Opencart 4 from the GitHub page [ifthenpay v4.0.0](https://github.com/ifthenpay/opencart/releases/download/4.0.0/ifthenpay.ocmod.zip).
+Please download the installation file of the ifthenpay extension for Opencart 4 from the GitHub page [ifthenpay v4.0.0](https://github.com/ifthenpay/opencart/releases/tag/v4.0.0).
 ![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/github_release_download.png)
 </br>
 
