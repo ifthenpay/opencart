@@ -527,6 +527,7 @@ In case of failure to communicate with the MB WAY app or entering an invalid pho
 
 
 When an error occurs, the time limit is reached, or the payment is declined in the MB WAY app, the consumer can try again by clicking on the "Resend MB WAY notification" button.
+</br>
 ![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/payment_return_mbway_resend.png)
 </br>
 
