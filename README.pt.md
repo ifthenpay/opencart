@@ -530,6 +530,7 @@ Em caso de falha ao comunicar com a App MB WAY ou introdução de um número de 
 
 
 Quando ocorre um erro ou atinge o tempo limite, ou recusa o pagamento na App MB WAY, o consumidor pode tentar novamente clicando em Reenviar notificação MB WAY.
+</br>
 ![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/payment_return_mbway_resend.png)
 </br>
 
