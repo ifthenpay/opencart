@@ -13,7 +13,7 @@ Download de versões da extensão ifthenpay para Opencart
 
 # Extensão de pagamentos ifthenpay Opencart 4
 
-Ler em ![Português](https://github.com/ifthenpay/opencart/raw/assets/assets/img/pt.png) [Português](README.pt.md), e ![Inglês](https://github.com/ifthenpay/opencart/raw/assets/assets/img/en.png) [Inglês](README.md)
+Ler em ![Português](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/pt.png) [Português](README.pt.md), e ![Inglês](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/en.png) [Inglês](README.md)
 
 [1. Introdução](#introdução)
 
