@@ -92,7 +92,7 @@ Use a tabela abaixo para verificar a compatibilidade do extensão ifthenpay com 
 # Instalação
 
 Descarregue o ficheiro de instalação da extensão ifthenpay para Opencart 4 na página do github [ifthenpay v4.0.0](https://github.com/ifthenpay/opencart/releases/tag/v4.0.0).
-![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/github_release_download.png)
+![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/download_installer.png)
 </br>
 
 Aceda ao backoffice da sua loja online e escolha Extensões (1) -> Instalador (2), e clique em Upload (3).
