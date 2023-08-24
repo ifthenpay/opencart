@@ -1,0 +1,296 @@
+{% if is_to_display_in_admin %}
+<div class="col-12 p-3 border border-secondary-subtle rounded "><div class="pt-2 pb-3"><img src="{{ payment_method_icon }}" alt="MB WAY" title="MB WAY"/></div><table class="table border border-secondary-subtle rounded"><tbody><tr><td>{{text_transaction_id}}</td><td class="copy_no_spaces fw-bold">{{transaction_id}}</td></tr><tr><td>{{text_phone_number}}</td><td class="copy_no_spaces fw-bold">{{phone_number}}</td></tr><tr><td>{{text_total_to_pay}}</td><td class="fw-bold">{{total}}</td></tr></tbody></table></div>
+{% else %}
+
+
+	{% if show_countdown and show_countdown == '1' %}
+
+		<div class="col-sm-12 col-md-4 p-3 mb-3 ifthenpay_countdown_panel border border-secondary-subtle rounded">
+			<div class="text-center">
+				<h3>{{text_confirm_payment_in_mbway}}</h3>
+				<div id="countdown_mbway">
+					<h3>
+						<span id="ifthenpay_countdown_minutes" class="fw-bold display-1 text-danger"></span>
+						<span id="ifthenpay_countdown_minutes" class="fw-bold display-1 text-danger">:</span>
+						<span id="ifthenpay_countdown_seconds" class="fw-bold display-1 text-danger"></span>
+					</h3>
+
+				</div>
+				<p>{{text_deadline_warning}}</p>
+			</div>
+		</div>
+
+	{% endif %}
+
+
+	<div id="ifthenpay_mbway_payment_confirmed_panel" class="col-sm-12 col-md-4 p-3 mb-3 border border-secondary-subtle rounded ifthenpay_mbway_payment_response_panel" style="display:none;">
+		<div class="text-center mb-3">
+			<img src="/extension/ifthenpay/catalog/view/image/success.png" alt="confirm order icon"/>
+		</div>
+		<div class="text-center">
+			<h3>{{text_panel_order_paid}}</h3>
+			<p>{{text_panel_order_paid_desc}}</p>
+		</div>
+	</div>
+	<div id="ifthenpay_mbway_payment_refused_panel" class="col-sm-12 col-md-4 p-3 mb-3 border border-secondary-subtle rounded ifthenpay_mbway_payment_response_panel" style="display:none;">
+		<div class="text-center mb-3">
+			<img src="/extension/ifthenpay/catalog/view/image/warning.png" alt="refused order icon"/>
+		</div>
+		<div class="text-center">
+			<h3>{{text_panel_payment_refused}}</h3>
+			<p>{{text_panel_payment_refused_desc}}</p>
+		</div>
+	</div>
+	<div id="ifthenpay_mbway_payment_error_panel" class="col-sm-12 col-md-4 p-3 mb-3 border border-secondary-subtle rounded ifthenpay_mbway_payment_response_panel" style="display:none;">
+		<div class="text-center mb-3">
+			<img src="/extension/ifthenpay/catalog/view/image/error.png" alt="error order icon"/>
+		</div>
+		<div class="text-center">
+			<h3>{{text_panel_payment_failed}}</h3>
+			<p>{{text_panel_payment_failed_desc}}</p>
+		</div>
+	</div>
+	<div id="ifthenpay_mbway_payment_out_of_time_panel" class="col-sm-12 col-md-4 p-3 mb-3 border border-secondary-subtle rounded ifthenpay_mbway_payment_response_panel" style="display:none;">
+		<div class="text-center mb-3">
+			<img src="/extension/ifthenpay/catalog/view/image/error.png" alt="out of time order icon"/>
+		</div>
+		<div class="text-center">
+			<h3>{{text_panel_payment_out_of_time}}</h3>
+			<p>{{text_panel_payment_out_of_time_desc}}</p>
+		</div>
+	</div>
+
+
+	<div class="col-sm-12 col-md-4 p-3 border border-secondary-subtle rounded">
+		<h5 class="fw-bold">{{text_pay_by_method}}</h5>
+		<div class="pt-2 pb-3">
+			<img src="{{ payment_method_icon }}" alt="MB WAY" title="MB WAY"/>
+		</div>
+		<table class="table border border-secondary-subtle rounded">
+			<tbody>
+				<tr>
+					<td>{{text_phone_number}}</td>
+					<td class="copy_no_spaces fw-bold">{{phone_number}}</td>
+				</tr>
+				<tr>
+					<td>{{text_total_to_pay}}</td>
+					<td class="fw-bold">{{total}}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div id="ifthenpay_resend_mbway_notification_div" style="display:none;">
+			<h5>{{ text_did_not_receive_notification }}</h5>
+			<button class="btn btn-primary" id="ifthenpay_resend_mbway_notification_btn">{{ text_resend_notification }}</button>
+		</div>
+
+	</div>
+
+	<script type="text/javascript">
+
+// expected variables from controller:
+// {{ text_error }}
+// {{ text_success }}
+// {{ text_did_not_receive_notification }}
+// {{ text_resend_notification }}
+// {{ error_resending_notification }}
+// {{ show_countdown }}
+// {{ url_check_mbway_status_ctrl }}
+// {{ transaction_id }}
+// {{ url_resend_notification_ctrl }}
+// {{ ifthenpay_order_id }}
+// {{ ifthenpay_mbway_phone_number }}
+// {{ phone_number }}
+// {{ order_id }}
+
+
+
+		let ifp_formattedElements = document.getElementsByClassName("copy_no_spaces");
+
+if (ifp_formattedElements.length > 0) {
+for (let i = 0; i < ifp_formattedElements.length; i++) {
+ifp_formattedElements[i].addEventListener('copy', function (event) {
+const ifp_selection = document.getSelection();
+
+const ifp_selectionNoSpaces = ifp_selection.toString().replace(/\s/g, '');
+event.clipboardData.setData("text/plain", ifp_selectionNoSpaces);
+event.preventDefault();
+});
+}
+}
+
+
+const ifp_dom_countdownPanel = $('div.ifthenpay_countdown_panel');
+const ifp_dom_minutesElement = $('#ifthenpay_countdown_minutes');
+const ifp_dom_secondsElement = $('#ifthenpay_countdown_seconds');
+const ifp_dom_paymentConfirmPanel = $('#ifthenpay_mbway_payment_confirmed_panel');
+const ifp_dom_paymentRefusedPanel = $('#ifthenpay_mbway_payment_refused_panel');
+const ifp_dom_paymentErrorPanel = $('#ifthenpay_mbway_payment_error_panel');
+const ifp_dom_paymentOutOfTimePanel = $('#ifthenpay_mbway_payment_out_of_time_panel');
+const ifp_dom_ResendMbwayNotificationDiv = $('#ifthenpay_resend_mbway_notification_div');
+const ifp_dom_resendMbwayNotificationBtn = $('#ifthenpay_resend_mbway_notification_btn');
+const ifp_dom_paymentReturnPanel = $('#ifthenpay_payment_return_panel');
+
+
+const ifp_checkIntervalMilliseconds = 10000;
+var ifp_timeMinutes = '05';
+var ifp_timeSeconds = '00';
+var ifp_countdownIntervalTimer;
+var ifp_checkIntervalTimer;
+var ifp_showCountdown = '{{ show_countdown }}';
+var ifp_urlCheckMbwayStatusCtrl = '{{ url_check_mbway_status_ctrl }}';
+var ifp_transactionId = '{{ transaction_id }}';
+
+var ifp_errorResendingNotification = '{{ error_resending_notification }}';
+var ifp_urlResendNotificationCtrl = '{{ url_resend_notification_ctrl }}';
+var ifp_orderId = '{{ order_id }}';
+var ifp_phoneNumber = '{{ phone_number }}';
+
+
+if (ifp_showCountdown == 1 && ifp_urlCheckMbwayStatusCtrl) {
+
+	checkMBwayPaymentStatus();
+
+	// start timer
+	countdownTimer();
+
+	setEventResendMbwayNotification();
+}
+
+
+function checkMBwayPaymentStatus() {
+
+ifp_checkIntervalTimer = setInterval(() => {
+
+$.ajax({
+url: ifp_urlCheckMbwayStatusCtrl,
+data: {
+transaction_id: ifp_transactionId
+},
+type: 'POST',
+dataType: 'json',
+success: function (response, status, xhr) {
+
+if (response.status === 'pending') {
+return;
+}
+if (response.status === 'paid') {
+ifp_dom_paymentReturnPanel.hide();
+ifp_dom_paymentConfirmPanel.show();
+ifp_dom_ResendMbwayNotificationDiv.hide();
+}
+if (response.status === 'refused') {
+ifp_dom_paymentRefusedPanel.show();
+ifp_dom_ResendMbwayNotificationDiv.show();
+}
+if (response.status === 'error') {
+ifp_dom_paymentErrorPanel.show();
+ifp_dom_ResendMbwayNotificationDiv.show();
+}
+
+ifp_dom_countdownPanel.hide();
+clearInterval(ifp_countdownIntervalTimer);
+clearInterval(ifp_checkIntervalTimer);
+},
+error: function (xhr, status, errorThrown) {
+ifp_dom_countdownPanel.hide();
+clearInterval(ifp_countdownIntervalTimer);
+clearInterval(ifp_checkIntervalTimer);
+}
+});
+}, ifp_checkIntervalMilliseconds);
+}
+
+
+function countdownTimer() {
+ifp_countdownIntervalTimer = setInterval(() => {
+
+let ifp_minutes = parseInt(ifp_timeMinutes, 10);
+let ifp_seconds = parseInt(ifp_timeSeconds, 10);
+-- ifp_seconds;
+ifp_minutes = (ifp_seconds < 0) ? -- ifp_minutes : ifp_minutes;
+ifp_seconds = (ifp_seconds < 0) ? 59 : ifp_seconds;
+// 0 leftpad needs to be in type string
+let ifp_strSeconds = (ifp_seconds < 10) ? "0" + ifp_seconds : "" + ifp_seconds;
+
+ifp_dom_minutesElement.text(ifp_minutes);
+ifp_dom_secondsElement.text(ifp_strSeconds);
+
+if (ifp_minutes < 0) {
+ifp_dom_countdownPanel.hide();
+ifp_dom_paymentOutOfTimePanel.show();
+
+clearInterval(ifp_countdownIntervalTimer);
+clearInterval(ifp_checkIntervalTimer);
+ifp_dom_ResendMbwayNotificationDiv.show();
+}
+if ((ifp_seconds <= 0) && (ifp_minutes <= 0)) {
+ifp_dom_countdownPanel.hide();
+ifp_dom_paymentOutOfTimePanel.show();
+
+clearInterval(ifp_countdownIntervalTimer);
+clearInterval(ifp_checkIntervalTimer);
+ifp_dom_ResendMbwayNotificationDiv.show();
+}
+ifp_timeMinutes = '' + ifp_minutes;
+ifp_timeSeconds = '' + ifp_seconds;
+}, 1000);
+}
+
+
+
+    function setEventResendMbwayNotification() {
+
+        ifp_dom_resendMbwayNotificationBtn.click(function () {
+
+            clearInterval(ifp_countdownIntervalTimer);
+            clearInterval(ifp_checkIntervalTimer);
+            ifp_dom_countdownPanel.hide();
+
+			ifp_dom_paymentConfirmPanel.hide();
+            ifp_dom_paymentRefusedPanel.hide();
+            ifp_dom_paymentErrorPanel.hide();
+            ifp_dom_paymentOutOfTimePanel.hide();
+
+            ifp_dom_ResendMbwayNotificationDiv.hide();
+
+            $.ajax({
+                url: ifp_urlResendNotificationCtrl,
+                data: {
+                    order_id: ifp_orderId,
+                    phone_number: ifp_phoneNumber
+                },
+                showLoader: true,
+                type: 'POST',
+                dataType: 'json',
+                success: function (response, status, xhr) {
+                    if (response.success === false) {
+                        alert(response.message);
+                    };
+					if (response.success === true) {
+
+						alert(response.message);
+						ifp_timeMinutes = '5';
+						ifp_timeSeconds = '00';
+						ifp_dom_countdownPanel.show();
+
+						ifp_transactionId = response.transaction_id;
+
+						// start status check
+						checkMBwayPaymentStatus();
+
+						// start timer
+						countdownTimer();
+
+                	}
+                },
+                error: function (xhr, status, errorThrown) {
+
+						alert(ifp_errorResendingNotification);
+                }
+            });
+        });
+    }
+
+	</script>
+{% endif %}

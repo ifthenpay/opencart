@@ -1,0 +1,83 @@
+<fieldset>
+
+	<legend>{{ text_mbway_phone_number_title }}</legend>
+
+	<form id="form-ifthenpay-mbway">
+		<label for="select-mbway-country-code" class="col-form-label">{{ entry_mbway_phone_number }}</label>
+		<div class="row mb-3">
+			<div class="col-5">
+				<div>
+					<select name="mbway_country_code" class="form-select" id="select-mbway-country-code">
+						{% for country_code_option in country_code_options %}
+							<option value="{{ country_code_option.value }}" {% if country_code_option.value == 351 %} selected {% endif %}>{{ country_code_option.name }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+			<div class="col-7">
+				<div class="input-group">
+					<span class="input-group-text">
+						<i class="fas fa-mobile-alt"></i>
+					</span>
+					<input type="text" name="mbway_phone_number" value="" id="input-mbway-phone-number" class="form-control"/>
+				</div>
+			</div>
+		</div>
+	</form>
+
+
+	<div class="d-inline-block pt-2 pd-2 w-100 text-end">
+		<button type="button" id="button-confirm" class="btn btn-primary">{{ button_confirm }}</button>
+	</div>
+</fieldset>
+<script type="text/javascript">
+	<!--
+
+// prevent enter key from submitting form
+$('#form-ifthenpay-mbway').on('keydown', function (e) {
+	if (e.key == "Enter") {
+		e.preventDefault();
+	}
+});
+
+$('#button-confirm').on('click', function () {
+	let ifp_element = this;
+	let ifp_confirmUrl = '{{ action }}';
+
+	$.ajax({
+		url: ifp_confirmUrl,
+		type: 'post',
+		data: $('#form-ifthenpay-mbway').serialize(),
+		contentType: 'application/x-www-form-urlencoded',
+		dataType: 'json',
+		cache: false,
+		beforeSend: function () {
+			$(ifp_element).prop('disabled', true).addClass('loading');
+		},
+		complete: function () {
+			$(ifp_element).prop('disabled', false).removeClass('loading');
+		},
+		success: function (json) {
+			$('.alert-dismissible').remove();
+			$('#form-ifthenpay-mbway').find('.is-invalid').removeClass('is-invalid');
+
+
+			if (json['error']) {
+
+				$('#alert').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['error'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+
+				$('#input-mbway-phone-number').addClass('is-invalid').find('.form-control, .form-select, .form-check-input, .form-check-label').addClass('is-invalid');
+
+
+			} else if (json['redirect']) {
+				location = json['redirect'];
+			}
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+});
+		//
+	-->
+</script>

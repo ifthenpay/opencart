@@ -1,0 +1,18 @@
+{% if is_to_display_in_admin %}
+<div class="col-12 p-3 border border-secondary-subtle rounded "><div class="pt-2 pb-3"><img src="{{ payment_method_icon }}" alt="Credit Card" title="Credit Card"/></div><table class="table border border-secondary-subtle rounded"><tbody><tr><td>{{text_total_to_pay}}</td><td class="fw-bold">{{total}}</td></tr></tbody></table></div>
+{% else %}
+	<div class="col-sm-12 col-md-4 p-3 border border-secondary-subtle rounded .container, .container-sm, .container-md">
+		<h5 class="fw-bold">{{text_paid_by_method}}</h5>
+		<div class="pt-2 pb-3">
+			<img src="{{ payment_method_icon }}" alt="Credit Card" title="Credit Card"/>
+		</div>
+		<table class="table border border-secondary-subtle rounded">
+			<tbody>
+				<tr>
+					<td>{{text_total_paid}}</td>
+					<td class="fw-bold">{{total}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+{% endif %}

@@ -1,0 +1,54 @@
+{% if is_to_display_in_admin %}
+<div class="col-12 p-3 border border-secondary-subtle rounded "><div class="pt-2 pb-3"><img src="{{ payment_method_icon }}" alt="Multibanco" title="Multibanco"/></div><table class="table border border-secondary-subtle rounded"><tbody><tr><td>{{text_entity}}</td><td class="fw-bold">{{entity}}</td></tr><tr><td>{{text_reference}}</td><td class="copy_no_spaces fw-bold">{{reference}}</td></tr>{% if deadline %}<tr><td>{{text_deadline}}</td><td class="fw-bold">{{deadline}}</td></tr>{% endif %}<tr><td>{{text_total_to_pay}}</td><td class="fw-bold">{{total}}</td></tr></tbody></table><p class="text-center mb-0">{{text_processed_by_ifthenpay}}</p></div>
+{% else %}
+	<div class="col-sm-12 col-md-4 p-3 border border-secondary-subtle rounded .container, .container-sm, .container-md">
+		<h5 class="fw-bold">{{text_pay_by_method}}</h5>
+		<div class="pt-2 pb-3">
+			<img src="{{ payment_method_icon }}" alt="Multibanco" title="Multibanco"/>
+		</div>
+		<table class="table border border-secondary-subtle rounded">
+			<tbody>
+				<tr>
+					<td>{{text_entity}}</td>
+					<td class="fw-bold">{{entity}}</td>
+				</tr>
+				<tr>
+					<td>{{text_reference}}</td>
+					<td class="copy_no_spaces fw-bold">{{reference}}</td>
+				</tr>
+				{% if deadline %}
+					<tr>
+						<td>{{text_deadline}}</td>
+						<td class="fw-bold">{{deadline}}</td>
+					</tr>
+				{% endif %}
+				<tr>
+					<td>{{text_total_to_pay}}</td>
+					<td class="fw-bold">{{total}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<p class="text-center mb-0">{{text_processed_by_ifthenpay}}</p>
+	</div>
+	<script
+		type="text/javascript">
+		<!--
+
+		let formattedElements = document.getElementsByClassName("copy_no_spaces");
+
+if (formattedElements.length > 0) {
+for (let i = 0; i < formattedElements.length; i++) {
+formattedElements[i].addEventListener('copy', function (event) {
+const selection = document.getSelection();
+
+const selectionNoSpaces = selection.toString().replace(/\s/g, '');
+event.clipboardData.setData("text/plain", selectionNoSpaces);
+event.preventDefault();
+});
+}
+}
+
+//
+		-->
+	</script>
+{% endif %}

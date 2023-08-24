@@ -1,0 +1,397 @@
+{{ header }}{{ column_left }}
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="float-end">
+				<button type="submit" form="form-payment" data-bs-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary">
+					<i class="fa-solid fa-save"></i>
+				</button>
+				<a href="{{ back }}" data-bs-toggle="tooltip" title="{{ button_back }}" class="btn btn-light">
+					<i class="fa-solid fa-reply"></i>
+				</a>
+			</div>
+			<h1>{{ heading_title }}</h1>
+			<ol class="breadcrumb">
+				{% for breadcrumb in breadcrumbs %}
+					<li class="breadcrumb-item">
+						<a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+					</li>
+				{% endfor %}
+			</ol>
+		</div>
+	</div>
+
+	{# flash_message #}
+	{% if flash_message %}
+		<div class="container-fluid">
+			<div class="alert alert-{{ flash_message.type }} alert-dismissible">
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				{{ flash_message.text }}
+			</div>
+		</div>
+	{% endif %}
+
+
+	<div class="container-fluid">
+		<div class="card">
+			<div class="card-header">
+				<img id="ifth_logo" src="/extension/ifthenpay/admin/view/image/payshop.png" alt="payshopop" title="Payshop"/>
+				<span class="m-3">{{ version }}</span>
+
+				{# support buttons #}
+				<div class="float-end">
+					<a href="{{ userManualUrl }}" title="{{ text_user_manual_btn }}" class="btn btn-light mt-2 mb-2 mt-sm-0 mb-sm-0">
+						{{ text_user_manual_btn }}<i class="fa-solid fa-book ms-2"></i>
+					</a>
+					<a href="{{ supportUrl }}" title="{{ text_support_btn }}" class="btn btn-light mt-2 mb-2 mt-sm-0 mb-sm-0">
+						{{ text_support_btn }}<i class="fa-solid fa-circle-info ms-2"></i>
+					</a>
+				</div>
+
+			</div>
+			<div
+				class="card-body">
+
+
+				{# module version upgrade notification #}
+				{% if module_upgrade.upgrade %}
+
+					<fieldset>
+						<legend>{{ text_upgrade }}</legend>
+
+						<div class="row">
+							<div class="col-sm-2 text-end">
+								<img src="/extension/ifthenpay/admin/view/image/ifthenpay.png" alt="ifthenpay" title="ifthenpay" class="w-75"/>
+							</div>
+							<div class="text-start col-sm-10">
+								<h3>{{text_new_version_available}}</h3>
+								{{ module_upgrade.body}}
+							</div>
+						</div>
+						<div class="text-center">
+
+							<a href="{{ module_upgrade.download }}" title="{{ text_download_installer_btn }}" class="btn btn-primary">{{ text_download_installer_btn }}<i class="fa-solid fa-download ms-2"></i>
+							</a>
+						</div>
+					</fieldset>
+
+				{% endif %}
+
+
+				<form
+					id="form-payment" action="{{ save }}" method="post" data-oc-toggle="ajax">
+
+					{# if there is no backoffice key show the input for it #}
+					{% if not backoffice_key %}
+
+						<fieldset>
+							<div class="row mb-3">
+								<label for="input_backoffice_key" class="col-sm-2 col-form-label">{{ entry_backoffice_key }}</label>
+								<div class="col-sm-10">
+									<input type="text" name="payment_payshop_backoffice_key" value="{{ backoffice_key }}" placeholder="{{ entry_plh_backoffice_key }}" id="input_backoffice_key" class="form-control"/>
+								</div>
+							</div>
+						</fieldset>
+
+
+					{% elseif not payshop_keys_options %}
+
+						<fieldset>
+							<div id="request_account_spinner" class="spinner_background_absolute" style="display: none;">
+								<span class="spinner"></span>
+							</div>
+							<legend>{{ text_account }}</legend>
+							<div class="text-center">
+								<h2>{{text_no_payshop_accounts_found}}</h2>
+								<p>{{text_to_request_a_payshop_account}}</p>
+								<p>{{text_ifthenpay_team_will_create}}</p>
+								<button id="request_account" type="button" title="{{ text_request_payshop_account_btn }}" class="btn btn-primary">
+									{{text_request_payshop_account_btn}}
+									<i class="fa-solid fa-paper-plane"></i>
+								</button>
+							</div>
+						</fieldset>
+
+
+					{% else %}
+
+						<fieldset>
+							<legend>{{ text_general }}</legend>
+
+
+							{# payment method enabled status #}
+
+							<div class="row mb-3">
+								<label for="input-status" class="col-sm-2 col-form-label">{{ entry_status }}</label>
+								<div class="col-sm-10">
+									<div class="form-check form-switch form-switch-lg">
+										<input type="hidden" name="payment_payshop_status" value="0"/>
+										<input type="checkbox" name="payment_payshop_status" value="1" id="input-status" class="form-check-input" {% if payshop_status %} checked {% endif %}/>
+									</div>
+								</div>
+							</div>
+
+
+							{# callback activation #}
+
+							<div class="row mb-3">
+								<label for="input-activate-callback" class="col-sm-2 col-form-label">{{ entry_activate_callback }}</label>
+								<div class="col-sm-10">
+									<div class="form-check form-switch form-switch-lg">
+										<input type="hidden" name="payment_payshop_activate_callback" value="0"/>
+										<input type="checkbox" name="payment_payshop_activate_callback" value="1" id="input-activate-callback" class="form-check-input" {% if payshop_activate_callback %} checked {% endif %}/>
+									</div>
+								</div>
+							</div>
+
+
+							{# cron job cancel order #}
+
+							<div class="row mb-3">
+								<label for="input-cronjob-cancel-order" class="col-sm-2 col-form-label">{{ entry_enable_cancel_order_cronjob }}</label>
+								<div class="col-sm-10">
+									<div class="form-check form-switch form-switch-lg">
+										<input type="hidden" name="payment_payshop_cancel_cronjob" value="0"/>
+										<input type="checkbox" name="payment_payshop_cancel_cronjob" value="1" id="input-cronjob-cancel-order" class="form-check-input" {% if payshop_cancel_cronjob %} checked {% endif %}/>
+									</div>
+								</div>
+							</div>
+
+							{% if payshop_cancel_cronjob %}
+
+								<div class="row mb-3">
+									<label for="input-cancel-cronjob" class="col-sm-2 col-form-label">{{ entry_cancel_order_cronjob_url }}</label>
+									<div class="col-sm-10">
+										<label class="callback_info col-form-label text-start">{{ payshop_cancel_cronjob_url }}</label>
+										<small class="form-text text-muted">{{ help_cron_url_cancel_order }}</small>
+
+									</div>
+								</div>
+
+							{% endif %}
+
+
+							{# key #}
+
+							<div class="row mb-3">
+								<label id="lbl-key" for="input-key" class="col-sm-2 col-form-label">{{ entry_key }}</label>
+								<div class="col-sm-10">
+									<select name="payment_payshop_key" id="input-key" class="form-select">
+										<option value="" {% if payshop_key_option.value == "" %} selected {% endif %}>{{ entry_plh_key }}</option>
+
+										{% for payshop_key_option in payshop_keys_options %}
+											<option value="{{ payshop_key_option.value }}" {% if payshop_key_option.value == payshop_key %} selected {% endif %}>{{ payshop_key_option.name }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+
+							{# deadline #}
+
+							<div class="row mb-3">
+								<label for="input-deadline" class="col-sm-2 col-form-label">{{ entry_deadline }}</label>
+								<div class="col-sm-10">
+									<input type="text" name="payment_payshop_deadline" value="{{ payshop_deadline }}" id="input-deadline" class="form-control"/>
+									<small class="form-text text-muted">{{ help_deadline }}</small>
+								</div>
+							</div>
+
+							{# title #}
+
+							<div class="row mb-3">
+								<label for="input-title" class="col-sm-2 col-form-label">{{ entry_title }}</label>
+								<div class="col-sm-10">
+									<input type="text" name="payment_payshop_title" value="{{ payshop_title }}" id="input-title" class="form-control"/>
+								</div>
+							</div>
+
+							{# order statuses #}
+
+							<div class="row mb-3">
+								<label for="input-pending-status" class="col-sm-2 col-form-label">{{ entry_pending_status }}</label>
+								<div class="col-sm-10">
+									<select name="payment_payshop_pending_status_id" id="input-pending-status" class="form-select">
+										{% for order_status in order_statuses %}
+											<option value="{{ order_status.order_status_id }}" {% if order_status.order_status_id == payshop_pending_status_id %} selected {% endif %}>{{ order_status.name }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="input-paid-status" class="col-sm-2 col-form-label">{{ entry_paid_status }}</label>
+								<div class="col-sm-10">
+									<select name="payment_payshop_paid_status_id" id="input-paid-status" class="form-select">
+										{% for order_status in order_statuses %}
+											<option value="{{ order_status.order_status_id }}" {% if order_status.order_status_id == payshop_paid_status_id %} selected {% endif %}>{{ order_status.name }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+
+							<div class="row mb-3">
+								<label for="input-canceled-status" class="col-sm-2 col-form-label">{{ entry_canceled_status }}</label>
+								<div class="col-sm-10">
+									<select name="payment_payshop_canceled_status_id" id="input-canceled-status" class="form-select">
+										{% for order_status in order_statuses %}
+											<option value="{{ order_status.order_status_id }}" {% if order_status.order_status_id == payshop_canceled_status_id %} selected {% endif %}>{{ order_status.name }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+
+
+							{# geo zone #}
+
+							<div class="row mb-3">
+								<label for="input-geo-zone" class="col-sm-2 col-form-label">{{ entry_geo_zone }}</label>
+								<div class="col-sm-10">
+									<select name="payment_payshop_geo_zone_id" id="input-geo-zone" class="form-select">
+										<option value="0">{{ text_all_zones }}</option>
+										{% for geo_zone in geo_zones %}
+											<option value="{{ geo_zone.geo_zone_id }}" {% if geo_zone.geo_zone_id == payshop_geo_zone_id %} selected {% endif %}>{{ geo_zone.name }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+
+							{# Order Minimum Value #}
+
+							<div class="row mb-3">
+								<label for="input-min-value" class="col-sm-2 col-form-label">{{ entry_min_value }}</label>
+								<div class="col-sm-10">
+									<input type="text" name="payment_payshop_min_value" value="{{ payshop_min_value }}" id="input-min-value" class="form-control"/>
+									<small class="form-text text-muted">{{ help_min_value }}</small>
+								</div>
+							</div>
+
+							{# Order Maximum Value #}
+
+							<div class="row mb-3">
+								<label for="input-max-value" class="col-sm-2 col-form-label">{{ entry_max_value }}</label>
+								<div class="col-sm-10">
+									<input type="text" name="payment_payshop_max_value" value="{{ payshop_max_value }}" id="input-max-value" class="form-control"/>
+									<small class="form-text text-muted">{{ help_max_value }}</small>
+								</div>
+							</div>
+
+							{# sort order #}
+
+							<div class="row mb-3">
+								<label for="input-sort-order" class="col-sm-2 col-form-label">{{ entry_sort_order }}</label>
+								<div class="col-sm-10">
+									<input type="text" name="payment_payshop_sort_order" value="{{ payshop_sort_order }}" placeholder="{{ entry_sort_order }}" id="input-sort-order" class="form-control"/>
+								</div>
+							</div>
+						</fieldset>
+					{% endif %}
+
+				</form>
+
+
+				{# callback info #}
+				{% if payshop_anti_phishing_key and payshop_url_callback %}
+
+					<fieldset>
+						<legend>{{ text_callback }}</legend>
+
+
+						<div class="mb-4">
+							{% if payshop_activate_callback %}
+								<span class="badge bg-success">{{text_callback_is_active}}</span>
+							{% else %}
+								<span class="badge bg-danger">{{text_callback_is_inactive}}</span>
+							{% endif %}
+						</div>
+
+						<div class="row mb-3">
+							<label for="input-sort-order" class="col-sm-2 col-form-label">{{ entry_info_anti_phishing_key }}</label>
+							<div class="col-sm-10">
+								<label class="callback_info col-form-label text-start">{{ payshop_anti_phishing_key }}</label>
+							</div>
+						</div>
+
+						<div class="row mb-3">
+							<label for="input-sort-order" class="col-sm-2 col-form-label">{{ entry_info_callback_url }}</label>
+							<div class="col-sm-10">
+								<label class="callback_info col-form-label text-start">{{ payshop_url_callback }}</label>
+							</div>
+						</div>
+					</fieldset>
+				{% endif %}
+
+
+				{# test callback #}
+				{% if payshop_anti_phishing_key and payshop_url_callback and payshop_activate_callback%}
+
+					<fieldset>
+
+						<div id="test_callback_spinner" class="spinner_background_absolute" style="display: none;">
+							<span class="spinner"></span>
+						</div>
+
+						<legend>{{ text_test_callback }}</legend>
+
+
+						<div class="row mb-3">
+							<label for="input-transaction_id" class="col-sm-2 col-form-label">{{ entry_transaction_id }}</label>
+							<div class="col-sm-10">
+								<input type="text" name="payment_payshop_transaction_id" id="input-transaction_id" class="form-control"/>
+							</div>
+						</div>
+
+						<div class="row mb-3">
+							<label for="input-amount" class="col-sm-2 col-form-label">{{ entry_amount }}</label>
+							<div class="col-sm-10">
+								<input type="text" name="payment_payshop_amount" id="input-amount" class="form-control"/>
+							</div>
+						</div>
+
+						<div class="float-end">
+
+							<button id="test_callback" type="button" title="{{ text_test_callback_btn }}" class="btn btn-primary">
+								{{ text_test_callback_btn }}
+							</button>
+						</div>
+
+					</fieldset>
+
+				{% endif %}
+
+
+				{% if backoffice_key %}
+
+					{# clear configuration #}
+					<fieldset>
+						<legend>{{ text_clear_configuration }}</legend>
+
+						<div class="text-center">
+							<h2>{{text_added_new_account}}</h2>
+							<p>{{text_to_set_different_account_press}}</p>
+							<button id="clear_config" type="button" title="{{ text_btn_clear_configuration }}" class="btn btn-danger">
+								{{text_btn_clear_configuration}}
+								<i class="fa-solid fa-rotate"></i>
+							</button>
+						</div>
+					</fieldset>
+
+				{% endif %}
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{{ footer }}
+
+<script type="text/javascript">
+	const url_clear_configuration = '{{ url_clear_configuration }}';
+const url_request_account = '{{ url_request_account }}';
+const url_refresh_accounts = '{{ url_refresh_accounts }}';
+const url_test_callback = '{{ url_test_callback }}';
+
+const text_are_you_sure_clear = '{{ text_are_you_sure_clear }}';
+const text_are_you_sure_request_account = '{{ text_are_you_sure_request_account }}';
+const text_are_you_sure_refresh_accounts = '{{ text_are_you_sure_refresh_accounts }}';
+const text_are_you_sure_test_callback = '{{ text_are_you_sure_test_callback }}';
+</script>

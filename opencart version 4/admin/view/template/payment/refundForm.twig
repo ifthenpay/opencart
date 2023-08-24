@@ -1,0 +1,275 @@
+<style>
+	.spinner {
+		width: 48px;
+		height: 48px;
+		border: 5px solid #FFF;
+		border-bottom-color: transparent;
+		border-radius: 50%;
+		display: inline-block;
+		box-sizing: border-box;
+		animation: rotation 1s linear infinite;
+	}
+
+	@keyframes rotation {
+		0% {
+			transform: rotate(0deg);
+		}
+
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+
+	.spinner_background_absolute {
+		position: absolute;
+		z-index: 9999;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(136, 136, 136, 0.3);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+</style>
+<legend>{{ text_refund_status }}</legend>
+
+<table class="table mb-4">
+	<tr>
+		<th>{{ text_transaction_id }}</th>
+		<td>{{ transaction_id }}</td>
+	</tr>
+	<tr>
+		<th>{{ text_payment_status }}</th>
+		<td>{{ payment_status }}</td>
+	</tr>
+	<tr>
+		<th>{{ text_order_total }}</th>
+		<td>{{ order_total }}€</td>
+	</tr>
+	<tr>
+		<th>{{ text_refund_total }}</th>
+		<td>{{ total_amount_refunded }}€</td>
+	</tr>
+</table>
+
+{% if refund_data != [] %}
+
+	<legend>{{ text_refund_history }}</legend>
+
+	<table class="table mb-4">
+		<thead>
+			<tr>
+				<th>{{ text_refund_sequence }}</th>
+				<th>{{ text_refund_amount_refunded }}</th>
+				<th>{{ text_refund_description }}</th>
+				<th>{{ text_refund_date }}</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for refund in refund_data %}
+				<tr>
+					<td>{{ loop.index }}</td>
+					<td>{{ refund.amount }}€</td>
+					<td>{{ refund.description }}</td>
+					<td>{{ refund.date_added }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+
+{% endif %}
+
+{% if show_refund_form == '1' %}
+{% if payment_status == payment_status_paid or payment_status == payment_status_refunded %}
+
+<legend>{{ text_refund }}</legend>
+
+
+<div class="row mb-3">
+	<label for="input_refund_amount" class="col-sm-2 col-form-label">{{ entry_refund_amount }}</label>
+	<div class="col-sm-10">
+		<input type="text" name="payment_ifthenpay_refund_amount" id="input_refund_amount" class="form-control" {% if total_amount_refunded >= order_total %} disabled="" {% endif %}/>
+	</div>
+</div>
+<div class="row mb-3">
+	<label for="input_refund_description" class="col-sm-2 col-form-label">{{ entry_refund_description }}</label>
+	<div class="col-sm-10">
+		<input type="text" name="payment_ifthenpay_refund_description" id="input_refund_description" class="form-control" {% if total_amount_refunded >= order_total %} disabled="" {% endif %}/>
+	</div>
+</div>
+<div class="text-end">
+	<button type="button" id="ifthenpay_refund" class="btn btn-primary" {% if total_amount_refunded >= order_total %} disabled="" {% endif %}>{{ text_btn_refund_payment }}</button>
+</div>
+
+{% endif %}
+{% endif %}
+
+<!-- Modal request token -->
+<div class="modal fade" id="refund_modal" tabindex="-1" aria-labelledby="refund_modal_title" aria-hidden="true">
+	<div id="entity_spinner" class="spinner_background_absolute" style="display: none;">
+		<span class="spinner"></span>
+	</div>
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="refund_modal_title">{{ text_payment_refund }}</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div id="refund_modal_body" class="modal-body">
+				body
+			</div>
+			<div class="modal-footer">
+				<button id="refund_modal_cancel_btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{text_btn_cancel}}</button>
+				<button id="refund_modal_confirm_btn" type="button" class="btn btn-primary">{{text_btn_confirm}}</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script
+	type="text/javascript">
+	<!--
+
+	const url_refund_token = '{{ url_refund_token_ctrl }}';
+const url_refund = '{{ url_refund_ctrl }}';
+const orderId = '{{ order_id }}';
+const transactionId = '{{ transaction_id }}';
+const text_are_you_sure_refund = '{{ text_are_you_sure_refund }}';
+const text_operation_irreversible = '{{ text_operation_irreversible }}';
+const text_check_email_token = '{{ text_check_email_token }}';
+const text_security_code = '{{ text_security_code }}';
+const error_refund_amount_required = '{{ error_refund_amount_required }}'
+
+$(document).ready(function () { // start refund process by showing confirmation modal, confirming will send request to controller which will send token to email
+$('#ifthenpay_refund').on('click', function () {
+const amount = $('#input_refund_amount').val();
+
+if (amount == '') {
+alert(error_refund_amount_required);
+return false;
+}
+
+let formattedAmount = parseFloat(amount);
+
+formattedAmount = formattedAmount.toFixed(2); // Format the number with 2 decimal places
+let formattedAmountString = String(formattedAmount); // Convert the formatted number to a string
+
+
+$('#refund_modal_body').html('<p>' + text_are_you_sure_refund + formattedAmountString + '€?</p><p>' + text_operation_irreversible + '</p>');
+$('#refund_modal_confirm_btn').data('action', 'request_token');
+
+$('#refund_modal').modal('show');
+});
+
+
+$('#refund_modal_confirm_btn').on('click', function () {
+
+const action = $(this).data('action');
+const amount = $('#input_refund_amount').val();
+const description = $('#input_refund_description').val();
+const token = $('#refund_token').val();
+
+
+if (action == 'request_token') { // send request to controller to send token to email
+
+ajaxRequestToken(orderId, amount);
+}
+
+if (action == 'request_refund') { // send request to controller to send token to email
+
+ajaxRequestRefund(orderId, transactionId, amount, description, token);
+}
+
+
+});
+
+
+});
+
+function ajaxRequestToken(orderId, amount) {
+
+const data = {
+
+'order_id': orderId,
+'amount': amount
+};
+
+$.ajax({
+url: url_refund_token,
+type: 'post',
+data: data,
+dataType: 'json',
+beforeSend: function () {
+$("#entity_spinner").show();
+},
+complete: function () {
+$("#entity_spinner").hide();
+},
+success: function (json) {
+if (json['success']) {
+
+$('#refund_modal_body').html('<p>' + text_check_email_token + '</p><label for="ex1">' + text_security_code + '</label><input type="text" id="refund_token" class="form-control" style="max-width: 200px"/>');
+
+$('#refund_modal_confirm_btn').data('action', 'request_refund');
+
+} else {
+alert(json.error);
+$('#refund_modal').modal('hide');
+
+}
+},
+error: function (xhr, ajaxOptions, thrownError) {
+alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+}
+});
+}
+
+
+function ajaxRequestRefund(orderId, transactionId, amount, description, token) {
+
+const data = {
+'order_id': orderId,
+'transaction_id': transactionId,
+'amount': amount,
+'description': description,
+'token': token
+};
+
+$.ajax({
+url: url_refund,
+type: 'post',
+data: data,
+dataType: 'json',
+beforeSend: function () {
+$("#entity_spinner").show();
+},
+complete: function () {
+$("#entity_spinner").hide();
+},
+success: function (json) {
+if (json['success']) {
+
+alert(json.success);
+$('#refund_modal').modal('hide');
+location.href = location.href;
+
+} else {
+alert(json.error);
+$('#refund_modal').modal('hide');
+
+}
+},
+error: function (xhr, ajaxOptions, thrownError) {
+alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+}
+});
+}
+
+
+//
+	-->
+</script>
