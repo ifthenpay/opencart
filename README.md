@@ -88,7 +88,7 @@ Use the table below to check the compatibility of the Ifthenpay extension with y
 
 # Installation
 Please download the installation file of the ifthenpay extension for Opencart 4 from the GitHub page [ifthenpay v4.0.0](https://github.com/ifthenpay/opencart/releases/tag/v4.0.0).
-![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/github_release_download.png)
+![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/download_installer.png)
 </br>
 
 Access the backoffice of your online store and select Extensions (1) -> Installer (2), then click on Upload (3).
