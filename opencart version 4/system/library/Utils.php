@@ -3,7 +3,7 @@ namespace Ifthenpay;
 
 class Utils
 {
-	public const MODULE_INSTRUCTIONS_URL = 'https://ifthenpay.com/downloads/opencart/opencart_instructions.pdf'; //TODO: change this to the correct url
+	public const MODULE_INSTRUCTIONS_URL = 'https://github.com/ifthenpay/opencart/blob/main/README.md';
 	public const IFTHENPAY_SUPPORT_URL = 'https://helpdesk.ifthenpay.com/pt-PT/support/home';
 	public const REQUEST_IFTHENPAY_ACCOUNT_URL = 'https://www.ifthenpay.com/downloads/ifmb/contratomb.pdf';
 
