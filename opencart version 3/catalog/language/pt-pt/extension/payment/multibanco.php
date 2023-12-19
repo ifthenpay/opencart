@@ -11,4 +11,8 @@ $_['ifthenpayPaymentPanelTotalToPay'] = 'Valor:';
 $_['ifthenpayPaymentPanelProcessed'] = 'Processado por ifthenpay';
 $_['multibancoAlias'] = 'Multibanco';
 $_['paymentConfirmedSuccess'] = 'Pagamento feito com sucesso.';
+$_['ifthenpayPaymentPanelValidade'] = 'Validade:';
+$_['paymentDataResend_success'] = 'Email com dados de pagamento enviado com sucesso.';
+$_['paymentDataResend_error'] = 'Erro ao enviar email com dados de pagamento.';
+
 ?>
