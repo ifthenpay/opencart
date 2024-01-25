@@ -4,9 +4,9 @@ The ifthenpay extension compatible with Opencart 3 is still available for downlo
 
 
 Download versions of the ifthenpay extension for Opencart.
-|                                       | Opencart 3 [3.0.1.1 - 3.0.3.8]                                                                        | Opencart 4 [4.0.0.1 - 4.0.2.1]                                                                        |
-|---------------------------------------|-------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
-| Link to download installer .ocmod.zip | [ifthenpay v1.3.5](https://github.com/ifthenpay/opencart/releases/download/1.1.7/ifthenpay.ocmod.zip) | [ifthenpay v4.0.0](https://github.com/ifthenpay/opencart/releases/download/v4.0.0/ifthenpay.ocmod.zip) |
+|                                       | Opencart 3 [3.0.1.1 - 3.0.3.8]                                                                        | Opencart 4 [4.0.0.1 - 4.0.2.1]                                                                         |
+|---------------------------------------|-------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| Link to download installer .ocmod.zip | [ifthenpay v1.2.0](https://github.com/ifthenpay/opencart/releases/download/1.2.0/ifthenpay.ocmod.zip) | [ifthenpay v4.1.0](https://github.com/ifthenpay/opencart/releases/download/v4.1.0/ifthenpay.ocmod.zip) |
 
 </br>
 </br>
@@ -28,6 +28,7 @@ Read in ![Portuguese](https://github.com/ifthenpay/opencart/raw/assets/version4/
   * [MB WAY](#mb-way)
   * [Credit Card](#credit-card)
   * [Payshop](#payshop)
+  * [Cofidis Pay](#cofidis-pay)
 
 [5. Refund](#refund)
 
@@ -46,12 +47,13 @@ Read in ![Portuguese](https://github.com/ifthenpay/opencart/raw/assets/version4/
   * [Paying order with Payshop](#paying-order-with-payshop)
   * [Paying order with MB WAY](#paying-order-with-mb-way)
   * [Paying order with Credit Card](#paying-order-with-credit-card)
+  * [Paying order with Cofidis Pay](#paying-order-with-cofidis-pay)
 
 
 </br>
 
 # Introduction
-![ifthenpay](https://ifthenpay.com/images/all_payments_logo_final.png)
+![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/payment_methods_banner.png)
 </br>
 **This is the ifthenpay extension for the Opencart ecommerce platform.**
 
@@ -62,6 +64,8 @@ Read in ![Portuguese](https://github.com/ifthenpay/opencart/raw/assets/version4/
 **Payshop** is a Portuguese payment method that allows the consumer to pay with a Payshop reference. This extension enables the generation of a payment reference that the consumer can use to pay for their order at a Payshop agent or CTT (Portuguese postal service). This extension uses ifthenpay, one of the various gateways available in Portugal.
 
 **Credit Card** This extension allows generating a payment through Visa or MasterCard, which the consumer can use to pay for their order. This extension uses ifthenpay, one of the various gateways available in Portugal.
+
+**Cofidis Pay** is a payment solution of up to 12 interest-free installments that makes it easier to pay for purchases by splitting them. This module uses one of the several gateways/services available in Portugal, IfthenPay.
 
 **Contract with Ifthenpay is required**
 
@@ -80,8 +84,8 @@ For support, please create a support ticket at [Support ifthenpay](https://helpd
 Use the table below to check the compatibility of the Ifthenpay extension with your online store:
 |                           | Opencart 3 [3.0.1.1 - 3.0.3.8] | Opencart 4 [4.0.0.1 - 4.0.2.1] |
 |---------------------------|--------------------------------|--------------------------------|
-| ifthenpay v1.0.0 - v1.1.7 | Compatible                     | Not compatible                 |
-| ifthenpay v4.0.0          | Not compatible                 | Compatible                     |
+| ifthenpay v1.0.0 - v1.2.0 | Compatible                     | Not compatible                 |
+| ifthenpay v4.0.0 - v4.1.0 | Not compatible                 | Compatible                     |
 
 </br>
 
@@ -267,6 +271,30 @@ Click on Save (14) to save the changes.
 </br>
 
 
+## Cofidis Pay
+
+The Cofidis Pay payment method allows the consumer to pay in installments.
+The Cofidis Pay Keys are automatically loaded upon entering the Backoffice Key.
+Configure the payment method. The image below shows an example of a minimally functional configuration.
+
+1. **Status** - Activates the payment method, displaying it at the checkout of your store.
+2. **Enable Callback** - When enabled, the order status will be updated when the payment is received.
+3. **Cofidis Pay Key** - Select a Key. You can only choose one of the Keys associated with the Backoffice Key.
+4. **Title** - The title that appears to the consumer during checkout.
+5. **Pending Status** - Order status used during order confirmation.
+6. **Paid Status** - Order status used when payment confirmation is received.
+7. **Cancelled Status** - Order status used when the order is canceled.
+8. **Geo Zone** - (optional) By selecting a geographic zone, this payment method will only be displayed for orders with a shipping address within the chosen zone.
+9. **Minimum Amount** - (optional) Displays this payment method only for orders with a value greater than the entered amount. **Important Notice:** On Cofidis Key selection, this input is updated with value configured in ifthenpay's backoffice, and when editing, it can not be less then the value specified in ifthenpay's backoffice.;
+10. **Maximum Amount** - (optional) Displays this payment method only for orders with a value lower than the entered amount. **Important Notice:** On Cofidis Key selection, this input is updated with value configured in ifthenpay's backoffice, and when editing, it can not be greater then the value specified in ifthenpay's backoffice.;
+11. **Sort Order** - (optional) Sorts the payment methods on the checkout page in ascending order. Lower numbers take the first position.
+
+Click on Save (12) to save the changes.
+![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/config_cofidis.png)
+
+</br>
+
+
 ## Refund
 
 The MB WAY and Credit Card payment methods allow for full or partial refunds of the amount paid by the consumer through the refund tab on the order details page in the store's admin back office.
@@ -420,17 +448,29 @@ Note: The value, if it has decimals, should be separated by a dot.
 </br>
 
 
+**Cofidis Pay**: In the backoffice, use the following data (1) and (2) from the order payment details
+![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/test_callback_data_cofidis.png)
+</br>
+
+
+and enter them in the respective fields (1) and (2) of the Callback test form, then click on Test (3).
+Note: The value, if it has decimals, should be separated by a dot.
+![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/test_callback_form_cofidis.png)
+
+</br>
+
+
 ## Cronjob
 
 A cron job is a scheduled task that is automatically executed at specific intervals in the system. The ifthenpay extension provides a cron job to check the payment status and cancel orders that haven't been paid within the configured time limit. The table below shows the time limit for each payment method, which the cron job checks and cancels orders that haven't been paid within the time limit. This time limit can be configured only for the Multibanco with Dynamic References and Payshop payment methods.
 
-| Payment Method     | Payment Deadline              |
-|--------------------|-----------------------------|
-| Multibanco         | No deadline                   |
-| Dynamic Multibanco | Configurable from 1 to n days |
-| MB WAY             | 30 minutes                  |
+| Payment Method     | Payment Deadline               |
+|--------------------|--------------------------------|
+| Multibanco         | No deadline                    |
+| Dynamic Multibanco | Configurable from 1 to n days  |
+| MB WAY             | 30 minutes                     |
 | Payshop            | Configurable from 1 to 99 days |
-| Credit Card        | 30 minutes                  |
+| Credit Card        | 30 minutes                     |
 
 To activate the cron job, access the extension's configuration page and enable the "Enable Cancel Cron Job" option, then click on Save.
 The configuration page will update and display the Cron job URL (1), which should be added to your server to execute the cron job.
@@ -559,5 +599,62 @@ After the payment is processed, the order success page will be displayed.
 
 </br>
 
+
+## Paying order with Cofidis Pay
+
+Select the Cofidis Pay payment method (1) and click on Continue (2).
+![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/select_cofidis.png)
+</br>
+
+Click on Confirm Order (1).
+![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/confirm_order_cofidis.png)
+</br>
+
+
+* Login or, if you don't have an account, sign up with Cofidis Pay:
+1. Click "Avançar" to sign up with Cofidis Pay;
+2. Or if you have a Cofidis Pay account, fill in your access credentials and click enter;
+![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/cofidis_payment_1.png)
+</br>
+
+* Number of installments and billing and personal data:
+1. Select the number of installments you wish;
+2. Verify the summary of the the payment plan;
+3. Fill in your personal and billing data;
+4. Click "Avançar" to continue;
+![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/cofidis_payment_2.png)
+</br>
+
+* Terms and Conditions:
+1. Select "Li e autorizo" to agree with terms and conditions;
+2. Click "Avançar"
+![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/cofidis_payment_3.png)
+</br>
+
+* Agreement formalization:
+1. Click "Enviar código";
+![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/cofidis_payment_4.png)
+</br>
+
+* Agreement formalization authentication code:
+1. Fill in the code you received on your phone;
+1. Click "Confirmar código";
+![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/cofidis_payment_5.png)
+</br>
+
+* Summary and Payment:
+1. Fill in your credit card details (number, expiration date and CW), and click "Validar";
+![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/cofidis_payment_6.png)
+</br>
+
+* Success and return to store:
+1. Click the return icon to return to the store;
+![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/cofidis_payment_7.png)
+</br>
+
+After the payment is processed, the order success page will be displayed.
+![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/payment_return_cofidis.png)
+
+</br>
 
 You have reached the end of the ifthenpay extension manual for Opencart 4.
