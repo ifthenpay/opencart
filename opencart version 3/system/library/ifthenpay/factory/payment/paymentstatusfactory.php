@@ -13,41 +13,46 @@ use Ifthenpay\Payments\MultibancoPaymentStatus;
 use Ifthenpay\Payments\MbwayPaymentStatus;
 use Ifthenpay\Payments\PayshopPaymentStatus;
 use Ifthenpay\Payments\CCardPaymentStatus;
+use Ifthenpay\Payments\CofidisPaymentStatus;
 
 
 class PaymentStatusFactory extends Factory
 {
-    private $webService;
+	private $webService;
 
-    public function __construct(
-        Container $ioc, 
-        WebService $webService
-    )
+	public function __construct(
+		Container $ioc,
+		WebService $webService
+	) {
+		parent::__construct($ioc);
+		$this->webService = $webService;
+	}
+
+	public function build(): PaymentStatusInterface
 	{
-        parent::__construct($ioc);
-        $this->webService = $webService;
-    }
-
-    public function build(): PaymentStatusInterface {
-        switch ($this->type) {
-            case Gateway::MULTIBANCO:
-                return new MultibancoPaymentStatus(
-                    $this->webService,
-                );
-            case Gateway::MBWAY:
-                return new MbWayPaymentStatus(
-                    $this->webService,
-                );
-            case Gateway::PAYSHOP:
-                return new PayshopPaymentStatus(
-                    $this->webService,
-                );
-            case Gateway::CCARD:
-                return new CCardPaymentStatus(
-                    $this->webService,
-                );
-            default:
-                throw new \Exception('Unknown Payment Change Status Class');
-        }
-    }
+		switch ($this->type) {
+			case Gateway::MULTIBANCO:
+				return new MultibancoPaymentStatus(
+					$this->webService,
+				);
+			case Gateway::MBWAY:
+				return new MbWayPaymentStatus(
+					$this->webService,
+				);
+			case Gateway::PAYSHOP:
+				return new PayshopPaymentStatus(
+					$this->webService,
+				);
+			case Gateway::CCARD:
+				return new CCardPaymentStatus(
+					$this->webService,
+				);
+			case Gateway::COFIDIS:
+				return new CofidisPaymentStatus(
+					$this->webService,
+				);
+			default:
+				throw new \Exception('Unknown Payment Change Status Class');
+		}
+	}
 }

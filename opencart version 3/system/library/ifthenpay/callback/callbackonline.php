@@ -6,134 +6,306 @@ namespace Ifthenpay\Callback;
 
 use Ifthenpay\Contracts\Callback\CallbackProcessInterface;
 use Ifthenpay\Traits\Payments\ConvertCurrency;
+use Ifthenpay\Payments\Gateway;
+use Ifthenpay\Config\IfthenpayContainer;
+use Ifthenpay\Request\WebService;
+
 
 class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
 {
-    use ConvertCurrency;
+	use ConvertCurrency;
 
-    public function process(): void
-    {
-        $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['paymentMethod'] = $this->paymentMethod;
-        $this->setPaymentData();
+	public function process(): void
+	{
 
-        $checkoutLink = 'checkout/success';
+		switch ($this->paymentMethod) {
+			case Gateway::CCARD:
+				$this->executeCcardCallback();
+				break;
+			case Gateway::COFIDIS:
+				$this->executeCofidisCallback();
+				break;
 
-        if (empty($this->paymentData)) {
-            $this->executePaymentNotFound();
-        } else {
-            try {
-                $paymentStatus = $this->status->getTokenStatus(
-                    $this->token->decrypt($this->request['qn'])
-                );
-                $this->setOrder();
-                if (
-                    strtolower($this->paymentData['status']) !== 'pending' && $this->order['order_status'] !==
-                    $this->ifthenpayController->config->get('payment_ccard_order_status_id')
-                ) {
-                    $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = '';
-                    $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_error'] = $this->ifthenpayController->language->get('orderIsPaid');
-                    $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
-                    $this->ifthenpayController->model_extension_payment_ccard->log([
-                        'paymentData' => $this->paymentData,
-                    ], 'order already paid');
-                    $this->ifthenpayController->response->redirect($this->ifthenpayController->url->link($checkoutLink, true));
-                } else {
+			default:
+				$this->executePaymentMethodNotFound();
+				break;
+		}
+	}
 
-                    if ($paymentStatus === 'success') {
-                        $this->ifthenpayController->load->model('setting/setting');
-                        $configData =  $this->ifthenpayController->model_setting_setting->getSetting('payment_ccard');
-                        if ($this->request['sk'] !== $this->tokenExtra->encript(
-                            $this->request['id'] . $this->request['amount'] . $this->request['requestId'],
-                            $configData['payment_ccard_ccardKey']
-                        )) {
-                            throw new \Exception($this->ifthenpayController->language->get('paymentSecurityToken'));
-                        }
-                        if ($this->order['currency_code'] !== 'EUR') {
-                            $orderTotal = $this->ifthenpayController->currency->format($this->order['total'], 'EUR', '', false);
-                        } else {
-                            $orderTotal = floatval($this->order['total']);
-                        }
-                        $requestValue = floatval($this->request['amount']);
-                        if (round($orderTotal, 2) !== round($requestValue, 2)) {
-                            $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = '';
-                            $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_error'] = $this->ifthenpayController->language->get('ccard_error_message');
 
-                            $this->ifthenpayController->model_extension_payment_ccard->log([
-                                'orderTotal' => $orderTotal,
-                                'requestValue' => $requestValue,
-                                'paymentData' => $this->paymentData
-                            ], 'Payment value by credit card not valid');
-                        }
-                        $this->changeIfthenpayPaymentStatus('paid');
-                        $this->ifthenpayController->model_checkout_order->addOrderHistory(
-                            $this->paymentData['order_id'],
-                            $this->ifthenpayController->config->get('payment_ccard_order_status_complete_id'),
-                            $this->ifthenpayController->language->get('paymentConfirmedSuccess'),
-                            true,
-                            true
-                        );
+/**
+ * makes request to get the cofidis transaction status
+ * @return string
+ */
+	public function getCofidisStatus($cofidisKey, $transactionId): string
+	{
+		$payload = [
+			'cofidisKey' => $cofidisKey,
+			'requestId' => $transactionId,
+		];
 
-                        $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = $this->ifthenpayController->language->get('paymentConfirmedSuccess');
-                        $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_error'] = '';
-                    } else if ($paymentStatus === 'cancel') {
-                        $this->changeIfthenpayPaymentStatus('cancel');
-                        $this->ifthenpayController->model_checkout_order->addOrderHistory(
-                            $this->paymentData['order_id'],
-                            $this->ifthenpayController->config->get('payment_ccard_order_status_canceled_id'),
-                            $this->ifthenpayController->language->get('ccard_error_canceled'),
-                            true,
-                            true
-                        );
+		$ifthenpayContainer = new IfthenpayContainer();
+		$webService = $ifthenpayContainer->getIoc()->make(WebService::class);
 
-                        $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = '';
-                        $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_error'] = $this->ifthenpayController->language->get('ccard_error_canceled');
-                        $checkoutLink = 'checkout/failure';
+		$statusArray = $webService->postRequest('https://ifthenpay.com/api/cofidis/status', $payload, true)->getResponseJson();
 
-                        $this->ifthenpayController->model_extension_payment_ccard->log([
-                            'paymentData' => $this->paymentData
-                        ], 'Payment by credit card canceled by the client');
-                    } else {
-                        $this->changeIfthenpayPaymentStatus('error');
-                        $this->ifthenpayController->model_checkout_order->addOrderHistory(
-                            $this->paymentData['order_id'],
-                            $this->ifthenpayController->config->get('payment_ccard_order_status_failed_id'),
-                            $this->ifthenpayController->language->get('ccard_error_failed'),
-                            true,
-                            true
-                        );
 
-                        $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = '';
-                        $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_error'] = $this->ifthenpayController->language->get('ccard_error_failed');
-                        $checkoutLink = 'checkout/failure';
+		if (count($statusArray) > 0) {
+			$statusCode = $statusArray[0]['statusCode'];
 
-                        $errorMsg = [];
-                        if (isset($this->request['error'])) {
-                            $errorMsg = $this->request['error'];
-                        }
+			return $statusCode;
+		}
+		return 'ERROR';
+	}
 
-                        $this->ifthenpayController->model_extension_payment_ccard->log([
-                            'error' => $errorMsg,
-                            'paymentData' => $this->paymentData
-                        ], 'Error processing credit card payment');
-                    }
+	private function executeCofidisCallback()
+	{
+		$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['paymentMethod'] = $this->paymentMethod;
+		$this->setPaymentData();
 
-                    $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
-                    $this->ifthenpayController->response->redirect($this->ifthenpayController->url->link($checkoutLink, true));
-                }
-            } catch (\Throwable $th) {
-                $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderView'] = false;
-                $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
-                $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = '';
-                $this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_error'] = $th->getMessage();
-                $checkoutLink = 'checkout/failure';
+		$checkoutLink = 'checkout/success';
 
-                $this->ifthenpayController->model_extension_payment_ccard->log([
-                    'error' => $th->getMessage(),
-                    'paymentData' => $this->paymentData
-                ], 'Error processing credit card payment - internal error');
+		if (empty($this->paymentData)) {
+			$this->executePaymentNotFound();
+		} else {
 
-                $this->ifthenpayController->response->redirect($this->ifthenpayController->url->link($checkoutLink, true));
-            }
-        }
-    }
+			try {
+				$this->setOrder();
+
+				$paymentStatus = $this->request['Success'];
+
+				if (
+					strtolower($this->paymentData['status']) !== 'pending' && $this->order['order_status'] !==
+					$this->ifthenpayController->config->get('payment_cofidis_order_status_id')
+				) {
+					$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_success'] = '';
+					$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_error'] = $this->ifthenpayController->language->get('orderIsPaid');
+					$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
+					$this->ifthenpayController->model_extension_payment_cofidis->log([
+						'paymentData' => $this->paymentData,
+					], 'order already paid');
+					$this->ifthenpayController->response->redirect($this->ifthenpayController->url->link($checkoutLink, true));
+				} else {
+
+
+
+					if ($paymentStatus === 'True') {
+
+						$cofidisKey = $this->ifthenpayController->config->get('payment_cofidis_cofidisKey');
+						$transactionId = $this->paymentData['requestId'];
+						$status = $this->getCofidisStatus($cofidisKey, $transactionId);
+
+						if ($status === 'INITIATED' || $status === 'PENDING_INVOICE') {
+							$this->ifthenpayController->load->model('setting/setting');
+
+							$this->changeIfthenpayPaymentStatus('pending');
+
+							$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_success'] = $this->ifthenpayController->language->get('paymentConfirmedSuccess');
+							$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_error'] = '';
+						} else {
+
+							$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_success'] = '';
+							$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_error'] = $this->ifthenpayController->language->get('cofidis_error_canceled');
+							$checkoutLink = 'checkout/failure';
+
+							$this->ifthenpayController->model_extension_payment_cofidis->log([
+								'paymentData' => $this->paymentData
+							], 'Payment by credit card canceled by the client or resulted in error.');
+						}
+
+
+					} else if ($paymentStatus === 'False') {
+						$this->changeIfthenpayPaymentStatus('cancel');
+						$this->ifthenpayController->model_checkout_order->addOrderHistory(
+							$this->paymentData['order_id'],
+							$this->ifthenpayController->config->get('payment_cofidis_order_status_canceled_id'),
+							$this->ifthenpayController->language->get('cofidis_error_canceled'),
+							true,
+							true
+						);
+
+						$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_success'] = '';
+						$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_error'] = $this->ifthenpayController->language->get('cofidis_error_canceled');
+						$checkoutLink = 'checkout/failure';
+
+						$this->ifthenpayController->model_extension_payment_cofidis->log([
+							'paymentData' => $this->paymentData
+						], 'Payment by credit card canceled by the client or resulted in error.');
+					} else {
+						$this->changeIfthenpayPaymentStatus('error');
+						$this->ifthenpayController->model_checkout_order->addOrderHistory(
+							$this->paymentData['order_id'],
+							$this->ifthenpayController->config->get('payment_cofidis_order_status_failed_id'),
+							$this->ifthenpayController->language->get('cofidis_error_failed'),
+							true,
+							true
+						);
+
+						$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_success'] = '';
+						$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_error'] = $this->ifthenpayController->language->get('cofidis_error_failed');
+						$checkoutLink = 'checkout/failure';
+
+						$errorMsg = [];
+						if (isset($this->request['error'])) {
+							$errorMsg = $this->request['error'];
+						}
+
+						$this->ifthenpayController->model_extension_payment_cofidis->log([
+							'error' => $errorMsg,
+							'paymentData' => $this->paymentData
+						], 'Error processing credit card payment');
+					}
+
+					$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
+					$this->ifthenpayController->response->redirect($this->ifthenpayController->url->link($checkoutLink, true));
+
+				}
+
+			} catch (\Throwable $th) {
+				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderView'] = false;
+				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
+				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_success'] = '';
+				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_error'] = $th->getMessage();
+				$checkoutLink = 'checkout/failure';
+
+				$this->ifthenpayController->model_extension_payment_cofidis->log([
+					'error' => $th->getMessage(),
+					'paymentData' => $this->paymentData
+				], 'Error processing cofidis payment - internal error');
+
+				$this->ifthenpayController->response->redirect($this->ifthenpayController->url->link($checkoutLink, true));
+
+			}
+
+
+		}
+	}
+
+	private function executeCcardCallback()
+	{
+		$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['paymentMethod'] = $this->paymentMethod;
+		$this->setPaymentData();
+
+		$checkoutLink = 'checkout/success';
+
+		if (empty($this->paymentData)) {
+			$this->executePaymentNotFound();
+		} else {
+			try {
+				$paymentStatus = $this->status->getTokenStatus(
+					$this->token->decrypt($this->request['qn'])
+				);
+				$this->setOrder();
+				if (
+					strtolower($this->paymentData['status']) !== 'pending' && $this->order['order_status'] !==
+					$this->ifthenpayController->config->get('payment_ccard_order_status_id')
+				) {
+					$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = '';
+					$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_error'] = $this->ifthenpayController->language->get('orderIsPaid');
+					$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
+					$this->ifthenpayController->model_extension_payment_ccard->log([
+						'paymentData' => $this->paymentData,
+					], 'order already paid');
+					$this->ifthenpayController->response->redirect($this->ifthenpayController->url->link($checkoutLink, true));
+				} else {
+
+					if ($paymentStatus === 'success') {
+						$this->ifthenpayController->load->model('setting/setting');
+						$configData = $this->ifthenpayController->model_setting_setting->getSetting('payment_ccard');
+						if (
+							$this->request['sk'] !== $this->tokenExtra->encript(
+								$this->request['id'] . $this->request['amount'] . $this->request['requestId'],
+								$configData['payment_ccard_ccardKey']
+							)
+						) {
+							throw new \Exception($this->ifthenpayController->language->get('paymentSecurityToken'));
+						}
+						if ($this->order['currency_code'] !== 'EUR') {
+							$orderTotal = $this->ifthenpayController->currency->format($this->order['total'], 'EUR', '', false);
+						} else {
+							$orderTotal = floatval($this->order['total']);
+						}
+						$requestValue = floatval($this->request['amount']);
+						if (round($orderTotal, 2) !== round($requestValue, 2)) {
+							$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = '';
+							$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_error'] = $this->ifthenpayController->language->get('ccard_error_message');
+
+							$this->ifthenpayController->model_extension_payment_ccard->log([
+								'orderTotal' => $orderTotal,
+								'requestValue' => $requestValue,
+								'paymentData' => $this->paymentData
+							], 'Payment value by credit card not valid');
+						}
+						$this->changeIfthenpayPaymentStatus('paid');
+						$this->ifthenpayController->model_checkout_order->addOrderHistory(
+							$this->paymentData['order_id'],
+							$this->ifthenpayController->config->get('payment_ccard_order_status_complete_id'),
+							$this->ifthenpayController->language->get('paymentConfirmedSuccess'),
+							true,
+							true
+						);
+
+						$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = $this->ifthenpayController->language->get('paymentConfirmedSuccess');
+						$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_error'] = '';
+					} else if ($paymentStatus === 'cancel') {
+						$this->changeIfthenpayPaymentStatus('cancel');
+						$this->ifthenpayController->model_checkout_order->addOrderHistory(
+							$this->paymentData['order_id'],
+							$this->ifthenpayController->config->get('payment_ccard_order_status_canceled_id'),
+							$this->ifthenpayController->language->get('ccard_error_canceled'),
+							true,
+							true
+						);
+
+						$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = '';
+						$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_error'] = $this->ifthenpayController->language->get('ccard_error_canceled');
+						$checkoutLink = 'checkout/failure';
+
+						$this->ifthenpayController->model_extension_payment_ccard->log([
+							'paymentData' => $this->paymentData
+						], 'Payment by credit card canceled by the client');
+					} else {
+						$this->changeIfthenpayPaymentStatus('error');
+						$this->ifthenpayController->model_checkout_order->addOrderHistory(
+							$this->paymentData['order_id'],
+							$this->ifthenpayController->config->get('payment_ccard_order_status_failed_id'),
+							$this->ifthenpayController->language->get('ccard_error_failed'),
+							true,
+							true
+						);
+
+						$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = '';
+						$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_error'] = $this->ifthenpayController->language->get('ccard_error_failed');
+						$checkoutLink = 'checkout/failure';
+
+						$errorMsg = [];
+						if (isset($this->request['error'])) {
+							$errorMsg = $this->request['error'];
+						}
+
+						$this->ifthenpayController->model_extension_payment_ccard->log([
+							'error' => $errorMsg,
+							'paymentData' => $this->paymentData
+						], 'Error processing credit card payment');
+					}
+
+					$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
+					$this->ifthenpayController->response->redirect($this->ifthenpayController->url->link($checkoutLink, true));
+				}
+			} catch (\Throwable $th) {
+				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderView'] = false;
+				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
+				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_success'] = '';
+				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['ccard_error'] = $th->getMessage();
+				$checkoutLink = 'checkout/failure';
+
+				$this->ifthenpayController->model_extension_payment_ccard->log([
+					'error' => $th->getMessage(),
+					'paymentData' => $this->paymentData
+				], 'Error processing credit card payment - internal error');
+
+				$this->ifthenpayController->response->redirect($this->ifthenpayController->url->link($checkoutLink, true));
+			}
+		}
+	}
 }

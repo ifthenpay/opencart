@@ -6,6 +6,7 @@ namespace Ifthenpay\Base\Payments;
 
 use Ifthenpay\Utility\Token;
 use Ifthenpay\Utility\Status;
+use Ifthenpay\Utility\Versions;
 use Ifthenpay\Base\PaymentBase;
 use Ifthenpay\Payments\Gateway;
 use Ifthenpay\Builders\DataBuilder;
@@ -37,27 +38,29 @@ class CCardBase extends PaymentBase
 
     private function getUrlCallback(): string
     {
-        return $this->paymentDefaultData->order['store_url'] . 
+        return $this->paymentDefaultData->order['store_url'] .
             'index.php?route=extension/payment/ccard/callback';
     }
 
     protected function saveToDatabase(): void
     {
         $this->ifthenpayController->load->model('extension/payment/ccard');
-		
+
 		$this->ifthenpayController->model_extension_payment_ccard->savePayment($this->paymentDefaultData, $this->paymentGatewayResultData);
     }
 
     protected function setGatewayBuilderData(): void
     {
+		$versionStr = Versions::replaceStringWithVersions('&ec={ec}&mv={mv}');
+
         $this->gatewayBuilder->setCCardKey($this->configData['payment_ccard_ccardKey']);
-        $this->gatewayBuilder->setSuccessUrl($this->getUrlCallback() . '&type=online&payment=ccard&orderId=' . $this->paymentDefaultData->order['order_id'] . '&qn=' . 
+        $this->gatewayBuilder->setSuccessUrl($this->getUrlCallback() . $versionStr . '&type=online&payment=ccard&orderId=' . $this->paymentDefaultData->order['order_id'] . '&qn=' .
             $this->token->encrypt($this->status->getStatusSucess())
         );
-        $this->gatewayBuilder->setErrorUrl($this->getUrlCallback() . '&type=online&payment=ccard&orderId=' . $this->paymentDefaultData->order['order_id'] . '&qn=' . 
+        $this->gatewayBuilder->setErrorUrl($this->getUrlCallback() . '&type=online&payment=ccard&orderId=' . $this->paymentDefaultData->order['order_id'] . '&qn=' .
             $this->token->encrypt($this->status->getStatusError())
         );
-        $this->gatewayBuilder->setCancelUrl($this->getUrlCallback() . '&type=online&payment=ccard&orderId=' . $this->paymentDefaultData->order['order_id'] . '&qn=' . 
+        $this->gatewayBuilder->setCancelUrl($this->getUrlCallback() . '&type=online&payment=ccard&orderId=' . $this->paymentDefaultData->order['order_id'] . '&qn=' .
             $this->token->encrypt($this->status->getStatusCancel())
         );
     }
@@ -65,9 +68,9 @@ class CCardBase extends PaymentBase
     public function getFromDatabaseById(): void
     {
         $this->ifthenpayController->load->model('extension/payment/ccard');
-		
+
 		$this->paymentDataFromDb = $this->ifthenpayController->model_extension_payment_ccard
             ->getPaymentByOrderId($this->paymentDefaultData->order['order_id'])
-            ->row; 
+            ->row;
     }
 }

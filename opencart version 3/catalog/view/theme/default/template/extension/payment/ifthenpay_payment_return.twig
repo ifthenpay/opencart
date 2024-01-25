@@ -55,22 +55,23 @@
 				<p>{{paymentReturnMbwayOrderTimeOut}}</p>
 			</div>
 		</div>
-		
 
 
 	{% endif %}
 	{% if paymentMethod == 'ccard' %}
-		{% if ccard_success %}
-			<div class="alert alert-success alert-dismissible">
-				<i class="fa fa-check-circle"></i>
-				{{ ccard_success }}
-				<button type="button" class="close" data-dismiss="alert">&times;</button>
-			</div>
-		{% endif %}
 		{% if ccard_error %}
 			<div class="alert alert-danger alert-dismissible">
 				<i class="fa fa-exclamation-circle"></i>
 				{{ ccard_error }}
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+			</div>
+		{% endif %}
+	{% endif %}
+	{% if paymentMethod == 'cofidis' %}
+		{% if cofidis_error %}
+			<div class="alert alert-danger alert-dismissible">
+				<i class="fa fa-exclamation-circle"></i>
+				{{ cofidis_error }}
 				<button type="button" class="close" data-dismiss="alert">&times;</button>
 			</div>
 		{% endif %}

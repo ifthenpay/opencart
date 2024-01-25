@@ -128,6 +128,15 @@ class IfthenpayController extends Controller
 			'admin/view/sale/order_info/after',
 			'extension/payment/' . $this->paymentMethod . '/insertResendPaymentDataButton'
 		);
+
+		if ($this->paymentMethod == 'cofidis') {
+			$this->model_setting_event->addEvent(
+				'ifthenpayAddPaymentMethodDescriptioncofidis',
+				'catalog/view/checkout/payment_method/after',
+				'extension/payment/cofidis/injectPaymentMethodDescriptionOnCheckout'
+			);
+		}
+
 	}
 
 	public function uninstall()
@@ -142,6 +151,10 @@ class IfthenpayController extends Controller
 		$this->model_setting_event->deleteEventByCode('ifthenpayApiOrderAdd' . $this->paymentMethod);
 		$this->model_setting_event->deleteEventByCode('insertMbwayInputAdminOrderCreate');
 		$this->model_setting_event->deleteEventByCode('insertResendPaymentDataButton' . $this->paymentMethod);
+
+		if ($this->paymentMethod == 'cofidis') {
+			$this->model_setting_event->deleteEventByCode('ifthenpayAddPaymentMethodDescriptioncofidis');
+		}
 	}
 
 	public function requestNewAccount()
@@ -234,6 +247,8 @@ class IfthenpayController extends Controller
 		$output .= '<script src="./view/javascript/ifthenpay/' . $mix->create('adminOrderPage.js') . '" type="text/javascript"></script>';
 	}
 
+
+
 	public function insertResendPaymentDataButton(&$route, &$data, &$output)
 	{
 
@@ -300,6 +315,7 @@ class IfthenpayController extends Controller
 			$amount = isset($this->request->post['amount']) ? $this->request->post['amount'] : '';
 			$mbwayTransactionId = isset($this->request->post['mbway_transaction_id']) ? $this->request->post['mbway_transaction_id'] : '';
 			$payshopTransactionId = isset($this->request->post['payshop_transaction_id']) ? $this->request->post['payshop_transaction_id'] : '';
+			$cofidisTransactionId = isset($this->request->post['cofidis_transaction_id']) ? $this->request->post['cofidis_transaction_id'] : '';
 
 			$isCallbackActive = $this->config->get('payment_' . $this->paymentMethod . '_callback_activated') === '1' ? true : false;
 
@@ -352,6 +368,12 @@ class IfthenpayController extends Controller
 				$callbackUrl = str_replace('[ESTADO]', 'PAGO', $callbackUrl);
 			}
 
+			//set callback url for cofidis
+			if ($method === 'cofidis') {
+				$callbackUrl = str_replace('[ID_TRANSACAO]', $cofidisTransactionId, $callbackUrl);
+				$callbackUrl = str_replace('[ESTADO]', 'PAGO', $callbackUrl);
+			}
+
 			$webservice = new WebService(new Client());
 
 			$request = $webservice->getRequest($callbackUrl);
@@ -375,6 +397,40 @@ class IfthenpayController extends Controller
 			];
 
 			$this->response->setOutput(json_encode($response));
+		}
+	}
+
+
+
+	public function getMinMaxCofidis(): void
+	{
+		try {
+			$cofidisKey = $this->request->post['cofidis_key'];
+
+			$webService = $this->ifthenpayContainer->getIoc()->make(WebService::class);
+
+			$min = '';
+			$max = '';
+			$responseArray = $webService->getRequest('https://ifthenpay.com/api/cofidis/limits/' . $cofidisKey)->getResponseJson();
+
+			if (isset($responseArray['message']) && $responseArray['message'] == 'success') {
+
+				$min = $responseArray['limits']['minAmount'];
+				$max = $responseArray['limits']['maxAmount'];
+			}
+
+			$minMaxArray = ['max' => $max, 'min' => $min];
+
+			http_response_code(200);
+			die(json_encode($minMaxArray));
+
+		} catch (\Throwable $th) {
+			$this->{$this->dynamicModelName}->log([
+				'requestData' => $this->request->get,
+				'errorMessage' => $th->getMessage()
+			], 'Error fetching min max values');
+			http_response_code(400);
+			die();
 		}
 	}
 }

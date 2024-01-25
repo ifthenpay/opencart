@@ -129,7 +129,6 @@ class IfthenpayControllerCatalog extends Controller
 	{
 		try {
 			$this->ifthenpayContainer->getIoc()->make(CallbackStrategy::class)->execute($this->request->get, $this);
-			$this->{$this->dynamicModelName} > log($this->request->get, 'Callback Processed with Success.');
 		} catch (\Throwable $th) {
 			$this->{$this->dynamicModelName}->log([
 				'callbackData' => $this->request->get,
@@ -312,6 +311,57 @@ class IfthenpayControllerCatalog extends Controller
 			$this->{$this->dynamicModelName}->deletePaymentByOrderId($this->request->get['order_id']);
 		}
 		$this->backofficePaymentProcessing($this->request->get['order_id']);
+	}
+
+	public function injectPaymentMethodDescriptionOnCheckout(&$route, &$data, &$output)
+	{
+		$descLine1 = $this->language->get('cofidis_desc_line_1');
+		$descLine2 = $this->language->get('cofidis_desc_line_2');
+		$descLine3 = $this->language->get('cofidis_desc_line_3');
+		$descLine4 = $this->language->get('cofidis_desc_line_4');
+		$descLine5 = $this->language->get('cofidis_desc_line_5');
+
+		$js = <<<EOD
+			jQuery(function () {
+				const html = `
+					<div id="ifthenpay_cofidis_desc">
+					<p></p>
+					<p><strong>$descLine1</strong>$descLine2</p>
+					<p>$descLine3</p>
+					<p>$descLine4</p>
+					<p>$descLine5</p>
+					</br>
+					</div>
+				`;
+
+				$.fn.appendCofidisInfo = function () {
+					this.parents('.radio').append(html);
+				}
+
+				const paymentMethodsElements = $('input[name="payment_method"]');
+				const cofidisElement = $('input[name="payment_method"][value="cofidis"]');
+
+				if (cofidisElement && paymentMethodsElements) {
+
+					if (cofidisElement && cofidisElement.is(':checked')) {
+						cofidisElement.appendCofidisInfo();
+					}
+
+					paymentMethodsElements.on('change', function () {
+						const cofidisDesc = $('#ifthenpay_cofidis_desc');
+
+						if (cofidisElement.is(':checked')) {
+							cofidisElement.appendCofidisInfo();
+						}
+						else if(cofidisDesc){
+							cofidisDesc.remove();
+						}
+					});
+				}
+			});
+		EOD;
+
+		$output .= '<script>' . $js . '</script>';
 	}
 
 	protected function setOrderCommentHistory(string $orderId, string $orderStatusId): void
