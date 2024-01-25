@@ -15,6 +15,9 @@ class ApiService
 	private const URL_IFTHENPAY_POST_REFUND = 'https://ifthenpay.com/api/endpoint/payments/refund';
 	private const URL_IFTHENPAY_UPGRADE = 'https://ifthenpay.com/modulesUpgrade/opencart/4/upgrade.json';
 	public const URL_MBWAY_GET_PAYMENT_STATUS = 'https://www.ifthenpay.com/mbwayws/ifthenpaymbw.asmx/EstadoPedidosJSON';
+	private const URL_COFIDIS_SET_REQUEST = 'http://ifthenpay.com/api/cofidis/init/';
+	public const URL_COFIDIS_GET_MAX_MIN_AMOUNT = 'https://ifthenpay.com/api/cofidis/limits';
+	public const URL_COFIDIS_GET_PAYMENT_STATUS = 'https://ifthenpay.com/api/cofidis/status';
 
 	private $curl;
 	private $headers;
@@ -148,6 +151,37 @@ class ApiService
 			self::URL_ACTIVATE_CALLBACK,
 			$payload
 		);
+	}
+
+
+
+	public function requestCofidisMaxMinAmount($cofidisKey)
+	{
+		$result = $this->sendRequest(
+			'GET',
+			self::URL_COFIDIS_GET_MAX_MIN_AMOUNT . '/' . $cofidisKey,
+			[]
+		);
+
+		return $result;
+	}
+
+
+
+	public function requestCheckCofidisPaymentStatus($cofidisKey, $transactionId)
+	{
+		$payload = [
+			'cofidisKey' => $cofidisKey,
+			'requestId' => $transactionId,
+		];
+
+		$result = $this->sendRequest(
+			'POST',
+			self::URL_COFIDIS_GET_PAYMENT_STATUS,
+			$payload
+		);
+
+		return $result;
 	}
 
 
@@ -288,6 +322,20 @@ class ApiService
 		return $this->sendRequest(
 			'POST',
 			self::URL_CCARD_SET_REQUEST . $ccardKey,
+			$payload
+		);
+	}
+
+
+	public function requestCofidisUrl($cofidisKey, $returnUrl, $customerData)
+	{
+
+		$payload = $customerData;
+		$payload['returnUrl'] = $returnUrl;
+
+		return $this->sendRequest(
+			'POST',
+			self::URL_COFIDIS_SET_REQUEST . $cofidisKey,
 			$payload
 		);
 	}

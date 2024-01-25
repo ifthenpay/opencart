@@ -8,6 +8,7 @@ use Ifthenpay\ApiService;
 class Gateway
 {
 	private $paymentMethods = [
+		'COFIDIS',
 		'MULTIBANCO',
 		'MB',
 		'MBWAY',
@@ -19,9 +20,10 @@ class Gateway
 	private $apiService;
 
 
-	public const MULTIBANCO_CALLBACK_STRING = '&ec=oc&phish_key=[CHAVE_ANTI_PHISHING]&reference=[REFERENCIA]&amount=[VALOR]';
-	public const PAYSHOP_CALLBACK_STRING = '&ec=oc&phish_key=[CHAVE_ANTI_PHISHING]&reference=[REFERENCIA]&amount=[VALOR]';
-	public const MBWAY_CALLBACK_STRING = '&ec=oc&phish_key=[CHAVE_ANTI_PHISHING]&transaction_id=[ID_TRANSACAO]&amount=[VALOR]';
+	public const MULTIBANCO_CALLBACK_STRING = '&ec={ec}&mv={mv}&phish_key=[CHAVE_ANTI_PHISHING]&reference=[REFERENCIA]&amount=[VALOR]';
+	public const PAYSHOP_CALLBACK_STRING = '&ec={ec}&mv={mv}&phish_key=[CHAVE_ANTI_PHISHING]&reference=[REFERENCIA]&amount=[VALOR]';
+	public const MBWAY_CALLBACK_STRING = '&ec={ec}&mv={mv}&phish_key=[CHAVE_ANTI_PHISHING]&transaction_id=[ID_TRANSACAO]&amount=[VALOR]';
+	public const COFIDIS_CALLBACK_STRING = '&ec={ec}&mv={mv}&phish_key=[CHAVE_ANTI_PHISHING]&transaction_id=[ID_TRANSACAO]&amount=[VALOR]';
 
 
 	public function __construct()

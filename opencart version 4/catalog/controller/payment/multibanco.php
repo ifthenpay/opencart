@@ -230,6 +230,7 @@ class Multibanco extends \Opencart\System\Engine\Controller
 	 * must finish with die('ok') or die('fail - <code>');
 	 * code represents the error code
 	 * 10 - StoredPaymentData not found in local table.
+	 * 20 - Reference not present in callback data.
 	 * 30 - Callback is not active.
 	 * 40 - Invalid anti-phishing key.
 	 * 50 - Order not found.
@@ -244,7 +245,7 @@ class Multibanco extends \Opencart\System\Engine\Controller
 
 			if (!isset($this->request->get['reference'])) {
 
-				throw new \Exception('StoredPaymentData not found in local table.', 10);
+				throw new \Exception('Reference not present in callback data.', 20);
 			}
 
 			$storedPaymentData = $this->model_extension_ifthenpay_payment_multibanco->getMultibancoRecordByReference($this->request->get['reference']);

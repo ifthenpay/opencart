@@ -37,6 +37,7 @@ class Ccard extends \Opencart\System\Engine\Controller
 		$templateData['button_confirm'] = $this->language->get('button_confirm');
 		$templateData['action'] = $this->url->link('extension/ifthenpay/payment/ccard|confirm', '', true);
 
+		$templateData['checkout_message'] = '';
 		if (isset($this->session->data['ifth_message'])) {
 			$templateData['checkout_message'] = $this->session->data['ifth_message'];
 			unset($this->session->data['ifth_message']);

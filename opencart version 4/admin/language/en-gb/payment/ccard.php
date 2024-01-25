@@ -1,5 +1,8 @@
 <?php
 
+// Admin logo
+$_['text_ccard'] = '<img src="' . HTTP_CATALOG . 'extension/ifthenpay/admin/view/image/ccard.png" alt="Ifthenpay - Credit Card" title="Ifthenpay - Credit Card"/>';
+
 
 
 // Heading

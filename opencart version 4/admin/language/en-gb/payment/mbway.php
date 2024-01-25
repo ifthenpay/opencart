@@ -1,5 +1,7 @@
 <?php
 
+// Admin logo
+$_['text_mbway'] = '<img src="' . HTTP_CATALOG . 'extension/ifthenpay/admin/view/image/mbway.png" alt="Ifthenpay - MB WAY" title="Ifthenpay - MB WAY"/>';
 
 
 // Heading

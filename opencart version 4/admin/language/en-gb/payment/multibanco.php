@@ -1,5 +1,7 @@
 <?php
 
+// Admin logo
+$_['text_multibanco'] = '<img src="' . HTTP_CATALOG . 'extension/ifthenpay/admin/view/image/multibanco.png" alt="Ifthenpay - Multibanco" title="Ifthenpay - Multibanco"/>';
 
 
 // Heading
