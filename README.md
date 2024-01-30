@@ -6,7 +6,7 @@ The ifthenpay extension compatible with Opencart 3 is still available for downlo
 Download versions of the ifthenpay extension for Opencart.
 |                                       | Opencart 3 [3.0.1.1 - 3.0.3.8]                                                                        | Opencart 4 [4.0.0.1 - 4.0.2.1]                                                                         |
 |---------------------------------------|-------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| Link to download installer .ocmod.zip | [ifthenpay v1.2.0](https://github.com/ifthenpay/opencart/releases/download/1.2.0/ifthenpay.ocmod.zip) | [ifthenpay v4.1.0](https://github.com/ifthenpay/opencart/releases/download/v4.1.0/ifthenpay.ocmod.zip) |
+| Link to download installer .ocmod.zip | [ifthenpay v1.2.0](https://github.com/ifthenpay/opencart/releases/download/1.2.0/ifthenpay.ocmod.zip) | [ifthenpay v4.1.0](https://github.com/ifthenpay/opencart/releases/download/4.1.0/ifthenpay.ocmod.zip) |
 
 </br>
 </br>
