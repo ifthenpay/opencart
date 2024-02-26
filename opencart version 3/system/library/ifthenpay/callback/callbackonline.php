@@ -33,11 +33,11 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
 	}
 
 
-/**
- * makes request to get the cofidis transaction status
- * @return string
- */
-	public function getCofidisStatus($cofidisKey, $transactionId): string
+	/**
+	 * makes request to get the cofidis transaction status
+	 * @return string
+	 */
+	public function getCofidisTransactionStatusArray($cofidisKey, $transactionId): array
 	{
 		$payload = [
 			'cofidisKey' => $cofidisKey,
@@ -49,13 +49,7 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
 
 		$statusArray = $webService->postRequest('https://ifthenpay.com/api/cofidis/status', $payload, true)->getResponseJson();
 
-
-		if (count($statusArray) > 0) {
-			$statusCode = $statusArray[0]['statusCode'];
-
-			return $statusCode;
-		}
-		return 'ERROR';
+		return $statusArray;
 	}
 
 	private function executeCofidisCallback()
@@ -88,12 +82,13 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
 				} else {
 
 
+					$cofidisKey = $this->ifthenpayController->config->get('payment_cofidis_cofidisKey');
+					$transactionId = $this->paymentData['requestId'];
 
 					if ($paymentStatus === 'True') {
 
-						$cofidisKey = $this->ifthenpayController->config->get('payment_cofidis_cofidisKey');
-						$transactionId = $this->paymentData['requestId'];
-						$status = $this->getCofidisStatus($cofidisKey, $transactionId);
+						$transactionStatusArray = $this->getCofidisTransactionStatusArray($cofidisKey, $transactionId);
+						$status = $transactionStatusArray[0]['statusCode'];
 
 						if ($status === 'INITIATED' || $status === 'PENDING_INVOICE') {
 							$this->ifthenpayController->load->model('setting/setting');
@@ -114,46 +109,52 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
 						}
 
 
-					} else if ($paymentStatus === 'False') {
-						$this->changeIfthenpayPaymentStatus('cancel');
-						$this->ifthenpayController->model_checkout_order->addOrderHistory(
-							$this->paymentData['order_id'],
-							$this->ifthenpayController->config->get('payment_cofidis_order_status_canceled_id'),
-							$this->ifthenpayController->language->get('cofidis_error_canceled'),
-							true,
-							true
-						);
+					} else if ($paymentStatus !== 'True') {
 
-						$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_success'] = '';
-						$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_error'] = $this->ifthenpayController->language->get('cofidis_error_canceled');
-						$checkoutLink = 'checkout/failure';
+						$transactionStatusArray = [];
 
-						$this->ifthenpayController->model_extension_payment_cofidis->log([
-							'paymentData' => $this->paymentData
-						], 'Payment by credit card canceled by the client or resulted in error.');
-					} else {
-						$this->changeIfthenpayPaymentStatus('error');
-						$this->ifthenpayController->model_checkout_order->addOrderHistory(
-							$this->paymentData['order_id'],
-							$this->ifthenpayController->config->get('payment_cofidis_order_status_failed_id'),
-							$this->ifthenpayController->language->get('cofidis_error_failed'),
-							true,
-							true
-						);
+						if ($this->request['Success'] !== 'True') {
+							// sleep 5 seconds because error, cancel, not approved may not be present right after returning with error from cofidis
+							for ($i = 0; $i < 2; $i++) {
 
-						$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_success'] = '';
-						$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_error'] = $this->ifthenpayController->language->get('cofidis_error_failed');
-						$checkoutLink = 'checkout/failure';
-
-						$errorMsg = [];
-						if (isset($this->request['error'])) {
-							$errorMsg = $this->request['error'];
+								sleep(5);
+								$transactionStatusArray = $this->getCofidisTransactionStatusArray($cofidisKey, $transactionId);
+								if (count($transactionStatusArray) > 1) {
+									break;
+								}
+							}
 						}
 
-						$this->ifthenpayController->model_extension_payment_cofidis->log([
-							'error' => $errorMsg,
-							'paymentData' => $this->paymentData
-						], 'Error processing credit card payment');
+						$checkoutLink = 'checkout/failure';
+
+						if ($transactionStatusArray[0]['statusCode'] === 'CANCELED') {
+							$hasTechnicalError = false;
+
+							// check if it was canceled due to technical error
+							foreach ($transactionStatusArray as $transactionStatus) {
+								if ($transactionStatus['statusCode'] === 'TECHNICAL_ERROR') {
+									$hasTechnicalError = true;
+								}
+							}
+
+							if ($hasTechnicalError) {
+								$this->handleCofidisTechnicalError();
+							} else {
+								$this->handleCofidisCancel();
+							}
+
+
+						} else if ($transactionStatusArray[0]['statusCode'] === 'NOT_APPROVED') {
+							$this->handleCofidisNotApproved();
+						} else if ($transactionStatusArray[0]['statusCode'] === 'TECHNICAL_ERROR') {
+							// fallback for technical error status without canceled status, that can occur if cancel status is not registered immediately after technical error
+							$this->handleCofidisTechnicalError();
+						}
+
+
+					} else {
+
+						$this->handleCofidisOtherError();
 					}
 
 					$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
@@ -179,6 +180,91 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
 
 
 		}
+	}
+
+	private function handleCofidisOtherError()
+	{
+
+		$this->changeIfthenpayPaymentStatus('error');
+		$this->ifthenpayController->model_checkout_order->addOrderHistory(
+			$this->paymentData['order_id'],
+			$this->ifthenpayController->config->get('payment_cofidis_order_status_failed_id'),
+			$this->ifthenpayController->language->get('cofidis_error_failed'),
+			true,
+			true
+		);
+
+		$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_success'] = '';
+		$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_error'] = $this->ifthenpayController->language->get('cofidis_error_failed');
+
+		$errorMsg = [];
+		if (isset($this->request['error'])) {
+			$errorMsg = $this->request['error'];
+		}
+
+		$this->ifthenpayController->model_extension_payment_cofidis->log([
+			'error' => $errorMsg,
+			'paymentData' => $this->paymentData
+		], 'Error processing credit card payment');
+	}
+
+	private function handleCofidisNotApproved()
+	{
+		$this->changeIfthenpayPaymentStatus('cancel');
+		$this->ifthenpayController->model_checkout_order->addOrderHistory(
+			$this->paymentData['order_id'],
+			$this->ifthenpayController->config->get('payment_cofidis_order_status_not_approved_id'),
+			$this->ifthenpayController->language->get('cofidis_error_not_approved'),
+			true,
+			true
+		);
+
+		$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_success'] = '';
+		$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_error'] = $this->ifthenpayController->language->get('cofidis_error_not_approved');
+
+		$this->ifthenpayController->model_extension_payment_cofidis->log([
+			'paymentData' => $this->paymentData
+		], 'Payment by Cofidis Pay Not Approved.');
+	}
+
+	private function handleCofidisTechnicalError()
+	{
+		$this->changeIfthenpayPaymentStatus('error');
+		$this->ifthenpayController->model_checkout_order->addOrderHistory(
+			$this->paymentData['order_id'],
+			$this->ifthenpayController->config->get('payment_cofidis_order_status_failed_id'),
+			$this->ifthenpayController->language->get('cofidis_error_failed'),
+			true,
+			true
+		);
+
+		$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_success'] = '';
+		$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_error'] = $this->ifthenpayController->language->get('cofidis_error_failed');
+
+		$this->ifthenpayController->model_extension_payment_cofidis->log([
+			'paymentData' => $this->paymentData
+		], 'Payment by Cofidis Pay resulted in error.');
+	}
+
+
+
+	private function handleCofidisCancel()
+	{
+		$this->changeIfthenpayPaymentStatus('cancel');
+		$this->ifthenpayController->model_checkout_order->addOrderHistory(
+			$this->paymentData['order_id'],
+			$this->ifthenpayController->config->get('payment_cofidis_order_status_canceled_id'),
+			$this->ifthenpayController->language->get('cofidis_error_canceled'),
+			true,
+			true
+		);
+
+		$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_success'] = '';
+		$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_error'] = $this->ifthenpayController->language->get('cofidis_error_canceled');
+
+		$this->ifthenpayController->model_extension_payment_cofidis->log([
+			'paymentData' => $this->paymentData
+		], 'Payment by credit card canceled by the client.');
 	}
 
 	private function executeCcardCallback()

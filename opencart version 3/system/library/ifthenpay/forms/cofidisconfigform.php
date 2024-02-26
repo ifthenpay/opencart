@@ -70,6 +70,12 @@ class CofidisConfigForm extends ConfigForm
 				$this->data['payment_cofidis_order_status_failed_id'] = $this->ifthenpayController->config->get('payment_cofidis_order_status_failed_id');
 			}
 
+			if (isset($this->ifthenpayController->request->post['payment_cofidis_order_status_not_approved_id'])) {
+                $this->data['payment_cofidis_order_status_not_approved_id'] = $this->ifthenpayController->request->post['payment_cofidis_order_status_not_approved_id'];
+            } else {
+                $this->data['payment_cofidis_order_status_not_approved_id'] = $this->ifthenpayController->config->get('payment_cofidis_order_status_not_approved_id');
+            }
+
 			$this->ifthenpayController->load->model('localisation/order_status');
 			$this->data['order_statuses'] = $this->ifthenpayController->model_localisation_order_status->getOrderStatuses();
 

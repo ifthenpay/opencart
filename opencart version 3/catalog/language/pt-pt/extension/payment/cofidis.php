@@ -7,6 +7,7 @@ $_['paymentReturnErrorText'] = 'Ocorreu um erro ao processar o seu pedido, por f
 $_['ifthenpayPaymentPanelTitle'] = 'Pagamento por Cofidis Pay';
 $_['ifthenpayPaymentPanelTotalToPay'] = 'Valor:';
 $_['cofidis_error_canceled'] = 'Pagamento por Cofidis Pay cancelado pelo cliente';
+$_['cofidis_error_not_approved'] = 'Pagamento por Cofidis Pay não approvado';
 $_['cofidis_error_failed'] = 'Erro ao processar o pagamento por Cofidis Pay';
 $_['cofidisAlias'] = 'Cofidis Pay';
 $_['ifthenpayPaymentPanelIdPedido'] = 'IdRequest';
