@@ -30,3 +30,9 @@ $_['comment_canceled_by_cron'] = 'Cofidis Pay: Order automatically canceled due 
 // Error messages
 $_['error_get_transaction'] = 'Error: Cofidis Pay service unavailable.';
 $_['error_total'] = 'Error: Order Total is empty or invalid.';
+
+
+// other messages
+$_['text_payment_canceled_by_user'] = '<strong>Cofidis Pay payment canceled by user.</strong>';
+$_['text_payment_not_approved'] = '<strong>Cofidis Pay payment not approved.</strong>';
+$_['text_payment_technical_error_ocurred'] = '<strong>An error ocurred while processing Cofidis Pay payment.</strong>';

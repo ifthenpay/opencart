@@ -104,10 +104,12 @@ class Cofidis extends \Opencart\System\Engine\Controller
 		// order status related values
 		$pendingStatus = $this->config->get('payment_cofidis_pending_status_id');
 		$paidStatus = $this->config->get('payment_cofidis_paid_status_id');
-		$canceledStatus = $this->config->get('payment_ccard_canceled_status_id');
+		$canceledStatus = $this->config->get('payment_cofidis_canceled_status_id');
+		$notApprovedStatus = $this->config->get('payment_cofidis_not_approved_status_id');
 		$data['cofidis_pending_status_id'] = $pendingStatus !== '' ? $pendingStatus : 1;
 		$data['cofidis_paid_status_id'] = $paidStatus !== '' ? $paidStatus : 2;
 		$data['cofidis_canceled_status_id'] = $canceledStatus !== '' ? $canceledStatus : 7;
+		$data['cofidis_not_approved_status_id'] = $notApprovedStatus !== '' ? $notApprovedStatus : 8;
 
 		$this->load->model('localisation/order_status');
 		$data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
@@ -476,7 +478,7 @@ class Cofidis extends \Opencart\System\Engine\Controller
 
 
 	/**
-	 * send a request to ifthenpay to create a credit card account
+	 * send a request to ifthenpay to create a cofidis account
 	 * @return void
 	 */
 	public function ajaxRequestAccount(): void
@@ -560,7 +562,7 @@ class Cofidis extends \Opencart\System\Engine\Controller
 		$accounts = $gateway->getAccountsByBackofficeKeyAndMethod($savedBackofficeKey, self::PAYMENTMETHOD);
 
 		if ($accounts === []) {
-			$json['error'] = 'No Credit Card accounts were found for this backoffice key';
+			$json['error'] = 'No Cofidis Pay accounts were found for this backoffice key';
 		}
 
 		if ($accounts !== []) {
@@ -605,7 +607,7 @@ class Cofidis extends \Opencart\System\Engine\Controller
 
 		if ($accounts === []) {
 			http_response_code(400);
-			die('No Credit Card accounts were found for this backoffice key');
+			die('No Cofidis Pay accounts were found for this backoffice key');
 		}
 
 		if ($accounts !== []) {

@@ -239,14 +239,7 @@ class Cofidis extends \Opencart\System\Engine\Controller
 			$cofidisKey = $this->config->get('payment_cofidis_key');
 
 
-			// internal verification of status
-			$status = $this->getCofidisPaymentStatus($cofidisKey, $storedPaymentData['transaction_id']);
-
-			// log result of cofidis
-			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - INFO : COFIDIS init data: ' . json_encode(['orderId' => $orderId, 'hash' => $hash, 'status' => $status]));
-
-
-			if ($success === self::INIT_STATUS_TRUE && ($status === self::COFIDIS_STATUS_INITIATED || $status === self::COFIDIS_STATUS_PENDING_INVOICE)) {
+			if ($success === self::INIT_STATUS_TRUE) {
 				$this->validateReturnToStore($storedPaymentData, $orderId);
 
 				$this->model_checkout_order->addHistory(
@@ -264,18 +257,22 @@ class Cofidis extends \Opencart\System\Engine\Controller
 				// redirect to success page
 				$this->response->redirect($this->url->link('checkout/success', 'language=' . $this->config->get('config_language')));
 
-			} else { // error status or any other status
+			} else {
 
-				// registration of the failure
+				// internal verification of status to verify precise reason for not success
+				$status = $this->getCofidisPaymentStatus($cofidisKey, $storedPaymentData['transaction_id']);
+				$this->session->data['ifth_payment_info']['statusCode'] = $status;
+
+				// log result of cofidis
+				$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - DEBUG : COFIDIS init data: ' . json_encode(['orderId' => $orderId, 'hash' => $hash, 'status' => $status]));
+
 				$this->model_extension_ifthenpay_payment_cofidis->updateCofidisRecordStatusByOrderIdAndHash($orderId, $hash, $status);
-
-				// redirect to checkout page
 				$this->response->redirect($this->url->link('checkout/failure', 'language=' . $this->config->get('config_language')));
 			}
 
 		} catch (\Throwable $th) {
 
-			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - INFO : COFIDIS init data: ' . json_encode(['orderId' => $orderId, 'hash' => $hash, 'status' => 'error', 'error' => $th]));
+			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - ERROR : COFIDIS init data: ' . json_encode(['orderId' => $orderId, 'hash' => $hash, 'status' => 'error', 'error' => $th]));
 
 			$this->response->redirect($this->url->link('checkout/failure', 'language=' . $this->config->get('config_language')));
 		}
@@ -284,19 +281,45 @@ class Cofidis extends \Opencart\System\Engine\Controller
 	}
 
 
-	private function getCofidisPaymentStatus(string $key, string $transactionId)
+	private function getCofidisPaymentStatus(string $key, string $transactionId): string
 	{
 
-		$statusArray = json_decode((new ApiService())->requestCheckCofidisPaymentStatus($key, $transactionId), true);
+		$statusArray = [];
 
-		if (count($statusArray) > 0) {
-			$statusCode = $statusArray[0]['statusCode'];
+		// sleep 5 seconds because error, cancel, not approved may not be present right after returning with error from cofidis
+		for ($i = 0; $i < 2; $i++) {
 
-			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - INFO : COFIDIS init data: ' . json_encode(['statusArray' => $statusArray]));
+			sleep(5);
+			$statusArray = json_decode((new ApiService())->requestCheckCofidisPaymentStatus($key, $transactionId), true);
 
-
-			return $statusCode;
+			if (count($statusArray) > 1) {
+				break;
+			}
 		}
+
+		// return $statusArray;
+		if (count($statusArray) < 1) {
+			return 'ERROR';
+		}
+
+		if ($statusArray[0]['statusCode'] == self::COFIDIS_STATUS_PENDING_INVOICE) {
+			return self::COFIDIS_STATUS_PENDING_INVOICE;
+		}
+		if ($statusArray[0]['statusCode'] == self::COFIDIS_STATUS_NOT_APPROVED) {
+			return self::COFIDIS_STATUS_NOT_APPROVED;
+		}
+		if ($statusArray[0]['statusCode'] == self::COFIDIS_STATUS_TECHNICAL_ERROR) {
+			return self::COFIDIS_STATUS_TECHNICAL_ERROR;
+		}
+		if ($statusArray[0]['statusCode'] == self::COFIDIS_STATUS_CANCELED) {
+			foreach ($statusArray as $status) {
+				if ($status['statusCode'] == self::COFIDIS_STATUS_TECHNICAL_ERROR) {
+					return self::COFIDIS_STATUS_TECHNICAL_ERROR;
+				}
+			}
+			return self::COFIDIS_STATUS_CANCELED;
+		}
+
 		return 'ERROR';
 	}
 
@@ -379,13 +402,25 @@ class Cofidis extends \Opencart\System\Engine\Controller
 			return;
 		}
 
+
+		// $tt = strpos($output, 'Failed Payment!');
+
 		if ($this->session->data['ifth_payment_info']['status'] == self::INIT_STATUS_TRUE) {
-
 			$content = $this->getPaymentDetailsHtml(false, false);
-
 			$find = '<div class="text-end">';
 			$output = str_replace($find, $content . $find, $output);
-
+		} else if ($this->session->data['ifth_payment_info']['statusCode'] == self::COFIDIS_STATUS_CANCELED) {
+			$content = $this->language->get('text_payment_canceled_by_user');
+			$find = '<div class="text-end">';
+			$output = str_replace($find, $content . $find, $output);
+		} else if ($this->session->data['ifth_payment_info']['statusCode'] == self::COFIDIS_STATUS_TECHNICAL_ERROR) {
+			$content = $this->language->get('text_payment_technical_error_ocurred');
+			$find = '<div class="text-end">';
+			$output = str_replace($find, $content . $find, $output);
+		} else if ($this->session->data['ifth_payment_info']['statusCode'] == self::COFIDIS_STATUS_NOT_APPROVED) {
+			$content = $this->language->get('text_payment_not_approved');
+			$find = '<div class="text-end">';
+			$output = str_replace($find, $content . $find, $output);
 		}
 
 		// clear session data to avoid showing the payment info in other pages
