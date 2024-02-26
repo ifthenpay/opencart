@@ -6,7 +6,7 @@ The ifthenpay extension compatible with Opencart 3 is still available for downlo
 Download versions of the ifthenpay extension for Opencart.
 |                                       | Opencart 3 [3.0.1.1 - 3.0.3.8]                                                                        | Opencart 4 [4.0.0.1 - 4.0.2.1]                                                                         |
 |---------------------------------------|-------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| Link to download installer .ocmod.zip | [ifthenpay v1.2.0](https://github.com/ifthenpay/opencart/releases/download/1.2.0/ifthenpay.ocmod.zip) | [ifthenpay v4.1.0](https://github.com/ifthenpay/opencart/releases/download/4.1.0/ifthenpay.ocmod.zip) |
+| Link to download installer .ocmod.zip | [ifthenpay v1.2.1](https://github.com/ifthenpay/opencart/releases/download/1.2.1/ifthenpay.ocmod.zip) | [ifthenpay v4.1.0](https://github.com/ifthenpay/opencart/releases/download/4.1.0/ifthenpay.ocmod.zip) |
 
 </br>
 </br>
@@ -84,7 +84,7 @@ For support, please create a support ticket at [Support ifthenpay](https://helpd
 Use the table below to check the compatibility of the Ifthenpay extension with your online store:
 |                           | Opencart 3 [3.0.1.1 - 3.0.3.8] | Opencart 4 [4.0.0.1 - 4.0.2.1] |
 |---------------------------|--------------------------------|--------------------------------|
-| ifthenpay v1.0.0 - v1.2.0 | Compatible                     | Not compatible                 |
+| ifthenpay v1.0.0 - v1.2.1 | Compatible                     | Not compatible                 |
 | ifthenpay v4.0.0 - v4.1.0 | Not compatible                 | Compatible                     |
 
 </br>
@@ -471,6 +471,7 @@ A cron job is a scheduled task that is automatically executed at specific interv
 | MB WAY             | 30 minutes                     |
 | Payshop            | Configurable from 1 to 99 days |
 | Credit Card        | 30 minutes                     |
+| Cofidis Pay        | 60 minutes                     |
 
 To activate the cron job, access the extension's configuration page and enable the "Enable Cancel Cron Job" option, then click on Save.
 The configuration page will update and display the Cron job URL (1), which should be added to your server to execute the cron job.
