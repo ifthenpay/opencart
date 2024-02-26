@@ -6,7 +6,7 @@ A extensão ifthenpay compatível com o Opencart 3 continua disponível para dow
 Download de versões da extensão ifthenpay para Opencart
 |                                             | Opencart 3 [3.0.1.1 - 3.0.3.8]                                                                        | Opencart 4 [4.0.0.1 - 4.0.2.1]                                                                         |
 |---------------------------------------------|-------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| Link para descarregar instalador .ocmod.zip | [ifthenpay v1.2.0](https://github.com/ifthenpay/opencart/releases/download/1.2.0/ifthenpay.ocmod.zip) | [ifthenpay v4.1.0](https://github.com/ifthenpay/opencart/releases/download/4.1.0/ifthenpay.ocmod.zip) |
+| Link para descarregar instalador .ocmod.zip | [ifthenpay v1.2.1](https://github.com/ifthenpay/opencart/releases/download/1.2.1/ifthenpay.ocmod.zip) | [ifthenpay v4.1.0](https://github.com/ifthenpay/opencart/releases/download/4.1.0/ifthenpay.ocmod.zip) |
 
 </br>
 </br>
@@ -86,7 +86,7 @@ Para suporte, por favor crie um ticked para suporte em [Suporte ifthenpay](https
 Use a tabela abaixo para verificar a compatibilidade do extensão ifthenpay com a sua loja online.
 |                           | Opencart 3 [3.0.1.1 - 3.0.3.8] | Opencart 4 [4.0.0.1 - 4.0.2.1] |
 |---------------------------|--------------------------------|--------------------------------|
-| ifthenpay v1.0.0 - v1.2.0 | Compatível                     | Não compatível                 |
+| ifthenpay v1.0.0 - v1.2.1 | Compatível                     | Não compatível                 |
 | ifthenpay v4.0.0 - v4.1.0 | Não compatível                 | Compatível                     |
 
 </br>
@@ -472,6 +472,8 @@ Um cronjob é uma tarefa programada executada automaticamente em intervalos espe
 | MB WAY              | 30 minutos                  |
 | Payshop             | Configurável de 1 a 99 dias |
 | Cartão de Crédito   | 30 minutos                  |
+| Cofidis Pay         | 60 minutos                  |
+
 
 Para ativar o cronjob, aceda à página de configuração do extensão e ative a opção Habilitar Cron job de Cancelar e clique em salvar.
 A página de configuração atualizará e apresentará a URL do cronjob (1), a qual deve ser adicionada ao seu servidor para que este execute o cronjob.
