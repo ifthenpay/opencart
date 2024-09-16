@@ -91,6 +91,10 @@ Use the table below to check the compatibility of the Ifthenpay extension with y
 
 
 Please download the installation file of the ifthenpay extension for Opencart 3 from the GitHub page [ifthenpay v1.3.0](https://github.com/ifthenpay/opencart/releases/tag/v1.3.0).
+You may get from multiple places in this repository:
+ - the link in this instruction line;
+ - the releases page where you may chose the version you need, but beware that ifthenpay releases the extensions for both version 3 and 4 of Opencart in this repository;
+ - the main readme in the repository and choosing the opencart 3 compatible download (1);
 ![img](assets/download_installer.png)
 </br>
 
