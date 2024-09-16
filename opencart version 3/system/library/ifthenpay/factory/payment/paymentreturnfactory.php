@@ -11,6 +11,7 @@ use Ifthenpay\Payments\Data\PayshopPaymentReturn;
 use Ifthenpay\Payments\Data\MultibancoPaymentReturn;
 use Ifthenpay\Payments\Data\CofidisPaymentReturn;
 use Ifthenpay\Contracts\Payments\PaymentReturnInterface;
+use Ifthenpay\Payments\Data\IfthenpaygatewayPaymentReturn;
 use Ifthenpay\Payments\Gateway;
 
 
@@ -63,6 +64,18 @@ class PaymentReturnFactory extends StrategyFactory
 				);
 			case Gateway::COFIDIS:
 				return new CofidisPaymentReturn(
+					$this->paymentDefaultData,
+					$this->gatewayBuilder,
+					$this->ifthenpayGateway,
+					$this->configData,
+					$this->ifthenpayController,
+					$this->mix,
+					$this->twigDefaultData,
+					$this->token,
+					$this->status
+				);
+			case Gateway::IFTHENPAYGATEWAY:
+				return new IfthenpaygatewayPaymentReturn(
 					$this->paymentDefaultData,
 					$this->gatewayBuilder,
 					$this->ifthenpayGateway,

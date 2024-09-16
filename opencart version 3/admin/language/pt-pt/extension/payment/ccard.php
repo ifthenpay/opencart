@@ -33,11 +33,11 @@ $_['requestAccount_ccard'] = 'Solicitar criação de conta Cartão de Crédito';
 $_['newUpdateAvailable'] = 'Nova atualização disponível!';
 $_['moduleUpToDate'] = 'O módulo está atualizado!';
 $_['downloadUpdateModule'] = 'Download Update Módulo';
-$_['acess_user_documentation_link'] = 'https://www.ifthenpay.com/downloads/opencart/opencart_user_guide_pt.pdf';
 $_['entry_minimum_value'] = 'Valor Mínimo da Encomenda';
 $_['entry_maximum_value'] = 'Valor Máximo da Encomenda';
 $_['activate_cancelCcardOrder'] = 'Cancelar Encomenda Cartão de Crédito';
 $_['ccardOrderCancel_help'] = 'Cancele a encomenda Cartão de Crédito após os dados de pagamento  expirarem.';
+$_['entry_payment_method_title'] = 'Título do Método de Pagamento';
 
 
 // Entry

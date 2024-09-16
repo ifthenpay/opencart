@@ -11,6 +11,8 @@ use Ifthenpay\Payments\Gateway;
 class MultibancoConfigForm extends ConfigForm
 {
     protected $paymentMethod = Gateway::MULTIBANCO;
+	protected $paymentMethodDefaultTitle = 'Multibanco';
+
 /**
  * returns array of number of days to be used in the deadline select
  * example: [['value' => 1], ['value' => 2]]
@@ -77,6 +79,15 @@ class MultibancoConfigForm extends ConfigForm
         } else if (isset($this->configData['payment_multibanco_entidade'])) {
             $this->data['payment_multibanco_entidade'] = $this->configData['payment_multibanco_entidade'];
         }
+
+		if (isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_payment_method_title'])) {
+			$this->data['payment_' . $this->paymentMethod . '_payment_method_title'] = $this->ifthenpayController
+				->request->post['payment_' . $this->paymentMethod . '_payment_method_title'];
+		} else {
+			$paymentMethodTitleFromConfig = $this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_payment_method_title');
+
+			$this->data['payment_' . $this->paymentMethod . '_payment_method_title'] = $paymentMethodTitleFromConfig != '' ? $paymentMethodTitleFromConfig : $this->paymentMethodDefaultTitle;
+		}
 
 
         if (isset($this->data['payment_multibanco_entidade'])) {

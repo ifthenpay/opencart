@@ -12,12 +12,14 @@ use Ifthenpay\Payments\Gateway;
 use Ifthenpay\Builders\DataBuilder;
 use Ifthenpay\Builders\TwigDataBuilder;
 use Ifthenpay\Builders\GatewayDataBuilder;
+use Ifthenpay\Callback\CallbackVars;
 use Ifthenpay\Utility\Mix;
 
 class CCardBase extends PaymentBase
 {
     protected $paymentMethod = Gateway::CCARD;
     private $token;
+	private $status;
 
     public function __construct(
         DataBuilder $paymentDefaultData,
@@ -54,13 +56,13 @@ class CCardBase extends PaymentBase
 		$versionStr = Versions::replaceStringWithVersions('&ec={ec}&mv={mv}');
 
         $this->gatewayBuilder->setCCardKey($this->configData['payment_ccard_ccardKey']);
-        $this->gatewayBuilder->setSuccessUrl($this->getUrlCallback() . $versionStr . '&type=online&payment=ccard&orderId=' . $this->paymentDefaultData->order['order_id'] . '&qn=' .
+        $this->gatewayBuilder->setSuccessUrl($this->getUrlCallback() . $versionStr . '&type=online&p=ccard&'. CallbackVars::ORDER_ID .'=' . $this->paymentDefaultData->order['order_id'] . '&qn=' .
             $this->token->encrypt($this->status->getStatusSucess())
         );
-        $this->gatewayBuilder->setErrorUrl($this->getUrlCallback() . '&type=online&payment=ccard&orderId=' . $this->paymentDefaultData->order['order_id'] . '&qn=' .
+        $this->gatewayBuilder->setErrorUrl($this->getUrlCallback() . '&type=online&p=ccard&'. CallbackVars::ORDER_ID .'=' . $this->paymentDefaultData->order['order_id'] . '&qn=' .
             $this->token->encrypt($this->status->getStatusError())
         );
-        $this->gatewayBuilder->setCancelUrl($this->getUrlCallback() . '&type=online&payment=ccard&orderId=' . $this->paymentDefaultData->order['order_id'] . '&qn=' .
+        $this->gatewayBuilder->setCancelUrl($this->getUrlCallback() . '&type=online&p=ccard&'. CallbackVars::ORDER_ID .'=' . $this->paymentDefaultData->order['order_id'] . '&qn=' .
             $this->token->encrypt($this->status->getStatusCancel())
         );
     }

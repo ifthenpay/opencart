@@ -6,6 +6,10 @@ use Ifthenpay\Config\IfthenpayContainer;
 use Ifthenpay\Strategy\Form\IfthenpayConfigForms;
 use Ifthenpay\Contracts\Utility\MailInterface;
 use GuzzleHttp\Client;
+use Ifthenpay\Callback\CallbackVars;
+use Ifthenpay\Config\IfthenpayUpgrade;
+use Ifthenpay\Factory\Config\IfthenpayConfigFormFactory;
+use Ifthenpay\Forms\IfthenpaygatewayConfigForm;
 use Ifthenpay\Request\WebService;
 
 
@@ -136,7 +140,6 @@ class IfthenpayController extends Controller
 				'extension/payment/cofidis/injectPaymentMethodDescriptionOnCheckout'
 			);
 		}
-
 	}
 
 	public function uninstall()
@@ -215,8 +218,6 @@ class IfthenpayController extends Controller
 				]));
 				throw new Exception("reset_account_error");
 			}
-			$gateway = $this->ifthenpayContainer->getIoc()->make(Gateway::class);
-			$gateway->authenticate($backofficeKey);
 
 			// deleting the payment method from database
 			$this->model_setting_setting->deleteSetting('payment_' . $this->paymentMethod);
@@ -316,6 +317,7 @@ class IfthenpayController extends Controller
 			$mbwayTransactionId = isset($this->request->post['mbway_transaction_id']) ? $this->request->post['mbway_transaction_id'] : '';
 			$payshopTransactionId = isset($this->request->post['payshop_transaction_id']) ? $this->request->post['payshop_transaction_id'] : '';
 			$cofidisTransactionId = isset($this->request->post['cofidis_transaction_id']) ? $this->request->post['cofidis_transaction_id'] : '';
+			$orderId = isset($this->request->post[CallbackVars::ORDER_ID]) ? $this->request->post[CallbackVars::ORDER_ID] : '';
 
 			$isCallbackActive = $this->config->get('payment_' . $this->paymentMethod . '_callback_activated') === '1' ? true : false;
 
@@ -374,6 +376,12 @@ class IfthenpayController extends Controller
 				$callbackUrl = str_replace('[ESTADO]', 'PAGO', $callbackUrl);
 			}
 
+			// set callback url for ifthenpaygateway
+			if ($method === 'ifthenpaygateway') {
+				// TODO: change this according to ifthenpaygateway
+				$callbackUrl = str_replace('[ORDER_ID]', $orderId, $callbackUrl);
+			}
+
 			$webservice = new WebService(new Client());
 
 			$request = $webservice->getRequest($callbackUrl);
@@ -382,7 +390,6 @@ class IfthenpayController extends Controller
 
 			$this->response->addHeader('Content-Type: application/json');
 			$this->response->setOutput(json_encode($responseBody));
-
 		} catch (\Throwable $th) {
 			$this->{$this->dynamicModelName}->log([
 				'errorMessage' => $th->getMessage()
@@ -423,7 +430,6 @@ class IfthenpayController extends Controller
 
 			http_response_code(200);
 			die(json_encode($minMaxArray));
-
 		} catch (\Throwable $th) {
 			$this->{$this->dynamicModelName}->log([
 				'requestData' => $this->request->get,
@@ -431,6 +437,127 @@ class IfthenpayController extends Controller
 			], 'Error fetching min max values');
 			http_response_code(400);
 			die();
+		}
+	}
+
+
+
+	public function ajaxRequestIfthenpaygatewayMethod(): void
+	{
+		try {
+			$gatewayKey = $this->request->post['gateway_key'] ?? '';
+			$paymentMethodToCreate = $this->request->post['payment_method'] ?? '';
+
+			$mailService = $this->ifthenpayContainer->getIoc()->make(MailInterface::class)
+				->setIfthenpayController($this)
+				->setPaymentMethod($this->paymentMethod)
+				->setUserToken($this->createUpdateAccountUserToken())
+				->setSubject($paymentMethodToCreate . ': Ativação de Serviço');
+
+			// add the html template with data to the mail service
+			$data = [
+				'backoffice_key' => $this->config->get('payment_' . $this->paymentMethod . '_backofficeKey'),
+				'gateway_key' => $gatewayKey,
+				'store_email' => $this->config->get('config_email'),
+				'store_name' => $this->config->get('config_name'),
+				'payment_method' => $paymentMethodToCreate,
+				'ecommerce_platform' => 'Opencart ' . VERSION,
+				'module_version' => $this->ifthenpayContainer->getIoc()->make(IfthenpayUpgrade::class)->getModuleVersion(),
+			];
+
+
+
+			$mailService->setHtmlMessageBody($this->load->view('extension/payment/ifthenpay_requestGatewayMethod', $data))
+				->setMessageBody("Associar método " . $paymentMethodToCreate . " à gateway key " . $gatewayKey . " \n\n")
+				->sendEmail();
+
+
+			$this->session->data['success'] = $this->language->get('request_new_ifthenpaygateway_method_success');
+
+
+
+			$this->{$this->dynamicModelName}->log('Email requesting new method for ifthenpaygateway sent with success');
+			$this->response->addHeader('Content-Type: application/json');
+			$this->response->setOutput(json_encode([
+				'success' => $this->language->get('request_new_ifthenpaygateway_method_success')
+			]));
+		} catch (\Throwable $th) {
+
+			$this->session->data['error'] = $this->language->get('request_new_ifthenpaygateway_method_error');
+
+			$this->{$this->dynamicModelName}->log([
+				'errorMessage' => $th->getMessage()
+			], 'Error sending email requesting new ifthenpaygateway method');
+			$this->response->addHeader('Content-Type: application/json');
+			$this->response->addHeader('HTTP/1.0 400 Bad Request');
+			$this->response->setOutput(json_encode([
+				'error' => $this->language->get('request_new_ifthenpaygateway_method_error')
+			]));
+		}
+	}
+
+
+
+	public function ajaxGetIfthenpayGatewayMethods(): void
+	{
+		try {
+
+			$ifthenpaygatewayKey = $this->request->post['gateway_key'] ?? '';
+
+			if ($ifthenpaygatewayKey !== '') {
+
+				$ifthenpayConfigFormFactory = $this->ifthenpayContainer->getIoc()->make(IfthenpayConfigFormFactory::class);
+				$ifthenpayGatewayConfigForm = $ifthenpayConfigFormFactory->setType('ifthenpaygateway')->build();
+
+				/** @var IfthenpaygatewayConfigForm $ifthenpayGatewayConfigForm */
+				$ifthenpayGatewayConfigForm->setIfthenpayController($this)
+					->setConfigData($this->configData)
+					->setPaymentMethod($this->paymentMethod);
+
+				// get backoffice_key
+				$backofficeKey = $this->config->get('payment_' . $this->paymentMethod . '_backofficeKey');
+
+
+				// get selectable
+				$gateway = $this->ifthenpayContainer->getIoc()->make(Gateway::class);
+
+				$gatewayMethods = $gateway->getIfthenpayGatewayPaymentMethodsDataByBackofficeKeyAndGatewayKey($backofficeKey, $ifthenpaygatewayKey);
+
+
+				// get gatewayKeySettings
+				$gatewayKeySettings = $ifthenpayGatewayConfigForm->getGatewayKeySettingsFromConfig($ifthenpaygatewayKey);
+
+
+
+
+				$paymentMethodsHtml = $ifthenpayGatewayConfigForm->generateIfthenpaygatewayPaymentMethodsHtml($gatewayMethods, $gatewayKeySettings, []);
+				$json['payment_methods_html'] = $paymentMethodsHtml;
+
+
+
+				$defaultSelectedHtml = $ifthenpayGatewayConfigForm->generateSelectedDefaultHtml($gatewayMethods, [], '0');
+				$json['default_selected_html'] = $defaultSelectedHtml;
+
+				$json['success'] = true;
+				$this->response->addHeader('Content-Type: application/json');
+				$this->response->setOutput(json_encode($json));
+			} else {
+				$this->load->language('extension/ifthenpay/payment/ifthenpaygateway');
+				$json['payment_methods_html'] = '<p class="mb-0 mt-2">' . $this->language->get('entry_plh_methods') . '</p>';
+				$json['default_selected_html'] = '<p class="mb-0 mt-2">' . $this->language->get('entry_plh_methods') . '</p>';
+			}
+		} catch (\Throwable $th) {
+
+			$this->session->data['error'] = $this->language->get('unable_to_get_ifthenpaygateway_methods_error');
+
+			$this->{$this->dynamicModelName}->log([
+				'errorMessage' => $th->getMessage()
+			], 'Error getting ifthenpaygateway methods');
+			$this->response->addHeader('Content-Type: application/json');
+			$this->response->addHeader('HTTP/1.0 400 Bad Request');
+			$this->response->setOutput(json_encode([
+				'error' => $this->language->get('unable_to_get_ifthenpaygateway_methods_error')
+			]));
 		}
 	}
 }

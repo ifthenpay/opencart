@@ -10,6 +10,8 @@ use Ifthenpay\Payments\Gateway;
 class PayshopConfigForm extends ConfigForm
 {
     protected $paymentMethod = Gateway::PAYSHOP;
+	protected $paymentMethodDefaultTitle = 'Payshop';
+
 
     public function setOptions(): void
     {
@@ -58,12 +60,22 @@ class PayshopConfigForm extends ConfigForm
         } else if (isset($this->configData['payment_payshop_payshopKey'])) {
             $this->data['payment_payshop_payshopKey'] = $this->configData['payment_payshop_payshopKey'];
         }
-        
+
         if (isset($this->ifthenpayController->request->post['payment_payshop_validade'])) {
             $this->data['payment_payshop_validade'] = $this->ifthenpayController->request->post['payment_payshop_validade'];
         } else if (isset($this->configData['payment_payshop_validade'])) {
             $this->data['payment_payshop_validade'] = $this->configData['payment_payshop_validade'];
         }
+
+		if (isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_payment_method_title'])) {
+			$this->data['payment_' . $this->paymentMethod . '_payment_method_title'] = $this->ifthenpayController
+				->request->post['payment_' . $this->paymentMethod . '_payment_method_title'];
+		} else {
+			$paymentMethodTitleFromConfig = $this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_payment_method_title');
+
+			$this->data['payment_' . $this->paymentMethod . '_payment_method_title'] = $paymentMethodTitleFromConfig != '' ? $paymentMethodTitleFromConfig : $this->paymentMethodDefaultTitle;
+		}
+
         parent::setGatewayBuilderData();
         if (isset($this->data['payment_payshop_payshopKey']) && isset($this->data['payment_payshop_validade'])) {
             $this->gatewayDataBuilder->setEntidade(strtoupper($this->paymentMethod));

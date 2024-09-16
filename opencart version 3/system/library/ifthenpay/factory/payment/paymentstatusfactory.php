@@ -14,7 +14,7 @@ use Ifthenpay\Payments\MbwayPaymentStatus;
 use Ifthenpay\Payments\PayshopPaymentStatus;
 use Ifthenpay\Payments\CCardPaymentStatus;
 use Ifthenpay\Payments\CofidisPaymentStatus;
-
+use Ifthenpay\Payments\IfthenpaygatewayPaymentStatus;
 
 class PaymentStatusFactory extends Factory
 {
@@ -49,6 +49,10 @@ class PaymentStatusFactory extends Factory
 				);
 			case Gateway::COFIDIS:
 				return new CofidisPaymentStatus(
+					$this->webService,
+				);
+			case Gateway::IFTHENPAYGATEWAY:
+				return new IfthenpaygatewayPaymentStatus(
 					$this->webService,
 				);
 			default:

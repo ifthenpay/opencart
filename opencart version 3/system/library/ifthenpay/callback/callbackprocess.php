@@ -51,12 +51,16 @@ class CallbackProcess
 	 *
 	 * @return  self
 	 */
-	protected function setPaymentData(): void
+	protected function setPaymentData(string $paymentMethod = null): void
 	{
-		$this->paymentData = $this->callbackDataFactory->setType($this->request['payment'])
+
+		if (!$paymentMethod) {
+			$paymentMethod = $this->request[CallbackVars::PAYMENT];
+		}
+
+		$this->paymentData = $this->callbackDataFactory->setType($paymentMethod)
 			->build()
 			->getData($this->request, $this->ifthenpayController);
-
 	}
 
 	/**
@@ -103,7 +107,8 @@ class CallbackProcess
 
 	protected function changeIfthenpayPaymentStatus(string $status): void
 	{
-		switch ($this->request['payment']) {
+
+		switch ($this->request[CallbackVars::PAYMENT]) {
 			case Gateway::MULTIBANCO:
 				$this->ifthenpayController->load->model('extension/payment/multibanco');
 				$this->ifthenpayController->model_extension_payment_multibanco->updatePaymentStatus(
@@ -139,6 +144,13 @@ class CallbackProcess
 					$status
 				);
 				break;
+			case Gateway::IFTHENPAYGATEWAY:
+				$this->ifthenpayController->load->model('extension/payment/ifthenpaygateway');
+				$this->ifthenpayController->model_extension_payment_ifthenpaygateway->updatePaymentStatus(
+					$this->paymentData['id_ifthenpay_ifthenpaygateway'],
+					$status
+				);
+				break;
 			default:
 				throw new \Exception("Payment Method model not exist");
 
@@ -170,6 +182,4 @@ class CallbackProcess
 		$this->ifthenpayController->load->model('checkout/order');
 		return $this;
 	}
-
-
 }

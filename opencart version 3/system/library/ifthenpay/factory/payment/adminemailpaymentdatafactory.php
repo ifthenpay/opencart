@@ -16,12 +16,14 @@ class AdminEmailPaymentDataFactory extends Factory
 {
     private $twigDataBuilder;
     private $registry;
-       
+
     public function __construct(Container $ioc, TwigDataBuilder $twigDataBuilder)
 	{
         parent::__construct($ioc);
         $this->twigDataBuilder = $twigDataBuilder;
     }
+
+	// TODO: possibility of sending ifthenpaygateway link in email
     public function build(): EmailPaymentData  {
         switch (strtolower($this->type)) {
             case Gateway::MULTIBANCO:
@@ -41,7 +43,7 @@ class AdminEmailPaymentDataFactory extends Factory
      * Set the value of registry
      *
      * @return  self
-     */ 
+     */
     public function setRegistry($registry)
     {
         $this->registry = $registry;

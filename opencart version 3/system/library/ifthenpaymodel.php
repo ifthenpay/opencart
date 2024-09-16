@@ -3,6 +3,7 @@
 use Ifthenpay\Config\IfthenpayContainer;
 use Ifthenpay\Config\IfthenpaySql;
 use Ifthenpay\Payments\Gateway;
+use Ifthenpay\Utility\Url;
 
 require_once DIR_SYSTEM . 'library/ifthenpay/vendor/autoload.php';
 
@@ -37,9 +38,9 @@ class IfthenpayModel extends Model
 	{
 		$query = $this->db->query(
 			"SELECT * FROM " . DB_PREFIX . "order WHERE `payment_code` = '" . $this->paymentMethod . "' AND `order_status_id` =" .
-			$this->config->get(
-				'payment_' . $this->paymentMethod . '_order_status_id'
-			)
+				$this->config->get(
+					'payment_' . $this->paymentMethod . '_order_status_id'
+				)
 		);
 
 		if ($query->num_rows) {
@@ -53,7 +54,7 @@ class IfthenpayModel extends Model
 	{
 		return $this->db->query(
 			"SELECT * FROM " . DB_PREFIX . "ifthenpay_" . $this->paymentMethod .
-			" WHERE order_id = '" . $this->db->escape($orderId) . "'"
+				" WHERE order_id = '" . $this->db->escape($orderId) . "'"
 		);
 	}
 
@@ -61,7 +62,7 @@ class IfthenpayModel extends Model
 	{
 		$this->db->query(
 			"DELETE FROM " . DB_PREFIX . "ifthenpay_" . $this->paymentMethod .
-			" WHERE order_id = '" . $this->db->escape($orderId) . "'"
+				" WHERE order_id = '" . $this->db->escape($orderId) . "'"
 		);
 	}
 
@@ -75,7 +76,7 @@ class IfthenpayModel extends Model
 	{
 		$this->db->query(
 			"DELETE FROM " . DB_PREFIX . "setting WHERE store_id = '" . (int) $store_id . "' AND `key` = '" .
-			$this->db->escape($key) . "'"
+				$this->db->escape($key) . "'"
 		);
 	}
 
@@ -85,6 +86,16 @@ class IfthenpayModel extends Model
 			"' WHERE `id_ifthenpay_" . $this->paymentMethod . "` = '" . $paymentId . "' LIMIT 1");
 	}
 
+
+
+	public function updatePaymentStatusByOrderId(string $orderId, string $paymentStatus): void
+	{
+		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_" . $this->paymentMethod . "` SET `status` = '" . $paymentStatus .
+			"' WHERE `order_id` = '" . $orderId . "' LIMIT 1");
+	}
+
+
+
 	public function getMethod($address, $total)
 	{
 		$this->load->language('extension/payment/' . $this->paymentMethod);
@@ -93,7 +104,7 @@ class IfthenpayModel extends Model
 		$query = $this->db->query(
 			"SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int) $this->config->get('payment_' .
 				$this->paymentMethod . '_geo_zone_id') . "' AND country_id = '" . (int) $address['country_id'] . "' AND (zone_id = '" . (int) $address['zone_id'] .
-			"' OR zone_id = '0')"
+				"' OR zone_id = '0')"
 		);
 
 
@@ -129,11 +140,16 @@ class IfthenpayModel extends Model
 				'sort_order' => $this->config->get('payment_' . $this->paymentMethod . '_sort_order')
 			];
 			if ($this->config->get('payment_' . $this->paymentMethod . '_showPaymentMethodLogo') && $this->request->get['route'] !== 'api/payment/methods') {
-				$method_data['title'] = $gateway->getPaymentLogo(
-					$this->paymentMethod
-				);
+
+				$method_data['title'] = '<img src="' . $gateway->getPaymentLogoUrl(
+					$this->paymentMethod,
+					Url::catalogUrl($this->config->get('config_secure'))
+				) . '">';
 			} else {
-				$method_data['title'] = $this->language->get('text_title_' . $this->paymentMethod);
+
+				$this->load->model('setting/setting');
+				$configData = $this->model_setting_setting->getSetting('payment_' . $this->paymentMethod);
+				$method_data['title'] = $configData['payment_' . $this->paymentMethod . '_payment_method_title'];
 			}
 		}
 		return $method_data;
@@ -143,7 +159,13 @@ class IfthenpayModel extends Model
 	{
 		return $this->db->query(
 			"SELECT * FROM " . DB_PREFIX . "order_history WHERE order_id = '" .
-			$this->db->escape($orderId) . "'"
+				$this->db->escape($orderId) . "'"
 		);
+	}
+
+
+	public function getIfthenpaygatewayByOrderId(string $orderId): \stdClass
+	{
+		return $this->db->query("SELECT * FROM " . DB_PREFIX . "ifthenpay_ifthenpaygateway WHERE order_id = '" . $this->db->escape($orderId) . "'");
 	}
 }

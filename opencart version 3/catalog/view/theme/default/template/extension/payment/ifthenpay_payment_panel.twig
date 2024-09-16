@@ -4,7 +4,7 @@
 <div class="panel-body">
 
 	<div class="paymentLogo">
-			<img src="{{baseUrl}}admin/view/image/payment/ifthenpay/{{paymentMethod}}_ck.png" alt="multibanco logotipo" style="height: 38px">
+		{{ifthenpayPaymentPanelLogoOrName}}
 	</div>
 
 	<div class="paymentData">
@@ -40,7 +40,8 @@
 				<tbody>
 					<tr>
 						<td class="if_td_desc">{{ifthenpayPaymentPanelPhone}}</td>
-						<td class="if_td_value">+{{mobile_prefix}} {{mobile_sufix}}</td>
+						<td class="if_td_value">+{{mobile_prefix}}
+							{{mobile_sufix}}</td>
 					</tr>
 					<tr>
 						<td class="if_td_desc">{{ifthenpayPaymentPanelOrder}}</td>
@@ -73,6 +74,29 @@
 						<tr>
 							<td class="if_td_desc">{{ifthenpayPaymentPanelValidade}}</td>
 							<td class="if_td_value">{{validade}}</td>
+						</tr>
+					{% endif %}
+					<tr>
+						<td class="if_td_desc">{{ifthenpayPaymentPanelTotalToPay}}</td>
+						<td class="if_td_value">{{totalToPay}}</td>
+					</tr>
+				</tbody>
+			</table>
+
+		{% elseif paymentMethod == 'ifthenpaygateway' %}
+
+			<table class="table if_table">
+				<tbody>
+					{% if ifthenpaygatewayLink %}
+						<tr>
+							<td class="if_td_desc">{{ifthenpayPaymentPanelIfthenpaygatewayLink}}</td>
+							<td class="if_td_value">{{ifthenpaygatewayLink}}</td>
+						</tr>
+					{% endif %}
+					{% if ifthenpaygatewayDeadline %}
+						<tr>
+							<td class="if_td_desc">{{ifthenpayPaymentPanelValidade}}</td>
+							<td class="if_td_value">{{ifthenpaygatewayDeadline}}</td>
 						</tr>
 					{% endif %}
 					<tr>

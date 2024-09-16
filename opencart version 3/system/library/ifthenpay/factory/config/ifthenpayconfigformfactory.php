@@ -14,6 +14,7 @@ use Ifthenpay\Forms\PayshopConfigForm;
 use Ifthenpay\Forms\MultibancoConfigForm;
 use Ifthenpay\Forms\CofidisConfigForm;
 use Ifthenpay\Builders\GatewayDataBuilder;
+use Ifthenpay\Forms\IfthenpaygatewayConfigForm;
 use Ifthenpay\Utility\Mix;
 
 class IfthenpayConfigFormFactory extends Factory
@@ -30,8 +31,8 @@ class IfthenpayConfigFormFactory extends Factory
 		$this->mix = $mix;
 	}
 
-	public function build(
-	): ConfigForm {
+	public function build(): ConfigForm
+	{
 		switch ($this->type) {
 			case Gateway::MULTIBANCO:
 				return new MultibancoConfigForm(
@@ -63,6 +64,13 @@ class IfthenpayConfigFormFactory extends Factory
 				);
 			case Gateway::COFIDIS:
 				return new CofidisConfigForm(
+					$this->ioc,
+					$this->gatewayDataBuilder,
+					$this->gateway,
+					$this->mix
+				);
+			case Gateway::IFTHENPAYGATEWAY:
+				return new IfthenpaygatewayConfigForm(
 					$this->ioc,
 					$this->gatewayDataBuilder,
 					$this->gateway,

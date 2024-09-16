@@ -60,6 +60,15 @@ class IfthenpaySql implements InstallerInterface
             PRIMARY KEY  (`id_ifthenpay_cofidis`),
             INDEX `requestId` (`requestId`)
           ) ENGINE=MyISAM DEFAULT CHARSET=utf8;',
+		Gateway::IFTHENPAYGATEWAY => 'CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'ifthenpay_' . Gateway::IFTHENPAYGATEWAY . '` (
+            `id_ifthenpay_ifthenpaygateway` int(10) unsigned NOT NULL auto_increment,
+            `order_id` int(11) NOT NULL,
+            `status` varchar(50) NOT NULL,
+            `url` varchar(255) NOT NULL,
+            `deadline` varchar(10) NOT NULL,
+            PRIMARY KEY  (`id_ifthenpay_ifthenpaygateway`),
+            INDEX `order_id` (`order_id`)
+          ) ENGINE=MyISAM DEFAULT CHARSET=utf8;',
 	];
 
 	private function createIfthenpaySql(): void
@@ -68,7 +77,6 @@ class IfthenpaySql implements InstallerInterface
 		if (!$sql) {
 			throw new \Exception('Error creating ifthenpay payment table!');
 		}
-
 	}
 
 

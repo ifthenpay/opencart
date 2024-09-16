@@ -18,8 +18,10 @@ use Ifthenpay\Payments\Data\PayshopChangePaymentStatus;
 use Ifthenpay\Payments\Data\MultibancoChangePaymentStatus;
 use Ifthenpay\Payments\Data\CCardChangePaymentStatus;
 use Ifthenpay\Payments\Data\CofidisChangePaymentStatus;
+use Ifthenpay\Payments\Data\IfthenpaygatewayChangePaymentStatus;
 use Ifthenpay\Request\WebService;
 use Ifthenpay\Payments\Gateway;
+use Ifthenpay\Payments\IfthenpaygatewayPaymentStatus;
 
 class PaymentChangeStatusFactory extends Factory
 {
@@ -66,6 +68,13 @@ class PaymentChangeStatusFactory extends Factory
 				return new CofidisChangePaymentStatus(
 					$this->gatewayDataBuilder,
 					$this->ioc->make(CofidisPaymentStatus::class),
+					$this->ioc->make(WebService::class),
+					$this->ifthenpayController
+				);
+			case Gateway::IFTHENPAYGATEWAY:
+				return new IfthenpaygatewayChangePaymentStatus(
+					$this->gatewayDataBuilder,
+					$this->ioc->make(IfthenpaygatewayPaymentStatus::class),
 					$this->ioc->make(WebService::class),
 					$this->ifthenpayController
 				);

@@ -9,7 +9,7 @@ use Ifthenpay\Strategy\Payments\IfthenpayPaymentStatus;
 use Ifthenpay\Strategy\Payments\IfthenpayAdminEmailPaymentData;
 use Ifthenpay\Strategy\Callback\CallbackStrategy;
 use Ifthenpay\Strategy\Payments\IfthenpayOrderDetail;
-
+use Ifthenpay\Utility\Url;
 
 require_once DIR_SYSTEM . 'library/ifthenpay/vendor/autoload.php';
 
@@ -63,7 +63,7 @@ class IfthenpayControllerCatalog extends Controller
 			$modelAdmin->editSettingValue(
 				'payment_' . $this->paymentMethod,
 				'payment_' . $this->paymentMethod . '_userPaymentMethods',
-				serialize($ifthenpayGateway->getPaymentMethods())
+				serialize($ifthenpayGateway->getPaymentMethods($this->paymentMethod))
 			);
 			$modelAdmin->editSettingValue(
 				'payment_' . $this->paymentMethod,
@@ -139,6 +139,8 @@ class IfthenpayControllerCatalog extends Controller
 		}
 	}
 
+
+
 	public function changeSuccessPage(&$route, &$data, &$output)
 	{
 		try {
@@ -183,7 +185,6 @@ class IfthenpayControllerCatalog extends Controller
 							$pmReturnData['mobile_prefix'] = $parts[0];
 							$pmReturnData['mobile_sufix'] = $parts[1];
 						}
-
 					}
 
 
@@ -196,7 +197,6 @@ class IfthenpayControllerCatalog extends Controller
 					$data['text_message'] = $data['text_message'] . '<br>' . $paymentReturn;
 					$this->{$this->dynamicModelName}->log($this->session->data['ifthenpayPaymentReturn'], 'Loading order details in success page.');
 					unset($this->session->data['ifthenpayPaymentReturn']);
-
 				}
 			}
 		} catch (\Throwable $th) {
@@ -213,8 +213,19 @@ class IfthenpayControllerCatalog extends Controller
 			isset($this->session->data['payment_method']['code']) && $this->session->data['payment_method']['code'] === $this->paymentMethod &&
 			(isset($this->session->data['ifthenpayPaymentReturn']) && !empty($this->session->data['ifthenpayPaymentReturn']))
 		) {
-			$paymentMethodLogo = $this->config->get('site_url') . 'image/payment/ifthenpay/' . $this->paymentMethod . '.png';
-			$data['payment_method'] = $this->language->get('text_title_' . $this->paymentMethod);
+
+			$configData = $this->model_setting_setting->getSetting('payment_' . $this->paymentMethod);
+
+
+			if ($configData['payment_' . $this->paymentMethod . '_showPaymentMethodLogo'] == '0') {
+				$paymentMethodLogo = $configData['payment_' . $this->paymentMethod . '_payment_method_title'];
+			} else {
+
+				$ifthenpayGateway = $this->ifthenpayContainer->getIoc()->make(Gateway::class);
+				$paymentMethodLogo =  $ifthenpayGateway->getPaymentLogoUrl($this->paymentMethod, Url::catalogUrl($this->config->get('config_secure')));
+			}
+
+
 			$this->session->data['ifthenpayPaymentReturn']['paymentMethodLogo'] = $paymentMethodLogo;
 			$data['comment'] = $this->load->view('mail/ifthenpayPaymentData', $this->session->data['ifthenpayPaymentReturn']);
 		}
@@ -282,7 +293,6 @@ class IfthenpayControllerCatalog extends Controller
 					$json['error'] = '';
 					$this->{$this->dynamicModelName}->log($orderId, 'Order edit in backoffice Payment Processed with success!');
 					$json['success'] = $this->language->get('text_success');
-
 				} catch (\Throwable $th) {
 					unset($this->session->data['ifthenpayPaymentReturn']);
 					$this->{$this->dynamicModelName}->log([
@@ -295,6 +305,7 @@ class IfthenpayControllerCatalog extends Controller
 			}
 		}
 	}
+
 
 	public function backofficeOrderAdd(&$route, &$data, &$output)
 	{

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Ifthenpay\Factory\Callback;
@@ -9,6 +10,7 @@ use Ifthenpay\Callback\CallbackDataMbway;
 use Ifthenpay\Callback\CallbackDataPayshop;
 use Ifthenpay\Callback\CallbackDataMultibanco;
 use Ifthenpay\Callback\CallbackDataCofidis;
+use Ifthenpay\Callback\CallbackDataIfthenpaygateway;
 use Ifthenpay\Contracts\Callback\CallbackDataInterface;
 use Ifthenpay\Payments\Gateway;
 
@@ -28,6 +30,8 @@ class CallbackDataFactory extends Factory
 				return new CallbackDataCCard();
 			case Gateway::COFIDIS:
 				return new CallbackDataCofidis();
+			case Gateway::IFTHENPAYGATEWAY:
+				return new CallbackDataIfthenpaygateway();
 			default:
 				throw new \Exception('Unknown Callback Data Class');
 		}

@@ -6,6 +6,8 @@ namespace Ifthenpay\Strategy\Callback;
 
 use Ifthenpay\Callback\CallbackOnline;
 use Ifthenpay\Callback\CallbackOffline;
+use Ifthenpay\Callback\CallbackVars;
+
 
 class CallbackStrategy
 {
@@ -17,14 +19,13 @@ class CallbackStrategy
         $this->callbackOffline = $callbackOffline;
         $this->callbackOnline = $callbackOnline;
 	}
-    
+
     public function execute(array $request, $ifthenpayController)
     {
         if ($request['type'] === 'offline') {
-            return $this->callbackOffline->setIfthenpayController($ifthenpayController)->setPaymentMethod($request['payment'])->setRequest($request)->process();
+            return $this->callbackOffline->setIfthenpayController($ifthenpayController)->setPaymentMethod($request[CallbackVars::PAYMENT])->setRequest($request)->process();
         } else {
-            return $this->callbackOnline->setIfthenpayController($ifthenpayController)->setPaymentMethod($request['payment'])->setRequest($request)->process();
+            return $this->callbackOnline->setIfthenpayController($ifthenpayController)->setPaymentMethod($request[CallbackVars::PAYMENT])->setRequest($request)->process();
         }
     }
 }
-

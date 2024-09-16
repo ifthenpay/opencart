@@ -11,6 +11,7 @@ use Ifthenpay\Payments\Gateway;
 use Ifthenpay\Builders\DataBuilder;
 use Ifthenpay\Builders\TwigDataBuilder;
 use Ifthenpay\Builders\GatewayDataBuilder;
+use Ifthenpay\Callback\CallbackVars;
 use Ifthenpay\Utility\Mix;
 use Ifthenpay\Utility\TokenExtra;
 
@@ -59,7 +60,7 @@ class CofidisBase extends PaymentBase
 		$hash = TokenExtra::generateHashString(20);
 		$this->gatewayBuilder->setHash($hash);
 
-		$this->gatewayBuilder->setReturnUrl($this->getUrlCallback() . '&type=online&payment=cofidis&orderId=' . $this->paymentDefaultData->order['order_id'] . '&hash=' . $hash);
+		$this->gatewayBuilder->setReturnUrl($this->getUrlCallback() . '&type=online&p=cofidis&'. CallbackVars::ORDER_ID .'=' . $this->paymentDefaultData->order['order_id'] . '&hash=' . $hash);
 
 
 

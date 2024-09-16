@@ -92,6 +92,7 @@ abstract class ConfigForm
 		$this->data['paymentMethod'] = $this->paymentMethod;
 		$this->data['text_all_zones'] = $this->ifthenpayController->language->get('text_all_zones');
 		$this->data['text_success'] = (isset($this->ifthenpayController->session->data['success']) ? $this->ifthenpayController->session->data['success'] : '');
+		$this->data['text_error'] = (isset($this->ifthenpayController->session->data['error']) ? $this->ifthenpayController->session->data['error'] : '');
 		$this->data['create_account_now'] = $this->ifthenpayController->language->get('create_account_now');
 		$this->data['button_save'] = $this->ifthenpayController->language->get('button_save');
 		$this->data['button_cancel'] = $this->ifthenpayController->language->get('button_cancel');
@@ -107,7 +108,7 @@ abstract class ConfigForm
 			'href' => $this->ifthenpayController->url->link(
 				'common/dashboard',
 				'user_token=' .
-				$this->ifthenpayController->session->data['user_token'],
+					$this->ifthenpayController->session->data['user_token'],
 				true
 			)
 		);
@@ -117,7 +118,7 @@ abstract class ConfigForm
 			'href' => $this->ifthenpayController->url->link(
 				'marketplace/extension',
 				'user_token=' . $this->ifthenpayController->session->data['user_token'] .
-				'&type=payment',
+					'&type=payment',
 				true
 			)
 		);
@@ -127,7 +128,7 @@ abstract class ConfigForm
 			'href' => $this->ifthenpayController->url->link(
 				'extension/payment/' . $this->paymentMethod,
 				'user_token=' .
-				$this->ifthenpayController->session->data['user_token'],
+					$this->ifthenpayController->session->data['user_token'],
 				true
 			)
 		);
@@ -140,13 +141,13 @@ abstract class ConfigForm
 		$this->data['action'] = $this->ifthenpayController->url->link(
 			'extension/payment/' . $this->paymentMethod,
 			'user_token=' .
-			$this->ifthenpayController->session->data['user_token'],
+				$this->ifthenpayController->session->data['user_token'],
 			true
 		);
 		$this->data['cancel'] = $this->ifthenpayController->url->link(
 			'marketplace/extension',
 			'user_token=' .
-			$this->ifthenpayController->session->data['user_token'] . '&type=payment',
+				$this->ifthenpayController->session->data['user_token'] . '&type=payment',
 			true
 		);
 
@@ -160,6 +161,13 @@ abstract class ConfigForm
 			unset($this->ifthenpayController->session->data['success']);
 		} else {
 			$this->data['success'] = '';
+		}
+
+		if (isset($this->ifthenpayController->session->data['error'])) {
+			$this->data['error'] = $this->ifthenpayController->session->data['error'];
+			unset($this->ifthenpayController->session->data['error']);
+		} else {
+			$this->data['error'] = '';
 		}
 
 		if (isset($this->ifthenpayController->error['warning'])) {
@@ -186,7 +194,6 @@ abstract class ConfigForm
 		$this->data['add_new_accounts'] = $this->ifthenpayController->language->get('add_new_accounts');
 		$this->data['reset_accounts'] = $this->ifthenpayController->language->get('reset_accounts');
 		$this->data['show_paymentMethod_logo'] = $this->ifthenpayController->language->get('show_paymentMethod_logo');
-		$this->data['entry_order_status'] = $this->ifthenpayController->language->get('entry_order_status');
 		$this->data['entry_order_status_complete'] = $this->ifthenpayController->language->get('entry_order_status_complete');
 		$this->data['entry_geo_zone'] = $this->ifthenpayController->language->get('entry_geo_zone');
 		$this->data['dontHaveAccount_' . $this->paymentMethod] = $this->ifthenpayController->language->get('dontHaveAccount_' . $this->paymentMethod);
@@ -322,7 +329,7 @@ abstract class ConfigForm
 
 		$this->data['actionRequestAccount'] = $this->ifthenpayController->url->link(
 			'extension/payment/' . $this->paymentMethod .
-			'/requestNewAccount',
+				'/requestNewAccount',
 			'user_token=' . $this->ifthenpayController->session->data['user_token'],
 			true
 		);
@@ -336,30 +343,27 @@ abstract class ConfigForm
 					$ifthenpayUserPaymentMethods
 				)
 			) {
-				$this->data['ifthenpayPayments'] = true;
+				$this->data['showRequestAccountBtn'] = true;
 			}
 		}
 
 
-		$this->data['actionRequestAccount'] = $this->ifthenpayController->url->link(
-			'extension/payment/' . $this->paymentMethod .
-			'/requestNewAccount',
-			'user_token=' . $this->ifthenpayController->session->data['user_token'],
-			true
-		);
-		if ($this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_userPaymentMethods')) {
-			$ifthenpayUserPaymentMethods = unserialize($this->ifthenpayController->config->get('payment_' . $this->paymentMethod .
-				'_userPaymentMethods'));
+		// ifthenpaygateway specific data
+		if ($this->paymentMethod === Gateway::IFTHENPAYGATEWAY) {
 
 			if (
-				!is_null($ifthenpayUserPaymentMethods) && is_array($ifthenpayUserPaymentMethods) && !in_array(
-					$this->paymentMethod,
-					$ifthenpayUserPaymentMethods
+				(
+					(isset($ifthenpayUserPaymentMethods) && !is_array($ifthenpayUserPaymentMethods)) ||
+					(isset($ifthenpayUserPaymentMethods) && empty($ifthenpayUserPaymentMethods))
 				)
 			) {
-				$this->data['ifthenpayPayments'] = true;
+				$this->data['showRequestAccountBtn'] = true;
+			} else {
+				$this->data['showRequestAccountBtn'] = false;
 			}
 		}
+
+
 
 		// assign module version to a usable variable in template
 		$currModuleVersion = $this->ioc->make(IfthenpayUpgrade::class)->getModuleVersion();
@@ -370,7 +374,6 @@ abstract class ConfigForm
 		$this->data['upgradeModuleBulletPoints'] = $needUpgrade['upgrade'] ? $needUpgrade['body'] : '';
 		$this->data['moduleUpgradeUrlDownload'] = $needUpgrade['upgrade'] ? $needUpgrade['download'] : '';
 		$this->saveCronToken('cancelOrderCron', 'cron');
-		$this->saveCronToken('checkPaymentStatusCron', 'cron_check_payment_status');
 		$this->data['spinner'] = $this->ifthenpayController->load->view('extension/payment/spinner', $this->data);
 		$this->data['ifthenpay_updateModule'] = $this->ifthenpayController->load->view('extension/payment/ifthenpay_update_module', $this->data);
 		$backofficeKey = is_null($this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_backofficeKey')) ?
@@ -407,7 +410,7 @@ abstract class ConfigForm
 				$mustActivate = !$isAlreadyActivated && $isActivating && !$isSandboxMode;
 
 				$ifthenpayCallback = $this->ioc->makeWith(Callback::class, ['data' => $this->gatewayDataBuilder]);
-				$ifthenpayCallback->make($this->paymentMethod, $this->getCallbackControllerUrl(), $mustActivate);
+				$ifthenpayCallback->make($this->paymentMethod, $this->getCallbackControllerUrl(), $mustActivate, $this->ifthenpayController);
 
 
 				if ($ifthenpayCallback->getActivatedFor()) {
@@ -448,22 +451,22 @@ abstract class ConfigForm
 		}
 	}
 
-/**
- * Validates cofidis min and max values passed from the request against values defined in ifthenpay's server
- * @return bool
- */
+	/**
+	 * Validates cofidis min and max values passed from the request against values defined in ifthenpay's server
+	 * @return bool
+	 */
 	private function validateCofidisMinMax(): bool
 	{
 		if (
 			isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_minimum_value']) &&
 			isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_maximum_value']) &&
-			isset( $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_cofidisKey'])
+			isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_cofidisKey'])
 		) {
 
 			$cofidisKey = $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_cofidisKey'];
 			$limits = $this->ifthenpayGateway->getCofidisMinMax($cofidisKey);
 
-			if((isset($limits['min']) && isset($limits['max']))) {
+			if ((isset($limits['min']) && isset($limits['max']))) {
 
 				$max = $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_maximum_value'];
 				$min = $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_minimum_value'];
@@ -475,12 +478,51 @@ abstract class ConfigForm
 				if ($min < $limits['min']) {
 					$this->ifthenpayController->error['warning'] = $this->ifthenpayController->language->get('error_invalid_min_number_less_than_ifthenpay');
 				}
-
 			}
 		}
 
 		return !$this->ifthenpayController->error;
 	}
+
+
+
+	private function validateIfthenpaygateway(): bool
+	{
+		// deadline
+		if (
+			isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_deadline']) &&
+			$this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_deadline'] !== ''
+		) {
+			$deadline = $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_deadline'];
+
+			if ((is_numeric($deadline) ? intval($deadline) != $deadline : true) || intval($deadline) <= 0) {
+				$this->ifthenpayController->error['warning'] = $this->ifthenpayController->language->get('error_invalid_deadline');
+			}
+			return !$this->ifthenpayController->error;
+		}
+
+		// gatewayKey
+		if (
+			!isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_ifthenpaygatewayKey']) ||
+			(
+				isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_ifthenpaygatewayKey']) &&
+				$this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_ifthenpaygatewayKey'] === ''
+			)
+		) {
+			$this->ifthenpayController->error['warning'] = $this->ifthenpayController->language->get('error_invalid_gateway_key');
+			return !$this->ifthenpayController->error;
+		}
+
+		// paymentMethods
+		if (
+			!isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_methods'])
+		) {
+			$this->ifthenpayController->error['warning'] = $this->ifthenpayController->language->get('error_invalid_payment_methods');
+			return !$this->ifthenpayController->error;
+		}
+		return true;
+	}
+
 
 
 	protected function validate()
@@ -501,16 +543,20 @@ abstract class ConfigForm
 						!$this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_userPaymentMethods') &&
 						!$this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_userAccount')
 					) {
+						/** @var Gateway $ifthenpayGateway */
 						$ifthenpayGateway = $this->ioc->make(Gateway::class);
-						$ifthenpayGateway->authenticate($backofficeKey);
-						$userPaymentMethods = $ifthenpayGateway->getPaymentMethods();
+						$ifthenpayGateway->authenticate($backofficeKey, $this->paymentMethod); //side effect: sets $ifthenpayGateway->account
+						$userPaymentMethods = $ifthenpayGateway->getPaymentMethods($this->paymentMethod);
 						$this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_userPaymentMethods'] = serialize(
 							$userPaymentMethods
 						);
 						$this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_userAccount'] = serialize(
 							$ifthenpayGateway->getAccount()
 						);
-						if (in_array($this->paymentMethod, $userPaymentMethods)) {
+						if (
+							in_array($this->paymentMethod, $userPaymentMethods) ||
+							($this->paymentMethod == $ifthenpayGateway::IFTHENPAYGATEWAY && $ifthenpayGateway->getAccount())
+						) {
 							$this->ifthenpayController->{$this->dynamicModelName}->install($this->paymentMethod);
 						}
 					}
@@ -544,6 +590,124 @@ abstract class ConfigForm
 			'/index.php?route=extension/payment/' . $this->paymentMethod . '/' . $cronMethod . '&tk=' . $cronToken;
 	}
 
+
+
+	private function generateAndSavePaymentLogo($paymentMethodGroups, $paymentLogoType): bool
+	{
+		// exit early if is only showing text instead of logo
+		if ($paymentLogoType == '0') {
+			return true;
+		}
+
+		if (
+			!function_exists('imagecreatefrompng') ||
+			!function_exists('imagesx') ||
+			!function_exists('imagesy') ||
+			!function_exists('imagedestroy') ||
+			!function_exists('imagecreatetruecolor') ||
+			!function_exists('imagecolorallocatealpha') ||
+			!function_exists('imagefill') ||
+			!function_exists('imagesavealpha') ||
+			!function_exists('imagecopyresampled') ||
+			!function_exists('imagecopy') ||
+			!function_exists('imagepng')
+		) {
+			$this->ifthenpayController->error['warning'] = $this->ifthenpayController->language->get('error_missing_image_edit_dependency_to_create_composite_image');
+			return false;
+		}
+
+		if (
+			!file_exists(DIR_CATALOG . 'view/theme/default/image/ifthenpay/ifthenpaygateway_ck_default.png') ||
+			!file_exists(DIR_CATALOG . 'view/theme/default/image/ifthenpay/ifthenpaygateway_ck.png') ||
+			!is_writable(DIR_CATALOG . 'view/theme/default/image/ifthenpay/ifthenpaygateway_ck_default.png') ||
+			!is_writable(DIR_CATALOG . 'view/theme/default/image/ifthenpay/ifthenpaygateway_ck.png')
+		) {
+			$this->ifthenpayController->error['warning'] = $this->ifthenpayController->language->get('error_missing_file_permissions_to_create_composite_image');
+			return false;
+		}
+
+		$paymentLogos = array_map(function ($item) {
+
+			if ($item['is_active'] == '1') {
+				return $item['image_url'] ?? null;
+			}
+		}, $paymentMethodGroups);
+		$paymentLogos = array_filter($paymentLogos);
+
+		if ($paymentLogoType != 'composite' || count($paymentLogos) <= 0) {
+
+			copy(DIR_CATALOG . 'view/theme/default/image/ifthenpay/ifthenpaygateway_ck_default.png', DIR_CATALOG . 'view/theme/default/image/ifthenpay/ifthenpaygateway_ck.png');
+			return true;
+		}
+
+		$canvasHeight = 38;
+		$innerLayerHeight = 26;
+		$verticalSpacing = 6;
+		$horizontalSpacing = 10;
+
+
+		$combinedWidth = 0;
+		$combinedHeight = $canvasHeight;
+
+
+		foreach ($paymentLogos as $url) {
+			$image = imagecreatefrompng($url);
+			$width = imagesx($image);
+			$height = imagesy($image);
+
+			if ($height != $innerLayerHeight) {
+
+				$width = intval(($innerLayerHeight * $width) / $height);
+				$height = $innerLayerHeight;
+			}
+
+			$combinedWidth += $width;
+			imagedestroy($image); // Destroy immediately after size calculation
+		}
+
+		$combinedWidth += ($horizontalSpacing * (count($paymentLogos) - 1));
+
+		$combinedImage = imagecreatetruecolor($combinedWidth, $combinedHeight);
+		$transparentColor = imagecolorallocatealpha($combinedImage, 0, 0, 0, 127);
+		imagefill($combinedImage, 0, 0, $transparentColor);
+		imagesavealpha($combinedImage, true);
+
+		$currentX = 0;
+		foreach ($paymentLogos as $url) {
+			$image = imagecreatefrompng($url);
+			$width = imagesx($image);
+			$height = imagesy($image);
+
+			if ($height != $innerLayerHeight) {
+				$resizedWidth = intval(($innerLayerHeight * $width) / $height);
+				$resizedImage = imagecreatetruecolor($resizedWidth, $canvasHeight);
+
+				$transparentColor = imagecolorallocatealpha($resizedImage, 0, 0, 0, 127);
+				imagefill($resizedImage, 0, 0, $transparentColor);
+				imagesavealpha($resizedImage, true);
+
+				imagecopyresampled($resizedImage, $image, 0, 0, 0, 0, $resizedWidth, $innerLayerHeight, $width, $height);
+				imagecopy($combinedImage, $resizedImage, $currentX, $verticalSpacing, 0, 0, $resizedWidth, $innerLayerHeight);
+				$currentX += $resizedWidth + $horizontalSpacing;
+
+				imagedestroy($resizedImage);
+			} else {
+				imagecopy($combinedImage, $image, $currentX, 0, 0, 0, $width, $height);
+				$currentX += $width + $horizontalSpacing;
+			}
+
+			imagedestroy($image);
+		}
+
+		imagepng($combinedImage, DIR_CATALOG . 'view/theme/default/image/ifthenpay/ifthenpaygateway_ck.png');
+
+		imagedestroy($combinedImage);
+
+		return true;
+	}
+
+
+
 	public function processForm(): void
 	{
 		if (!$this->validate()) {
@@ -554,7 +718,25 @@ abstract class ConfigForm
 			return;
 		}
 
+		if ($this->paymentMethod == Gateway::IFTHENPAYGATEWAY &&
+		!isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_backofficeKey']) &&
+		!$this->validateIfthenpaygateway())
+		{
+			return;
+		}
+
+
+
+
 		if (!empty($this->configData)) {
+			if (
+				$this->paymentMethod == 'ifthenpaygateway' &&
+				!$this->generateAndSavePaymentLogo($this->ifthenpayController->request->post['payment_ifthenpaygateway_methods'], $this->ifthenpayController->request->post['payment_ifthenpaygateway_showPaymentMethodLogo'])
+			) {
+				return;
+			}
+
+
 			// default payment_multibanco_deadline to empty string in order to clear the record from database when no deadline is set
 			if (!isset($this->ifthenpayController->request->post['payment_multibanco_deadline'])) {
 				$this->ifthenpayController->request->post['payment_multibanco_deadline'] = '';
@@ -580,7 +762,7 @@ abstract class ConfigForm
 			$this->ifthenpayController->url->link(
 				'extension/payment/' . $this->paymentMethod,
 				'user_token=' .
-				$this->ifthenpayController->session->data['user_token'],
+					$this->ifthenpayController->session->data['user_token'],
 				true
 			)
 		);
@@ -646,13 +828,14 @@ abstract class ConfigForm
 			$max = $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_maximum_value'];
 			$min = $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_minimum_value'];
 
+
 			// validate maximum order value being number and larger than 0
-			if ($max < 0) {
+			if ($max < 0 || (!is_numeric($max) && $max != '')) {
 				$this->ifthenpayController->error['warning'] = $this->ifthenpayController->language->get('error_invalid_max_number');
 			}
 
 			// validate minimum order value being number and larger than 0
-			if ($min < 0) {
+			if ($min < 0 || (!is_numeric($min) && $min != '')) {
 				$this->ifthenpayController->error['warning'] = $this->ifthenpayController->language->get('error_invalid_min_number');
 			}
 
@@ -668,6 +851,7 @@ abstract class ConfigForm
 	 */
 	protected function validateEntitySubEntity(): void
 	{
+		// TODO: add validation for ifthenpaygateway
 		// validate multibanco entity and subentity
 		if ($this->paymentMethod == Gateway::MULTIBANCO) {
 

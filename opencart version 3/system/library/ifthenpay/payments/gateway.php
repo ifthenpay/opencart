@@ -19,12 +19,15 @@ class Gateway
 	const PAYSHOP = 'payshop';
 	const CCARD = 'ccard';
 	const COFIDIS = 'cofidis';
+	const IFTHENPAYGATEWAY = 'ifthenpaygateway';
+
+	const METHODS_WITH_CALLBACK = [self::MULTIBANCO, self::MBWAY, self::PAYSHOP, self::COFIDIS, self::IFTHENPAYGATEWAY];
 
 	private $webService;
 	private $paymentFactory;
 	private $account;
-	private $paymentMethods = [self::MULTIBANCO, self::MBWAY, self::PAYSHOP, self::CCARD, self::COFIDIS];
-	private $paymentMethodsCanCancel = [self::MULTIBANCO, self::MBWAY, self::CCARD, self::PAYSHOP, self::COFIDIS];
+	private $paymentMethods = [self::MULTIBANCO, self::MBWAY, self::PAYSHOP, self::CCARD, self::COFIDIS, self::IFTHENPAYGATEWAY];
+	private $paymentMethodsCanCancel = [self::MULTIBANCO, self::MBWAY, self::CCARD, self::PAYSHOP, self::COFIDIS, self::IFTHENPAYGATEWAY];
 	private $paymentMethodsCanOrderBackend = [self::MULTIBANCO, self::MBWAY, self::PAYSHOP];
 
 	public function __construct(WebService $webService, PaymentFactory $paymentFactory)
@@ -51,11 +54,44 @@ class Gateway
 		return false;
 	}
 
-	public function authenticate(string $backofficeKey): void
+	public function authenticate(string $backofficeKey, string $paymentMethod): void
 	{
+		if ($paymentMethod === self::IFTHENPAYGATEWAY) {
+
+			$gatewayKeys = $this->webService->getRequest(
+				'https://ifthenpay.com/IfmbWS/ifthenpaymobile.asmx/GetGatewayKeys',
+				[
+					'backofficekey' => $backofficeKey,
+				]
+			)->getResponseJson();
+
+			if (empty($gatewayKeys)) {
+
+				$authenticate = $this->webService->postRequest(
+					'https://www.ifthenpay.com/IfmbWS/ifmbws.asmx/' .
+						'getEntidadeSubentidadeJsonV2',
+					[
+						'chavebackoffice' => $backofficeKey,
+					]
+				)->getResponseJson();
+
+				if (!$authenticate[0]['Entidade'] && empty($authenticate[0]['SubEntidade'])) {
+					throw new \Exception('Backoffice key is invalid');
+				} else {
+					$this->account = [];
+				}
+			} else {
+				$this->account = $gatewayKeys;
+			}
+
+			return;
+		}
+
+
+
 		$authenticate = $this->webService->postRequest(
 			'https://www.ifthenpay.com/IfmbWS/ifmbws.asmx/' .
-			'getEntidadeSubentidadeJsonV2',
+				'getEntidadeSubentidadeJsonV2',
 			[
 				'chavebackoffice' => $backofficeKey,
 			]
@@ -78,9 +114,25 @@ class Gateway
 		$this->account = $account;
 	}
 
-	public function getPaymentMethods(): array
+	public function getPaymentMethods($paymentMethod = ''): array
 	{
 		$userPaymentMethods = [];
+
+		if ($paymentMethod === self::IFTHENPAYGATEWAY) {
+			foreach ($this->account as $account) {
+
+				if (isset($account['GatewayKey'])) {
+					$userPaymentMethods[] = [
+						'gatewayKey' => $account['GatewayKey'],
+						'alias' => $account['Alias'],
+						'type' => $account['Tipo']
+					];
+				}
+			}
+			return $userPaymentMethods;
+		}
+
+
 
 		foreach ($this->account as $account) {
 			if (in_array(strtolower($account['Entidade']), $this->paymentMethods)) {
@@ -103,6 +155,8 @@ class Gateway
 			}
 		);
 	}
+
+
 
 	public function getEntidadeSubEntidade(string $paymentMethod): array
 	{
@@ -139,20 +193,11 @@ class Gateway
 		return false;
 	}
 
-	public function getPaymentLogo(string $paymentMethod): string
+
+
+	public function getPaymentLogoUrl(string $paymentMethod, string $catalogUrl): string
 	{
-		$base_url = HTTP_SERVER ?? '';
-
-		$tagStart = '<img ';
-		$tagEnd = '>';
-		$srcUrl = 'src="' . $base_url . 'admin/view/image/payment/ifthenpay/' . $paymentMethod . '_ck.png" ';
-		$srcRel = 'src="' . 'admin/view/image/payment/ifthenpay/' . $paymentMethod . '_ck.png" ';
-
-		if (strlen($srcUrl) < 128 - strlen($tagStart) - strlen($tagEnd)) {
-			return $tagStart . $srcUrl . $tagEnd;
-		}
-
-		return $tagStart . $srcRel . $tagEnd;
+		return $catalogUrl . 'view/theme/default/image/ifthenpay/' . $paymentMethod . '_ck.png';
 	}
 
 	public function execute(string $paymentMethod, GatewayDataBuilder $data, string $orderId, string $valor): DataBuilder
@@ -191,5 +236,51 @@ class Gateway
 		}
 
 		return ['max' => $max, 'min' => $min];
+	}
+
+
+	public function getIfthenpayGatewayAccounts(): array
+	{
+		return $this->account;
+	}
+
+
+	public function getIfthenpayGatewayPaymentMethodsDataByBackofficeKeyAndGatewayKey($backofficeKey, $gatewayKey): array
+	{
+
+		$methods = $this->webService->getRequest(
+			'https://api.ifthenpay.com/gateway/methods/available',
+			[]
+		)->getResponseJson();
+
+		if (empty($methods)) {
+			return [];
+		}
+
+		$accounts = $this->webService->getRequest(
+			'https://ifthenpay.com/IfmbWS/ifthenpaymobile.asmx/GetAccountsByGatewayKey',
+			[
+				'backofficekey' => $backofficeKey,
+				'gatewayKey' => $gatewayKey
+			]
+		)->getResponseJson();
+
+		if (empty($accounts)) {
+			return [];
+		}
+
+
+		foreach ($methods as &$method) {
+
+			$methodCode = $method['Entity'];
+			$filteredAccounts = array_filter($accounts, function ($item) use ($methodCode) {
+				return $item['Entidade'] === $methodCode || ($methodCode === 'MB' && is_numeric($item['Entidade']));
+			});
+
+			$method['accounts'] = $filteredAccounts;
+		}
+		unset($method);
+
+		return $methods;
 	}
 }

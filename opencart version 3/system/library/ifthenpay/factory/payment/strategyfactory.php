@@ -22,7 +22,9 @@ abstract class StrategyFactory extends Factory
     protected $ifthenpayGateway;
     protected $configData;
     protected $mix;
-    
+	protected $token;
+	protected $status;
+
     public function __construct(
         Container $ioc,
         GatewayDataBuilder $gatewayBuilder,
@@ -46,7 +48,7 @@ abstract class StrategyFactory extends Factory
      * Set the value of paymentDefaultData
      *
      * @return  self
-     */ 
+     */
     public function setPaymentDefaultData($paymentDefaultData)
     {
         $this->paymentDefaultData = $paymentDefaultData;
@@ -58,7 +60,7 @@ abstract class StrategyFactory extends Factory
      * Set the value of smartyDefaultData
      *
      * @return  self
-     */ 
+     */
     public function setTwigDefaultData(TwigDataBuilder $twigDefaultData)
     {
         $this->twigDefaultData = $twigDefaultData;
@@ -70,7 +72,7 @@ abstract class StrategyFactory extends Factory
      * Set the value of configData
      *
      * @return  self
-     */ 
+     */
     public function setConfigData($configData)
     {
         $this->configData = $configData;

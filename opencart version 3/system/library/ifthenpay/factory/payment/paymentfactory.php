@@ -16,7 +16,7 @@ use Ifthenpay\Builders\DataBuilder;
 use Ifthenpay\Contracts\Payments\PaymentMethodInterface;
 use Ifthenpay\Request\WebService;
 use Ifthenpay\Payments\Gateway;
-
+use Ifthenpay\Payments\Ifthenpaygateway;
 
 class PaymentFactory extends Factory
 {
@@ -45,6 +45,8 @@ class PaymentFactory extends Factory
 				return new CCard($this->data, $this->orderId, $this->valor, $this->webService);
 			case Gateway::COFIDIS:
 				return new Cofidis($this->data, $this->orderId, $this->valor, $this->webService);
+			case Gateway::IFTHENPAYGATEWAY:
+				return new Ifthenpaygateway($this->data, $this->orderId, $this->valor, $this->webService);
 			default:
 				throw new \Exception("Unknown Payment Class");
 		}

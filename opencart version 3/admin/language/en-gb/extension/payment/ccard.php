@@ -32,13 +32,13 @@ $_['ccardOrderCancel_help'] = 'Cancel Credit Card order after payment data expir
 $_['newUpdateAvailable'] = 'New update is available!';
 $_['moduleUpToDate'] = 'Your module is up to date!';
 $_['downloadUpdateModule'] = 'Download Update Module';
-$_['acess_user_documentation_link'] = 'https://www.ifthenpay.com/downloads/opencart/opencart_user_guide_en.pdf';
 $_['entry_minimum_value'] = 'Order Minimum Value';
 $_['help_entry_minimum_value'] = 'Only show customer this payment method if order value equal or greater than minimum value';
 $_['entry_maximum_value'] = 'Order Maximum Value';
 $_['help_entry_maximum_value'] = 'Only show customer this payment method if order value equal or less than maximum value';
 $_['request_new_account_success'] = 'Email requesting new account send with success.';
 $_['request_new_account_error'] = 'Error sending email requesting new account.';
+$_['entry_payment_method_title'] = 'Payment Method Title';
 
 
 $_['label_cron_url'] = 'Cron URL';

@@ -9,6 +9,9 @@ use Ifthenpay\Builders\GatewayDataBuilder;
 use Ifthenpay\Payments\Gateway;
 use Ifthenpay\Config\IfthenpayContainer;
 use Ifthenpay\Utility\Versions;
+use IfthenpayController;
+
+use Ifthenpay\Callback\CallbackVars as Cb;
 
 class Callback
 {
@@ -24,13 +27,18 @@ class Callback
 	protected $ifthenpayContainer;
 
 
+
+	// TODO update URLs
 	private $urlCallbackParameters = [
-		Gateway::MULTIBANCO => '&type=offline&ec={ec}&mv={mv}&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&entidade=[ENTIDADE]&referencia=[REFERENCIA]&valor=[VALOR]',
-		Gateway::MBWAY => '&type=offline&ec={ec}&mv={mv}&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&referencia=[REFERENCIA]&id_pedido=[ID_TRANSACAO]&valor=[VALOR]&estado=[ESTADO]',
-		Gateway::PAYSHOP => '&type=offline&ec={ec}&mv={mv}&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&id_cliente=[ID_CLIENTE]&id_transacao=[ID_TRANSACAO]&referencia=[REFERENCIA]&valor=[VALOR]&estado=[ESTADO]',
-		Gateway::CCARD => '&type=offline&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&requestId=[REQUEST_ID]&orderId=[ORDER_ID]&valor=[VALOR]',
-		Gateway::COFIDIS => '&type=offline&ec={ec}&mv={mv}&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&id_transacao=[ID_TRANSACAO]&valor=[VALOR]'
+		Gateway::MULTIBANCO => '&type=offline&'. Cb::ECOMMERCE_VERSION .'={ec}&'. Cb::MODULE_VERSION.'={mv}&'. Cb::PAYMENT.'={paymentMethod}&'. Cb::ANTIPHISH_KEY .'=[ANTI_PHISHING_KEY]&'. Cb::ENTITY .'=[ENTITY]&'. Cb::REFERENCE .'=[REFERENCE]&'. Cb::AMOUNT .'=[AMOUNT]&'. Cb::ORDER_ID .'=[ID]&'. Cb::PM .'=[PAYMENT_METHOD]',
+		Gateway::MBWAY => '&type=offline&'. Cb::ECOMMERCE_VERSION .'={ec}&'. Cb::MODULE_VERSION.'={mv}&'. Cb::PAYMENT.'={paymentMethod}&'. Cb::ANTIPHISH_KEY .'=[ANTI_PHISHING_KEY]&'. Cb::TRANSACTION_ID .'=[REQUEST_ID]&'. Cb::AMOUNT .'=[AMOUNT]&'. Cb::ORDER_ID .'=[ID]&'. Cb::PM .'=[PAYMENT_METHOD]',
+		Gateway::PAYSHOP => '&type=offline&'. Cb::ECOMMERCE_VERSION .'={ec}&'. Cb::MODULE_VERSION.'={mv}&'. Cb::PAYMENT.'={paymentMethod}&'. Cb::ANTIPHISH_KEY .'=[ANTI_PHISHING_KEY]&'. Cb::TRANSACTION_ID .'=[REQUEST_ID]&'. Cb::REFERENCE .'=[REFERENCE]&'. Cb::AMOUNT.'=[AMOUNT]&'. Cb::ORDER_ID .'=[ID]&'. Cb::PM .'=[PAYMENT_METHOD]',
+		Gateway::CCARD => '&type=offline&'. Cb::PAYMENT.'={paymentMethod}&'. Cb::ANTIPHISH_KEY .'=[ANTI_PHISHING_KEY]&'. Cb::TRANSACTION_ID .'=[REQUEST_ID]&'. Cb::ORDER_ID .'=[ID]&'. Cb::AMOUNT .'=[AMOUNT]',
+		Gateway::COFIDIS => '&type=offline&'. Cb::ECOMMERCE_VERSION .'={ec}&'. Cb::MODULE_VERSION.'={mv}&'. Cb::PAYMENT.'={paymentMethod}&'. Cb::ANTIPHISH_KEY .'=[ANTI_PHISHING_KEY]&'. Cb::TRANSACTION_ID.'=[REQUEST_ID]&'. Cb::AMOUNT .'=[AMOUNT]&'. Cb::ORDER_ID .'=[ID]&'. Cb::PM .'=[PAYMENT_METHOD]',
+		Gateway::IFTHENPAYGATEWAY => '&type=offline&'. Cb::ECOMMERCE_VERSION .'={ec}&'. Cb::MODULE_VERSION.'={mv}&'. Cb::PAYMENT.'={paymentMethod}&'. Cb::ANTIPHISH_KEY .'=[ANTI_PHISHING_KEY]&'. Cb::ORDER_ID .'=[ID]&'. Cb::ENTITY .'=[ENTITY]&'. Cb::REFERENCE .'=[REFERENCE]&'. Cb::TRANSACTION_ID .'=[REQUEST_ID]&'. Cb::AMOUNT .'=[AMOUNT]&'. Cb::PM .'=[PAYMENT_METHOD]'
+
 	];
+
 
 	public function __construct(GatewayDataBuilder $data, WebService $webService)
 	{
@@ -56,15 +64,17 @@ class Callback
 
 	private function activateCallback(): void
 	{
+		$payload = [
+			'chave' => $this->backofficeKey,
+			'entidade' => $this->entidade,
+			'subentidade' => $this->subEntidade,
+			'apKey' => $this->chaveAntiPhishing,
+			'urlCb' => $this->urlCallback,
+		];
+
 		$request = $this->webService->postRequest(
 			$this->activateEndpoint,
-			[
-				'chave' => $this->backofficeKey,
-				'entidade' => $this->entidade,
-				'subentidade' => $this->subEntidade,
-				'apKey' => $this->chaveAntiPhishing,
-				'urlCb' => $this->urlCallback,
-			],
+			$payload,
 			true
 		);
 
@@ -75,13 +85,78 @@ class Callback
 		$this->activatedFor = true;
 	}
 
-	public function make(string $paymentType, string $moduleLink, bool $activateCallback = false): void
+	public function make(string $paymentType, string $moduleLink, bool $activateCallback = false, IfthenpayController $ifthenpayController): void
 	{
+
+		if ($paymentType === Gateway::IFTHENPAYGATEWAY) {
+
+			$this->handleCallbackActivationForIfthenpaygateway($moduleLink, $ifthenpayController);
+			return;
+		}
+
 		$this->createAntiPhishing();
 		$this->createUrlCallback($paymentType, $moduleLink);
 		if ($activateCallback) {
 			$this->activateCallback();
 		}
+	}
+
+
+	private function handleCallbackActivationForIfthenpaygateway(string $moduleLink, IfthenpayController $ifthenpayController)
+	{
+		$paymentMethods = $ifthenpayController->request->post['payment_' . Gateway::IFTHENPAYGATEWAY . '_methods'] ?? [];
+		$storedPaymentMethods = $ifthenpayController->config->get('payment_' . Gateway::IFTHENPAYGATEWAY . '_methods') ?? [];
+
+
+		$paymentMethodsToActivate = [];
+
+		if (empty($storedPaymentMethods)) {
+			$paymentMethodsToActivate = array_filter($paymentMethods, fn($item) => $item['is_active'] === '1');
+		} else {
+			foreach ($paymentMethods as $key => $paymentMethod) {
+
+				if (
+					(isset($storedPaymentMethods[$key]) && $storedPaymentMethods[$key]['is_active'] === '0' && $paymentMethod['is_active'] === '1') ||
+					(!isset($storedPaymentMethods[$key]) && $paymentMethod['is_active'] === '1')
+				) {
+					$paymentMethodsToActivate[$key] = $paymentMethod;
+				}
+			}
+		}
+
+		$isActivating = isset($ifthenpayController->request->post['payment_' . Gateway::IFTHENPAYGATEWAY . '_activateCallback']) &&
+			$ifthenpayController->request->post['payment_' . Gateway::IFTHENPAYGATEWAY . '_activateCallback'] === '1' ? true : false;
+
+		$isSandboxMode = isset($ifthenpayController->request->post['payment_' . Gateway::IFTHENPAYGATEWAY . '_sandboxMode']) &&
+			$ifthenpayController->request->post['payment_' . Gateway::IFTHENPAYGATEWAY . '_sandboxMode'] === '1' ? true : false;
+
+
+		$activateCallback = $isActivating && !$isSandboxMode;
+
+
+
+		if (!empty($paymentMethodsToActivate) && $activateCallback) {
+
+			$phishKey = $ifthenpayController->config->get('payment_' . Gateway::IFTHENPAYGATEWAY . '_chaveAntiPhishing') ?? null;
+			$this->chaveAntiPhishing = $phishKey ?? md5((string) rand());
+
+			$this->createUrlCallback(Gateway::IFTHENPAYGATEWAY, $moduleLink);
+
+			foreach ($paymentMethodsToActivate as $key => $values) {
+
+				$paymentMethodEntitySubentity = explode('|', $values['account']);
+				$paymentMethodEntity = trim($paymentMethodEntitySubentity[0]);
+				$paymentMethodSubentity = trim($paymentMethodEntitySubentity[1]);
+
+				$this->entidade = $paymentMethodEntity;
+				$this->subEntidade = $paymentMethodSubentity;
+
+				$this->activateCallback();
+			}
+			$this->activatedFor = true;
+		}
+
+		return;
 	}
 
 	/**

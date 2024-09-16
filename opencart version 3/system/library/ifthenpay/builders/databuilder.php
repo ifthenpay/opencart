@@ -130,6 +130,60 @@ class DataBuilder implements DataBuilderInterface
 	}
 
 
+// ifthenpaygateway
+
+public function setIthenpaygatewayKey(string $value): DataBuilderInterface
+{
+	$this->data->ifthenpaygatewayKey = $value;
+	return $this;
+}
+
+public function setLanguage(string $value): DataBuilderInterface
+{
+	$this->data->language = $value;
+	return $this;
+}
+
+public function setDeadline(string $value): DataBuilderInterface
+{
+	$this->data->deadline = $value;
+	return $this;
+}
+
+public function setAccounts(string $value): DataBuilderInterface
+{
+	$this->data->accounts = $value;
+	return $this;
+}
+
+public function setSelectedMethod(string $value): DataBuilderInterface
+{
+	$this->data->selectedMethod = $value;
+	return $this;
+}
+
+public function setBtnCloseUrl(string $value): DataBuilderInterface
+{
+	$this->data->btnCloseUrl = $value;
+	return $this;
+}
+
+public function setBtnCloseLabel(string $value): DataBuilderInterface
+{
+	$this->data->btnCloseLabel = $value;
+	return $this;
+}
+
+public function setPinCode(string $value): DataBuilderInterface
+{
+	$this->data->pinCode = $value;
+	return $this;
+}
+
+
+
+
+
 	public function toArray(): array
 	{
 		return json_decode(json_encode($this->data), true);

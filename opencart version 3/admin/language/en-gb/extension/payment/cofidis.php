@@ -32,7 +32,6 @@ $_['cofidisOrderCancel_help'] = 'Cancel Cofidis Pay order after payment data exp
 $_['newUpdateAvailable'] = 'New update is available!';
 $_['moduleUpToDate'] = 'Your module is up to date!';
 $_['downloadUpdateModule'] = 'Download Update Module';
-$_['acess_user_documentation_link'] = 'https://www.ifthenpay.com/downloads/opencart/opencart_user_guide_en.pdf';
 $_['entry_minimum_value'] = 'Order Minimum Value';
 $_['help_entry_minimum_value'] = 'Only show customer this payment method if order value equal or greater than minimum value';
 $_['entry_maximum_value'] = 'Order Maximum Value';
@@ -44,6 +43,7 @@ $_['entry_amount'] = 'Amount';
 $_['msg_callback_test_empty_fields'] = 'Please fill all fields';
 $_['entry_test_callback'] = 'Test Callback';
 $_['btn_test'] = 'Test';
+$_['entry_payment_method_title'] = 'Payment Method Title';
 
 $_['label_cron_url'] = 'Cron URL';
 $_['btn_copy'] = 'Copy';

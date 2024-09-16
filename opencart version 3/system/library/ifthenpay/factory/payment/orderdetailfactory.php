@@ -10,6 +10,7 @@ use Ifthenpay\Payments\Data\PayshopOrderDetail;
 use Ifthenpay\Payments\Data\MultibancoOrderDetail;
 use Ifthenpay\Payments\Data\CofidisOrderDetail;
 use Ifthenpay\Contracts\Order\OrderDetailInterface;
+use Ifthenpay\Payments\Data\IfthenpaygatewayOrderDetail;
 use Ifthenpay\Payments\Gateway;
 use Ifthenpay\Utility\Mix;
 
@@ -28,7 +29,6 @@ class OrderDetailFactory extends StrategyFactory
 					$this->ifthenpayController,
 					$this->mix,
 					$this->twigDefaultData
-
 				);
 			case Gateway::MBWAY:
 				return new MbwayOrderDetail(
@@ -60,8 +60,7 @@ class OrderDetailFactory extends StrategyFactory
 					$this->mix,
 					$this->twigDefaultData,
 					$this->token,
-					$this->status,
-
+					$this->status
 				);
 			case Gateway::COFIDIS:
 				return new CofidisOrderDetail(
@@ -73,8 +72,19 @@ class OrderDetailFactory extends StrategyFactory
 					$this->mix,
 					$this->twigDefaultData,
 					$this->token,
-					$this->status,
-
+					$this->status
+				);
+			case Gateway::IFTHENPAYGATEWAY:
+				return new IfthenpaygatewayOrderDetail(
+					$this->paymentDefaultData,
+					$this->gatewayBuilder,
+					$this->ifthenpayGateway,
+					$this->configData,
+					$this->ifthenpayController,
+					$this->mix,
+					$this->twigDefaultData,
+					$this->token,
+					$this->status
 				);
 
 			default:

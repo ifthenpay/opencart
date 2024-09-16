@@ -51,18 +51,18 @@ class TwigDataBuilder extends DataBuilder implements TwigDataBuilderInterface
         $this->data->spinner = $value;
         return $this;
     }
-    
+
     public function setPaymentReturnPaymentPanel(string $value): TwigDataBuilderInterface
     {
         $this->data->paymentReturnPaymentPanel = $value;
         return $this;
-    } 
+    }
 
     public function setPaymentReturnErrorTitle(string $value): TwigDataBuilderInterface
     {
         $this->data->paymentReturnErrorTitle = $value;
         return $this;
-    } 
+    }
 
     public function setPaymentReturnErrorText(string $value): TwigDataBuilderInterface
     {
@@ -73,6 +73,12 @@ class TwigDataBuilder extends DataBuilder implements TwigDataBuilderInterface
     public function setIfthenpayPaymentPanelTitle(string $value): TwigDataBuilderInterface
     {
         $this->data->ifthenpayPaymentPanelTitle = $value;
+        return $this;
+    }
+
+	public function setPaymentPanelLogoOrName(string $value): TwigDataBuilderInterface
+    {
+        $this->data->ifthenpayPaymentPanelLogoOrName = $value;
         return $this;
     }
 
@@ -153,7 +159,7 @@ class TwigDataBuilder extends DataBuilder implements TwigDataBuilderInterface
         return $this;
     }
 
-   
+
     public function setIfthenpayPaymentPanelTotalToPay(string $value): TwigDataBuilderInterface
     {
         $this->data->ifthenpayPaymentPanelTotalToPay = $value;
@@ -194,8 +200,8 @@ class TwigDataBuilder extends DataBuilder implements TwigDataBuilderInterface
     {
         $this->data->ifthenpayPaymentPanelMbwayNotificationNotReceive = $value;
         return $this;
-    } 
-    
+    }
+
     public function setIfthenpayPaymentPanelMbwayResendNotification(string $value): TwigDataBuilderInterface
     {
         $this->data->ifthenpayPaymentPanelMbwayResendNotification = $value;
@@ -206,4 +212,19 @@ class TwigDataBuilder extends DataBuilder implements TwigDataBuilderInterface
         $this->data->orderView = $value;
         return $this;
     }
+
+
+
+	public function setIfthenpaygatewayLink(string $value): TwigDataBuilderInterface
+	{
+		$this->data->ifthenpaygatewayLink = $value;
+		return $this;
+	}
+
+	public function setIfthenpaygatewayDeadline(string $value): TwigDataBuilderInterface
+	{
+		$this->data->ifthenpaygatewayDeadline = $value;
+		return $this;
+	}
+
 }

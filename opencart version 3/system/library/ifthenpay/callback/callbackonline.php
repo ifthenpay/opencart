@@ -25,7 +25,9 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
 			case Gateway::COFIDIS:
 				$this->executeCofidisCallback();
 				break;
-
+			case Gateway::IFTHENPAYGATEWAY:
+				$this->executeIfthenpaygatewayCallback();
+				break;
 			default:
 				$this->executePaymentMethodNotFound();
 				break;
@@ -107,8 +109,6 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
 								'paymentData' => $this->paymentData
 							], 'Payment by credit card canceled by the client or resulted in error.');
 						}
-
-
 					} else if ($paymentStatus !== 'True') {
 
 						$transactionStatusArray = [];
@@ -142,16 +142,12 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
 							} else {
 								$this->handleCofidisCancel();
 							}
-
-
 						} else if ($transactionStatusArray[0]['statusCode'] === 'NOT_APPROVED') {
 							$this->handleCofidisNotApproved();
 						} else if ($transactionStatusArray[0]['statusCode'] === 'TECHNICAL_ERROR') {
 							// fallback for technical error status without canceled status, that can occur if cancel status is not registered immediately after technical error
 							$this->handleCofidisTechnicalError();
 						}
-
-
 					} else {
 
 						$this->handleCofidisOtherError();
@@ -159,9 +155,7 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
 
 					$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
 					$this->ifthenpayController->response->redirect($this->ifthenpayController->url->link($checkoutLink, true));
-
 				}
-
 			} catch (\Throwable $th) {
 				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderView'] = false;
 				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
@@ -175,10 +169,7 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
 				], 'Error processing cofidis payment - internal error');
 
 				$this->ifthenpayController->response->redirect($this->ifthenpayController->url->link($checkoutLink, true));
-
 			}
-
-
 		}
 	}
 
@@ -389,6 +380,56 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
 					'error' => $th->getMessage(),
 					'paymentData' => $this->paymentData
 				], 'Error processing credit card payment - internal error');
+
+				$this->ifthenpayController->response->redirect($this->ifthenpayController->url->link($checkoutLink, true));
+			}
+		}
+	}
+
+
+
+	private function executeIfthenpaygatewayCallback()
+	{
+
+		// set as pending
+
+		$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['paymentMethod'] = $this->paymentMethod;
+		$this->setPaymentData();
+
+		$checkoutLink = 'checkout/success';
+
+		if (empty($this->paymentData)) {
+			$this->executePaymentNotFound();
+		} else {
+
+			try {
+				$this->setOrder();
+
+				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
+
+				$this->changeIfthenpayPaymentStatus('pending');
+				$this->ifthenpayController->model_checkout_order->addOrderHistory(
+					$this->paymentData['order_id'],
+					$this->ifthenpayController->config->get('payment_ifthenpaygateway_order_status_pending_id'),
+					$this->ifthenpayController->language->get('paymentPending'),
+					true,
+					true
+				);
+
+				$this->ifthenpayController->response->redirect($this->ifthenpayController->url->link($checkoutLink, true));
+
+
+			} catch (\Throwable $th) {
+				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderView'] = false;
+				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
+				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_success'] = '';
+				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['cofidis_error'] = $th->getMessage();
+				$checkoutLink = 'checkout/failure';
+
+				$this->ifthenpayController->model_extension_payment_cofidis->log([
+					'error' => $th->getMessage(),
+					'paymentData' => $this->paymentData
+				], 'Error processing ifthenpaygateway payment - internal error');
 
 				$this->ifthenpayController->response->redirect($this->ifthenpayController->url->link($checkoutLink, true));
 			}

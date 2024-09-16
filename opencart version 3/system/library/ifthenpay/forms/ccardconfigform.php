@@ -10,6 +10,8 @@ use Ifthenpay\Payments\Gateway;
 class CCardConfigForm extends ConfigForm
 {
     protected $paymentMethod = Gateway::CCARD;
+	protected $paymentMethodDefaultTitle = 'Cartão de Crédito';
+
     protected $hasCallback = true;
 
 
@@ -29,12 +31,12 @@ class CCardConfigForm extends ConfigForm
     public function getForm(): array
     {
         $this->data['entry_ccard_ccardKey'] = $this->ifthenpayController->language->get('entry_ccard_ccardKey');
-        if ($this->ifthenpayController->config->get('payment_ccard_userPaymentMethods') && 
+        if ($this->ifthenpayController->config->get('payment_ccard_userPaymentMethods') &&
         $this->ifthenpayController->config->get('payment_ccard_userAccount')) {
             $this->setOptions();
             $this->setHasCallback();
             $this->setGatewayBuilderData();
-            $this->setIfthenpayCallback();         
+            $this->setIfthenpayCallback();
         } else {
             $this->setDefaultGatewayBuilderData();
         }
@@ -43,8 +45,8 @@ class CCardConfigForm extends ConfigForm
 
     public function setGatewayBuilderData(): void
     {
-        
-        if ($this->ifthenpayController->config->get('payment_ccard_userPaymentMethods') && 
+
+        if ($this->ifthenpayController->config->get('payment_ccard_userPaymentMethods') &&
         $this->ifthenpayController->config->get('payment_ccard_userAccount')) {
 
             if (!empty($this->options)) {
@@ -57,17 +59,25 @@ class CCardConfigForm extends ConfigForm
             } else if (isset($this->configData['payment_ccard_ccardKey'])) {
                 $this->data['payment_ccard_ccardKey'] = $this->configData['payment_ccard_ccardKey'];
             }
-    
+
             if (isset($this->ifthenpayController->request->post['payment_ccard_order_status_failed_id'])) {
                 $this->data['payment_ccard_order_status_failed_id'] = $this->ifthenpayController->request->post['payment_ccard_order_status_failed_id'];
             } else {
                 $this->data['payment_ccard_order_status_failed_id'] = $this->ifthenpayController->config->get('payment_ccard_order_status_failed_id');
             }
-    
+			if (isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_payment_method_title'])) {
+				$this->data['payment_' . $this->paymentMethod . '_payment_method_title'] = $this->ifthenpayController
+					->request->post['payment_' . $this->paymentMethod . '_payment_method_title'];
+			} else {
+				$paymentMethodTitleFromConfig = $this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_payment_method_title');
+
+				$this->data['payment_' . $this->paymentMethod . '_payment_method_title'] = $paymentMethodTitleFromConfig != '' ? $paymentMethodTitleFromConfig : $this->paymentMethodDefaultTitle;
+			}
+
             $this->ifthenpayController->load->model('localisation/order_status');
             $this->data['order_statuses'] = $this->ifthenpayController->model_localisation_order_status->getOrderStatuses();
-    
-            
+
+
             if (isset($this->data['payment_ccard_ccardKey'])) {
                 $this->gatewayDataBuilder->setEntidade(strtoupper($this->paymentMethod));
                 $this->gatewayDataBuilder->setSubEntidade($this->data['payment_ccard_ccardKey']);
@@ -75,7 +85,7 @@ class CCardConfigForm extends ConfigForm
         } else {
             parent::setGatewayBuilderData();
         }
-        
+
     }
 
 

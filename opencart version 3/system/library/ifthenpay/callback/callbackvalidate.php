@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Callback;
 
+use Ifthenpay\Callback\CallbackVars;
+
 class CallbackValidate
 {
     private $httpRequest;
@@ -22,7 +24,7 @@ class CallbackValidate
     private function validateOrderValue(): void
     {
         $orderTotal = floatval($this->order['total']);
-        $requestValor = floatval($this->httpRequest['valor']);
+        $requestValor = floatval($this->httpRequest[CallbackVars::AMOUNT]);
         if (round($orderTotal, 2) !== round($requestValor, 2)) {
             throw new \Exception('Valor não corresponde ao valor da encomenda.');
         }
@@ -37,11 +39,11 @@ class CallbackValidate
 
     private function validateChaveAntiPhishing()
     {
-        if (!$this->httpRequest['chave']) {
+        if (!$this->httpRequest[CallbackVars::ANTIPHISH_KEY]) {
             throw new \Exception('Chave Anti-Phishing não foi enviada.');
         }
 
-        if ($this->httpRequest['chave'] !== $this->configurationChaveAntiPhishing) {
+        if ($this->httpRequest[CallbackVars::ANTIPHISH_KEY] !== $this->configurationChaveAntiPhishing) {
             throw new \Exception('Chave Anti-Phishing não é válida.');
         }
     }
@@ -59,7 +61,7 @@ class CallbackValidate
      * Set the value of httpRequest
      *
      * @return  self
-     */ 
+     */
     public function setHttpRequest(array $httpRequest)
     {
         $this->httpRequest = $httpRequest;
@@ -71,7 +73,7 @@ class CallbackValidate
      * Set the value of order
      *
      * @return  self
-     */ 
+     */
     public function setOrder(array $order)
     {
         $this->order = $order;
@@ -83,7 +85,7 @@ class CallbackValidate
      * Set the value of configurationChaveAntiPhishing
      *
      * @return  self
-     */ 
+     */
     public function setConfigurationChaveAntiPhishing(string $configurationChaveAntiPhishing)
     {
         $this->configurationChaveAntiPhishing = $configurationChaveAntiPhishing;
@@ -95,7 +97,7 @@ class CallbackValidate
      * Set the value of paymentDataFromDb
      *
      * @return  self
-     */ 
+     */
     public function setPaymentDataFromDb(array $paymentDataFromDb)
     {
         $this->paymentDataFromDb = $paymentDataFromDb;
@@ -107,7 +109,7 @@ class CallbackValidate
      * Set the value of configPaidStatus
      *
      * @return  self
-     */ 
+     */
     public function setConfigPaidStatus($configPaidStatus)
     {
         $this->configPaidStatus = $configPaidStatus;

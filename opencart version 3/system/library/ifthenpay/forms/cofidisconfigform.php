@@ -12,6 +12,8 @@ use Ifthenpay\Request\WebService;
 class CofidisConfigForm extends ConfigForm
 {
 	protected $paymentMethod = Gateway::COFIDIS;
+	protected $paymentMethodDefaultTitle = 'Codidis Pay';
+
 	protected $hasCallback = true;
 
 
@@ -75,6 +77,15 @@ class CofidisConfigForm extends ConfigForm
             } else {
                 $this->data['payment_cofidis_order_status_not_approved_id'] = $this->ifthenpayController->config->get('payment_cofidis_order_status_not_approved_id');
             }
+
+			if (isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_payment_method_title'])) {
+				$this->data['payment_' . $this->paymentMethod . '_payment_method_title'] = $this->ifthenpayController
+					->request->post['payment_' . $this->paymentMethod . '_payment_method_title'];
+			} else {
+				$paymentMethodTitleFromConfig = $this->ifthenpayController->config->get('payment_' . $this->paymentMethod . '_payment_method_title');
+
+				$this->data['payment_' . $this->paymentMethod . '_payment_method_title'] = $paymentMethodTitleFromConfig != '' ? $paymentMethodTitleFromConfig : $this->paymentMethodDefaultTitle;
+			}
 
 			$this->ifthenpayController->load->model('localisation/order_status');
 			$this->data['order_statuses'] = $this->ifthenpayController->model_localisation_order_status->getOrderStatuses();
