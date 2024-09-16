@@ -64,7 +64,7 @@ class IfthenpaySql implements InstallerInterface
             `id_ifthenpay_ifthenpaygateway` int(10) unsigned NOT NULL auto_increment,
             `order_id` int(11) NOT NULL,
             `status` varchar(50) NOT NULL,
-            `url` varchar(255) NOT NULL,
+            `payment_url` varchar(255) NOT NULL,
             `deadline` varchar(10) NOT NULL,
             PRIMARY KEY  (`id_ifthenpay_ifthenpaygateway`),
             INDEX `order_id` (`order_id`)
