@@ -38,4 +38,4 @@ Membership at [Membership ifthenpay](https://www.ifthenpay.com/aderir/).
 
 **Support**
 
-For support, please create a support ticket at [Support ifthenpay](https://helpdesk.ifthenpay.com/).
+For support, please create a support ticket at [Support ifthenpay](https://helpdesk.ifthenpay.com/). 
