@@ -1,4 +1,5 @@
 <?php
+
 namespace Ifthenpay;
 
 class Utils
@@ -57,6 +58,15 @@ class Utils
 		return $str;
 	}
 
+
+	public static function generateTransactionId($orderId, $transactionToken): string
+	{
+			$token = $orderId . bin2hex($orderId  . $transactionToken);
+		return substr($token, 0, 20);
+	}
+
+
+
 	/**
 	 * get the flash message from session and return it as an associative array
 	 * $sessionData references the session data in opencart $this->session->data
@@ -86,6 +96,40 @@ class Utils
 
 
 
+	public static function dateAfterDays(string $numberOfDays): string
+	{
+
+		if ($numberOfDays === '') {
+			return '';
+		}
+
+		$timezone = new \DateTimeZone('Europe/Lisbon');
+		$dateTime = new \DateTime('now', $timezone);
+		$dateTime->modify("+$numberOfDays days");
+
+		return $dateTime->format('Ymd');
+	}
 
 
+
+	public static function timeStamp(string $format = 'Y-m-d H:i:s'): string
+	{
+		$timezone = new \DateTimeZone('Europe/Lisbon');
+		$dateTime = new \DateTime('now', $timezone);
+
+		return $dateTime->format($format);
+	}
+
+
+	public static function convertDateFormat(string $dateString, string $fromFormat, string $toFormat){
+		// Convert the string to a DateTime object
+		$date = \DateTime::createFromFormat($fromFormat, $dateString);
+
+		// Check if the conversion was successful
+		if ($date === false) {
+			return false; // Invalid date format
+		}
+
+		return $date->format($toFormat);
+	}
 }

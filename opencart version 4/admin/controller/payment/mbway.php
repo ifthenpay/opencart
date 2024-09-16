@@ -240,6 +240,8 @@ class Mbway extends \Opencart\System\Engine\Controller
 				// get callback url for catalog
 				$urlCallback = $this->url->link('extension/ifthenpay/payment/mbway|callback', '', true) . Gateway::MBWAY_CALLBACK_STRING;
 				$urlCallback = str_replace(HTTP_SERVER, HTTP_CATALOG, $urlCallback);
+				$urlCallback = str_replace('{ec}', defined('VERSION') ? VERSION : 'unknown', $urlCallback);
+				$urlCallback = str_replace('{mv}', Utils::getModuleVersion(), $urlCallback);
 
 				$gateway = new Gateway();
 				$result = $gateway->requestActivateCallback($backofficeKey, self::PAYMENTMETHOD, $key, $antiPhishingKey, $urlCallback);

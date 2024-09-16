@@ -56,3 +56,19 @@
 }
 
 /* callback end */
+
+
+.method_line::before {
+	border:none !important;
+}
+
+.min_w_300 {
+	min-width: 390px;
+}
+
+.payment_logo_div {
+	min-width: 120px;
+}
+.payment_logo_div img {
+	height: 30px;
+}

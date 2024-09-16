@@ -18,6 +18,10 @@ class ApiService
 	private const URL_COFIDIS_SET_REQUEST = 'http://ifthenpay.com/api/cofidis/init/';
 	public const URL_COFIDIS_GET_MAX_MIN_AMOUNT = 'https://ifthenpay.com/api/cofidis/limits';
 	public const URL_COFIDIS_GET_PAYMENT_STATUS = 'https://ifthenpay.com/api/cofidis/status';
+	private const URL_GET_GATEWAYKEYS_BY_BACKOFFICE = 'https://ifthenpay.com/IfmbWS/ifthenpaymobile.asmx/GetGatewayKeys';
+	private const URL_GET_ACCOUNTS_BY_GATEWAYKEY = 'https://ifthenpay.com/IfmbWS/ifthenpaymobile.asmx/GetAccountsByGatewayKey';
+	private const URL_GET_GLOBALLY_AVAILABLE_METHODS = 'https://api.ifthenpay.com/gateway/methods/available';
+	private const URL_IFTHENPAYGATEWAY_SET_REQUEST = 'https://api.ifthenpay.com/gateway/pinpay/';
 
 	private $curl;
 	private $headers;
@@ -68,7 +72,6 @@ class ApiService
 
 			$argStr = $this->generateQueryString($payload);
 			curl_setopt($this->curl, CURLOPT_URL, $url . $argStr);
-
 		}
 
 		// Execute the request and fetch the response
@@ -412,5 +415,93 @@ class ApiService
 		$queryString = rtrim($queryString, '&');
 
 		return $queryString !== '' ? '?' . $queryString : '';
+	}
+
+
+
+	public function getGatewayKeysByBackofficeKey($backofficeKey)
+	{
+
+		$payload = ['backofficekey' => $backofficeKey];
+
+		return $this->sendRequest(
+			'GET',
+			self::URL_GET_GATEWAYKEYS_BY_BACKOFFICE,
+			$payload,
+			false
+		);
+	}
+
+
+
+	public function getAccountsByBackofficeKeyAndGatewayKey($backofficeKey, $gatewayKey)
+	{
+
+		$payload = [
+			'backofficekey' => $backofficeKey,
+			'gatewayKey' => $gatewayKey
+		];
+
+		return $this->sendRequest(
+			'GET',
+			self::URL_GET_ACCOUNTS_BY_GATEWAYKEY,
+			$payload,
+			false
+		);
+	}
+
+
+
+	public function getGloballyAvailableMethods()
+	{
+		return $this->sendRequest(
+			'GET',
+			self::URL_GET_GLOBALLY_AVAILABLE_METHODS,
+			[],
+			false
+		);
+	}
+
+
+
+	/**
+	 * POST request to get a CCard payment url
+	 * @return string|null
+	 */
+	public function requestIfthenpayGatewayUrl(
+		$ifthenapygatewayKey,
+		$orderId,
+		$orderTotal,
+		$description,
+		$language,
+		$expireDate,
+		$accounts,
+		$selectedMethod,
+		$btnCloseUrl,
+		$btnCloseLabel,
+		$successUrl,
+		$cancelUrl,
+		$errorUrl
+	) {
+		$payload = [
+			'id' => $orderId,
+			"amount" => $orderTotal,
+			"description" => $description,
+			"lang" => $language,
+			"expiredate" => $expireDate,
+			"accounts" => $accounts,
+			"selected_method" => $selectedMethod,
+			"btnCloseUrl" => $btnCloseUrl,
+			"btnCloseLabel" => $btnCloseLabel,
+			"success_url" => $successUrl,
+			"cancel_url" => $cancelUrl,
+			"error_url" => $errorUrl,
+		];
+
+		return $this->sendRequest(
+			'POST',
+			self::URL_IFTHENPAYGATEWAY_SET_REQUEST . $ifthenapygatewayKey,
+			$payload
+		);
 	}
 }

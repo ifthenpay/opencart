@@ -1,14 +1,4 @@
 <fieldset>
-
-	<legend>{{ text_info_title }}</legend>
-
-	<div>
-		<p>{{ text_info_desc_line1 }} {{ text_info_desc_line2 }}</p>
-		<p>{{ text_info_desc_line3 }}</p>
-		<p>{{ text_info_desc_line4 }}</p>
-		<p>{{ text_info_desc_line5 }}</p>
-	</div>
-
 	<div class="d-inline-block pt-2 pd-2 w-100 text-end">
 		<button type="button" id="button-confirm" class="btn btn-primary">{{ button_confirm }}</button>
 	</div>
@@ -17,13 +7,14 @@
 	type="text/javascript">
 	<!--
 
-const ifp_cofidis_message = '{{ checkout_message }}';
+window.ifp_ifthenpaygateway_message = '{{ checkout_message }}';
+
 
 $(document).ready(function () {
 
 	$('.alert-dismissible').remove();
-	if (ifp_cofidis_message !== '') {
-		$('#alert').prepend('<div class="alert alert-danger alert-dismissible" data-delay="10000"><i class="fa-solid fa-circle-exclamation"></i> ' + ifp_cofidis_message + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+	if (window.ifp_ifthenpaygateway_message !== '') {
+		$('#alert').prepend('<div class="alert alert-danger alert-dismissible" data-delay="10000"><i class="fa-solid fa-circle-exclamation"></i> ' + window.ifp_ifthenpaygateway_message + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
 
 		setTimeout(function () {
 			$('.alert-dismissible').fadeOut(2000, function () {

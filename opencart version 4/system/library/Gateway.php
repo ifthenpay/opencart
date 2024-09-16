@@ -3,6 +3,7 @@
 namespace Ifthenpay;
 
 require_once DIR_EXTENSION . 'ifthenpay/system/library/ApiService.php';
+
 use Ifthenpay\ApiService;
 
 class Gateway
@@ -13,17 +14,19 @@ class Gateway
 		'MB',
 		'MBWAY',
 		'PAYSHOP',
-		'CCARD'
+		'CCARD',
+		'IFTHENPAYGATEWAY'
 	];
 
 	private const MULTIBANCO_DYNAMIC = 'MB';
 	private $apiService;
 
 
-	public const MULTIBANCO_CALLBACK_STRING = '&ec={ec}&mv={mv}&phish_key=[CHAVE_ANTI_PHISHING]&reference=[REFERENCIA]&amount=[VALOR]';
-	public const PAYSHOP_CALLBACK_STRING = '&ec={ec}&mv={mv}&phish_key=[CHAVE_ANTI_PHISHING]&reference=[REFERENCIA]&amount=[VALOR]';
-	public const MBWAY_CALLBACK_STRING = '&ec={ec}&mv={mv}&phish_key=[CHAVE_ANTI_PHISHING]&transaction_id=[ID_TRANSACAO]&amount=[VALOR]';
-	public const COFIDIS_CALLBACK_STRING = '&ec={ec}&mv={mv}&phish_key=[CHAVE_ANTI_PHISHING]&transaction_id=[ID_TRANSACAO]&amount=[VALOR]';
+	public const MULTIBANCO_CALLBACK_STRING = '&ec={ec}&mv={mv}&phish_key=[CHAVE_ANTI_PHISHING]&order_id=[ORDER_ID]&reference=[REFERENCIA]&amount=[VALOR]';
+	public const PAYSHOP_CALLBACK_STRING = '&ec={ec}&mv={mv}&phish_key=[CHAVE_ANTI_PHISHING]&order_id=[ORDER_ID]&reference=[REFERENCIA]&amount=[VALOR]';
+	public const MBWAY_CALLBACK_STRING = '&ec={ec}&mv={mv}&phish_key=[CHAVE_ANTI_PHISHING]&order_id=[ORDER_ID]&transaction_id=[ID_TRANSACAO]&amount=[VALOR]';
+	public const COFIDIS_CALLBACK_STRING = '&ec={ec}&mv={mv}&phish_key=[CHAVE_ANTI_PHISHING]&order_id=[ORDER_ID]&transaction_id=[ID_TRANSACAO]&amount=[VALOR]';
+	public const IFTHENPAYGATEWAY_CALLBACK_STRING = '&ec={ec}&mv={mv}&phish_key=[ANTI_PHISHING_KEY]&order_id=[ORDER_ID]&amount=[AMOUNT]&reference=[REFERENCE]&transaction_id=[TRANSACTION_ID]&pmt=[PAYMENT_METHOD]';
 
 
 	public function __construct()
@@ -87,6 +90,10 @@ class Gateway
 
 		return $paymentMethodAccounts;
 	}
+
+
+
+
 
 
 
@@ -220,5 +227,75 @@ class Gateway
 			}
 		}
 		return false;
+	}
+
+
+
+	public function getPaymentMethodsDataByBackofficeKeyAndGatewayKey($backofficeKey, $gatewayKey)
+	{
+
+		$methods = $this->apiService->getGloballyAvailableMethods();
+		$methods = json_decode($methods, true);
+
+		if (!$methods) {
+			return [];
+		}
+
+		$accounts = $this->apiService->getAccountsByBackofficeKeyAndGatewayKey($backofficeKey, $gatewayKey);
+		$accounts = json_decode($accounts, true);
+
+
+		if (!$accounts) {
+			return [];
+		}
+
+		foreach ($methods as &$method) {
+
+			$methodCode = $method['Entity'];
+			$filteredAccounts = array_filter($accounts, function($item) use ($methodCode) {
+				return $item['Entidade'] === $methodCode || ($methodCode === 'MB' && is_numeric($item['Entidade']));
+			});
+
+			$method['accounts'] = $filteredAccounts;
+		}
+		unset($method);
+
+		return $methods;
+	}
+
+
+
+	public function getGatewayKeysByBackofficeKey($backofficeKey)
+	{
+
+		$accounts = $this->apiService->getGatewayKeysByBackofficeKey($backofficeKey);
+		$accounts = json_decode($accounts, true);
+
+		if (!$accounts) {
+			return [];
+		}
+
+		return $accounts;
+	}
+
+
+
+	public static function accountsToGatewayKeyOptions($accounts)
+	{
+		if (!$accounts) {
+			return [];
+		}
+
+		$options = [];
+
+		foreach ($accounts as $account) {
+			$options[] = [
+				'value' => $account['GatewayKey'],
+				'name' => $account['Alias'],
+				'type' => $account['Tipo']
+			];
+		}
+
+		return $options;
 	}
 }

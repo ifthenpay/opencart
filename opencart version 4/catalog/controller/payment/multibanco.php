@@ -2,10 +2,11 @@
 namespace Opencart\Catalog\Controller\Extension\ifthenpay\Payment;
 
 require_once DIR_EXTENSION . 'ifthenpay/system/library/MultibancoPayment.php';
-require_once DIR_EXTENSION . 'ifthenpay/system/library/Gateway.php';
+require_once DIR_EXTENSION . 'ifthenpay/system/library/CallbackService.php';
 
+
+use Ifthenpay\CallbackService;
 use Ifthenpay\MultibancoPayment;
-use Ifthenpay\Gateway;
 
 
 class Multibanco extends \Opencart\System\Engine\Controller
@@ -238,83 +239,7 @@ class Multibanco extends \Opencart\System\Engine\Controller
 	 */
 	public function callback()
 	{
-		try {
-			$this->load->model('checkout/order');
-			$this->load->model('extension/ifthenpay/payment/multibanco');
-			$this->load->language('extension/ifthenpay/payment/multibanco');
-
-			if (!isset($this->request->get['reference'])) {
-
-				throw new \Exception('Reference not present in callback data.', 20);
-			}
-
-			$storedPaymentData = $this->model_extension_ifthenpay_payment_multibanco->getMultibancoRecordByReference($this->request->get['reference']);
-
-			if ($storedPaymentData['status'] === 'paid') {
-				http_response_code(200);
-				die('ok - encomenda já se encontra paga');
-			}
-
-			$this->validateCallback($this->request->get, $storedPaymentData);
-
-			// update order history status
-			$this->model_checkout_order->addHistory($storedPaymentData['order_id'], (int) $this->config->get('payment_multibanco_paid_status_id'), $this->language->get('comment_paid'), true);
-
-			// update multibanco table record
-			$this->model_extension_ifthenpay_payment_multibanco->updateMultibancoRecordStatus($storedPaymentData['order_id'], 'paid');
-
-
-		} catch (\Throwable $th) {
-			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - ERROR : ' . $th->getMessage());
-
-			$code = $th->getCode() ?? '000';
-
-			http_response_code(400);
-			die('fail - ' . $code);
-		}
-
-		http_response_code(200);
-		die('ok');
-	}
-
-
-
-	/**
-	 * Validate the callback data sent by Ifthenpay, and throws an exception with a code if something is wrong
-	 * @param array $callbackData
-	 * @param array $storedPaymentData
-	 * @return void
-	 * @throws \Exception
-	 */
-	private function validateCallback($callbackData, $storedPaymentData): void
-	{
-		if (!$storedPaymentData) {
-			throw new \Exception('StoredPaymentData not found in local table.', 10);
-		}
-
-		// is callback active?
-		if (!$this->config->get('payment_multibanco_activate_callback')) {
-			throw new \Exception('Callback is not active.', 30);
-		}
-		// is anti-phishing key valid?
-		if (($callbackData['phish_key'] == '') || ($callbackData['phish_key'] != $this->config->get('payment_multibanco_anti_phishing_key'))) {
-			throw new \Exception('Invalid anti-phishing key.', 40);
-		}
-
-		// is order id valid? does it exist?
-		$order = $this->model_checkout_order->getOrder($storedPaymentData['order_id']);
-		if (!$order) {
-			throw new \Exception('Order not found.', 50);
-		}
-
-		// is order amount valid?
-		$callbackAmount = $callbackData['amount'];
-		$formatedAmount = $this->currency->format($order['total'], $order['currency_code'], $order['currency_value'], false);
-		$formatedAmount = (string) round($formatedAmount, 2);
-
-		if ($callbackAmount != $formatedAmount) {
-			throw new \Exception('Invalid amount.', 60);
-		}
+		(new CallbackService($this->registry))->HandleFromMultibanco($this->request);
 	}
 
 
