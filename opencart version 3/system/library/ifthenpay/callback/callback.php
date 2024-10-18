@@ -111,7 +111,9 @@ class Callback
 		$paymentMethodsToActivate = [];
 
 		if (empty($storedPaymentMethods)) {
-			$paymentMethodsToActivate = array_filter($paymentMethods, fn($item) => $item['is_active'] === '1');
+			$paymentMethodsToActivate = array_filter($paymentMethods, function($item){
+				return $item['is_active'] === '1';
+			});
 		} else {
 			foreach ($paymentMethods as $key => $paymentMethod) {
 
