@@ -1,0 +1,95 @@
+.panel {
+  padding: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+}
+.panel .panel-heading h5 {
+  margin-top: 0px;
+}
+.panel .paymentLogo {
+  margin-bottom: 20px;
+}
+.panel .if_td_desc {
+  padding: 0.75rem 1.25rem;
+  width: 40%;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+.panel .if_td_value {
+  font-weight: bold;
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+.panel .ifthenpay_info {
+  text-align: center;
+  color: #7a7a7a;
+  margin: 0px;
+}
+.panel .if_table {
+  margin-bottom: 10px;
+}
+.panel h5 {
+  margin-top: 20px;
+}
+
+.mbwayCountdownPanel {
+  max-width: 440px;
+  padding: 0;
+  margin-bottom: 20px;
+}
+.mbwayCountdownPanel .panel-body {
+  text-align: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-right: 30px;
+  padding-left: 30px;
+  margin: auto;
+  min-height: 200px;
+  width: 100%;
+  margin: auto;
+  margin-top: 21px;
+  margin-bottom: 15px;
+  background: white;
+  border-radius: 5px;
+}
+.mbwayCountdownPanel .panel-body h3 {
+  margin-top: 20px;
+}
+.mbwayCountdownPanel .panel-body #countdownMbway {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mbwayCountdownPanel .panel-body #countdownMbway h3 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 100px;
+  text-align: center;
+  font-weight: bolder;
+  color: red;
+}
+
+#cancelMbwayOrder, #confirmMbwayOrder, #refusedMbwayOrder, #errorMbwayOrder, #timeoutMbwayOrder, #orderErrorPanel {
+  margin-bottom: 20px;
+}
+#cancelMbwayOrder .panel-heading, #confirmMbwayOrder .panel-heading, #refusedMbwayOrder .panel-heading, #errorMbwayOrder .panel-heading, #timeoutMbwayOrder .panel-heading, #orderErrorPanel .panel-heading {
+  text-align: center;
+}
+#cancelMbwayOrder .panel-heading img, #confirmMbwayOrder .panel-heading img, #refusedMbwayOrder .panel-heading img, #errorMbwayOrder .panel-heading img, #timeoutMbwayOrder .panel-heading img, #orderErrorPanel .panel-heading img {
+  margin: auto;
+}
+#cancelMbwayOrder .panel-body, #confirmMbwayOrder .panel-body, #refusedMbwayOrder .panel-body, #errorMbwayOrder .panel-body, #timeoutMbwayOrder .panel-body, #orderErrorPanel .panel-body {
+  text-align: center;
+  margin-top: 10px;
+}
+
+#paymentReturnPanel, #confirmMbwayOrder, #refusedMbwayOrder, #errorMbwayOrder, #timeoutMbwayOrder, #orderErrorPanel {
+  max-width: 440px;
+}

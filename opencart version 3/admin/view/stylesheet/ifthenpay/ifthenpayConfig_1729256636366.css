@@ -1,0 +1,209 @@
+.panel-heading {
+  height: 80px !important;
+  vertical-align: middle;
+  padding: 20px 0px 0px 20px !important;
+}
+.panel-heading img {
+  max-width: 100%;
+}
+.panel-heading #help-documentation-btn {
+  margin: 0px 20px !important;
+  font-weight: bold;
+}
+.panel-heading #create-account-btn {
+  margin: 0px 20px !important;
+  font-weight: bold;
+}
+
+.panel-heading .ph-version {
+  vertical-align: bottom;
+  padding-left: 10px;
+}
+
+.panel-body h3 {
+  border-bottom: none !important;
+  margin: 20px 0px 20px 0px;
+}
+.panel-body ul {
+  font-size: 16px;
+}
+.panel-body ul li h6 {
+  line-height: 1.5;
+}
+.panel-body #inputBackofficeKey {
+  width: 550px;
+}
+
+.settingsModule #sandboxHelp {
+  position: relative;
+  top: 10px;
+  left: 20px;
+  font-size: 75%;
+}
+.settingsModule .btn-primary {
+  margin-top: 20px;
+}
+.settingsModule .btn-default.btn-on.active {
+  background-color: #5BB75B;
+  color: white;
+}
+.settingsModule .btn-default.btn-off.active {
+  background-color: #DA4F49;
+  color: white;
+}
+
+.updateModulePanel .panel-body .bulletPoints {
+  text-align: left;
+  margin: 25px;
+  font-size: 12px;
+}
+.updateModulePanel .panel-body .bulletPoints h3 {
+  font-weight: bold;
+  margin-bottom: -20px !important;
+}
+.updateModulePanel .panel-body button {
+  width: 50%;
+  margin: auto;
+}
+
+.resetIfthenpayAccountsPanel .panel-body img {
+  max-width: 15%;
+}
+.resetIfthenpayAccountsPanel .panel-body h2 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  margin-top: 15px;
+}
+.resetIfthenpayAccountsPanel .panel-body .spinnerDivWithBtn {
+  margin: auto;
+  display: flex;
+}
+.resetIfthenpayAccountsPanel .panel-body .spinnerDivWithBtn .appSpinner {
+  padding-left: 20px;
+  padding-top: 5px;
+}
+.resetIfthenpayAccountsPanel .panel-body .spinnerDivWithBtn .appSpinner img {
+  max-width: 100%;
+}
+
+#mbwayOrderCancelHelp {
+  position: relative;
+  top: 10px;
+  left: 20px;
+  font-size: 75%;
+}
+
+.callback-list-group {
+  margin-top: 15px !important;
+}
+.callback-list-group .callback-list {
+  height: 55px;
+}
+.callback-list-group .callback-list #callbackUrl {
+  text-align: left;
+}
+
+.chooseNewEntidadeDiv {
+  display: flex;
+}
+.chooseNewEntidadeDiv #chooseNewEntidade {
+  margin-left: 160px;
+}
+.chooseNewEntidadeDiv .appSpinner {
+  margin-top: 0;
+  margin-left: 0;
+}
+
+.no_wrapp_badge {
+  white-space: normal;
+  word-break: break-all;
+}
+
+.callback_box {
+  border: 1px solid #ddd;
+  padding-top: 8px;
+  padding-bottom: 15px;
+  padding-right: 0px;
+  padding-left: 0px;
+  font-size: 16px;
+}
+
+#callbackUrl {
+  text-align: justify !important;
+}
+
+.ml-15px {
+  margin-left: 15px;
+}
+
+.mr-15px {
+  margin-right: 15px;
+}
+
+.mt-15px {
+  margin-top: 15px;
+}
+
+.mb-15px {
+  margin-bottom: 15px;
+}
+
+.mt-0 {
+  margin-top: 0;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.method_line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.method_checkbox {
+  display: flex;
+  align-items: center;
+  min-width: 160px;
+}
+
+.method_checkbox input {
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.method_checkbox img {
+  max-height: 30px;
+}
+
+.method_select {
+  width: 400px;
+  margin-left: 10px;
+}
+
+.method_select select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.request_ifthenpaygateway_method {
+  width: 400px;
+}
+
+@media (max-width: 992px) {
+  .method_line {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .method_checkbox {
+    margin-bottom: 8px;
+  }
+
+  .method_select {
+    width: 100%;
+    margin-left: 0px;
+  }
+}
