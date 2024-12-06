@@ -5,7 +5,7 @@
 Download de versões da extensão ifthenpay para Opencart 3.
 | | Opencart 3 [3.0.1.1 - 3.0.3.9] |
 | ------------------------------------- | --------------------------------- |
-| Link para descarregar instalador .ocmod.zip | [ifthenpay v1.3.1](https://github.com/ifthenpay/opencart/releases/download/1.3.1/ifthenpay.ocmod.zip) |
+| Link para descarregar instalador .ocmod.zip | [ifthenpay v1.4.0](https://github.com/ifthenpay/opencart/releases/download/1.4.0/ifthenpay.ocmod.zip) |
 
 </br>
 </br>
@@ -26,6 +26,7 @@ Ler em ![Portuguese](assets/pt.png) [Português](readme.pt.md), ou ![English](as
  - [Cartão de Crédito](#cartão-de-crédito)
  - [Payshop](#payshop)
  - [Cofidis Pay](#cofidis-pay)
+ - [Pix](#pix)
  - [Ifthenpay Gateway](#ifthenpay-gateway)
 
 [5. Outros](#outros)
@@ -35,20 +36,44 @@ Ler em ![Portuguese](assets/pt.png) [Português](readme.pt.md), ou ![English](as
  - [Testar Callback](#testar-callback)
  - [Cronjob](#cronjob)
  - [Logs](#logs)
- - 
 
 [6. Experiência do Utilizador Consumidor](#experiência-do-utilizador-consumidor)
- - [Pagar encomenda com Multibanco](#pagar-encomenda-com-multibanco)
- - [Pagar encomenda com Payshop](#pagar-encomenda-com-payshop)
- - [Pagar encomenda com MB WAY](#pagar-encomenda-com-mb-way)
- - [Pagar encomenda com Credit Card](#pagar-encomenda-com-cartão-de-crédito)
- - [Pagar encomenda com Cofidis Pay](#pagar-encomenda-com-cofidis-pay)
- - [Pagar encomenda com Ifthenpay Gateway](#pagar-encomenda-com-ifthenpay-gateway)
+- [Extensão de pagamentos ifthenpay Opencart 3](#extensão-de-pagamentos-ifthenpay-opencart-3)
+- [Introdução](#introdução)
+- [Compatibilidade](#compatibilidade)
+- [Instalação](#instalação)
+- [Configuração](#configuração)
+  - [Chave Backoffice](#chave-backoffice)
+  - [Multibanco](#multibanco)
+  - [Multibanco com Referências Dinâmicas](#multibanco-com-referências-dinâmicas)
+  - [MB WAY](#mb-way)
+  - [Cartão de Crédito](#cartão-de-crédito)
+  - [Payshop](#payshop)
+  - [Cofidis Pay](#cofidis-pay)
+  - [Pix](#pix)
+  - [Ifthenpay Gateway](#ifthenpay-gateway)
+- [Outros](#outros)
+  - [Requerer criação de conta adicional](#requerer-criação-de-conta-adicional)
+  - [Limpeza de Configuração](#limpeza-de-configuração)
+  - [Callback](#callback)
+  - [Testar Callback](#testar-callback)
+  - [Cronjob](#cronjob)
+  - [Logs](#logs)
+- [Experiência do Utilizador Consumidor](#experiência-do-utilizador-consumidor)
+  - [Pagar encomenda com Multibanco](#pagar-encomenda-com-multibanco)
+  - [Pagar encomenda com Payshop](#pagar-encomenda-com-payshop)
+  - [Pagar encomenda com MB WAY](#pagar-encomenda-com-mb-way)
+  - [Pagar encomenda com cartão de crédito](#pagar-encomenda-com-cartão-de-crédito)
+  - [Pagar encomenda com Cofidis Pay](#pagar-encomenda-com-cofidis-pay)
+  - [Pagar encomenda com Pix](#pagar-encomenda-com-pix)
+  - [Pagar encomenda com Ifthenpay Gateway](#pagar-encomenda-com-ifthenpay-gateway)
+
 
 
 </br>
 
 # Introdução
+
 ![img](assets/payment_methods_banner.png)
 </br>
 **Esta é a extensão ifthenpay para a plataforma ecommerce Opencart**
@@ -65,6 +90,8 @@ Este extensão permite gerar uma referência de pagamento que o consumidor pode 
 **Cartão de Crédito** Esta extensão permite gerar um pagamento por Visa ou Master card, que o consumidor pode usar para pagar a sua encomenda. Este plugin usa a ifthenpay, uma das várias gateways disponíveis em Portugal.
 
 **Cofidis Pay** é uma solução de pagamento que facilita o pagamento de compras ao dividir o valor até 12 prestações sem juros. Este plugin usa a ifthenpay, uma das várias gateways disponíveis em Portugal.
+
+**Pix** é uma solução de pagamento instantâneo amplamente usada no mercado financeiro brasileiro. Permite realizar compras de forma rápida e segura, utilizando dados como CPF, e-mail e número de telemóvel para efetuar o pagamento.
 
 **Ifthenpay Gateway** é uma página de gateway que disponibiliza todos os métodos de pagamento acima mencionados. Este plugin usa a ifthenpay, uma das várias gateways disponíveis em Portugal.
 
@@ -86,14 +113,14 @@ Para suporte, por favor crie um ticked para suporte em [Suporte ifthenpay](https
 Use a tabela abaixo para verificar a compatibilidade do extensão ifthenpay com a sua loja online.
 | | Opencart 3 [3.0.1.1 - 3.0.3.9] | Opencart 4 |
 | ------------------------- | ------------------------------ | ------------------------------ |
-| ifthenpay v1.0.0 - v1.3.1 | Compatível | Não compatível |
+| ifthenpay v1.0.0 - v1.4.0 | Compatível | Não compatível |
 
 </br>
 
 
 # Instalação
 
-Descarregue o ficheiro de instalação da extensão ifthenpay para Opencart 4 na página do github [ifthenpay v1.3.1](https://github.com/ifthenpay/opencart/releases/tag/v1.3.1).
+Descarregue o ficheiro de instalação da extensão ifthenpay para Opencart 4 na página do github [ifthenpay v1.4.0](https://github.com/ifthenpay/opencart/releases/tag/v1.4.0).
 Pode descarregar de varios pontos neste repositório:
  - o link nesta linha de instrução;
  - na página de releases, onde pode escolher a versão que precisa, mas note que a ifthenpay publica as releases para ambas versões do opencart 3 e 4 neste repositório;
@@ -305,6 +332,30 @@ Clique em salvar (17) para guardar as alterações.
 
 </br>
 
+## Pix
+O método de pagamento Pix, permite pagar com CPF através da gateway ifthenpay.
+As Chaves Pix são carregadas automaticamente, na introdução da Chave Backoffice.
+Configure o método de pagamento, a imagem abaixo mostra um exemplo de configuração minimamente funcional.
+
+1. **Estado** - Ativa o método de pagamento, exibindo-o no checkout da sua loja;
+2. **Sandbox** - Previne a ativação do callback quando salva a configuração.
+3. **Ativar Callback** - Ao ativar, o estado da encomenda será atualizado quando o pagamento for recebido;
+4. **Habilitar Cron job de Cancelar** - Ao ativar, permite que o cronjob de cancelamento de encomendas execute neste método em específico (utilizado quando não deseja que o cronjob execute em todos os métodos de pagamento);
+5. **Chave Pix** - Selecionar uma Chave. Apenas pode selecionar uma das Chaves associadas à Chave Backoffice;
+6. **Estado Cancelado** - Estado de encomenda usado quando a encomenda é cancelada;
+7. **Estado Pendente** - Estado de encomenda usado na confirmação da encomenda;
+8. **Estado Pago** - Estado de encomenda usado quando é recebido confirmação de pagamento;
+9. **Zona Geo** - (opcional) Ao selecionar uma zona, apenas exibe este método de pagamento para encomendas com morada de envio pertencentes à zona selecionada;
+10. **Valor Mínimo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor superior ao valor inserido;
+11. **Valor Máximo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor inferior ao valor inserido;
+12. **Exibir Logo do Método de Pagamento** - (opcional) Exibe o logo deste método de pagamento no checkout, desabilitar esta opção exibirá o Título do método de pagamento.
+13. **Título** - Título que é exibido ao consumidor no checkout no caso de o logo não ser exibido;
+14. **Ordenação** - (opcional) Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar.
+
+Clique em salvar (15) para guardar as alterações.
+![img](assets/config_pix.png)
+
+</br>
 
 ## Ifthenpay Gateway
 
@@ -422,13 +473,13 @@ Nota: a referência Multibanco deve ser inserida sem espaços e o valor, se tive
 
 
 **MB WAY**: No backoffice, use os seguintes dados (1) e (2) dos detalhes de pagamento de encomenda
-![img](assets/test_callback_data_payshop.png)
+![img](assets/test_callback_data_mbway.png)
 </br>
 
 
 e introduza-os nos respetivos campos (1) e (2) do formulário de teste de callback e clique em Testar (3).
 Nota: o valor, se tiver casas decimais, deve ser separado por um ponto.
-![img](assets/test_callback_form_payshop.png)
+![img](assets/test_callback_form_mbway.png)
 
 </br>
 
@@ -456,6 +507,17 @@ Nota: o valor, se tiver casas decimais, deve ser separado por um ponto.
 
 </br>
 
+**Pix**: No backoffice, use os seguintes dados (1) e (2) dos detalhes de pagamento de encomenda
+![img](assets/test_callback_data_pix.png)
+</br>
+
+
+e introduza-os nos respetivos campos (1) e (2) do formulário de teste de callback e clique em Testar (3).
+Nota: o valor, se tiver casas decimais, deve ser separado por um ponto.
+![img](assets/test_callback_form_pix.png)
+
+</br>
+
 **Ifthenpay Gateway**: No backoffice, use o ID de encomenda e o valor e introduza este nos respetivos campos (1) e (2) do formulário de teste de callback e clique em Testar (3)
 Nota: o valor, se tiver casas decimais, deve ser separado por um ponto.
 ![img](assets/test_callback_form_ifthenpaygateway.png)
@@ -474,6 +536,8 @@ Um cronjob é uma tarefa programada executada automaticamente em intervalos espe
 | MB WAY              | 30 minutos                  |
 | Payshop             | Configurável de 1 a 99 dias |
 | Cartão de Crédito   | 30 minutos                  |
+| Cofidis Pay         | 30 minutos                  |
+| Pix                 | 30 minutos                  |
 | Ifthenpay Gateaway  | Configurável de 1 a 99 dias |
 
 
@@ -577,18 +641,18 @@ Quando ocorre um erro ou atinge o tempo limite, ou recusa o pagamento na App MB 
 ## Pagar encomenda com cartão de crédito
 
 Selecionar o método de pagamento Cartão de Crédito (1) e clicar em Continuar (2).
-![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/select_ccard.png)
+![img](assets/select_ccard.png)
 </br>
 
 Clicar em Confirmar Encomenda.
 
 Preencher os dados do cartão de crédito, número do cartão (1), data de validade (2), código de segurança (3), Nome no Cartão (4), e clicar em Pagar (5).
 É possível voltar (6), regressando à página de checkout.
-![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/gateway_ccard.png)
+![img](assets/gateway_ccard.png)
 </br>
 
 Após o pagamento ser processado, será exibida a página de sucesso da encomenda.
-![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/payment_return_ccard.png)
+![img](assets/payment_return_ccard.png)
 
 </br>
 
@@ -597,7 +661,7 @@ Após o pagamento ser processado, será exibida a página de sucesso da encomend
 ## Pagar encomenda com Cofidis Pay
 
 Selecionar o método de pagamento Cartão de Crédito (1) e clicar em Continuar (2).
-![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/select_cofidis.png)
+![img](assets/select_cofidis.png)
 </br>
 
 Clicar em Confirmar Encomenda.
@@ -605,7 +669,7 @@ Clicar em Confirmar Encomenda.
 * Entre ou, se não tiver conta faça o registo com Cofidis Pay:
 1. Clique "Avançar" para registar em Cofidis Pay;
 2. Ou se tiver uma conta Cofidis Pay, preencha as suas credencias de acesso e clique entrar;
-![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/cofidis_payment_1.png)
+![img](assets/cofidis_payment_1.png)
 </br>
 
 * Número de prestações, faturação e dados pessoais:
@@ -613,40 +677,62 @@ Clicar em Confirmar Encomenda.
 2. Verifique o sumário do plano de pagamento;
 3. Preencha os seus dados pessoais e de faturação;
 4. Clique em "Avançar" para continuar;
-![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/cofidis_payment_2.png)
+![img](assets/cofidis_payment_2.png)
 </br>
 
 * Termos e condições:
 1. Selecione "Li e autorizo" para concordar com os termos e condições;
 2. Clique em "Avançar"
-![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/cofidis_payment_3.png)
+![img](assets/cofidis_payment_3.png)
 </br>
 
 * Formalização do acordo:
 1. Clique em "Enviar código";
-![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/cofidis_payment_4.png)
+![img](assets/cofidis_payment_4.png)
 </br>
 
 * Código de autenticação da formalização do acordo:
 1. Preencha o com o código que recebeu no telemóvel;
 1. Clique em "Confirmar código";
-![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/cofidis_payment_5.png)
+![img](assets/cofidis_payment_5.png)
 </br>
 
 * Resumo e Pagamento:
 1. Preencha com os detalhes do seu cartão de crédito(número, data de expiração e CW), e clique em "Validar";
-![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/cofidis_payment_6.png)
+![img](assets/cofidis_payment_6.png)
 </br>
 
 * Sucesso e voltar à loja:
 1. Clique no icone para voltar à loja;
-![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/cofidis_payment_7.png)
+![img](assets/cofidis_payment_7.png)
 </br>
 
 Após o pagamento ser processado, será exibida a página de sucesso da encomenda.
-![img](https://github.com/ifthenpay/opencart/raw/assets/version4/assets/payment_return_cofidis.png)
+![img](assets/payment_return_cofidis.png)
 </br>
 
+
+## Pagar encomenda com Pix
+
+Selecionar o método de pagamento Pix (1) e clicar em Continuar (2).
+![img](assets/select_pix.png)
+</br>
+
+
+Preencher of formulário (1). Apenas o Nome, CPF e Email são obrigatórios (os restantes campos são opcionais), e clicar em Continuar (2).
+![img](assets/confirm_order_pix.png)
+</br>
+
+Proceder com o pagamento de duas formas:
+1. Ler o código QR com o smartphone;
+2. Copiar o código Pix e pagar com online banking;
+**Nota Importante:** De modo a ser redirecionado de volta para a loja após o pagamento, esta página deve permanecer aberta. Se fechada, o consumidor ainda pode proceder ao pagamento desde que já tenha lido o código Pix, apenas não será redirecionado de volta para a loja.
+![img](assets/pix_payment.png)
+</br>
+
+Após o pagamento ser processado, será exibida a página de sucesso da encomenda.
+![img](assets/payment_return_pix.png)
+</br>
 
 
 ## Pagar encomenda com Ifthenpay Gateway
