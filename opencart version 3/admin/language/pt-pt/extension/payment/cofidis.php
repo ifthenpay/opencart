@@ -2,7 +2,6 @@
 
 // Heading
 $_['heading_title'] = 'Cofidis Pay';
-$_['heading_title_multibanco'] = 'Cofidis Pay Configurações';
 
 // Text
 $_['text_extension'] = 'Extensions';
@@ -10,7 +9,6 @@ $_['text_payment'] = 'Pagamento';
 $_['text_success'] = 'Sucesso: Modificou o método de pagamento Cofidis Pay!';
 
 $_['text_cofidis'] = '<a href="https:www.ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/cofidis.png" class="cofidisLogo" alt="cofidis pay logo" title="cofidis pay" style="border: 1px solid #EEEEEE; width: 133px; height: 38px;" /><br /></a>';
-$_['acess_user_documentation'] = 'Aceder ao Manual de Utilizador.';
 $_['create_account_now'] = 'Crie uma conta agora!';
 $_['text_home'] = 'Home';
 $_['text_all_zones'] = 'Todas as regiões';

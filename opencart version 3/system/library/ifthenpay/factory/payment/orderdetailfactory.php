@@ -9,6 +9,7 @@ use Ifthenpay\Payments\Data\MbwayOrderDetail;
 use Ifthenpay\Payments\Data\PayshopOrderDetail;
 use Ifthenpay\Payments\Data\MultibancoOrderDetail;
 use Ifthenpay\Payments\Data\CofidisOrderDetail;
+use Ifthenpay\Payments\Data\PixOrderDetail;
 use Ifthenpay\Contracts\Order\OrderDetailInterface;
 use Ifthenpay\Payments\Data\IfthenpaygatewayOrderDetail;
 use Ifthenpay\Payments\Gateway;
@@ -72,6 +73,17 @@ class OrderDetailFactory extends StrategyFactory
 					$this->mix,
 					$this->twigDefaultData,
 					$this->token,
+					$this->status
+				);
+			case Gateway::PIX:
+				return new PixOrderDetail(
+					$this->paymentDefaultData,
+					$this->gatewayBuilder,
+					$this->ifthenpayGateway,
+					$this->configData,
+					$this->ifthenpayController,
+					$this->mix,
+					$this->twigDefaultData,
 					$this->status
 				);
 			case Gateway::IFTHENPAYGATEWAY:

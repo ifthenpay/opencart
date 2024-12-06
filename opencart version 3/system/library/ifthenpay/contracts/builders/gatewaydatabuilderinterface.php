@@ -13,4 +13,5 @@ interface GatewayDataBuilderInterface extends DataBuilderInterface
 	public function setPayshopKey(string $value): GatewayDataBuilderInterface;
 	public function setCCardKey(string $value): GatewayDataBuilderInterface;
 	public function setCofidisKey(string $value): GatewayDataBuilderInterface;
+	public function setPixKey(string $value): GatewayDataBuilderInterface;
 }

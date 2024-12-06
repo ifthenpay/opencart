@@ -14,7 +14,9 @@
 							{% elseif paymentMethod |lower == 'ccard' %}
 								<img src="{{paymentMethodLogo}}" alt=" logotipo" width="133" height="38">
 							{% elseif paymentMethod |lower == 'cofidis' %}
-								<img src="{{paymentMethodLogo}}" alt=" logotipo" width="133" height="38">
+								<img src="{{paymentMethodLogo}}" alt=" logotipo" width="161" height="38">
+							{% elseif paymentMethod |lower == 'pix' %}
+								<img src="{{paymentMethodLogo}}" alt=" logotipo" width="84" height="38">
 							{% elseif paymentMethod |lower == 'ifthenpaygateway' %}
 								<img src="{{paymentMethodLogo}}" alt=" logotipo" height="38">
 							{% endif %}

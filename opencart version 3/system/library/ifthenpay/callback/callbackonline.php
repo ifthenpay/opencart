@@ -25,6 +25,9 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
 			case Gateway::COFIDIS:
 				$this->executeCofidisCallback();
 				break;
+			case Gateway::PIX:
+				$this->executePixCallback();
+				break;
 			case Gateway::IFTHENPAYGATEWAY:
 				$this->executeIfthenpaygatewayCallback();
 				break;
@@ -258,6 +261,44 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
 		], 'Payment by credit card canceled by the client.');
 	}
 
+	/**
+	 * pix online callback process, it does not persist any status changes, only redirects user to thank you page
+	 */
+	private function executePixCallback()
+	{
+		$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['paymentMethod'] = $this->paymentMethod;
+		$this->setPaymentData();
+
+
+		if (empty($this->paymentData)) {
+			$this->executePaymentNotFound();
+		} else {
+
+			try {
+
+
+				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['pix_success'] = $this->ifthenpayController->language->get('awaitingPaymentValidation');
+				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['pix_error'] = '';
+
+				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
+				$this->ifthenpayController->response->redirect($this->ifthenpayController->url->link('checkout/success', true));
+			} catch (\Throwable $th) {
+				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderView'] = false;
+				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];
+				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['pix_success'] = '';
+				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['pix_error'] = $th->getMessage();
+
+				$this->ifthenpayController->model_extension_payment_pix->log([
+					'error' => $th->getMessage(),
+					'paymentData' => $this->paymentData
+				], 'Error processing pix payment - internal error');
+
+				$this->ifthenpayController->response->redirect($this->ifthenpayController->url->link('checkout/failure', true));
+			}
+		}
+	}
+
+
 	private function executeCcardCallback()
 	{
 		$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['paymentMethod'] = $this->paymentMethod;
@@ -417,8 +458,6 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
 				);
 
 				$this->ifthenpayController->response->redirect($this->ifthenpayController->url->link($checkoutLink, true));
-
-
 			} catch (\Throwable $th) {
 				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderView'] = false;
 				$this->ifthenpayController->session->data['ifthenpayPaymentReturn']['orderId'] = $this->paymentData['order_id'];

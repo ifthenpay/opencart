@@ -60,6 +60,15 @@ class IfthenpaySql implements InstallerInterface
             PRIMARY KEY  (`id_ifthenpay_cofidis`),
             INDEX `requestId` (`requestId`)
           ) ENGINE=MyISAM DEFAULT CHARSET=utf8;',
+		Gateway::PIX => 'CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'ifthenpay_' . Gateway::PIX . '` (
+            `id_ifthenpay_pix` int(10) unsigned NOT NULL auto_increment,
+            `requestId` varchar(50) NOT NULL,
+            `order_id` int(11) NOT NULL,
+            `hash` varchar(20) NOT NULL,
+            `status` varchar(50) NOT NULL,
+            PRIMARY KEY  (`id_ifthenpay_pix`),
+            INDEX `requestId` (`requestId`)
+          ) ENGINE=MyISAM DEFAULT CHARSET=utf8;',
 		Gateway::IFTHENPAYGATEWAY => 'CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'ifthenpay_' . Gateway::IFTHENPAYGATEWAY . '` (
             `id_ifthenpay_ifthenpaygateway` int(10) unsigned NOT NULL auto_increment,
             `order_id` int(11) NOT NULL,

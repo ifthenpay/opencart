@@ -2,7 +2,6 @@
 
 // Heading
 $_['heading_title'] = 'Cofidis Pay';
-$_['heading_title_multibanco'] = 'Cofidis Pay Configuration';
 
 // Text
 $_['text_extension'] = 'Extensions';
@@ -11,7 +10,6 @@ $_['text_success'] = 'Success: You have modified Cofidis Pay payment module!';
 
 
 $_['text_cofidis'] = '<a href="https:www.ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/cofidis.png" class="cofidisLogo" alt="Cofidis Pay Logo" title="Cofidis Pay" style="border: 1px solid #EEEEEE; width: 133px; height: 38px;" /><br /></a>';
-$_['acess_user_documentation'] = 'Access the user documentation.';
 $_['create_account_now'] = 'Create an account now!';
 
 //Entry

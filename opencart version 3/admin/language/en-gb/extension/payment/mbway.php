@@ -1,14 +1,12 @@
 <?php
 // Heading
 $_['heading_title'] = 'MB WAY';
-$_['heading_title_multibanco'] = 'MB WAY Configuration';
 
 // Text
 $_['text_extension'] = 'Extensions';
 $_['text_payment'] = 'Payment';
 $_['text_success'] = 'Success: You have modified MB WAY payment module!';
 $_['text_mbway'] = '<a href="https:www.ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/mbway.png" class="ccardLogo" alt="MB WAY Logo" title="MB WAY" style="border: 1px solid #EEEEEE; width: 82px; height: 38px;" /><br /></a>';
-$_['acess_user_documentation'] = 'Access the user documentation.';
 $_['create_account_now'] = 'Create an account now!';
 
 //Entry

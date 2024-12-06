@@ -324,6 +324,7 @@ class IfthenpayControllerCatalog extends Controller
 		$this->backofficePaymentProcessing($this->request->get['order_id']);
 	}
 
+
 	public function injectPaymentMethodDescriptionOnCheckout(&$route, &$data, &$output)
 	{
 		$descLine1 = $this->language->get('cofidis_desc_line_1');

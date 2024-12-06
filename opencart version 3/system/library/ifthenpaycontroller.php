@@ -317,6 +317,7 @@ class IfthenpayController extends Controller
 			$mbwayTransactionId = isset($this->request->post['mbway_transaction_id']) ? $this->request->post['mbway_transaction_id'] : '';
 			$payshopTransactionId = isset($this->request->post['payshop_transaction_id']) ? $this->request->post['payshop_transaction_id'] : '';
 			$cofidisTransactionId = isset($this->request->post['cofidis_transaction_id']) ? $this->request->post['cofidis_transaction_id'] : '';
+			$pixTransactionId = isset($this->request->post['pix_transaction_id']) ? $this->request->post['pix_transaction_id'] : '';
 			$orderId = isset($this->request->post[CallbackVars::ORDER_ID]) ? $this->request->post[CallbackVars::ORDER_ID] : '';
 
 			$isCallbackActive = $this->config->get('payment_' . $this->paymentMethod . '_callback_activated') === '1' ? true : false;
@@ -341,8 +342,8 @@ class IfthenpayController extends Controller
 			$antiPhishingKey = $this->config->get('payment_' . $this->paymentMethod . '_chaveAntiPhishing');
 
 
-			$callbackUrl = str_replace('[CHAVE_ANTI_PHISHING]', $antiPhishingKey, $callbackUrl);
-			$callbackUrl = str_replace('[VALOR]', $amount, $callbackUrl);
+			$callbackUrl = str_replace('[ANTI_PHISHING_KEY]', $antiPhishingKey, $callbackUrl);
+			$callbackUrl = str_replace('[AMOUNT]', $amount, $callbackUrl);
 
 
 
@@ -350,35 +351,36 @@ class IfthenpayController extends Controller
 			if ($method === 'multibanco') {
 
 				$entity = $this->config->get('payment_' . $this->paymentMethod . '_entidade');
-				$callbackUrl = str_replace('[ENTIDADE]', $entity, $callbackUrl);
-				$callbackUrl = str_replace('[REFERENCIA]', $reference, $callbackUrl);
+				$callbackUrl = str_replace('[ENTITY]', $entity, $callbackUrl);
+				$callbackUrl = str_replace('[REFERENCE]', $reference, $callbackUrl);
 			}
 
 			// set callback url for mbway
 
 			if ($method === 'mbway') {
-				$callbackUrl = str_replace('[ID_TRANSACAO]', $mbwayTransactionId, $callbackUrl);
-				$callbackUrl = str_replace('[REFERENCIA]', $reference, $callbackUrl);
-				$callbackUrl = str_replace('[ESTADO]', 'PAGO', $callbackUrl);
+				$callbackUrl = str_replace('[REQUEST_ID]', $mbwayTransactionId, $callbackUrl);
+				$callbackUrl = str_replace('[REFERENCE]', $reference, $callbackUrl);
 			}
 
 			// set callback url for payshop
 
 			if ($method === 'payshop') {
-				$callbackUrl = str_replace('[ID_TRANSACAO]', $payshopTransactionId, $callbackUrl);
-				$callbackUrl = str_replace('[REFERENCIA]', $reference, $callbackUrl);
-				$callbackUrl = str_replace('[ESTADO]', 'PAGO', $callbackUrl);
+				$callbackUrl = str_replace('[REQUEST_ID]', $payshopTransactionId, $callbackUrl);
+				$callbackUrl = str_replace('[REFERENCE]', $reference, $callbackUrl);
 			}
 
 			//set callback url for cofidis
 			if ($method === 'cofidis') {
-				$callbackUrl = str_replace('[ID_TRANSACAO]', $cofidisTransactionId, $callbackUrl);
-				$callbackUrl = str_replace('[ESTADO]', 'PAGO', $callbackUrl);
+				$callbackUrl = str_replace('[REQUEST_ID]', $cofidisTransactionId, $callbackUrl);
+			}
+
+			//set callback url for pix
+			if ($method === 'pix') {
+				$callbackUrl = str_replace('[REQUEST_ID]', $pixTransactionId, $callbackUrl);
 			}
 
 			// set callback url for ifthenpaygateway
 			if ($method === 'ifthenpaygateway') {
-				// TODO: change this according to ifthenpaygateway
 				$callbackUrl = str_replace('[ORDER_ID]', $orderId, $callbackUrl);
 			}
 
@@ -400,7 +402,7 @@ class IfthenpayController extends Controller
 
 			$response = [
 				'status' => 'error',
-				'message' => $this->module->l('Invalid data, order not found', pathinfo(__FILE__)['filename']),
+				'message' => 'Invalid data, order not found'
 			];
 
 			$this->response->setOutput(json_encode($response));

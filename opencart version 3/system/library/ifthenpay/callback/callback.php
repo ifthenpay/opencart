@@ -28,13 +28,14 @@ class Callback
 
 
 
-	// TODO update URLs
+	// TODO Callback URL partial string, not an actual todo, just for ease of access
 	private $urlCallbackParameters = [
 		Gateway::MULTIBANCO => '&type=offline&'. Cb::ECOMMERCE_VERSION .'={ec}&'. Cb::MODULE_VERSION.'={mv}&'. Cb::PAYMENT.'={paymentMethod}&'. Cb::ANTIPHISH_KEY .'=[ANTI_PHISHING_KEY]&'. Cb::ENTITY .'=[ENTITY]&'. Cb::REFERENCE .'=[REFERENCE]&'. Cb::AMOUNT .'=[AMOUNT]&'. Cb::ORDER_ID .'=[ID]&'. Cb::PM .'=[PAYMENT_METHOD]',
 		Gateway::MBWAY => '&type=offline&'. Cb::ECOMMERCE_VERSION .'={ec}&'. Cb::MODULE_VERSION.'={mv}&'. Cb::PAYMENT.'={paymentMethod}&'. Cb::ANTIPHISH_KEY .'=[ANTI_PHISHING_KEY]&'. Cb::TRANSACTION_ID .'=[REQUEST_ID]&'. Cb::AMOUNT .'=[AMOUNT]&'. Cb::ORDER_ID .'=[ID]&'. Cb::PM .'=[PAYMENT_METHOD]',
 		Gateway::PAYSHOP => '&type=offline&'. Cb::ECOMMERCE_VERSION .'={ec}&'. Cb::MODULE_VERSION.'={mv}&'. Cb::PAYMENT.'={paymentMethod}&'. Cb::ANTIPHISH_KEY .'=[ANTI_PHISHING_KEY]&'. Cb::TRANSACTION_ID .'=[REQUEST_ID]&'. Cb::REFERENCE .'=[REFERENCE]&'. Cb::AMOUNT.'=[AMOUNT]&'. Cb::ORDER_ID .'=[ID]&'. Cb::PM .'=[PAYMENT_METHOD]',
 		Gateway::CCARD => '&type=offline&'. Cb::PAYMENT.'={paymentMethod}&'. Cb::ANTIPHISH_KEY .'=[ANTI_PHISHING_KEY]&'. Cb::TRANSACTION_ID .'=[REQUEST_ID]&'. Cb::ORDER_ID .'=[ID]&'. Cb::AMOUNT .'=[AMOUNT]',
 		Gateway::COFIDIS => '&type=offline&'. Cb::ECOMMERCE_VERSION .'={ec}&'. Cb::MODULE_VERSION.'={mv}&'. Cb::PAYMENT.'={paymentMethod}&'. Cb::ANTIPHISH_KEY .'=[ANTI_PHISHING_KEY]&'. Cb::TRANSACTION_ID.'=[REQUEST_ID]&'. Cb::AMOUNT .'=[AMOUNT]&'. Cb::ORDER_ID .'=[ID]&'. Cb::PM .'=[PAYMENT_METHOD]',
+		Gateway::PIX => '&type=offline&'. Cb::ECOMMERCE_VERSION .'={ec}&'. Cb::MODULE_VERSION.'={mv}&'. Cb::PAYMENT.'={paymentMethod}&'. Cb::ANTIPHISH_KEY .'=[ANTI_PHISHING_KEY]&'. Cb::TRANSACTION_ID.'=[REQUEST_ID]&'. Cb::AMOUNT .'=[AMOUNT]&'. Cb::ORDER_ID .'=[ID]&'. Cb::PM .'=[PAYMENT_METHOD]',
 		Gateway::IFTHENPAYGATEWAY => '&type=offline&'. Cb::ECOMMERCE_VERSION .'={ec}&'. Cb::MODULE_VERSION.'={mv}&'. Cb::PAYMENT.'={paymentMethod}&'. Cb::ANTIPHISH_KEY .'=[ANTI_PHISHING_KEY]&'. Cb::ORDER_ID .'=[ID]&'. Cb::ENTITY .'=[ENTITY]&'. Cb::REFERENCE .'=[REFERENCE]&'. Cb::TRANSACTION_ID .'=[REQUEST_ID]&'. Cb::AMOUNT .'=[AMOUNT]&'. Cb::PM .'=[PAYMENT_METHOD]'
 
 	];

@@ -19,15 +19,16 @@ class Gateway
 	const PAYSHOP = 'payshop';
 	const CCARD = 'ccard';
 	const COFIDIS = 'cofidis';
+	const PIX = 'pix';
 	const IFTHENPAYGATEWAY = 'ifthenpaygateway';
 
-	const METHODS_WITH_CALLBACK = [self::MULTIBANCO, self::MBWAY, self::PAYSHOP, self::COFIDIS, self::IFTHENPAYGATEWAY];
+	const METHODS_WITH_CALLBACK = [self::MULTIBANCO, self::MBWAY, self::PAYSHOP, self::COFIDIS, self::PIX, self::IFTHENPAYGATEWAY];
 
 	private $webService;
 	private $paymentFactory;
 	private $account;
-	private $paymentMethods = [self::MULTIBANCO, self::MBWAY, self::PAYSHOP, self::CCARD, self::COFIDIS, self::IFTHENPAYGATEWAY];
-	private $paymentMethodsCanCancel = [self::MULTIBANCO, self::MBWAY, self::CCARD, self::PAYSHOP, self::COFIDIS, self::IFTHENPAYGATEWAY];
+	private $paymentMethods = [self::MULTIBANCO, self::MBWAY, self::PAYSHOP, self::CCARD, self::COFIDIS, self::PIX, self::IFTHENPAYGATEWAY];
+	private $paymentMethodsCanCancel = [self::MULTIBANCO, self::MBWAY, self::CCARD, self::PAYSHOP, self::COFIDIS, self::PIX, self::IFTHENPAYGATEWAY];
 	private $paymentMethodsCanOrderBackend = [self::MULTIBANCO, self::MBWAY, self::PAYSHOP];
 
 	public function __construct(WebService $webService, PaymentFactory $paymentFactory)

@@ -384,7 +384,7 @@ abstract class ConfigForm
 
 	protected function getCallbackControllerUrl(): string
 	{
-		return ($this->ifthenpayController->config->get('config_secure') ? rtrim(HTTP_CATALOG, '/') : rtrim(HTTPS_CATALOG, '/')) .
+		return ($this->ifthenpayController->config->get('config_secure') == '1' ? rtrim(HTTPS_CATALOG, '/') : rtrim(HTTP_CATALOG, '/')) .
 			'/index.php?route=extension/payment/' . $this->paymentMethod . '/callback';
 	}
 
@@ -718,10 +718,11 @@ abstract class ConfigForm
 			return;
 		}
 
-		if ($this->paymentMethod == Gateway::IFTHENPAYGATEWAY &&
-		!isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_backofficeKey']) &&
-		!$this->validateIfthenpaygateway())
-		{
+		if (
+			$this->paymentMethod == Gateway::IFTHENPAYGATEWAY &&
+			!isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_backofficeKey']) &&
+			!$this->validateIfthenpaygateway()
+		) {
 			return;
 		}
 
@@ -917,6 +918,15 @@ abstract class ConfigForm
 		if ($this->paymentMethod == Gateway::COFIDIS) {
 
 			if (!isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_cofidisKey'])) {
+
+				$this->ifthenpayController->error['warning'] = $this->ifthenpayController->language->get('error_key_required');
+			}
+		}
+
+		// validate pix key
+		if ($this->paymentMethod == Gateway::PIX) {
+
+			if (!isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_pixKey'])) {
 
 				$this->ifthenpayController->error['warning'] = $this->ifthenpayController->language->get('error_key_required');
 			}

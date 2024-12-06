@@ -1,14 +1,12 @@
 <?php
 // Heading
 $_['heading_title'] = 'Ifthenpay Gateway';
-$_['heading_title_ifthenpaygateway'] = 'Ifthenpay Gateway Configuration';
 
 // Text
 $_['text_extension'] = 'Extensions';
 $_['text_payment'] = 'Payment';
 $_['text_success'] = 'Success: You have modified Ifthenpay Gateway payment module!';
 $_['text_ifthenpaygateway'] = '<a href="https:www.ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/ifthenpaygateway.png" alt="Ifthenpay Gateway Logo" title="Ifthenpay Gateway" style="border: 1px solid #EEEEEE; width: 144px; height: 38px;" /><br /></a>';
-$_['acess_user_documentation'] = 'Access the user documentation.';
 $_['create_account_now'] = 'Create an account now!';
 $_['text_home'] = 'Home';
 $_['text_all_zones'] = 'All zones';

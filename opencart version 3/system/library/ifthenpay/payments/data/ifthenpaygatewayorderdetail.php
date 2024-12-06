@@ -10,12 +10,8 @@ use Ifthenpay\Contracts\Order\OrderDetailInterface;
 class IfthenpaygatewayOrderDetail extends IfthenpaygatewayBase implements OrderDetailInterface
 {
 
-	// TODO: this does not need the notification or countdown
-
     public function setTwigVariables(): void
     {
-
-		// TODO: this needs correcting
         parent::setTwigVariables();
 		$this->twigDefaultData->setIfthenpaygatewayLink($this->paymentDataFromDb['payment_url'] ?? '');
 

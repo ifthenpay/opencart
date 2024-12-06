@@ -247,7 +247,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
   /******/
 
-  return __webpack_require__(__webpack_require__.s = 2);
+  return __webpack_require__(__webpack_require__.s = 5);
   /******/
 })(
 /************************************************************************/
@@ -255,15 +255,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 /******/
 {
   /***/
-  "./_dev/js/adminOrderCreatePage.ts":
-  /*!*****************************************!*\
-    !*** ./_dev/js/adminOrderCreatePage.ts ***!
-    \*****************************************/
+  "./_dev/js/checkoutMbwayPage.ts":
+  /*!**************************************!*\
+    !*** ./_dev/js/checkoutMbwayPage.ts ***!
+    \**************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsAdminOrderCreatePageTs(module, exports, __webpack_require__) {
+  function _devJsCheckoutMbwayPageTs(module, exports, __webpack_require__) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -274,139 +274,31 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /*! reflect-metadata */
     "./node_modules/reflect-metadata/Reflect.js");
 
-    var inversify_adminOrderCreatePage_1 = __webpack_require__(
-    /*! ./container/inversify.adminOrderCreatePage */
-    "./_dev/js/container/inversify.adminOrderCreatePage.ts");
+    var inversify_checkoutMbwayPage_1 = __webpack_require__(
+    /*! ./container/inversify.checkoutMbwayPage */
+    "./_dev/js/container/inversify.checkoutMbwayPage.ts");
 
-    var AdminOrderCreatePageCreateApp_1 = __webpack_require__(
-    /*! ./facades/AdminOrderCreatePageCreateApp */
-    "./_dev/js/facades/AdminOrderCreatePageCreateApp.ts");
+    var CheckoutMbwayPageCreateApp_1 = __webpack_require__(
+    /*! ./facades/CheckoutMbwayPageCreateApp */
+    "./_dev/js/facades/CheckoutMbwayPageCreateApp.ts");
 
     $(document).ready(function () {
-      var app = inversify_adminOrderCreatePage_1["default"].get(AdminOrderCreatePageCreateApp_1.AdminOrderCreatePageCreateApp);
+      var app = inversify_checkoutMbwayPage_1["default"].get(CheckoutMbwayPageCreateApp_1.CheckoutMbwayPageCreateApp);
       app.start();
     });
     /***/
   },
 
   /***/
-  "./_dev/js/classes/ChangeEventsAdminOrderCreate.ts":
-  /*!*********************************************************!*\
-    !*** ./_dev/js/classes/ChangeEventsAdminOrderCreate.ts ***!
-    \*********************************************************/
+  "./_dev/js/container/inversify.checkoutMbwayPage.ts":
+  /*!**********************************************************!*\
+    !*** ./_dev/js/container/inversify.checkoutMbwayPage.ts ***!
+    \**********************************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsClassesChangeEventsAdminOrderCreateTs(module, exports, __webpack_require__) {
-    "use strict";
-
-    var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-      var c = arguments.length,
-          r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-          d;
-      if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) {
-        if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-      }
-      return c > 3 && r && Object.defineProperty(target, key, r), r;
-    };
-
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports.ChangeEventsAdminOrderCreate = void 0;
-
-    var inversify_1 = __webpack_require__(
-    /*! inversify */
-    "./node_modules/inversify/lib/inversify.js");
-
-    var ChangeEventsAdminOrderCreate =
-    /** @class */
-    function () {
-      function ChangeEventsAdminOrderCreate() {}
-
-      ChangeEventsAdminOrderCreate.prototype.init = function () {
-        $._data($('#button-save')[0], "events").click.splice(0, 0, $._data($('#button-save')[0], "events").click.splice(1, 1)[0]);
-      };
-
-      ChangeEventsAdminOrderCreate = __decorate([inversify_1.injectable()], ChangeEventsAdminOrderCreate);
-      return ChangeEventsAdminOrderCreate;
-    }();
-
-    exports.ChangeEventsAdminOrderCreate = ChangeEventsAdminOrderCreate;
-    /***/
-  },
-
-  /***/
-  "./_dev/js/classes/CheckRadioButton.ts":
-  /*!*********************************************!*\
-    !*** ./_dev/js/classes/CheckRadioButton.ts ***!
-    \*********************************************/
-
-  /*! no static exports found */
-
-  /***/
-  function _devJsClassesCheckRadioButtonTs(module, exports, __webpack_require__) {
-    "use strict";
-
-    var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-      var c = arguments.length,
-          r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-          d;
-      if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) {
-        if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-      }
-      return c > 3 && r && Object.defineProperty(target, key, r), r;
-    };
-
-    var __metadata = this && this.__metadata || function (k, v) {
-      if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-    };
-
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports.CheckRadioButton = void 0;
-
-    var inversify_1 = __webpack_require__(
-    /*! inversify */
-    "./node_modules/inversify/lib/inversify.js");
-
-    var IfthenpayPaymentMethods_1 = __webpack_require__(
-    /*! ../interfaces/IfthenpayPaymentMethods */
-    "./_dev/js/interfaces/IfthenpayPaymentMethods.ts");
-
-    var CheckRadioButton =
-    /** @class */
-    function () {
-      function CheckRadioButton() {
-        this.selectPaymentMethod = $('#input-payment-method');
-      }
-
-      CheckRadioButton.prototype.init = function () {
-        if (this.selectPaymentMethod.length > 0 && this.selectPaymentMethod.val() === IfthenpayPaymentMethods_1.IfthenpayPaymentMethod.MBWAY) {
-          this.selectPaymentMethod.trigger('change');
-        }
-      };
-
-      CheckRadioButton = __decorate([inversify_1.injectable(), __metadata("design:paramtypes", [])], CheckRadioButton);
-      return CheckRadioButton;
-    }();
-
-    exports.CheckRadioButton = CheckRadioButton;
-    /***/
-  },
-
-  /***/
-  "./_dev/js/container/inversify.adminOrderCreatePage.ts":
-  /*!*************************************************************!*\
-    !*** ./_dev/js/container/inversify.adminOrderCreatePage.ts ***!
-    \*************************************************************/
-
-  /*! no static exports found */
-
-  /***/
-  function _devJsContainerInversifyAdminOrderCreatePageTs(module, exports, __webpack_require__) {
+  function _devJsContainerInversifyCheckoutMbwayPageTs(module, exports, __webpack_require__) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -417,38 +309,28 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /*! inversify */
     "./node_modules/inversify/lib/inversify.js");
 
-    var ChangeEventsAdminOrderCreate_1 = __webpack_require__(
-    /*! ../classes/ChangeEventsAdminOrderCreate */
-    "./_dev/js/classes/ChangeEventsAdminOrderCreate.ts");
+    var CheckoutMbwayPage_1 = __webpack_require__(
+    /*! ../events/CheckoutMbwayPage */
+    "./_dev/js/events/CheckoutMbwayPage.ts");
 
-    var CheckRadioButton_1 = __webpack_require__(
-    /*! ../classes/CheckRadioButton */
-    "./_dev/js/classes/CheckRadioButton.ts");
+    var CheckoutMbwayPageCreateApp_1 = __webpack_require__(
+    /*! ../facades/CheckoutMbwayPageCreateApp */
+    "./_dev/js/facades/CheckoutMbwayPageCreateApp.ts");
 
-    var AdminOrderCreatePage_1 = __webpack_require__(
-    /*! ../events/AdminOrderCreatePage */
-    "./_dev/js/events/AdminOrderCreatePage.ts");
-
-    var AdminOrderCreatePageCreateApp_1 = __webpack_require__(
-    /*! ../facades/AdminOrderCreatePageCreateApp */
-    "./_dev/js/facades/AdminOrderCreatePageCreateApp.ts");
-
-    var CookieService_1 = __webpack_require__(
-    /*! ../services/CookieService */
-    "./_dev/js/services/CookieService.ts");
+    var HttpService_1 = __webpack_require__(
+    /*! ../services/HttpService */
+    "./_dev/js/services/HttpService.ts");
 
     var MbwayService_1 = __webpack_require__(
     /*! ../services/MbwayService */
     "./_dev/js/services/MbwayService.ts");
 
-    var containerAdminOrderCreatePage = new inversify_1.Container();
-    containerAdminOrderCreatePage.bind(CookieService_1.CookieService).toSelf();
-    containerAdminOrderCreatePage.bind(CheckRadioButton_1.CheckRadioButton).toSelf();
-    containerAdminOrderCreatePage.bind(ChangeEventsAdminOrderCreate_1.ChangeEventsAdminOrderCreate).toSelf();
-    containerAdminOrderCreatePage.bind(MbwayService_1.MbwayService).toSelf();
-    containerAdminOrderCreatePage.bind(AdminOrderCreatePage_1.AdminOrderCreatePage).toSelf();
-    containerAdminOrderCreatePage.bind(AdminOrderCreatePageCreateApp_1.AdminOrderCreatePageCreateApp).toSelf();
-    exports["default"] = containerAdminOrderCreatePage;
+    var containerCheckoutMbwayPage = new inversify_1.Container();
+    containerCheckoutMbwayPage.bind(HttpService_1.HttpService).toSelf();
+    containerCheckoutMbwayPage.bind(CheckoutMbwayPageCreateApp_1.CheckoutMbwayPageCreateApp).toSelf();
+    containerCheckoutMbwayPage.bind(MbwayService_1.MbwayService).toSelf();
+    containerCheckoutMbwayPage.bind(CheckoutMbwayPage_1.CheckoutMbwayPage).toSelf();
+    exports["default"] = containerCheckoutMbwayPage;
     /***/
   },
 
@@ -606,15 +488,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
 
   /***/
-  "./_dev/js/events/AdminOrderCreatePage.ts":
-  /*!************************************************!*\
-    !*** ./_dev/js/events/AdminOrderCreatePage.ts ***!
-    \************************************************/
+  "./_dev/js/events/CheckoutMbwayPage.ts":
+  /*!*********************************************!*\
+    !*** ./_dev/js/events/CheckoutMbwayPage.ts ***!
+    \*********************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsEventsAdminOrderCreatePageTs(module, exports, __webpack_require__) {
+  function _devJsEventsCheckoutMbwayPageTs(module, exports, __webpack_require__) {
     "use strict";
 
     var __extends = this && this.__extends || function () {
@@ -662,23 +544,23 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-    exports.AdminOrderCreatePage = void 0;
+    exports.CheckoutMbwayPage = void 0;
 
     var inversify_1 = __webpack_require__(
     /*! inversify */
     "./node_modules/inversify/lib/inversify.js");
 
+    var inversify_checkoutMbwayPage_1 = __webpack_require__(
+    /*! ../container/inversify.checkoutMbwayPage */
+    "./_dev/js/container/inversify.checkoutMbwayPage.ts");
+
     var Event_1 = __webpack_require__(
     /*! ../decorators/Event */
     "./_dev/js/decorators/Event.ts");
 
-    var IfthenpayPaymentMethods_1 = __webpack_require__(
-    /*! ../interfaces/IfthenpayPaymentMethods */
-    "./_dev/js/interfaces/IfthenpayPaymentMethods.ts");
-
-    var CookieService_1 = __webpack_require__(
-    /*! ../services/CookieService */
-    "./_dev/js/services/CookieService.ts");
+    var HttpService_1 = __webpack_require__(
+    /*! ../services/HttpService */
+    "./_dev/js/services/HttpService.ts");
 
     var MbwayService_1 = __webpack_require__(
     /*! ../services/MbwayService */
@@ -688,60 +570,61 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /*! ./Page */
     "./_dev/js/events/Page.ts");
 
-    var AdminOrderCreatePage =
+    var CheckoutMbwayPage =
     /** @class */
     function (_super) {
-      __extends(AdminOrderCreatePage, _super);
+      __extends(CheckoutMbwayPage, _super);
 
-      function AdminOrderCreatePage(mbwayService, cookieService) {
+      function CheckoutMbwayPage(mbwayService) {
         var _this = _super.call(this) || this;
 
-        _this.mbwayCookieName = 'mbwayInputPhone';
         _this.mbwayService = mbwayService;
-        _this.cookieService = cookieService;
         return _this;
       }
 
-      AdminOrderCreatePage.prototype.changePaymentMethod = function (event) {
-        this.setEventDefault(event, false);
-        var ifthenpayMbwayPhoneDiv = $('#ifthenpayMbwayPhoneDiv');
+      CheckoutMbwayPage.prototype.confirmPayment = function (event) {
+        var _this = this;
 
-        if (this.eventTarget.val() === IfthenpayPaymentMethods_1.IfthenpayPaymentMethod.MBWAY && ifthenpayMbwayPhoneDiv.length === 0) {
-          $(this.mbwayService.getMbwayInput()).insertAfter(this.eventTarget.parent());
-        }
+        console.log(event);
+        this.setEventDefault(event, true);
 
-        if (this.eventTarget.val() !== IfthenpayPaymentMethods_1.IfthenpayPaymentMethod.MBWAY && ifthenpayMbwayPhoneDiv.length > 0) {
-          ifthenpayMbwayPhoneDiv.remove();
-        }
-      };
+        if (!this.mbwayService.validate()) {
+          return;
+        } // if (this.mbwayService.validateMbwayInputPhone()) {
 
-      AdminOrderCreatePage.prototype.checkMbwayValidation = function (event) {
-        this.setEventDefault(event, false);
 
-        if ($('#input-payment-method').val() === IfthenpayPaymentMethods_1.IfthenpayPaymentMethod.MBWAY) {
-          event.stopPropagation();
-          event.stopImmediatePropagation();
-          this.setEventDefault(event, true);
+        var fullPhoneNumber = this.mbwayService.mbwayCountryCode + '#' + this.mbwayService.mbwayPhoneVal;
+        $('#button-confirm').button('loading');
+        this.httpService = inversify_checkoutMbwayPage_1["default"].get(HttpService_1.HttpService);
+        this.httpService.setUrl('index.php?route=extension/payment/mbway/confirm');
+        this.httpService.post({
+          mbwayInputPhone: fullPhoneNumber
+        }).then(function (response) {
+          _this.eventTarget.button('reset');
 
-          if (this.mbwayService.validateMbwayInputPhone()) {
-            this.cookieService.deleteCookie(this.mbwayCookieName);
-            console.log(this.mbwayService.mbwayPhoneVal);
-            this.cookieService.setCookie(this.mbwayCookieName, this.mbwayService.mbwayPhoneVal, 1);
-
-            $._data(this.eventTarget[0], "events").click[1].handler();
+          if (response.redirect) {
+            location = response.redirect;
           }
-        }
+        }).fail(function (xhr, status, error) {
+          if (xhr.responseJSON) {
+            console.log(xhr.responseJSON.error);
+            alert(xhr.responseJSON.error);
+          } else {
+            console.log(xhr);
+            alert(error);
+          }
+
+          $("#button-confirm").button("reset");
+        });
       };
 
-      __decorate([Event_1.Event('change', '#input-payment-method'), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminOrderCreatePage.prototype, "changePaymentMethod", null);
+      __decorate([Event_1.Event('click', '#button-confirm'), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], CheckoutMbwayPage.prototype, "confirmPayment", null);
 
-      __decorate([Event_1.Event('click', '#button-save'), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminOrderCreatePage.prototype, "checkMbwayValidation", null);
-
-      AdminOrderCreatePage = __decorate([inversify_1.injectable(), __metadata("design:paramtypes", [MbwayService_1.MbwayService, CookieService_1.CookieService])], AdminOrderCreatePage);
-      return AdminOrderCreatePage;
+      CheckoutMbwayPage = __decorate([inversify_1.injectable(), __metadata("design:paramtypes", [MbwayService_1.MbwayService])], CheckoutMbwayPage);
+      return CheckoutMbwayPage;
     }(Page_1.Page);
 
-    exports.AdminOrderCreatePage = AdminOrderCreatePage;
+    exports.CheckoutMbwayPage = CheckoutMbwayPage;
     /***/
   },
 
@@ -805,15 +688,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
 
   /***/
-  "./_dev/js/facades/AdminOrderCreatePageCreateApp.ts":
-  /*!**********************************************************!*\
-    !*** ./_dev/js/facades/AdminOrderCreatePageCreateApp.ts ***!
-    \**********************************************************/
+  "./_dev/js/facades/CheckoutMbwayPageCreateApp.ts":
+  /*!*******************************************************!*\
+    !*** ./_dev/js/facades/CheckoutMbwayPageCreateApp.ts ***!
+    \*******************************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsFacadesAdminOrderCreatePageCreateAppTs(module, exports, __webpack_require__) {
+  function _devJsFacadesCheckoutMbwayPageCreateAppTs(module, exports, __webpack_require__) {
     "use strict";
 
     var __extends = this && this.__extends || function () {
@@ -861,58 +744,50 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-    exports.AdminOrderCreatePageCreateApp = void 0;
+    exports.CheckoutMbwayPageCreateApp = void 0;
 
     var inversify_1 = __webpack_require__(
     /*! inversify */
     "./node_modules/inversify/lib/inversify.js");
 
-    var ChangeEventsAdminOrderCreate_1 = __webpack_require__(
-    /*! ../classes/ChangeEventsAdminOrderCreate */
-    "./_dev/js/classes/ChangeEventsAdminOrderCreate.ts");
-
-    var CheckRadioButton_1 = __webpack_require__(
-    /*! ../classes/CheckRadioButton */
-    "./_dev/js/classes/CheckRadioButton.ts");
-
-    var inversify_adminOrderCreatePage_1 = __webpack_require__(
-    /*! ../container/inversify.adminOrderCreatePage */
-    "./_dev/js/container/inversify.adminOrderCreatePage.ts");
+    var inversify_checkoutMbwayPage_1 = __webpack_require__(
+    /*! ../container/inversify.checkoutMbwayPage */
+    "./_dev/js/container/inversify.checkoutMbwayPage.ts");
 
     var AppComponent_1 = __webpack_require__(
     /*! ../decorators/AppComponent */
     "./_dev/js/decorators/AppComponent.ts");
 
-    var AdminOrderCreatePage_1 = __webpack_require__(
-    /*! ../events/AdminOrderCreatePage */
-    "./_dev/js/events/AdminOrderCreatePage.ts");
+    var CheckoutMbwayPage_1 = __webpack_require__(
+    /*! ../events/CheckoutMbwayPage */
+    "./_dev/js/events/CheckoutMbwayPage.ts");
 
     var MainApp_1 = __webpack_require__(
     /*! ./MainApp */
     "./_dev/js/facades/MainApp.ts");
 
-    var AdminOrderCreatePageCreateApp =
+    var CheckoutMbwayPageCreateApp =
     /** @class */
     function (_super) {
-      __extends(AdminOrderCreatePageCreateApp, _super);
+      __extends(CheckoutMbwayPageCreateApp, _super);
 
-      function AdminOrderCreatePageCreateApp() {
+      function CheckoutMbwayPageCreateApp() {
         var _this = _super.call(this) || this;
 
-        _this.container = inversify_adminOrderCreatePage_1["default"];
+        _this.container = inversify_checkoutMbwayPage_1["default"];
         return _this;
       }
 
-      AdminOrderCreatePageCreateApp.prototype.start = function () {};
+      CheckoutMbwayPageCreateApp.prototype.start = function () {};
 
-      AdminOrderCreatePageCreateApp = __decorate([inversify_1.injectable(), AppComponent_1.AppComponent({
-        pageEvents: [AdminOrderCreatePage_1.AdminOrderCreatePage],
-        apps: [ChangeEventsAdminOrderCreate_1.ChangeEventsAdminOrderCreate, CheckRadioButton_1.CheckRadioButton]
-      }), __metadata("design:paramtypes", [])], AdminOrderCreatePageCreateApp);
-      return AdminOrderCreatePageCreateApp;
+      CheckoutMbwayPageCreateApp = __decorate([inversify_1.injectable(), AppComponent_1.AppComponent({
+        pageEvents: [CheckoutMbwayPage_1.CheckoutMbwayPage],
+        apps: []
+      }), __metadata("design:paramtypes", [])], CheckoutMbwayPageCreateApp);
+      return CheckoutMbwayPageCreateApp;
     }(MainApp_1.MainApp);
 
-    exports.AdminOrderCreatePageCreateApp = AdminOrderCreatePageCreateApp;
+    exports.CheckoutMbwayPageCreateApp = CheckoutMbwayPageCreateApp;
     /***/
   },
 
@@ -992,43 +867,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
 
   /***/
-  "./_dev/js/interfaces/IfthenpayPaymentMethods.ts":
-  /*!*******************************************************!*\
-    !*** ./_dev/js/interfaces/IfthenpayPaymentMethods.ts ***!
-    \*******************************************************/
+  "./_dev/js/services/HttpService.ts":
+  /*!*****************************************!*\
+    !*** ./_dev/js/services/HttpService.ts ***!
+    \*****************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsInterfacesIfthenpayPaymentMethodsTs(module, exports, __webpack_require__) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports.IfthenpayPaymentMethod = void 0;
-    var IfthenpayPaymentMethod;
-
-    (function (IfthenpayPaymentMethod) {
-      IfthenpayPaymentMethod["MULTIBANCO"] = "multibanco";
-      IfthenpayPaymentMethod["MBWAY"] = "mbway";
-      IfthenpayPaymentMethod["PAYSHOP"] = "payshop";
-      IfthenpayPaymentMethod["CCARD"] = "ccard";
-    })(IfthenpayPaymentMethod = exports.IfthenpayPaymentMethod || (exports.IfthenpayPaymentMethod = {}));
-    /***/
-
-  },
-
-  /***/
-  "./_dev/js/services/CookieService.ts":
-  /*!*******************************************!*\
-    !*** ./_dev/js/services/CookieService.ts ***!
-    \*******************************************/
-
-  /*! no static exports found */
-
-  /***/
-  function _devJsServicesCookieServiceTs(module, exports, __webpack_require__) {
+  function _devJsServicesHttpServiceTs(module, exports, __webpack_require__) {
     "use strict";
 
     var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
@@ -1044,51 +891,44 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-    exports.CookieService = void 0;
+    exports.HttpService = void 0;
 
     var inversify_1 = __webpack_require__(
     /*! inversify */
     "./node_modules/inversify/lib/inversify.js");
 
-    var CookieService =
+    var HttpService =
     /** @class */
     function () {
-      function CookieService() {}
+      function HttpService() {}
 
-      CookieService.prototype.setCookie = function (name, value, days) {
-        var expires = '';
-
-        if (days) {
-          var date = new Date();
-          date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-          expires = "; expires=" + date.toUTCString();
-        }
-
-        document.cookie = name + " = " + (value || '') + " " + expires + " \"; path=/";
+      HttpService.prototype.get = function () {
+        return $.ajax({
+          url: this.url,
+          type: 'GET',
+          dataType: 'json'
+        });
       };
 
-      CookieService.prototype.getCookie = function (name) {
-        var value = "; " + document.cookie;
-        var parts = value.split("; " + name + "=");
-
-        if (parts.length === 2) {
-          return parts.pop().split(';').shift();
-        }
+      HttpService.prototype.post = function (data) {
+        return $.ajax({
+          url: this.url,
+          type: 'POST',
+          cache: false,
+          data: data,
+          dataType: 'json'
+        });
       };
 
-      CookieService.prototype.deleteCookie = function (name) {
-        console.log(this.getCookie(name));
-
-        if (this.getCookie(name)) {
-          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;";
-        }
+      HttpService.prototype.setUrl = function (url) {
+        this.url = url;
       };
 
-      CookieService = __decorate([inversify_1.injectable()], CookieService);
-      return CookieService;
+      HttpService = __decorate([inversify_1.injectable()], HttpService);
+      return HttpService;
     }();
 
-    exports.CookieService = CookieService;
+    exports.HttpService = HttpService;
     /***/
   },
 
@@ -1132,13 +972,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     function () {
       function MbwayService() {
         this.MBWAY_PHONE_REGEX = /^\d+$/;
-        this.mbwayPhoneVal = $('#ifthenpayMbwayPhone').val();
-        this.mbwayCountryCode = $('#ifthenpayMbwayCountryCode').val();
+        this.containerElement = $('#ifthenpayMbwayPhoneDiv');
+        this.phoneElement = $("#ifthenpayMbwayPhone");
+        this.mbwayPhoneVal = $("#ifthenpayMbwayPhone").val();
+        this.mbwayCountryCode = $("#ifthenpayMbwayCountryCode").val();
       }
-
-      MbwayService.prototype.getErrorMessage = function (errorMessage) {
-        return "<div id=\"ifthenpayErrorMessage\" class=\"alert alert-error\">" + errorMessage + "</div>";
-      };
 
       MbwayService.prototype.getMbwayIcon = function () {
         return "<img src=\"" + phpVariables.catalogUrl + phpVariables.mbwaySvgUrl + "\" class=\"icon\" alt=\"mbway logo\">";
@@ -1148,9 +986,36 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         return "<div class=\"field required\" id=\"ifthenpayMbwayPhoneDiv\" style=\"width:230px!important\">\n            <div class=\"control input-container\">\n              " + this.getMbwayIcon() + "\n              <input name=\"mbwayInputPhone\" class=\"text input-field\" id=\"ifthenpayMbwayPhone\" placeholder=\"" + phpVariables.paymentMethodLanguage.mbwayPhoneNumber + "\">\n            </div>\n          </div>";
       };
 
+      MbwayService.prototype.validate = function () {
+        var isValid = true;
+        this.clearErrors();
+
+        if (this.mbwayPhoneVal === "") {
+          this.addErrorMessageToDom(phpVariables.paymentMethodLanguage.required, this.phoneElement);
+          isValid = false;
+        } else if (!this.MBWAY_PHONE_REGEX.test(this.mbwayPhoneVal) || this.mbwayPhoneVal.length > 20) {
+          this.addErrorMessageToDom(phpVariables.paymentMethodLanguage.invalid, this.phoneElement);
+          isValid = false;
+        }
+
+        return isValid;
+      };
+
+      MbwayService.prototype.addErrorMessageToDom = function (errorMessage, inputElement) {
+        // add styles
+        inputElement.parents(".form-group").first().addClass("has-error"); // add text
+
+        inputElement.siblings(".ifthenpay_error_message").text(errorMessage);
+      };
+
+      MbwayService.prototype.clearErrors = function () {
+        this.containerElement.find(".has-error").removeClass("has-error");
+        this.containerElement.find(".ifthenpay_error_message").text("");
+      };
+
       MbwayService.prototype.validateMbwayInputPhone = function () {
-        var ifthenpayMbwayPhoneDiv = $('#ifthenpayMbwayPhoneDiv');
-        $('#ifthenpayErrorMessage').remove();
+        var ifthenpayMbwayPhoneDiv = $("#ifthenpayMbwayPhoneDiv");
+        $("#ifthenpayErrorMessage").remove();
 
         if (ifthenpayMbwayPhoneDiv.length > 0) {
           if (!this.mbwayPhoneVal) {
@@ -1163,6 +1028,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
             return true;
           }
         }
+      };
+
+      MbwayService.prototype.getErrorMessage = function (errorMessage) {
+        return "<div id=\"ifthenpayErrorMessage\" class=\"alert alert-error\">" + errorMessage + "</div>";
       };
 
       MbwayService = __decorate([inversify_1.injectable(), __metadata("design:paramtypes", [])], MbwayService);
@@ -6621,18 +6490,18 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
 
   /***/
-  2:
-  /*!***********************************************!*\
-    !*** multi ./_dev/js/adminOrderCreatePage.ts ***!
-    \***********************************************/
+  5:
+  /*!********************************************!*\
+    !*** multi ./_dev/js/checkoutMbwayPage.ts ***!
+    \********************************************/
 
   /*! no static exports found */
 
   /***/
   function _(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(
-    /*! /home/devilbox/data/www/opencart3/htdocs/_dev/js/adminOrderCreatePage.ts */
-    "./_dev/js/adminOrderCreatePage.ts");
+    /*! /home/devilbox/data/www/opencart3/htdocs/_dev/js/checkoutMbwayPage.ts */
+    "./_dev/js/checkoutMbwayPage.ts");
     /***/
   }
   /******/

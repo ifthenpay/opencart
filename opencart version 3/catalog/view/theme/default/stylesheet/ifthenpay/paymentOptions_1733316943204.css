@@ -35,3 +35,21 @@ input[type=number] {
   align-items: center;
   height: 50px;
 }
+
+.iftp_separator {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.iftp_separator hr {
+  flex: 1;
+  margin: 0 10px;
+}
+
+.iftp_separator span {
+  white-space: nowrap;
+  font-weight: bold;
+  margin-left: 8px;
+  margin-right: 8px;
+}

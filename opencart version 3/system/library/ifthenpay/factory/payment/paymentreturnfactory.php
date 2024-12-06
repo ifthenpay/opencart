@@ -10,6 +10,7 @@ use Ifthenpay\Payments\Data\MbwayPaymentReturn;
 use Ifthenpay\Payments\Data\PayshopPaymentReturn;
 use Ifthenpay\Payments\Data\MultibancoPaymentReturn;
 use Ifthenpay\Payments\Data\CofidisPaymentReturn;
+use Ifthenpay\Payments\Data\PixPaymentReturn;
 use Ifthenpay\Contracts\Payments\PaymentReturnInterface;
 use Ifthenpay\Payments\Data\IfthenpaygatewayPaymentReturn;
 use Ifthenpay\Payments\Gateway;
@@ -72,6 +73,17 @@ class PaymentReturnFactory extends StrategyFactory
 					$this->mix,
 					$this->twigDefaultData,
 					$this->token,
+					$this->status
+				);
+			case Gateway::PIX:
+				return new PixPaymentReturn(
+					$this->paymentDefaultData,
+					$this->gatewayBuilder,
+					$this->ifthenpayGateway,
+					$this->configData,
+					$this->ifthenpayController,
+					$this->mix,
+					$this->twigDefaultData,
 					$this->status
 				);
 			case Gateway::IFTHENPAYGATEWAY:

@@ -13,6 +13,7 @@ use Ifthenpay\Payments\Cancel\CancelMbwayOrder;
 use Ifthenpay\Payments\Cancel\CancelPayshopOrder;
 use Ifthenpay\Payments\Cancel\CancelCCardOrder;
 use Ifthenpay\Payments\Cancel\CancelCofidisOrder;
+use Ifthenpay\Payments\Cancel\CancelPixOrder;
 use Ifthenpay\Payments\Cancel\CancelIfthenpaygatewayOrder;
 use Ifthenpay\Payments\Gateway;
 
@@ -64,6 +65,13 @@ class CancelIfthenpayOrderFactory extends Factory
 			case Gateway::COFIDIS:
 				return (
 					new CancelCofidisOrder(
+						$this->gatewayDataBuilder,
+						$this->paymentStatusFactory->setType($this->type)->build()
+					)
+				)->setIfthenpayController($this->ifthenpayController);
+			case Gateway::PIX:
+				return (
+					new CancelPixOrder(
 						$this->gatewayDataBuilder,
 						$this->paymentStatusFactory->setType($this->type)->build()
 					)

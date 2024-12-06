@@ -144,6 +144,13 @@ class CallbackProcess
 					$status
 				);
 				break;
+			case Gateway::PIX:
+				$this->ifthenpayController->load->model('extension/payment/pix');
+				$this->ifthenpayController->model_extension_payment_pix->updatePaymentStatus(
+					$this->paymentData['id_ifthenpay_pix'],
+					$status
+				);
+				break;
 			case Gateway::IFTHENPAYGATEWAY:
 				$this->ifthenpayController->load->model('extension/payment/ifthenpaygateway');
 				$this->ifthenpayController->model_extension_payment_ifthenpaygateway->updatePaymentStatus(

@@ -2,14 +2,12 @@
 
 // Heading
 $_['heading_title'] = 'Payshop';
-$_['heading_title_payshop'] = 'Payshop Configuration';
 
 // Text
 $_['text_extension'] = 'Extensions';
 $_['text_payment'] = 'Payment';
 $_['text_success'] = 'Success: You have modified Payshop payment module!';
 $_['text_payshop'] = '<a href="https:www.ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/payshop.png" class="ccardLogo" alt="Payshop Logo" title="Payshop" style="border: 1px solid #EEEEEE; width: 143px; height: 38px;" /><br /></a>';
-$_['acess_user_documentation'] = 'Access the user documentation.';
 $_['create_account_now'] = 'Create an account now!';
 $_['entry_order_status_canceled'] = 'Order Status Canceled:';
 

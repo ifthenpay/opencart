@@ -12,6 +12,7 @@ use Ifthenpay\Factory\Factory;
 use Ifthenpay\Payments\Payshop;
 use Ifthenpay\Payments\Multibanco;
 use Ifthenpay\Payments\Cofidis;
+use Ifthenpay\Payments\Pix;
 use Ifthenpay\Builders\DataBuilder;
 use Ifthenpay\Contracts\Payments\PaymentMethodInterface;
 use Ifthenpay\Request\WebService;
@@ -45,6 +46,8 @@ class PaymentFactory extends Factory
 				return new CCard($this->data, $this->orderId, $this->valor, $this->webService);
 			case Gateway::COFIDIS:
 				return new Cofidis($this->data, $this->orderId, $this->valor, $this->webService);
+			case Gateway::PIX:
+				return new Pix($this->data, $this->orderId, $this->valor, $this->webService);
 			case Gateway::IFTHENPAYGATEWAY:
 				return new Ifthenpaygateway($this->data, $this->orderId, $this->valor, $this->webService);
 			default:

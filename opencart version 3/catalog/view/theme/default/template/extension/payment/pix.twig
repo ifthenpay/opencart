@@ -1,0 +1,98 @@
+<form class="form-horizontal" id="ifthenpayPixForm" style="margin-top: 20px;">
+
+
+	<div class="form-group required">
+		<label class="col-sm-2 control-label" for="ifthenpay_pix_customerName">{{ entry_pix_name }}</label>
+		<div class="col-sm-10">
+			<input type="text" name="pix_customerName" id="ifthenpay_pix_customerName" class="form-control" value="{{ customerName }}">
+			<div class="ifthenpay_error_message text-danger"></div>
+		</div>
+	</div>
+
+	<div class="form-group required">
+		<label class="col-sm-2 control-label" for="ifthenpay_pix_customerCpf">{{ entry_pix_cpf }}</label>
+		<div class="col-sm-10">
+			<input type="text" name="pix_customerCpf" id="ifthenpay_pix_customerCpf" class="form-control">
+			<div class="ifthenpay_error_message text-danger"></div>
+		</div>
+	</div>
+
+	<div class="form-group required">
+		<label class="col-sm-2 control-label" for="ifthenpay_pix_customerEmail">{{ entry_pix_email }}</label>
+		<div class="col-sm-10">
+			<input type="text" name="pix_customerEmail" id="ifthenpay_pix_customerEmail" class="form-control" value="{{ customerEmail }}">
+			<div class="ifthenpay_error_message text-danger"></div>
+		</div>
+	</div>
+
+	{# separator #}
+
+	<div class="row bootstrap iftp_separator">
+		<hr class=""/>
+		<span class="text-muted">{{ pix_separator }}</span>
+		<hr class=""/>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label" for="ifthenpay_pix_customerPhone">{{ entry_pix_phone }}</label>
+		<div class="col-sm-10">
+			<input type="text" name="pix_customerPhone" id="ifthenpay_pix_customerPhone" class="form-control" value="{{ customerPhone }}">
+			<div class="ifthenpay_error_message text-danger"></div>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label" for="ifthenpay_pix_customerAddress">{{ entry_pix_address }}</label>
+		<div class="col-sm-10">
+			<input type="text" name="pix_customerAddress" id="ifthenpay_pix_customerAddress" class="form-control" value="{{ customerAddress }}">
+			<div class="ifthenpay_error_message text-danger"></div>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label" for="ifthenpay_pix_customerStreetNumber">{{ entry_pix_streetnumber }}</label>
+		<div class="col-sm-10">
+			<input type="text" name="pix_customerStreetNumber" id="ifthenpay_pix_customerStreetNumber" class="form-control">
+			<div class="ifthenpay_error_message text-danger"></div>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label" for="ifthenpay_pix_customerCity">{{ entry_pix_city }}</label>
+		<div class="col-sm-10">
+			<input type="text" name="pix_customerCity" id="ifthenpay_pix_customerCity" class="form-control" value="{{ customerCity }}">
+			<div class="ifthenpay_error_message text-danger"></div>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label" for="ifthenpay_pix_customerZipCode">{{ entry_pix_zipcode }}</label>
+		<div class="col-sm-10">
+			<input type="text" name="pix_customerZipCode" id="ifthenpay_pix_customerZipCode" class="form-control">
+			<div class="ifthenpay_error_message text-danger"></div>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label" for="ifthenpay_pix_customerState">{{ entry_pix_state }}</label>
+		<div class="col-sm-10">
+			<input type="text" name="pix_customerState" id="ifthenpay_pix_customerState" class="form-control">
+			<div class="ifthenpay_error_message text-danger"></div>
+		</div>
+	</div>
+
+
+</form>
+
+
+<div class="buttons">
+	<div class="pull-right">
+		<input type="button" value="{{ button_confirm }}" id="button-confirm" data-loading-text="{{ text_loading }}" class="btn btn-primary"/>
+	</div>
+</div>
+
+<link href="{{pixStyle}}" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+	var phpVariables = {{ phpVariables }};
+</script>
+<script type="text/javascript" src="{{pixScript}}"></script>

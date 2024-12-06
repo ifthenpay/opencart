@@ -2,14 +2,12 @@
 
 // Heading
 $_['heading_title'] = 'Multibanco';
-$_['heading_title_multibanco'] = 'Multibanco Configuration';
 
 // Text
 $_['text_extension'] = 'Extensions';
 $_['text_payment'] = 'Payment';
 $_['text_success'] = 'Success: You have modified Multibanco payment module!';
 $_['text_multibanco'] = '<a href="https:www.ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/multibanco.png" class="ccardLogo" alt="ATM Logo" title="ATM" style="border: 1px solid #EEEEEE; width: 133px; height: 38px;" /><br /></a>';
-$_['acess_user_documentation'] = 'Access the user documentation.';
 $_['create_account_now'] = 'Create an account now!';
 
 //Entry

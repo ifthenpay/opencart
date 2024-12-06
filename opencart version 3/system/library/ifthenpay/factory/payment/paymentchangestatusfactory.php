@@ -13,11 +13,13 @@ use Ifthenpay\Payments\PayshopPaymentStatus;
 use Ifthenpay\Payments\MultibancoPaymentStatus;
 use Ifthenpay\Payments\CCardPaymentStatus;
 use Ifthenpay\Payments\CofidisPaymentStatus;
+use Ifthenpay\Payments\PixPaymentStatus;
 use Ifthenpay\Payments\Data\MbwayChangePaymentStatus;
 use Ifthenpay\Payments\Data\PayshopChangePaymentStatus;
 use Ifthenpay\Payments\Data\MultibancoChangePaymentStatus;
 use Ifthenpay\Payments\Data\CCardChangePaymentStatus;
 use Ifthenpay\Payments\Data\CofidisChangePaymentStatus;
+use Ifthenpay\Payments\Data\PixChangePaymentStatus;
 use Ifthenpay\Payments\Data\IfthenpaygatewayChangePaymentStatus;
 use Ifthenpay\Request\WebService;
 use Ifthenpay\Payments\Gateway;
@@ -68,6 +70,13 @@ class PaymentChangeStatusFactory extends Factory
 				return new CofidisChangePaymentStatus(
 					$this->gatewayDataBuilder,
 					$this->ioc->make(CofidisPaymentStatus::class),
+					$this->ioc->make(WebService::class),
+					$this->ifthenpayController
+				);
+			case Gateway::PIX:
+				return new PixChangePaymentStatus(
+					$this->gatewayDataBuilder,
+					$this->ioc->make(PixPaymentStatus::class),
 					$this->ioc->make(WebService::class),
 					$this->ifthenpayController
 				);

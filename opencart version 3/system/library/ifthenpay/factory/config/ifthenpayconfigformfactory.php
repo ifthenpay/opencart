@@ -13,6 +13,7 @@ use Ifthenpay\Forms\MbwayConfigForm;
 use Ifthenpay\Forms\PayshopConfigForm;
 use Ifthenpay\Forms\MultibancoConfigForm;
 use Ifthenpay\Forms\CofidisConfigForm;
+use Ifthenpay\Forms\PixConfigForm;
 use Ifthenpay\Builders\GatewayDataBuilder;
 use Ifthenpay\Forms\IfthenpaygatewayConfigForm;
 use Ifthenpay\Utility\Mix;
@@ -64,6 +65,13 @@ class IfthenpayConfigFormFactory extends Factory
 				);
 			case Gateway::COFIDIS:
 				return new CofidisConfigForm(
+					$this->ioc,
+					$this->gatewayDataBuilder,
+					$this->gateway,
+					$this->mix
+				);
+			case Gateway::PIX:
+				return new PixConfigForm(
 					$this->ioc,
 					$this->gatewayDataBuilder,
 					$this->gateway,
