@@ -251,6 +251,9 @@ class IfthenpayControllerCatalog extends Controller
 
 	public function checkPaymentStatusCron(): void
 	{
+		header("HTTP/1.1 410 Gone");
+		return;
+
 		try {
 			$this->{$this->dynamicModelName}->log('', 'Check ' . $this->paymentMethod . ' payment status cron started');
 			if (in_array($this->paymentMethod, $this->ifthenpayContainer->getIoc()->make(Gateway::class)->getPaymentMethodsCanCancel())) {
