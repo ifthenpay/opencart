@@ -2,13 +2,16 @@
 
 namespace Ifthenpay\Utility;
 
-class Token {
+class Token
+{
 
-    public function encrypt(string $input): string {
-        return urlencode(base64_encode( $input));
-    }
+	public function encrypt(string $input): string
+	{
+		return base64_encode($input);
+	}
 
-    public function decrypt(string $input): string {
-        return base64_decode(urldecode($input));
-    }
+	public function decrypt(string $input): string
+	{
+		return base64_decode($input);
+	}
 }

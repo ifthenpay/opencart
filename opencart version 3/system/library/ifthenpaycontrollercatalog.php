@@ -117,7 +117,9 @@ class IfthenpayControllerCatalog extends Controller
 					'orderInfo' => $order_info,
 					'errorMessage' => $th->getMessage()
 				], 'Error Processing Payment');
-				$json['error'] = $th->getMessage();
+
+
+				$json['error'] = 'An error has occurred during checkout payment. Please try again or contact store admin.';
 				$this->response->addHeader('Content-Type: application/json');
 				$this->response->addHeader('HTTP/1.0 400 Bad Request');
 				$this->response->setOutput(json_encode($json));
@@ -234,12 +236,12 @@ class IfthenpayControllerCatalog extends Controller
 	public function cancelOrderCron(): void
 	{
 		try {
-			$this->{$this->dynamicModelName}->log('', 'Cancel ' . $this->paymentMethod . ' order cron started');
+			// $this->{$this->dynamicModelName}->log('', 'Cancel ' . $this->paymentMethod . ' order cron started');
 			$this->ifthenpayContainer->getIoc()->make(IfthenpayCancelOrder::class)
 				->setPaymentMethod($this->paymentMethod)
 				->setIfthenpayController($this)
 				->execute();
-			$this->{$this->dynamicModelName}->log('', 'Cancel ' . $this->paymentMethod . ' order cron finish');
+			// $this->{$this->dynamicModelName}->log('', 'Cancel ' . $this->paymentMethod . ' order cron finish');
 			header("HTTP/1.1 200 OK");
 		} catch (\Throwable $th) {
 			$this->{$this->dynamicModelName}->log([
@@ -251,25 +253,9 @@ class IfthenpayControllerCatalog extends Controller
 
 	public function checkPaymentStatusCron(): void
 	{
+		// Check payment status cron longer supported
 		header("HTTP/1.1 410 Gone");
 		return;
-
-		try {
-			$this->{$this->dynamicModelName}->log('', 'Check ' . $this->paymentMethod . ' payment status cron started');
-			if (in_array($this->paymentMethod, $this->ifthenpayContainer->getIoc()->make(Gateway::class)->getPaymentMethodsCanCancel())) {
-				$this->ifthenpayContainer->getIoc()->make(IfthenpayPaymentStatus::class)
-					->setPaymentMethod($this->paymentMethod)
-					->setIfthenpayController($this)
-					->execute();
-			}
-			$this->{$this->dynamicModelName}->log('', 'Check ' . $this->paymentMethod . ' payment status cron finish');
-			header("HTTP/1.1 200 OK");
-		} catch (\Throwable $th) {
-			$this->{$this->dynamicModelName}->log([
-				'errorMessage' => $th->getMessage()
-			], 'Error Check ' . $this->PaymentMethod . ' payment status cron');
-			header("HTTP/1.1 400 Bad Request");
-		}
 	}
 
 	private function backofficePaymentProcessing(string $orderId): void
