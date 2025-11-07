@@ -76,6 +76,7 @@ Ler em ![Portuguese](assets/pt.png) [Português](readme.pt.md), ou ![English](as
 
 ![img](assets/payment_methods_banner.png)
 </br>
+
 **Esta é a extensão ifthenpay para a plataforma ecommerce Opencart**
 
 **Multibanco** é um método de pagamento que permite ao consumidor pagar com referência bancária. Esta extensão permite gerar referências de pagamento que o consumidor pode usar para pagar a sua encomenda numa caixa multibanco ou num serviço online de Home Banking. Este plugin usa a ifthenpay, uma das várias gateways disponíveis em Portugal.
@@ -398,7 +399,8 @@ Clique em salvar (20) para guardar as alterações.
 Se ativou a opção Instrução do Método de Pagamento em qualquer configuração dos métodos de pagamento, será exibida uma mensagem explicativa do método de pagamento antes de confirmar a compra.
 ![img](assets/checkout_instruction.png)
 
-</br>  
+</br>
+
 Esta mensagem pode ser editada nos ficheiros de tradução.  
 Encontre o ficheiro de idioma do catálogo que pretende editar em `catalog/language/en-gb/extension/payment/{PAYMENT_METHOD}` e edite a linha com `$_['{PAYMENT_METHOD}_instruction'] = "texto da instrução de pagamento";`
 Por exemplo, para alterar a tradução em inglês da instrução do MB WAY, deve ir ao ficheiro catalog/language/en-gb/extension/payment/mbway.php e modificar o texto à direita do sinal de igual na linha com$_['mbway_instruction'].
@@ -606,26 +608,31 @@ No caso da configuração de Exibir Contagem estar ativa, será exibida a contag
 
 O contador atualizará automaticamente o estado do pagamento no caso de sucesso, rejeição por parte do utilizador da App MB WAY, expiração do tempo limite ou erro. Em caso de sucesso será exibida a mensagem de sucesso.
 </br>
+
 ![img](assets/payment_return_mbway_success.png)
 </br>
 
 Em caso de rejeição pelo utilizador será exibida a mensagem de rejeitado.
 </br>
+
 ![img](assets/payment_return_mbway_rejected.png)
 </br>
 
 Em caso de expiração do tempo será exibida a mensagem de expirado.
 </br>
+
 ![img](assets/payment_return_mbway_timeout.png)
 </br>
 
 Em caso de falha ao comunicar com a App MB WAY ou introdução de um número de telemóvel inválido, será exibida uma mensagem de erro.
 </br>
+
 ![img](assets/payment_return_mbway_error.png)
 </br>
 
 Quando ocorre um erro ou atinge o tempo limite, ou recusa o pagamento na App MB WAY, o consumidor pode tentar novamente clicando em Reenviar notificação MB WAY.
 </br>
+
 ![img](assets/payment_return_mbway_resend.png)
 </br>
 

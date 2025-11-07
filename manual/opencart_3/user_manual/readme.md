@@ -76,6 +76,7 @@ Read in ![Portuguese](assets/pt.png) [Portuguese](readme.pt.md), or ![English](a
 
 ![img](assets/payment_methods_banner.png)
 </br>
+
 **This is the ifthenpay extension for the Opencart ecommerce platform.**
 
 **Multibanco** is a Portuguese payment method that allows the consumer to pay through a bank reference. This extension enables the generation of payment references that the consumer can use to pay for their order at an ATM (Multibanco) or through an online home banking service. This extension utilizes ifthenpay, one of the various available gateways in Portugal.
@@ -399,6 +400,7 @@ If you enabled the Payment Method Instruction option in a any method config, the
 ![img](assets/checkout_instruction.png)
 
 </br>
+
 This message can be edited in the translation files.
 Find the catalog language file you want to edit at `catalog/language/en-gb/extension/payment/{PAYMENT_METHOD}` and edit the line with "$[{PAYMENT_METHOD}] = "payment instruction text".
 For example, to change the english translation for MB WAY instruction, you would go to catalog/language/en-gb/extension/payment/mbway.php, and change the text to the right of equal sign in the line with "$_['mbway_instruction']".
@@ -606,26 +608,31 @@ If the Display Countdown configuration is active, the countdown timer for the pa
 
 The timer will automatically update the payment status in case of success, rejection by the user in the MB WAY app, expiration of the time limit, or an error. In the case of success, a success message will be displayed.
 </br>
+
 ![img](assets/payment_return_mbway_success.png)
 </br>
 
 In case of rejection by the user, a "rejection" message will be displayed.
 </br>
+
 ![img](assets/payment_return_mbway_rejected.png)
 </br>
 
 In case of time expiration, an "expired" message will be displayed.
 </br>
+
 ![img](assets/payment_return_mbway_timeout.png)
 </br>
 
 In case of failure to communicate with the MB WAY app or entering an invalid phone number, an "error" message will be displayed.
 </br>
+
 ![img](assets/payment_return_mbway_error.png)
 </br>
 
 When an error occurs, the time limit is reached, or the payment is declined in the MB WAY app, the consumer can try again by clicking on the "Resend MB WAY notification" button.
 </br>
+
 ![img](assets/payment_return_mbway_resend.png)
 </br>
 
