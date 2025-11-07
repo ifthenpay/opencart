@@ -6,7 +6,7 @@ $_['heading_title'] = 'Ifthenpay Gateway';
 $_['text_extension'] = 'Extensions';
 $_['text_payment'] = 'Pagamento';
 $_['text_success'] = 'Sucesso: Configuração do módulo Ifthenpay Gateway alterada!';
-$_['text_ifthenpaygateway'] = '<a href="https:www.ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/ifthenpaygateway.png" class="ccardLogo" alt="Ifthenpay Gateway Logo" title="Ifthenpay Gateway" style="border: 1px solid #EEEEEE; width: 144px; height: 38px;" /><br /></a>';
+$_['text_ifthenpaygateway'] = '<a href="https://ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/ifthenpaygateway.png" alt="Ifthenpay Gateway Logo" title="Ifthenpay Gateway" style="border: 1px solid #EEEEEE; height: 38px;" /><br /></a>';
 $_['create_account_now'] = 'Crie uma conta agora!';
 $_['text_home'] = 'Home';
 $_['text_all_zones'] = 'Todas as regiões';
@@ -23,8 +23,8 @@ $_['sandbox_mode'] = 'Modo Sandbox';
 $_['dontHaveAccount_ifthenpaygateway'] = 'Não tem conta Ifthenpay Gateway?';
 $_['requestAccount_ifthenpaygateway'] = 'Solicitar criação de conta Ifthenpay Gateway';
 $_['newUpdateAvailable'] = 'Nova atualização disponível!';
-$_['moduleUpToDate'] = 'O módulo está atualizado!';
-$_['downloadUpdateModule'] = 'Download Update Módulo';
+$_['extensionUpToDate'] = 'A extensão está atualizada!';
+$_['downloadExtensionUpdate'] = 'Download Atualização da Extensão';
 $_['entry_minimum_value'] = 'Valor Mínimo da Encomenda';
 $_['help_entry_minimum_value'] = 'Apenas exibe este método de pagamento se o valor da encomenda for superior ao valor mínimo';
 $_['entry_maximum_value'] = 'Valor Máximo da Encomenda';
@@ -64,7 +64,6 @@ $_['entry_geo_zone'] = 'Geo Zone:';
 $_['entry_status'] = 'Estados:';
 $_['entry_sort_order'] = 'Ordem do Método de Pagamento:';
 $_['entry_ifthenpaygateway_ifthenpaygatewayKey'] = 'Ifthenpay Gateway key';
-$_['choose_key'] = 'Escolha a chave';
 $_['text_request_ifthenpaygateway_method_btn'] = 'Pedir Método de pagamento Ifthenpay Gateway';
 
 $_['activate_cancelIfthenpaygatewayOrder'] = 'Cancelar Encomenda Ifthenpay Gateway';
@@ -101,10 +100,6 @@ $_['head_cancel_cron'] = '(Cron Job) Cancelar encomendas com Ifthenpay Gateway';
 $_['text_cancel_cron_desc'] = 'Pode definir um cron job para alterar o estado da encomenda para "Cancelada", se a encomenda não for paga dentro da validade após a confirmação da encomenda.';
 $_['text_cancel_cron_schedule'] = 'Temporize o cron job para ser executado a cada 1 minuto.';
 
-$_['head_check_cron'] = '(Cron Job) Verificar o estado de encomendas com Ifthenpay Gateway';
-$_['text_check_cron_desc'] = 'Se não for possivel ativar o callback, pode definir o cron job abaixo para consultar o estado do pagamento.';
-$_['text_check_cron_schedule'] = 'Temporize o cron job para ser executado a cada dia às 1h:00m.';
-
 
 $_['error_invalid_max_number'] = 'Aviso: Valor de encomenda máximo inválido!';
 $_['error_invalid_min_number'] = 'Aviso: Valor de encomenda mínimo inválido!';
@@ -112,10 +107,8 @@ $_['error_incompatible_min_max'] = 'Aviso: Valor de encomenda mínimo e máximo 
 $_['error_key_required'] = 'Aviso: Chave Ifthenpay Gateway é obrigatória!';
 $_['error_invalid_deadline'] = 'Aviso: Valor de Validade inválido!';
 $_['error_missing_image_edit_dependency_to_create_composite_image'] = 'Aviso: Não foi possível gerar a imagem composta do método de pagamento por falta de dependências necessárias para executar a tarefa!';
-$_['error_missing_file_permissions_to_create_composite_image'] = 'Não foi possível gerar a imagem composta do método de pagamento por falta de permissões de escrita de ficheiro necessárias para executar a tarefa!';
+$_['error_missing_file_permissions_to_create_composite_image'] = 'Não foi possível gerar a imagem composta do método de pagamento por falta de permissões de escrita de ficheiro necessárias para executar a tarefa! Atribuar permissão de leitura/escrita ao folder /catalog/view/theme/default/image/ifthenpay/ para prosseguir com alteração.';
 
 
 
 $_['text_ifthenpaygateway_Alias'] = 'Ifthenpay Gateway';
-
-?>

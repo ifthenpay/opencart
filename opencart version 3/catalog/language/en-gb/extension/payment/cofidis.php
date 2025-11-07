@@ -20,4 +20,5 @@ $_['cofidis_desc_line_2'] = ' - up to 12 interest-free installments';
 $_['cofidis_desc_line_3'] = 'You will be redirected to a secure page to make the payment.';
 $_['cofidis_desc_line_4'] = 'Pay for your order in installments without interest or charges using your debit or credit card.';
 $_['cofidis_desc_line_5'] = 'Payment of installments will be made to the customer\'s debit or credit card through a payment solution based on a factoring contract between Cofidis and the Merchant. Find out more at Cofidis, registered with Banco de Portugal under number 921.';
-?>
+$_['cofidis_confirm_panel_desc'] = 'You have chosen the Cofidis Pay payment method to pay for your order.';
+$_['cofidis_instruction'] = "After confirming your order, you will be redirected to the Cofidis Pay Gateway page, where you can log in to your Cofidis account and configure your settlement plan to pay for your order. \n After which you will be redirected back to the store.";

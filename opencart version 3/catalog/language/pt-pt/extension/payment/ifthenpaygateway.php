@@ -12,12 +12,13 @@ $_['ifthenpayPaymentPanelValidade'] = 'Validade:';
 
 
 $_['ifthenpayPaymentPanelTotalToPay'] = 'Valor:';
-$_['ifthenpayPaymentPanelOrder'] = 'Encomenda:';
+$_['ifthenpayPaymentPanelOrderId'] = 'ID de Encomenda:';
 $_['ifthenpayAlias'] = 'Ifthenpay Gateway';
 $_['paymentConfirmedSuccess'] = 'Pagamento completado com  ';
 
 $_['order_confirmed'] = 'Encomenda Confirmada';
 $_['paymentPending'] = 'Encomenda Pendente';
 
-
-?>
+$_['ifthenpaygatewayAlias'] = 'Ifthenpay Gateway';
+$_['ifthenpaygateway_confirm_panel_desc'] = 'Escolheu o método de pagamento por Ifthenpay Gateway para pagar a sua encomenda.';
+$_['ifthenpaygateway_instruction'] = "Depois de confirmar a sua encomenda, será redirecionado para a página do Gateway Ifthenpay, onde poderá escolher um dos métodos de pagamento disponíveis para concluir o seu pagamento. \n Após comfirmar o pagamento ou clicar em voltar, será redirecionado de volta para a loja.";

@@ -342,8 +342,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       InsertResendPaymentDataButton.prototype.init = function () {
         if (phpVariables.paymentMethod === IfthenpayPaymentMethods_1.IfthenpayPaymentMethod.MBWAY) {
           if ($('#adminResendMbwayNotification').length === 0) {
-            $("<a id=\"adminResendMbwayNotification\" href=\"" + phpVariables.resendMbwayNotificationUrl + "\" data-toggle=\"tooltip\" \n                    data-paymentdata=" + phpVariables.paymentMethod + " title=\"" + phpVariables.paymentMethodLanguage.adminResendMbwayNotification + "\" \n                    class=\"btn btn-warning\" style=\"width: 60px;margin-right: 5px;padding:0px\">\n                    <img src=\"" + phpVariables.catalogUrl + phpVariables.mbwaySvgUrl + "\" class=\"icon\" \n                    alt=\"" + IfthenpayPaymentMethods_1.IfthenpayPaymentMethod.MBWAY + " logo\" style=\"pointer-events: none;\">" + this.getSpinnerHtml() + "</a>").insertBefore(this.faPrintBtn.parent());
-          }
+            $("<a id=\"adminResendMbwayNotification\" href=\"" + phpVariables.resendMbwayNotificationUrl + "\" data-toggle=\"tooltip\" \n                    data-paymentdata=" + phpVariables.paymentMethod + " title=\"" + phpVariables.paymentMethodLanguage.adminResendMbwayNotification + "\" \n                    class=\"btn btn-warning\" style=\"margin-right: 5px;padding:2px\">\n                    <img src=\"" + phpVariables.catalogUrl + phpVariables.mbwaySvgUrl + "\" class=\"icon\" \n                    alt=\"" + IfthenpayPaymentMethods_1.IfthenpayPaymentMethod.MBWAY + " logo\" style=\"pointer-events: none;height: 30px;\">" + this.getSpinnerHtml() + "</a>").insertBefore(this.faPrintBtn.parent());
+          } // catalog/view/theme/default/image/ifthenpay/mbway.png
+
         }
 
         if (phpVariables.paymentMethod !== IfthenpayPaymentMethods_1.IfthenpayPaymentMethod.CCARD && phpVariables.paymentMethod !== IfthenpayPaymentMethods_1.IfthenpayPaymentMethod.MBWAY) {
@@ -360,86 +361,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     }();
 
     exports.InsertResendPaymentDataButton = InsertResendPaymentDataButton;
-    /***/
-  },
-
-  /***/
-  "./_dev/js/classes/RemoveBr.ts":
-  /*!*************************************!*\
-    !*** ./_dev/js/classes/RemoveBr.ts ***!
-    \*************************************/
-
-  /*! no static exports found */
-
-  /***/
-  function _devJsClassesRemoveBrTs(module, exports, __webpack_require__) {
-    "use strict";
-
-    var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-      var c = arguments.length,
-          r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-          d;
-      if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) {
-        if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-      }
-      return c > 3 && r && Object.defineProperty(target, key, r), r;
-    };
-
-    var __metadata = this && this.__metadata || function (k, v) {
-      if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-    };
-
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports.RemoveBr = void 0;
-
-    var inversify_1 = __webpack_require__(
-    /*! inversify */
-    "./node_modules/inversify/lib/inversify.js");
-
-    var RemoveBr =
-    /** @class */
-    function () {
-      function RemoveBr() {
-        this.brTag = 'br';
-      }
-
-      RemoveBr.prototype.removeBrFromHeader = function () {
-        this.panelOrderIfthenpayHeader.find(this.brTag).remove();
-      };
-
-      RemoveBr.prototype.removeBrFromBody = function () {
-        this.panelOrderIfthenpayBody.find(this.brTag).remove();
-        this.panelOrderIfthenpayBody.find('div.paymentLogo').css('margin-bottom', '10px').find(this.brTag).remove();
-        this.panelOrderIfthenpayBody.find('div.paymentData').find(this.brTag).remove().find('ul.list-group').find(this.brTag).remove().find('li.list-group-item').find(this.brTag).remove();
-      };
-
-      RemoveBr.prototype.init = function () {
-        var _this = this;
-
-        setTimeout(function () {
-          _this.panelOrderIfthenpay = $('div.panel-order-ifthenpay');
-          _this.panelOrderIfthenpayHeader = _this.panelOrderIfthenpay.find('div.panel-heading');
-          _this.panelOrderIfthenpayBody = _this.panelOrderIfthenpay.find('div.panel-body');
-
-          if (_this.panelOrderIfthenpay.length > 0) {
-            _this.removeBrFromHeader();
-
-            _this.removeBrFromBody();
-
-            _this.panelOrderIfthenpay.find(_this.brTag).remove();
-
-            console.log('removed');
-          }
-        }, 5000);
-      };
-
-      RemoveBr = __decorate([inversify_1.injectable(), __metadata("design:paramtypes", [])], RemoveBr);
-      return RemoveBr;
-    }();
-
-    exports.RemoveBr = RemoveBr;
     /***/
   },
 
@@ -490,41 +411,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     containerAdminOrderInfoPage.bind(AdminOrderInfoPage_1.AdminOrderInfoPage).toSelf();
     containerAdminOrderInfoPage.bind(AdminOrderInfoPageCreateApp_1.AdminOrderInfoPageCreateApp).toSelf();
     exports["default"] = containerAdminOrderInfoPage;
-    /***/
-  },
-
-  /***/
-  "./_dev/js/container/inversify.adminOrderPage.ts":
-  /*!*******************************************************!*\
-    !*** ./_dev/js/container/inversify.adminOrderPage.ts ***!
-    \*******************************************************/
-
-  /*! no static exports found */
-
-  /***/
-  function _devJsContainerInversifyAdminOrderPageTs(module, exports, __webpack_require__) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-
-    var inversify_1 = __webpack_require__(
-    /*! inversify */
-    "./node_modules/inversify/lib/inversify.js");
-
-    var RemoveBr_1 = __webpack_require__(
-    /*! ../classes/RemoveBr */
-    "./_dev/js/classes/RemoveBr.ts");
-
-    var AdminOrderPageCreateApp_1 = __webpack_require__(
-    /*! ../facades/AdminOrderPageCreateApp */
-    "./_dev/js/facades/AdminOrderPageCreateApp.ts");
-
-    var containerAdminOrderPage = new inversify_1.Container();
-    containerAdminOrderPage.bind(RemoveBr_1.RemoveBr).toSelf();
-    containerAdminOrderPage.bind(AdminOrderPageCreateApp_1.AdminOrderPageCreateApp).toSelf();
-    exports["default"] = containerAdminOrderPage;
     /***/
   },
 
@@ -744,17 +630,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /*! inversify */
     "./node_modules/inversify/lib/inversify.js");
 
-    var RemoveBr_1 = __webpack_require__(
-    /*! ../classes/RemoveBr */
-    "./_dev/js/classes/RemoveBr.ts");
-
     var inversify_adminOrderInfoPage_1 = __webpack_require__(
     /*! ../container/inversify.adminOrderInfoPage */
     "./_dev/js/container/inversify.adminOrderInfoPage.ts");
-
-    var inversify_adminOrderPage_1 = __webpack_require__(
-    /*! ../container/inversify.adminOrderPage */
-    "./_dev/js/container/inversify.adminOrderPage.ts");
 
     var Event_1 = __webpack_require__(
     /*! ../decorators/Event */
@@ -831,7 +709,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       AdminOrderInfoPage.prototype.adminResendMbwayNotification = function (event) {
         var _this = this;
 
-        console.log(event);
         this.setEventDefault(event, true);
         this.spinner = this.eventTarget.children('.appSpinner');
         this.toggleBtnWithImgIconLoadCss(true);
@@ -877,17 +754,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         });
       };
 
-      AdminOrderInfoPage.prototype.setRemoveBrFromHistory = function (event) {
-        console.log('funcionou');
-        this.setEventDefault(event, false);
-        inversify_adminOrderPage_1["default"].get(RemoveBr_1.RemoveBr).init();
-      };
-
       __decorate([Event_1.Event('click', '#content', '#adminResendMbwayNotification'), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminOrderInfoPage.prototype, "adminResendMbwayNotification", null);
 
       __decorate([Event_1.Event('click', '#content', '#adminResendEmailPaymentData'), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminOrderInfoPage.prototype, "resendEmailPaymentData", null);
-
-      __decorate([Event_1.Event('click', '#content', $('.pagination').find('span')), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminOrderInfoPage.prototype, "setRemoveBrFromHistory", null);
 
       AdminOrderInfoPage = __decorate([inversify_1.injectable()], AdminOrderInfoPage);
       return AdminOrderInfoPage;
@@ -1061,110 +930,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     }(MainApp_1.MainApp);
 
     exports.AdminOrderInfoPageCreateApp = AdminOrderInfoPageCreateApp;
-    /***/
-  },
-
-  /***/
-  "./_dev/js/facades/AdminOrderPageCreateApp.ts":
-  /*!****************************************************!*\
-    !*** ./_dev/js/facades/AdminOrderPageCreateApp.ts ***!
-    \****************************************************/
-
-  /*! no static exports found */
-
-  /***/
-  function _devJsFacadesAdminOrderPageCreateAppTs(module, exports, __webpack_require__) {
-    "use strict";
-
-    var __extends = this && this.__extends || function () {
-      var _extendStatics4 = function extendStatics(d, b) {
-        _extendStatics4 = Object.setPrototypeOf || {
-          __proto__: []
-        } instanceof Array && function (d, b) {
-          d.__proto__ = b;
-        } || function (d, b) {
-          for (var p in b) {
-            if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p];
-          }
-        };
-
-        return _extendStatics4(d, b);
-      };
-
-      return function (d, b) {
-        if (typeof b !== "function" && b !== null) throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-
-        _extendStatics4(d, b);
-
-        function __() {
-          this.constructor = d;
-        }
-
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-      };
-    }();
-
-    var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-      var c = arguments.length,
-          r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-          d;
-      if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) {
-        if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-      }
-      return c > 3 && r && Object.defineProperty(target, key, r), r;
-    };
-
-    var __metadata = this && this.__metadata || function (k, v) {
-      if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-    };
-
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports.AdminOrderPageCreateApp = void 0;
-
-    var inversify_1 = __webpack_require__(
-    /*! inversify */
-    "./node_modules/inversify/lib/inversify.js");
-
-    var RemoveBr_1 = __webpack_require__(
-    /*! ../classes/RemoveBr */
-    "./_dev/js/classes/RemoveBr.ts");
-
-    var inversify_adminOrderPage_1 = __webpack_require__(
-    /*! ../container/inversify.adminOrderPage */
-    "./_dev/js/container/inversify.adminOrderPage.ts");
-
-    var AppComponent_1 = __webpack_require__(
-    /*! ../decorators/AppComponent */
-    "./_dev/js/decorators/AppComponent.ts");
-
-    var MainApp_1 = __webpack_require__(
-    /*! ./MainApp */
-    "./_dev/js/facades/MainApp.ts");
-
-    var AdminOrderPageCreateApp =
-    /** @class */
-    function (_super) {
-      __extends(AdminOrderPageCreateApp, _super);
-
-      function AdminOrderPageCreateApp() {
-        var _this = _super.call(this) || this;
-
-        _this.container = inversify_adminOrderPage_1["default"];
-        return _this;
-      }
-
-      AdminOrderPageCreateApp.prototype.start = function () {};
-
-      AdminOrderPageCreateApp = __decorate([inversify_1.injectable(), AppComponent_1.AppComponent({
-        pageEvents: [],
-        apps: [RemoveBr_1.RemoveBr]
-      }), __metadata("design:paramtypes", [])], AdminOrderPageCreateApp);
-      return AdminOrderPageCreateApp;
-    }(MainApp_1.MainApp);
-
-    exports.AdminOrderPageCreateApp = AdminOrderPageCreateApp;
     /***/
   },
 

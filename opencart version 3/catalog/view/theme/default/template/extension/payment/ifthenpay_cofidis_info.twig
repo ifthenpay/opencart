@@ -1,0 +1,42 @@
+<script>
+	jQuery(function () {
+const html = `
+					<div id="ifthenpay_cofidis_desc">
+					<p></p>
+					<p><strong>{{ cofidis_desc_line_1 }}</strong>{{ cofidis_desc_line_2 }}</p>
+					<p>{{ cofidis_desc_line_3 }}</p>
+					<p>{{ cofidis_desc_line_4 }}</p>
+					<p>{{ cofidis_desc_line_5 }}</p>
+					</br>
+					</div>
+				`;
+
+$.fn.appendCofidisInfo = function() {
+    const paymentRadio = this.parents('.radio');
+    if (paymentRadio.find('#ifthenpay_cofidis_desc').length) {
+        return;
+    }
+    this.parents('.radio').append(html);
+}
+
+const paymentMethodsElements = $('input[name="payment_method"]');
+const cofidisElement = $('input[name="payment_method"][value="cofidis"]');
+
+if (cofidisElement && paymentMethodsElements) {
+
+if (cofidisElement && cofidisElement.is(':checked')) {
+cofidisElement.appendCofidisInfo();
+}
+
+paymentMethodsElements.on('change', function () {
+const cofidisDesc = $('#ifthenpay_cofidis_desc');
+
+if (cofidisElement.is(':checked')) {
+cofidisElement.appendCofidisInfo();
+} else if (cofidisDesc) {
+cofidisDesc.remove();
+}
+});
+}
+});
+</script>

@@ -17,13 +17,14 @@ class MbwayPaymentReturn extends MbwayBase implements PaymentReturnInterface
         $this->twigDefaultData->setOrderId((string) $this->paymentDefaultData->order['order_id']);
         $this->twigDefaultData->setIdPedido($this->paymentGatewayResultData->idPedido);
         $this->twigDefaultData->setResendMbwayNotificationControllerUrl(
-            $this->ifthenpayController->url->link('extension/payment/mbway/resendMbwayNotification', 
+            $this->ifthenpayController->url->link(
+                'extension/payment/mbway/resendMbwayNotification',
                 [
                     'orderId' => $this->paymentDefaultData->order['order_id'],
                     'mbwayTelemovel' => $this->paymentGatewayResultData->telemovel,
                     'orderTotalPay' => $this->paymentDefaultData->order['total'],
                 ]
-            )            
+            )
         );
         $this->twigDefaultData->setMbwayCountdownShow(true);
         $this->twigDefaultData->setIfthenpayPaymentPanelIdPedido($this->ifthenpayController->language->get('ifthenpayPaymentPanelIdPedido'));
@@ -37,9 +38,10 @@ class MbwayPaymentReturn extends MbwayBase implements PaymentReturnInterface
             $this->gatewayBuilder,
             strval($this->paymentDefaultData->order['order_id']),
             strval(
-                $this->ifthenpayController->currency->format($this->paymentDefaultData->order['total'], 
-                    $this->paymentDefaultData->order['currency_code'], 
-                    $this->paymentDefaultData->order['currency_value'], 
+                $this->ifthenpayController->currency->format(
+                    $this->paymentDefaultData->order['total'],
+                    $this->paymentDefaultData->order['currency_code'],
+                    $this->paymentDefaultData->order['currency_value'],
                     false
                 )
             )

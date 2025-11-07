@@ -18,7 +18,7 @@ $_['paymentReturnMbwayOrderRefused'] = 'Order payment refused from MB WAY app.';
 $_['paymentReturnMbwayOrderError'] = 'Order payment by MB WAY failed either from incorrect phone number or SIBS downtime.';
 $_['ifthenpayPaymentPanelTotalToPay'] = 'Total to pay:';
 $_['ifthenpayPaymentPanelPhone'] = 'Phone:';
-$_['ifthenpayPaymentPanelOrder'] = 'Order:';
+$_['ifthenpayPaymentPanelOrderId'] = 'Order ID:';
 $_['ifthenpayPaymentPanelMbwayNotificationNotReceive'] = 'Did not receive MBway notification?';
 $_['ifthenpayPaymentPanelMbwayResendNotification'] = 'Resend MBway notification';
 $_['error_payment_mbway_input_required'] = 'MB WAY phone is required!';
@@ -31,7 +31,6 @@ $_['mbwayOrderExpiredCanceled'] = 'Order canceled because MB WAY notification ex
 $_['paymentConfirmedSuccess'] = 'Payment made with success.';
 $_['mbwayPhoneNumber'] = 'MB WAY Phone Number';
 
-$_['entry_mbway_phone_number'] = 'Please enter the mobile phone number associated with your MBWay account.';
-
-
-?>
+$_['entry_mbway_mobile_number'] = 'Mobile Number';
+$_['mbway_confirm_panel_desc'] = 'You have chosen the MB WAY payment method to pay for your order.';
+$_['mbway_instruction'] = "Please enter the mobile phone number associated with your MB WAY account and confirm your order. \n A payment notification will be sent to your MB WAY app, where you can approve the payment.";

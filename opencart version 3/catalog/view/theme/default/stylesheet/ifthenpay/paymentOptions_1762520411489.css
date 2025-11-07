@@ -53,3 +53,25 @@ input[type=number] {
   margin-left: 8px;
   margin-right: 8px;
 }
+
+.ifthenpay_confirm_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.ifthenpay_confirm_header h2 {
+  margin: 0;
+}
+
+/* Mobile view - reverse order */
+@media (max-width: 768px) {
+  .ifthenpay_confirm_header {
+    justify-content: start;
+  }
+
+  .ifthenpay_confirm_header h2 {
+    display: none;
+  }
+}

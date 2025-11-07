@@ -18,7 +18,7 @@ $_['paymentReturnMbwayOrderRefused'] = 'Pagamento de encomenda recusado por util
 $_['paymentReturnMbwayOrderError'] = 'Pagamento da encomenda por MB WAY falhou, por introduzir um número de telemóvel incorreto, ou por falha de serviço SIBS.';
 $_['ifthenpayPaymentPanelTotalToPay'] = 'Valor:';
 $_['ifthenpayPaymentPanelPhone'] = 'Telemóvel:';
-$_['ifthenpayPaymentPanelOrder'] = 'Encomenda:';
+$_['ifthenpayPaymentPanelOrderId'] = 'ID de Encomenda:';
 $_['ifthenpayPaymentPanelMbwayNotificationNotReceive'] = 'Não recebeu a notificação MB WAY?';
 $_['ifthenpayPaymentPanelMbwayResendNotification'] = 'Reenviar notificação MB WAY';
 $_['error_payment_mbway_input_required'] = 'Telemóvel MB WAY é obrigatório!';
@@ -30,6 +30,7 @@ $_['ifthenpayPaymentPanelIdPedido'] = 'IdRequest';
 $_['mbwayOrderExpiredCanceled'] = 'Encomenda cancelada porque a notificação de pagamento MB WAY expitou.';
 $_['paymentConfirmedSuccess'] = 'Pagamento feito com sucesso.';
 $_['mbwayPhoneNumber'] = 'Telemóvel MB WAY';
-$_['entry_mbway_phone_number'] = 'Por favor, insira o número de telemóvel associado à sua conta MB WAY.';
 
-?>
+$_['entry_mbway_mobile_number'] = 'Telemóvel MB WAY';
+$_['mbway_confirm_panel_desc'] = 'Escolheu o método de pagamento por MB WAY para pagar a sua encomenda.';
+$_['mbway_instruction'] = "Por favor, introduza o número de telemóvel associado à sua conta MB WAY e confirme a sua encomenda. \n Será enviada uma notificação de pagamento para a sua aplicação MB WAY, onde poderá aprovar o pagamento.";

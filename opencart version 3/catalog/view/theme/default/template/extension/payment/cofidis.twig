@@ -1,3 +1,24 @@
+{% if showPaymentInstruction %}
+
+	<div style="margin-top:2em; margin-bottom:1.5em;">
+
+		<div class="ifthenpay_confirm_header">
+			<h2>{{ cofidisAlias }}</h2>
+			<img src="catalog/view/theme/default/image/ifthenpay/cofidis.png" style=" height: 38px;" alt="Cofidis logo" title="{{ cofidisAlias }}">
+		</div>
+
+		<p>
+			<b>{{ cofidis_confirm_panel_desc }}</b>
+		</p>
+		<div class="panel panel-default" style="padding: 2em;">
+			<p>
+				{{ cofidis_instruction|nl2br }}
+			</p>
+		</div>
+	</div>
+
+{% endif %}
+
 <div class="buttons">
 	<div class="pull-right">
 		<input type="button" value="{{ button_confirm }}" id="button-confirm" data-loading-text="{{ text_loading }}" class="btn btn-primary"/>

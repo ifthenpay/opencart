@@ -7,15 +7,15 @@ $_['heading_title'] = 'Multibanco';
 $_['text_extension'] = 'Extensions';
 $_['text_payment'] = 'Payment';
 $_['text_success'] = 'Success: You have modified Multibanco payment module!';
-$_['text_multibanco'] = '<a href="https:www.ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/multibanco.png" class="ccardLogo" alt="ATM Logo" title="ATM" style="border: 1px solid #EEEEEE; width: 133px; height: 38px;" /><br /></a>';
+$_['text_multibanco'] = '<a href="https://ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/multibanco.png" alt="ATM Logo" title="ATM" style="border: 1px solid #EEEEEE; height: 38px;" /><br /></a>';
 $_['create_account_now'] = 'Create an account now!';
+$_['text_home'] = 'Home';
+$_['text_all_zones'] = 'All zones';
 
 //Entry
 $_['entry_backoffice_key'] = 'Backoffice Key';
 $_['help_backoffice_key'] = 'Backoffice key that is sent to your email after creation of contract.';
 $_['help_place_holder_backoffice_key'] = 'xxxx-xxxx-xxxx-xxxx';
-$_['switch_enable'] = 'Enable';
-$_['switch_disable'] = 'Disable';
 $_['add_new_accounts'] = 'Added a new account to your contract?';
 $_['add_new_accounts_explain'] = 'To set a different account press the reset button, doing so will clear this payment method\'s current settings, and allow you to insert a new backoffice key associated with your contract.';
 $_['reset_accounts'] = 'Reset Accounts';
@@ -24,8 +24,8 @@ $_['sandbox_mode'] = 'Sandbox Mode';
 $_['dontHaveAccount_multibanco'] = 'Don\'t have an Multibanco account?';
 $_['requestAccount_multibanco'] = 'Request Multibanco account creation';
 $_['newUpdateAvailable'] = 'New update is available!';
-$_['moduleUpToDate'] = 'Your module is up to date!';
-$_['downloadUpdateModule'] = 'Download Update Module';
+$_['extensionUpToDate'] = 'Your extension is up to date!';
+$_['downloadExtensionUpdate'] = 'Download Extension Update';
 $_['entry_minimum_value'] = 'Order Minimum Value';
 $_['help_entry_minimum_value'] = 'Only show customer this payment method if order value equal or greater than minimum value';
 $_['entry_maximum_value'] = 'Order Maximum Value';
@@ -37,12 +37,16 @@ $_['msg_callback_test_empty_fields'] = 'Please fill all fields';
 $_['entry_test_callback'] = 'Test Callback';
 $_['btn_test'] = 'Test';
 $_['entry_payment_method_title'] = 'Payment Method Title';
+$_['entry_payment_method_instruction'] = 'Payment Method Instruction';
+$_['help_entry_payment_method_instruction'] = 'Small text shown before confirming order, can be used to provide further instructions to customer.';
 
 
 
 
 // Entry
 $_['activate_callback'] = 'Activate Callback';
+$_['text_enabled'] = 'Enabled';
+$_['text_disabled'] = 'Disabled';
 $_['switch_enable'] = 'Enable';
 $_['switch_disable'] = 'Disable';
 $_['entry_order_status_pending'] = 'Order Status Pending:';
@@ -94,9 +98,6 @@ $_['head_cancel_cron'] = '(Cron Job) Cancel Multibanco Order';
 $_['text_cancel_cron_desc'] = 'You can set up this cron job to change orders status to "Canceled" if order is not payed before deadline. Requires Multibanco Reference Deadline to be set in order to work.';
 $_['text_cancel_cron_schedule'] = 'Schedule the cron job to run every 1 minute.';
 
-$_['head_check_cron'] = '(Cron Job) Check Status of Multibanco Order';
-$_['text_check_cron_desc'] = 'If it is not possible to activate the Callback, you can set up this cron job to check the payment status of the orders instead.';
-$_['text_check_cron_schedule'] = 'Schedule the cron job to run every day at 1:00 am.';
 
 
 $_['error_invalid_max_number'] = 'Warning: Order Maximum Value invalid number!';
@@ -105,6 +106,3 @@ $_['error_incompatible_min_max'] = 'Warning: Order Minimum and Maximum Values ar
 $_['error_entity_required'] = 'Warning: Entity is required!';
 $_['error_sub_entity_required'] = 'Warning: SubEntity is required!';
 $_['error_dynamic_expiration_required'] = 'Warning: Dynamic reference expiration required!';
-
-
-?>

@@ -37,9 +37,11 @@
 		{% endif %}
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<img src="view/image/payment/ifthenpay/ccard.png" alt="ccard logo"/>
+				<img src="view/image/payment/ifthenpay/ccard.png" alt="ccard logo" height="38px"/>
 				<span class="ph-version">v{{moduleVersion}}</span>
-				<a href="https://www.ifthenpay.com/downloads/ifmb/contratomb.pdf" target="_blank" class="btn btn-default" id="create-account-btn">{{ create_account_now }}</a>
+				{% if not payment_ccard_backofficeKey %}
+					<a href="https://www.ifthenpay.com/downloads/ifmb/contratomb.pdf" target="_blank" class="btn btn-default" id="create-account-btn">{{ create_account_now }}</a>
+				{% endif %}
 			</div>
 			<div class="panel-body">
 				<form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-payment" class="form-horizontal">
@@ -227,7 +229,23 @@
 							<div class="form-group">
 								<label class="col-sm-2 control-label" for="input-payment-method-title">{{ entry_payment_method_title }}</label>
 								<div class="col-sm-10">
-									<input type="text" name="payment_ccard_payment_method_title" value="{{payment_ccard_payment_method_title}}"  id="input-payment-method-title" class="form-control"/>
+									<input type="text" name="payment_ccard_payment_method_title" value="{{payment_ccard_payment_method_title}}" id="input-payment-method-title" class="form-control"/>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-status"><span data-toggle="tooltip" title="{{ help_entry_payment_method_instruction }}">{{ entry_payment_method_instruction }}</span></label>
+								<div class="col-sm-10">
+									<select name="payment_ccard_show_instruction" id="input-status" class="form-control">
+										{% set  payment_ccard_show_instruction = payment_ccard_show_instruction ?? 0 %}
+										{% if payment_ccard_show_instruction %}
+											<option value="1" selected="selected">{{ text_enabled }}</option>
+											<option value="0">{{ text_disabled }}</option>
+										{% else %}
+											<option value="1">{{ text_enabled }}</option>
+											<option value="0" selected="selected">{{ text_disabled }}</option>
+										{% endif %}
+									</select>
 								</div>
 							</div>
 

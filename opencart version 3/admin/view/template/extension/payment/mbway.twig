@@ -37,10 +37,11 @@
 		{% endif %}
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<img src="view/image/payment/ifthenpay/mbway.png" alt="MB WAY logo"/>
+				<img src="view/image/payment/ifthenpay/mbway.png" alt="MB WAY logo" height="38px"/>
 				<span class="ph-version">v{{moduleVersion}}</span>
-				<h3 class="create-account-title">{{ create_account }}</h3>
-				<a href="https://www.ifthenpay.com/downloads/ifmb/contratomb.pdf" target="_blank" class="btn btn-default" id="create-account-btn">{{ create_account_now }}</a>
+				{% if not payment_mbway_backofficeKey %}
+					<a href="https://www.ifthenpay.com/downloads/ifmb/contratomb.pdf" target="_blank" class="btn btn-default" id="create-account-btn">{{ create_account_now }}</a>
+				{% endif %}
 			</div>
 			<div class="panel-body">
 				<form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-payment" class="form-horizontal">
@@ -225,6 +226,15 @@
 									<input type="number" id="input-maximum-value" name="payment_mbway_maximum_value" value="{{payment_mbway_maximum_value}}" step="0.01" placeholder="0.00" class="form-control" min="0"/>
 								</div>
 							</div>
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-payment-method-description">{{ entry_payment_method_description }}</label>
+								<div class="col-sm-10">
+									<input type="text" name="payment_mbway_payment_method_description" value="{{payment_mbway_payment_method_description}}" id="input-payment-method-description" class="form-control"/>
+									<small id="sandboxHelp" class="form-text text-muted">{{ description_help }}</small>
+								</div>
+							</div>
+
 							<div class="form-group">
 								<label class="col-sm-2 control-label" for="input-status">{{ show_paymentMethod_logo }}</label>
 								<div class="col-sm-10">
@@ -245,6 +255,24 @@
 								<label class="col-sm-2 control-label" for="input-payment-method-title">{{ entry_payment_method_title }}</label>
 								<div class="col-sm-10">
 									<input type="text" name="payment_mbway_payment_method_title" value="{{payment_mbway_payment_method_title}}" id="input-payment-method-title" class="form-control"/>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-status">
+									<span data-toggle="tooltip" title="{{ help_entry_payment_method_instruction }}">{{ entry_payment_method_instruction }}</span>
+								</label>
+								<div class="col-sm-10">
+									<select name="payment_mbway_show_instruction" id="input-status" class="form-control">
+										{% set  payment_mbway_show_instruction = payment_mbway_show_instruction ?? 0 %}
+										{% if payment_mbway_show_instruction %}
+											<option value="1" selected="selected">{{ text_enabled }}</option>
+											<option value="0">{{ text_disabled }}</option>
+										{% else %}
+											<option value="1">{{ text_enabled }}</option>
+											<option value="0" selected="selected">{{ text_disabled }}</option>
+										{% endif %}
+									</select>
 								</div>
 							</div>
 
@@ -296,7 +324,7 @@
 							{{entry_urlCallback}}
 						</div>
 						<div class="col-md-9 col-sm-12">
-							<span id="callbackUrl" class="badge no_wrapp_badge" style="display:none;">{{ payment_mbway_urlCallback }}</span>
+							<span id="callbackUrl" class="badge no_wrapp_badge">{{ payment_mbway_urlCallback }}</span>
 						</div>
 					</div>
 				</div>
@@ -316,11 +344,11 @@
 					<div id="callback_result" data-msgemptyfields="{{ msg_callback_test_empty_fields }}"></div>
 
 					<div class="form-group">
-						<label class="col-sm-2 control-label" for="mbway_transaction_id">
-							{{ entry_mbway_transaction_id }}
+						<label class="col-sm-2 control-label" for="order_id">
+							{{ entry_mbway_order_id }}
 						</label>
 						<div class="col-sm-10">
-							<input type="text" id="mbway_transaction_id" name="mbway_transaction_id" class="form-control"/>
+							<input type="text" id="order_id" name="order_id" class="form-control"/>
 						</div>
 					</div>
 

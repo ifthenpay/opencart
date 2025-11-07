@@ -35,4 +35,5 @@ $_['error_payment_pix_zipcode_invalid'] = 'Código Postal está inválido. Não 
 $_['error_payment_pix_state_invalid'] = 'Estado está inválido. Não deve exceder 50 caracteres.';
 
 $_['awaitingPaymentValidation'] = 'Pagamento por Pix executado com sucesso, aguardando verificação';
-?>
+$_['pix_confirm_panel_desc'] = 'Escolheu o método de pagamento Pix para pagar a sua encomenda.';
+$_['pix_instruction'] = "Por favor, preencha o formulário. Após confirmar, será redirecionado para a página do Gateway Pix, onde poderá concluir o seu pagamento utilizando o código QR ou a sua aplicação de homebanking.";

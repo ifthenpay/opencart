@@ -8,7 +8,7 @@ $_['text_extension'] = 'Extensions';
 $_['text_payment'] = 'Pagamento';
 $_['text_success'] = 'Sucesso: Modificou o método de pagamento Pix!';
 
-$_['text_pix'] = '<a href="https:www.ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/pix.png" class="pixLogo" alt="pix logo" title="pix" style="border: 1px solid #EEEEEE; width: 117px; height: 38px;" /><br /></a>';
+$_['text_pix'] = '<a href="https://ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/pix.png" class="pixLogo" alt="pix logo" title="pix" style="border: 1px solid #EEEEEE; height: 38px;" /><br /></a>';
 $_['create_account_now'] = 'Crie uma conta agora!';
 $_['text_home'] = 'Home';
 $_['text_all_zones'] = 'Todas as regiões';
@@ -31,8 +31,8 @@ $_['requestAccount_pix'] = 'Solicitar criação de conta Pix';
 $_['activate_cancelPixOrder'] = 'Cancelar Encomenda Pix';
 $_['pixOrderCancel_help'] = 'Cancele a encomenda Pix após os dados de pagamento  expirarem.';
 $_['newUpdateAvailable'] = 'Nova atualização disponível!';
-$_['moduleUpToDate'] = 'O módulo está atualizado!';
-$_['downloadUpdateModule'] = 'Download Update Módulo';
+$_['extensionUpToDate'] = 'A extensão está atualizada!';
+$_['downloadExtensionUpdate'] = 'Download Atualização da Extensão';
 $_['entry_minimum_value'] = 'Valor Mínimo da Encomenda';
 $_['help_entry_minimum_value'] = 'Apenas exibe este método de pagamento se o valor da encomenda for superior ao valor mínimo';
 $_['entry_maximum_value'] = 'Valor Máximo da Encomenda';
@@ -60,7 +60,6 @@ $_['text_cancel_cron_schedule'] = 'Temporize o cron job para ser executado a cad
 $_['activate_callback'] = 'Ativar Callback';
 $_['switch_enable'] = 'Ativar';
 $_['switch_disable'] = 'Desativar';
-$_['entry_order_status'] = 'Estado da Encomenda:';
 $_['help_entry_order_status_pending'] = 'Este estado é atribuído à encomenda após a criação da mesma e é normalmente configurada com a opção pendente.';
 $_['entry_order_status_complete'] = 'Estado da Encomenda Pago:';
 $_['entry_order_status_canceled'] = 'Estado da Encomenda Cancelado:';
@@ -68,7 +67,6 @@ $_['entry_geo_zone'] = 'Geo Zone:';
 $_['entry_status'] = 'Estados:';
 $_['entry_sort_order'] = 'Ordem do Método de Pagamento:';
 $_['entry_pix_pixKey'] = 'Pix Key';
-$_['choose_key'] = 'Escolha a chave';
 $_['entry_antiPhishingKey'] = 'Chave Anti-Phishing';
 $_['entry_urlCallback'] = 'Url de Callback';
 $_['callbackIsActivated'] = 'Callback ativado';
@@ -83,9 +81,6 @@ $_['error_backofficeKey_already_reset'] = 'Chave de acesso ao backoffice já se 
 
 $_['error_backofficeKey_error'] = 'Erro a salvar a chave de acesso ao backoffice!';
 $_['error_invalid_max_number'] = 'Aviso: Valor de encomenda máximo inválido!';
-$_['error_invalid_max_number_larger_than_ifthenpay'] = 'Aviso: Valor de encomenda máximo inválido! Deve ser menor ou igual ao valor definido no backoffice da ifthenpay.';
 $_['error_invalid_min_number'] = 'Aviso: Valor de encomenda mínimo inválido!';
-$_['error_invalid_min_number_less_than_ifthenpay'] = 'Aviso: Valor de encomenda mínimo inválido! Deve ser maior ou igual ao valor definido no backoffice da ifthenpay.';
 $_['error_incompatible_min_max'] = 'Aviso: Valor de encomenda mínimo e máximo não são compativeis!';
 $_['error_key_required'] = 'Aviso: Chave de Pix é obrigatória!';
-?>

@@ -35,5 +35,5 @@ $_['error_payment_pix_zipcode_invalid'] = 'Zip Code is invalid. Must not exceed 
 $_['error_payment_pix_state_invalid'] = 'State is invalid. Must not exceed 50 characters.';
 
 $_['awaitingPaymentValidation'] = 'Payment by Pix made with success, awaiting verification';
-
-?>
+$_['pix_confirm_panel_desc'] = 'You have chosen the Pix payment method to pay for your order.';
+$_['pix_instruction'] = "Please fill out the form. After confirming, you will be redirected to the Pix Gateway page, where you can complete your payment using either the QR code or your homebanking app.";

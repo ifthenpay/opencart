@@ -7,7 +7,7 @@ $_['heading_title'] = 'Multibanco';
 $_['text_extension'] = 'Extensions';
 $_['text_payment'] = 'Pagamento';
 $_['text_success'] = 'Sucesso: Configuração do módulo Multibanco alterada!';
-$_['text_multibanco'] = '<a href="https:www.ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/multibanco.png" class="ccardLogo" alt="Multibanco Logo" title="Multibanco" style="border: 1px solid #EEEEEE; width: 133px; height: 38px;" /><br /></a>';
+$_['text_multibanco'] = '<a href="https://ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/multibanco.png" alt="Multibanco Logo" title="Multibanco" style="border: 1px solid #EEEEEE; height: 38px;" /><br /></a>';
 $_['create_account_now'] = 'Crie uma conta agora!';
 $_['text_home'] = 'Home';
 $_['text_all_zones'] = 'Todas as regiões';
@@ -26,8 +26,8 @@ $_['reset_account_error'] = 'Erro a reinicializar conta Ifthenpay!';
 $_['dontHaveAccount_multibanco'] = 'Não tem conta Multibanco?';
 $_['requestAccount_multibanco'] = 'Solicitar criação de conta Multibanco';
 $_['newUpdateAvailable'] = 'Nova atualização disponível!';
-$_['moduleUpToDate'] = 'O módulo está atualizado!';
-$_['downloadUpdateModule'] = 'Download Update Módulo';
+$_['extensionUpToDate'] = 'A extensão está atualizada!';
+$_['downloadExtensionUpdate'] = 'Download Atualização da Extensão';
 $_['entry_minimum_value'] = 'Valor Mínimo da Encomenda';
 $_['entry_maximum_value'] = 'Valor Máximo da Encomenda';
 $_['resendPaymentData'] = 'Envie um email da encomenda com os dados de pagamento';
@@ -53,7 +53,6 @@ $_['error_backofficeKey_error'] = 'Erro a salvar a chave de acesso ao backoffice
 $_['text_enabled'] = 'Ativo';
 $_['text_disabled'] = 'Desativado';
 $_['activate_callback'] = 'Ativar Callback';
-$_['entry_order_status'] = 'Estado da Encomenda:';
 $_['entry_order_status_complete'] = 'Estado da Encomenda Pago:';
 $_['entry_geo_zone'] = 'Geo Zone:';
 $_['entry_status'] = 'Estado:';
@@ -89,10 +88,6 @@ $_['head_cancel_cron'] = '(Cron Job) Cancelar encomendas com Multibanco';
 $_['text_cancel_cron_desc'] = 'Pode definir um cron job para alterar o estado da encomenda para "Cancelada", se a encomenda não for paga dentro da validade. Necessita de atribuir Validade da Referência Multibanco definida para funcionar.';
 $_['text_cancel_cron_schedule'] = 'Temporize o cron job para ser executado a cada 1 minuto.';
 
-$_['head_check_cron'] = '(Cron Job) Verificar o estado de encomendas com Multibanco';
-$_['text_check_cron_desc'] = 'Se não for possivel ativar o callback, pode definir o cron job abaixo para consultar o estado do pagamento.';
-$_['text_check_cron_schedule'] = 'Temporize o cron job para ser executado a cada dia às 1h:00m.';
-
 
 $_['error_invalid_max_number'] = 'Aviso: Valor de encomenda máximo inválido!';
 $_['error_invalid_min_number'] = 'Aviso: Valor de encomenda mínimo inválido!';
@@ -100,5 +95,3 @@ $_['error_incompatible_min_max'] = 'Aviso: Valor de encomenda mínimo e máximo 
 $_['error_entity_required'] = 'Aviso: Entidade é obrigatória!';
 $_['error_sub_entity_required'] = 'Aviso: SubEntidade é obrigatória!';
 $_['error_dynamic_expiration_required'] = 'Aviso: expiração da referência dinâmica obrigatória!';
-
-?>

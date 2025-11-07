@@ -6,15 +6,15 @@ $_['heading_title'] = 'MB WAY';
 $_['text_extension'] = 'Extensions';
 $_['text_payment'] = 'Payment';
 $_['text_success'] = 'Success: You have modified MB WAY payment module!';
-$_['text_mbway'] = '<a href="https:www.ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/mbway.png" class="ccardLogo" alt="MB WAY Logo" title="MB WAY" style="border: 1px solid #EEEEEE; width: 82px; height: 38px;" /><br /></a>';
+$_['text_mbway'] = '<a href="https://ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/mbway.png" alt="MB WAY Logo" title="MB WAY" style="border: 1px solid #EEEEEE; height: 38px;" /><br /></a>';
 $_['create_account_now'] = 'Create an account now!';
+$_['text_home'] = 'Home';
+$_['text_all_zones'] = 'All zones';
 
 //Entry
 $_['entry_backoffice_key'] = 'Backoffice Key';
 $_['help_backoffice_key'] = 'Backoffice key that is sent to your email after creation of contract.';
 $_['help_place_holder_backoffice_key'] = 'xxxx-xxxx-xxxx-xxxx';
-$_['switch_enable'] = 'Enable';
-$_['switch_disable'] = 'Disable';
 $_['add_new_accounts'] = 'Added a new account to your contract?';
 $_['add_new_accounts_explain'] = 'To set a different account press the reset button, doing so will clear this payment method\'s current settings, and allow you to insert a new backoffice key associated with your contract.';
 $_['reset_accounts'] = 'Reset Accounts';
@@ -23,8 +23,8 @@ $_['sandbox_mode'] = 'Sandbox Mode';
 $_['dontHaveAccount_mbway'] = 'Don\'t have an MB WAY account?';
 $_['requestAccount_mbway'] = 'Request MB WAY account creation';
 $_['newUpdateAvailable'] = 'New update is available!';
-$_['moduleUpToDate'] = 'Your module is up to date!';
-$_['downloadUpdateModule'] = 'Download Update Module';
+$_['extensionUpToDate'] = 'Your extension is up to date!';
+$_['downloadExtensionUpdate'] = 'Download Extension Update';
 $_['entry_minimum_value'] = 'Order Minimum Value';
 $_['help_entry_minimum_value'] = 'Only show customer this payment method if order value equal or greater than minimum value';
 $_['entry_maximum_value'] = 'Order Maximum Value';
@@ -33,15 +33,22 @@ $_['error_payment_mbway_input_required'] = 'MB WAY phone is required!';
 $_['error_payment_mbway_input_invalid'] = 'MB WAY phone is invalid!';
 $_['mbwayPhoneNumber'] = 'MB WAY Phone Number';
 $_['adminResendMbwayNotification'] = 'Resend MB WAY notification';
-$_['entry_mbway_transaction_id']	= 'MB WAY transaction ID';
+$_['entry_mbway_order_id']	= 'Order ID';
 $_['entry_amount']	= 'Amount';
 $_['msg_callback_test_empty_fields']	= 'Please fill all fields';
 $_['entry_test_callback']	= 'Test Callback';
 $_['btn_test']	= 'Test';
 $_['entry_payment_method_title'] = 'Payment Method Title';
+$_['entry_payment_method_description'] = 'Description';
+$_['description_help'] = 'MB WAY Description.';
+$_['entry_payment_method_instruction'] = 'Payment Method Instruction';
+$_['help_entry_payment_method_instruction'] = 'Small text shown before confirming order, can be used to provide further instructions to customer.';
+
 
 // Entry
 $_['activate_callback'] = 'Activate Callback';
+$_['text_enabled'] = 'Enabled';
+$_['text_disabled'] = 'Disabled';
 $_['switch_enable'] = 'Enable';
 $_['switch_disable'] = 'Disable';
 $_['entry_order_status_pending'] = 'Order Status Pending:';
@@ -53,7 +60,6 @@ $_['entry_geo_zone'] = 'Geo Zone:';
 $_['entry_status'] = 'Status:';
 $_['entry_sort_order'] = 'Sort Order:';
 $_['entry_mbway_mbwayKey'] = 'MB WAY key';
-$_['choose_key'] = 'Choose a key';
 $_['activate_cancelMbwayOrder'] = 'Cancel MB WAY Order';
 $_['mbwayOrderCancel_help'] = 'Cancel MB WAY order after notification expire.';
 $_['entry_antiPhishingKey'] = 'Anti-Phishing key';
@@ -87,13 +93,7 @@ $_['head_cancel_cron'] = '(Cron Job) Cancel MB WAY Order';
 $_['text_cancel_cron_desc'] = 'You can set up this cron job to change orders status to "Canceled", if order is not payed within 30 minutes after order confirmation.';
 $_['text_cancel_cron_schedule'] = 'Schedule the cron job to run every 1 minute.';
 
-$_['head_check_cron'] = '(Cron Job) Check Status of MB WAY Order';
-$_['text_check_cron_desc'] = 'If it is not possible to activate the Callback, you can set up this cron job to check the payment status of the orders instead.';
-$_['text_check_cron_schedule'] = 'Schedule the cron job to run every day at 1:00 am.';
-
-
 $_['error_invalid_max_number'] = 'Warning: Order Maximum Value invalid number!';
 $_['error_invalid_min_number'] = 'Warning: Order Minimum Value invalid number!';
 $_['error_incompatible_min_max'] = 'Warning: Order Minimum and Maximum Values are not compatible!';
 $_['error_key_required'] = 'Warning: MB WAY key required!';
-?>

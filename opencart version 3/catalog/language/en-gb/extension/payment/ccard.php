@@ -14,4 +14,5 @@ $_['paymentConfirmedSuccess'] = 'Payment made with success.';
 $_['paymentSecurityToken'] = 'Payment security token is invalid';
 $_['orderIsPaid'] = 'Order has already been paid';
 $_['ccardOrderExpiredCanceled'] = 'Order canceled because Credit Card payment expired.';
-?>
+$_['ccard_confirm_panel_desc'] = 'You have chosen the Credit Card payment method to pay for your order.';
+$_['ccard_instruction'] = "After confirming your order, you will be redirected to the Credit Card Gateway page where you may fill your card details and pay for your order. \n After which you will be redirected back to the store.";

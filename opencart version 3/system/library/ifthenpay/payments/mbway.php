@@ -16,12 +16,14 @@ class MbWay extends Payment implements PaymentMethodInterface
     private $mbwayKey;
     private $telemovel;
     private $mbwayPedido;
+    private $mbwayDescription;
 
     public function __construct(GatewayDataBuilder $data, string $orderId, string $valor, WebService $webService)
     {
         parent::__construct($orderId, $valor, $data, $webService);
         $this->mbwayKey = $data->getData()->mbwayKey;
         $this->telemovel = $data->getData()->telemovel;
+        $this->mbwayDescription = $data->getData()->mbwayDescription;
     }
 
     public function checkValue(): void
@@ -33,24 +35,34 @@ class MbWay extends Payment implements PaymentMethodInterface
 
     private function checkEstado(): void
     {
-        if ($this->mbwayPedido['Estado'] !== '000') {
-            throw new \Exception($this->mbwayPedido['MsgDescricao']);
+        if ($this->mbwayPedido['Status'] !== '000') {
+            throw new \Exception($this->mbwayPedido['Message']);
         }
     }
 
     private function setReferencia(): void
     {
+        $payload = [
+            'mbWayKey' => $this->mbwayKey,
+            'orderId' => $this->orderId,
+            'amount' => $this->valor,
+            'mobileNumber' => $this->telemovel,
+            'email' => '',
+            'descricao' => str_replace('{{order_id}}', $this->orderId, $this->mbwayDescription ?? '')
+        ];
+
+
         $this->mbwayPedido = $this->webService->postRequest(
-            'https://ifthenpay.com/mbwayws/IfthenPayMBW.asmx/SetPedidoJSON',
+            'https://api.ifthenpay.com/spg/payment/mbway',
             [
-                    'MbWayKey' => $this->mbwayKey,
-                    'canal' => '03',
-                    'referencia' => $this->orderId,
-                    'valor' => $this->valor,
-                    'nrtlm' => $this->telemovel,
-                    'email' => '',
-                    'descricao' => '',
-                ]
+                'mbWayKey' => $this->mbwayKey,
+                'orderId' => $this->orderId,
+                'amount' => $this->valor,
+                'mobileNumber' => $this->telemovel,
+                'email' => '',
+                'descricao' => str_replace('{{order_id}}', $this->orderId, $this->mbwayDescription ?? '')
+            ],
+            true
         )->getResponseJson();
     }
 
@@ -58,7 +70,7 @@ class MbWay extends Payment implements PaymentMethodInterface
     {
         $this->setReferencia();
         $this->checkEstado();
-        $this->dataBuilder->setIdPedido($this->mbwayPedido['IdPedido']);
+        $this->dataBuilder->setIdPedido($this->mbwayPedido['RequestId']);
         $this->dataBuilder->setTelemovel($this->telemovel);
         $this->dataBuilder->setTotalToPay((string)$this->valor);
         return $this->dataBuilder;

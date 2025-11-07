@@ -6,7 +6,7 @@ $_['heading_title'] = 'Ifthenpay Gateway';
 $_['text_extension'] = 'Extensions';
 $_['text_payment'] = 'Payment';
 $_['text_success'] = 'Success: You have modified Ifthenpay Gateway payment module!';
-$_['text_ifthenpaygateway'] = '<a href="https:www.ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/ifthenpaygateway.png" alt="Ifthenpay Gateway Logo" title="Ifthenpay Gateway" style="border: 1px solid #EEEEEE; width: 144px; height: 38px;" /><br /></a>';
+$_['text_ifthenpaygateway'] = '<a href="https://ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/ifthenpaygateway.png" alt="Ifthenpay Gateway Logo" title="Ifthenpay Gateway" style="border: 1px solid #EEEEEE; height: 38px;" /><br /></a>';
 $_['create_account_now'] = 'Create an account now!';
 $_['text_home'] = 'Home';
 $_['text_all_zones'] = 'All zones';
@@ -23,8 +23,8 @@ $_['sandbox_mode'] = 'Sandbox Mode';
 $_['dontHaveAccount_ifthenpaygateway'] = 'Don\'t have an Ifthenpay Gateway account?';
 $_['requestAccount_ifthenpaygateway'] = 'Request Ifthenpay Gateway account creation';
 $_['newUpdateAvailable'] = 'New update is available!';
-$_['moduleUpToDate'] = 'Your module is up to date!';
-$_['downloadUpdateModule'] = 'Download Update Module';
+$_['extensionUpToDate'] = 'Your extension is up to date!';
+$_['downloadExtensionUpdate'] = 'Download Extension Update';
 $_['entry_minimum_value'] = 'Order Minimum Value';
 $_['help_entry_minimum_value'] = 'Only show customer this payment method if order value equal or greater than minimum value';
 $_['entry_maximum_value'] = 'Order Maximum Value';
@@ -39,10 +39,16 @@ $_['btn_test'] = 'Test';
 $_['activate_callback'] = 'Activate Callback';
 $_['text_enabled'] = 'Enabled';
 $_['text_disabled'] = 'Disabled';
+$_['switch_enable'] = 'Enable';
+$_['switch_disable'] = 'Disable';
 $_['text_disabled_use_title'] = 'Disabled - Use Payment Method Title';
 $_['text_enabled_default_logo'] = 'Enabled - Use Default Image';
 $_['text_enabled_composite_image'] = 'Enabled - Use Generated Composite Image';
 $_['entry_payment_method_title'] = 'Payment Method Title';
+$_['entry_payment_method_instruction'] = 'Payment Method Instruction';
+$_['help_entry_payment_method_instruction'] = 'Small text shown before confirming order, can be used to provide further instructions to customer.';
+
+
 $_['entry_ifthenpay_gateway_methods'] = 'Payment Methods';
 $_['text_ifthenpay_gateway_methods'] = 'Please select a Ifthenpay Gateway key to view this field.';
 $_['entry_ifthenpay_gateway_methods_default'] = 'Default Payment Methods';
@@ -64,7 +70,6 @@ $_['entry_geo_zone'] = 'Geo Zone:';
 $_['entry_status'] = 'Status:';
 $_['entry_sort_order'] = 'Sort Order:';
 $_['entry_ifthenpaygateway_ifthenpaygatewayKey'] = 'Ifthenpay Gateway Key';
-$_['choose_key'] = 'Choose a key';
 $_['text_request_ifthenpaygateway_method_btn'] = 'Request Ifthenpay Gateway Method';
 
 $_['activate_cancelIfthenpaygatewayOrder'] = 'Cancel Ifthenpay Gateway Order';
@@ -112,11 +117,6 @@ $_['error_invalid_payment_methods'] = 'Warning: Payment methods must be selected
 $_['error_invalid_gateway_key'] = 'Warning: Gateway Key must be selected!';
 
 $_['error_missing_image_edit_dependency_to_create_composite_image'] = 'Warning: Unable to generate composite payment method logo due to lack of necessary dependencies!';
-$_['error_missing_file_permissions_to_create_composite_image'] = 'Warning: Unable to generate composite payment method logo due to lack of file write permissions!';
-
-
+$_['error_missing_file_permissions_to_create_composite_image'] = 'Warning: Unable to generate composite payment method logo due to lack of file write permissions! Please attribute read/write permission to /catalog/view/theme/default/image/ifthenpay/ folder';
 
 $_['text_ifthenpaygateway_Alias'] = 'Ifthenpay Gateway';
-
-
-?>

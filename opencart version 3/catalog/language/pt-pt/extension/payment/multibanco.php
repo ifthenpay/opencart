@@ -14,5 +14,5 @@ $_['paymentConfirmedSuccess'] = 'Pagamento feito com sucesso.';
 $_['ifthenpayPaymentPanelValidade'] = 'Validade:';
 $_['paymentDataResend_success'] = 'Email com dados de pagamento enviado com sucesso.';
 $_['paymentDataResend_error'] = 'Erro ao enviar email com dados de pagamento.';
-
-?>
+$_['multibanco_confirm_panel_desc'] = 'Escolheu o método de pagamento por Multibanco para pagar a sua encomenda.';
+$_['multibanco_instruction'] = "Depois de confirmar a sua encomenda, serão apresentados os dados para pagamento por Multibanco, incluindo a Entidade, Referência e Montante Total, que poderá utilizar para efetuar o pagamento numa caixa Multibanco ou através da sua aplicação de homebanking.";

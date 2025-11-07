@@ -37,9 +37,11 @@
 		{% endif %}
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<img src="view/image/payment/ifthenpay/payshop.png" alt="payshop logo"/>
+				<img src="view/image/payment/ifthenpay/payshop.png" alt="payshop logo" height="38px"/>
 				<span class="ph-version">v{{moduleVersion}}</span>
-				<a href="https://www.ifthenpay.com/downloads/ifmb/contratomb.pdf" target="_blank" class="btn btn-default" id="create-account-btn">{{ create_account_now }}</a>
+				{% if not payment_payshop_backofficeKey %}
+					<a href="https://www.ifthenpay.com/downloads/ifmb/contratomb.pdf" target="_blank" class="btn btn-default" id="create-account-btn">{{ create_account_now }}</a>
+				{% endif %}
 			</div>
 			<div class="panel-body">
 				<form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-payment" class="form-horizontal">
@@ -255,6 +257,24 @@
 							</div>
 
 							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-status">
+									<span data-toggle="tooltip" title="{{ help_entry_payment_method_instruction }}">{{ entry_payment_method_instruction }}</span>
+								</label>
+								<div class="col-sm-10">
+									<select name="payment_payshop_show_instruction" id="input-status" class="form-control">
+										{% set  payment_payshop_show_instruction = payment_payshop_show_instruction ?? 0 %}
+										{% if payment_payshop_show_instruction %}
+											<option value="1" selected="selected">{{ text_enabled }}</option>
+											<option value="0">{{ text_disabled }}</option>
+										{% else %}
+											<option value="1">{{ text_enabled }}</option>
+											<option value="0" selected="selected">{{ text_disabled }}</option>
+										{% endif %}
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group">
 								<label class="col-sm-2 control-label" for="input-sort-order">{{ entry_sort_order }}</label>
 								<div class="col-sm-10">
 									<input type="text" name="payment_payshop_sort_order" value="{{payment_payshop_sort_order}}" placeholder="{{ entry_sort_order }}" id="input-sort-order" class="form-control"/>
@@ -302,7 +322,7 @@
 							{{entry_urlCallback}}
 						</div>
 						<div class="col-md-9 col-sm-12">
-							<span id="callbackUrl" class="badge no_wrapp_badge" style="display:none;">{{ payment_payshop_urlCallback }}</span>
+							<span id="callbackUrl" class="badge no_wrapp_badge">{{ payment_payshop_urlCallback }}</span>
 						</div>
 					</div>
 				</div>

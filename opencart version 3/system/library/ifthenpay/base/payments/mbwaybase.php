@@ -41,6 +41,7 @@ class MbwayBase extends PaymentBase
         } else {
             $this->gatewayBuilder->setTelemovel($this->ifthenpayController->request->cookie['mbwayInputPhone']);
         }
+        $this->gatewayBuilder->setMbwayDescription($this->configData['payment_mbway_payment_method_description']);
     }
 
     protected function saveToDatabase(): void
@@ -61,10 +62,10 @@ class MbwayBase extends PaymentBase
     public function getFromDatabaseById(): void
     {
         $this->ifthenpayController->load->model('extension/payment/mbway');
-		
-		$this->paymentDataFromDb = $this->ifthenpayController->model_extension_payment_mbway
+
+        $this->paymentDataFromDb = $this->ifthenpayController->model_extension_payment_mbway
             ->getPaymentByOrderId($this->paymentDefaultData->order['order_id'])
-            ->row; 
+            ->row;
     }
 
     /*protected function setEmailVariables(): void

@@ -12,12 +12,13 @@ $_['ifthenpayPaymentPanelValidade'] = 'Deadline:';
 
 
 $_['ifthenpayPaymentPanelTotalToPay'] = 'Total to pay:';
-$_['ifthenpayPaymentPanelOrder'] = 'Order:';
+$_['ifthenpayPaymentPanelOrderId'] = 'Order ID:';
 $_['ifthenpayAlias'] = 'Ifthenpay Gateway';
 $_['paymentConfirmedSuccess'] = 'Payment completed with ';
 
 $_['paymentPending'] = 'Payment pending';
 $_['order_confirmed'] = 'Order confirmed';
 
-
-?>
+$_['ifthenpaygatewayAlias'] = 'Ifthenpay Gateway';
+$_['ifthenpaygateway_confirm_panel_desc'] = 'You have chosen the Ifthenpay Gateway payment method to pay for your order.';
+$_['ifthenpaygateway_instruction'] = "After confirming your order, you will be redirected to the Ifthenpay Gateway page, where you can choose one of the available payment methods to complete your payment. \n After which you will be redirected back to the store.";

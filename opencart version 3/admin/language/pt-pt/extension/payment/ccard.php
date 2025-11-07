@@ -8,7 +8,7 @@ $_['text_extension'] = 'Extensions';
 $_['text_payment'] = 'Pagamento';
 $_['text_success'] = 'Success: You have modified Credit Card payment module!';
 
-$_['text_ccard'] = '<a href="https:www.ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/ccard.png" class="ccardLogo" alt="Cartão de crédito logo" title="Cartão de crédito" style="border: 1px solid #EEEEEE; width: 133px; height: 38px;" /><br /></a>';
+$_['text_ccard'] = '<a href="https://ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/ccard.png" alt="Cartão de crédito logo" title="Cartão de crédito" style="border: 1px solid #EEEEEE; height: 38px;" /><br /></a>';
 $_['create_account_now'] = 'Crie uma conta agora!';
 $_['text_home'] = 'Home';
 $_['text_all_zones'] = 'Todas as regiões';
@@ -29,8 +29,8 @@ $_['reset_account_error'] = 'Erro a reinicializar conta Ifthenpay!';
 $_['dontHaveAccount_ccard'] = 'Não tem conta Cartão de Crédito?';
 $_['requestAccount_ccard'] = 'Solicitar criação de conta Cartão de Crédito';
 $_['newUpdateAvailable'] = 'Nova atualização disponível!';
-$_['moduleUpToDate'] = 'O módulo está atualizado!';
-$_['downloadUpdateModule'] = 'Download Update Módulo';
+$_['extensionUpToDate'] = 'A extensão está atualizada!';
+$_['downloadExtensionUpdate'] = 'Download Atualização da Extensão';
 $_['entry_minimum_value'] = 'Valor Mínimo da Encomenda';
 $_['entry_maximum_value'] = 'Valor Máximo da Encomenda';
 $_['activate_cancelCcardOrder'] = 'Cancelar Encomenda Cartão de Crédito';
@@ -42,7 +42,6 @@ $_['entry_payment_method_title'] = 'Título do Método de Pagamento';
 $_['activate_callback'] = 'Ativar Callback';
 $_['switch_enable'] = 'Ativar';
 $_['switch_disable'] = 'Desativar';
-$_['entry_order_status'] = 'Estado da Encomenda:';
 $_['entry_order_status_complete'] = 'Estado da Encomenda Pago:';
 $_['entry_order_status_canceled'] = 'Estado da Encomenda Cancelado:';
 $_['entry_order_status_failed'] = 'Estado da Encomenda Falhou:';
@@ -50,7 +49,6 @@ $_['entry_geo_zone'] = 'Geo Zone:';
 $_['entry_status'] = 'Estados:';
 $_['entry_sort_order'] = 'Ordem do Método de Pagamento:';
 $_['entry_ccard_ccardKey'] = 'CCard Key';
-$_['choose_key'] = 'Escolha a chave';
 $_['entry_antiPhishingKey'] = 'Chave Anti-Phishing';
 $_['entry_urlCallback'] = 'Url de Callback';
 $_['callbackIsActivated'] = 'Callback ativado';
@@ -70,10 +68,6 @@ $_['head_cancel_cron'] = '(Cron Job) Cancelar encomendas com Cartão de Crédito
 $_['text_cancel_cron_desc'] = 'Pode definir um cron job para alterar o estado da encomenda para "Cancelada", se a encomenda não for paga dentro de 30 minutos após a confirmação da encomenda.';
 $_['text_cancel_cron_schedule'] = 'Temporize o cron job para ser executado a cada 1 minuto.';
 
-$_['head_check_cron'] = '(Cron Job) Verificar o estado de encomendas com Cartão de Crédito';
-$_['text_check_cron_desc_1'] = 'Este método não usa a função de callback para alterar o estado da encomenda, este é tratado internamente. Para testar encomendas pagas por Cartão de Crédito deve usar um cartão de testes, o qual pode pedir a Ifthenpay';
-$_['text_check_cron_desc_2'] = 'Se tiver problemas a atualização do estado da encomenda, pode definir um cron job para consultar o estado do pagamento.';
-$_['text_check_cron_schedule'] = 'Temporize o cron job para ser executado a cada dia às 1h:00m.';
 
 
 // Error
@@ -85,4 +79,3 @@ $_['error_invalid_max_number'] = 'Aviso: Valor de encomenda máximo inválido!';
 $_['error_invalid_min_number'] = 'Aviso: Valor de encomenda mínimo inválido!';
 $_['error_incompatible_min_max'] = 'Aviso: Valor de encomenda mínimo e máximo não são compativeis!';
 $_['error_key_required'] = 'Aviso: Chave de Ccard é obrigatória!';
-?>

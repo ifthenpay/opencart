@@ -13,4 +13,6 @@ $_['ifthenpayPaymentPanelIdPedido'] = 'IdRequest';
 $_['paymentConfirmedSuccess'] = 'Pagamento feito com sucesso.';
 $_['paymentSecurityToken'] = 'Token de segurança do pagamento é inválido.';
 $_['orderIsPaid'] = 'Encomenda já foi paga';
-?>
+$_['ccardOrderExpiredCanceled'] = 'Encomenda cancelada porque o pagamento por Cartão de Crédito expirou.';
+$_['ccard_confirm_panel_desc'] = 'Escolheu o método de pagamento por Cartão de Crédito para pagar a sua encomenda.';
+$_['ccard_instruction'] = "Depois de confirmar a sua encomenda, será redirecionado para a página do Gateway de Cartão de Crédito, onde poderá introduzir os dados do seu cartão e efetuar o pagamento da sua encomenda. \n Após o pagamento com sucesso, será redirecionado de volta para a loja.";

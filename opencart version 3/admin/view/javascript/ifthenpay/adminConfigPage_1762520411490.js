@@ -839,7 +839,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         var referenceDom = $("#reference");
         var amountDom = $("#amount");
         var methodDom = $("#test_callback");
-        var mbwayTransactionIdDom = $("#mbway_transaction_id");
         var payshopTransactionIdDom = $("#payshop_transaction_id");
         var cofidisTransactionIdDom = $("#cofidis_transaction_id");
         var pixTransactionIdDom = $("#pix_transaction_id");
@@ -849,13 +848,12 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         var method = methodDom.data("paymentmethod").length ? methodDom.data("paymentmethod") : "";
         var reference = referenceDom.length ? referenceDom.val() : "";
         var amount = amountDom.length ? amountDom.val() : "";
-        var mbwayTransactionId = mbwayTransactionIdDom.length ? mbwayTransactionIdDom.val() : "";
         var payshopTransactionId = payshopTransactionIdDom.length ? payshopTransactionIdDom.val() : "";
         var cofidisTransactionId = cofidisTransactionIdDom.length ? cofidisTransactionIdDom.val() : "";
         var pixTransactionId = pixTransactionIdDom.length ? pixTransactionIdDom.val() : "";
         var orderId = orderIdDom.length ? orderIdDom.val() : ""; // verify if multibanco or mbway or payshop have arguments
 
-        if (method === "multibanco" && (reference === "" || amount === "") || method === "mbway" && (amount === "" || mbwayTransactionId === "") || method === "cofidis" && (amount === "" || cofidisTransactionId === "") || method === "pix" && (amount === "" || pixTransactionId === "") || method === "payshop" && (reference === "" || amount === "" || payshopTransactionId === "") || method === "ifthenpaygateway" && (amount === "" || orderId === "")) {
+        if (method === "multibanco" && (reference === "" || amount === "") || method === "mbway" && (amount === "" || orderId === "") || method === "cofidis" && (amount === "" || cofidisTransactionId === "") || method === "pix" && (amount === "" || pixTransactionId === "") || method === "payshop" && (reference === "" || amount === "" || payshopTransactionId === "") || method === "ifthenpaygateway" && (amount === "" || orderId === "")) {
           bootstrapMsgContainer.html(msgHtml.replace("{{type}}", "danger").replace("{{message}}", msgEmptyFields));
           return;
         }
@@ -866,7 +864,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         this.httpService.post({
           reference: reference,
           amount: amount,
-          mbway_transaction_id: mbwayTransactionId,
           payshop_transaction_id: payshopTransactionId,
           cofidis_transaction_id: cofidisTransactionId,
           pix_transaction_id: pixTransactionId,
