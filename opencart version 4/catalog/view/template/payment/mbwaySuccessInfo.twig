@@ -133,7 +133,7 @@ const ifp_dom_paymentReturnPanel = $('#ifthenpay_payment_return_panel');
 
 
 const ifp_checkIntervalMilliseconds = 10000;
-var ifp_timeMinutes = '05';
+var ifp_timeMinutes = '04';
 var ifp_timeSeconds = '00';
 var ifp_countdownIntervalTimer;
 var ifp_checkIntervalTimer;
@@ -270,7 +270,7 @@ ifp_timeSeconds = '' + ifp_seconds;
 					if (response.success === true) {
 
 						alert(response.message);
-						ifp_timeMinutes = '5';
+						ifp_timeMinutes = '4';
 						ifp_timeSeconds = '00';
 						ifp_dom_countdownPanel.show();
 

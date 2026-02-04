@@ -17,13 +17,13 @@
 	type="text/javascript">
 	<!--
 
-const ifp_cofidis_message = '{{ checkout_message }}';
+const ifp_message = '{{ checkout_message }}';
 
 $(document).ready(function () {
 
 	$('.alert-dismissible').remove();
-	if (ifp_cofidis_message !== '') {
-		$('#alert').prepend('<div class="alert alert-danger alert-dismissible" data-delay="10000"><i class="fa-solid fa-circle-exclamation"></i> ' + ifp_cofidis_message + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+	if (ifp_message !== '') {
+		$('#alert').prepend('<div class="alert alert-danger alert-dismissible" data-delay="10000"><i class="fa-solid fa-circle-exclamation"></i> ' + ifp_message + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
 
 		setTimeout(function () {
 			$('.alert-dismissible').fadeOut(2000, function () {

@@ -92,9 +92,6 @@ class Mbway extends \Opencart\System\Engine\Model
 	 */
 	public function getMbwayRecordByTransactionId($transactionId): array
 	{
-		if ($transactionId == '') {
-			return [];
-		}
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_mbway` WHERE `transaction_id` = '" . $transactionId . "'");
 
 		if ($query->num_rows) {
@@ -112,18 +109,6 @@ class Mbway extends \Opencart\System\Engine\Model
 	 * @return array
 	 */
 	public function getMbwayRecordByOrderId($orderId): array
-	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_mbway` WHERE `order_id` = '" . $orderId . "'");
-
-		if ($query->num_rows) {
-			return $query->row;
-		} else {
-			return [];
-		}
-	}
-
-
-	public function getRecordByOrderId($orderId): array
 	{
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_mbway` WHERE `order_id` = '" . $orderId . "'");
 

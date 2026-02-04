@@ -3,6 +3,7 @@
 namespace Ifthenpay;
 
 require_once DIR_EXTENSION . 'ifthenpay/system/library/ApiService.php';
+
 use Ifthenpay\ApiService;
 
 
@@ -45,9 +46,9 @@ class MbwayPayment
 			$result = json_decode($result, true);
 
 			$adaptedResult = [
-				'code' => $result['Estado'],
-				'message' => $result['MsgDescricao'],
-				'transaction_id' => $result['IdPedido']
+				'code' => $result['Status'],
+				'message' => $result['Message'],
+				'transaction_id' => $result['RequestId']
 			];
 		}
 
@@ -127,23 +128,19 @@ class MbwayPayment
 	{
 		$result = $this->apiService->requestCheckMbwayPaymentStatus($transactionId, $mbwayKey);
 
-		$adaptedResult = ['code' => self::ERROR];
+		$jsonResult = $result ? json_decode($result, true) : null;
 
-		if ($result) {
-			$result = json_decode($result, true);
-
-			if (isset($result['Estado']) && $result['Estado'] === self::SUCCESS && isset($result['EstadoPedidos']) && isset($result['EstadoPedidos'][0])) {
-				$adaptedResult = [
-					'code' => $result['EstadoPedidos'][0]['Estado'],
-					'transaction_id' => $result['EstadoPedidos'][0]['IdPedido'],
-					'message' => $result['EstadoPedidos'][0]['MsgDescricao'],
-				];
-			} else {
-				$adaptedResult = [
-					'code' => self::ERROR,
-					'message' => 'Error: Could not get payment status.'
-				];
-			}
+		if (
+			$jsonResult &&
+			isset($jsonResult['Status']) &&
+			isset($jsonResult['RequestId']) &&
+			isset($jsonResult['Message'])
+		) {
+			$adaptedResult = [
+				'code' => $jsonResult['Status'],
+				'transaction_id' => $jsonResult['RequestId'],
+				'message' => $jsonResult['Message'],
+			];
 		} else {
 			$adaptedResult = [
 				'code' => self::ERROR,
@@ -151,22 +148,19 @@ class MbwayPayment
 			];
 		}
 
-		if ($adaptedResult) {
-
-			switch ($adaptedResult['code']) {
-				case self::PAID:
-					$adaptedResult['status'] = 'paid';
-					break;
-				case self::PENDING:
-					$adaptedResult['status'] = 'pending';
-					break;
-				case self::REFUSED:
-					$adaptedResult['status'] = 'refused';
-					break;
-				default:
-					$adaptedResult['status'] = 'error';
-					break;
-			}
+		switch ($adaptedResult['code']) {
+			case self::PAID:
+				$adaptedResult['status'] = 'paid';
+				break;
+			case self::PENDING:
+				$adaptedResult['status'] = 'pending';
+				break;
+			case self::REFUSED:
+				$adaptedResult['status'] = 'refused';
+				break;
+			default:
+				$adaptedResult['status'] = 'error';
+				break;
 		}
 
 		return $adaptedResult;

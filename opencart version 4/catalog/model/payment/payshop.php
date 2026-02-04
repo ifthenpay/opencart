@@ -93,10 +93,6 @@ class Payshop extends \Opencart\System\Engine\Model
 	 */
 	public function getPayshopRecordByReference($reference): array
 	{
-		if ($reference == '') {
-			return [];
-		}
-
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_payshop` WHERE `reference` = " . $reference);
 
 		if ($query->num_rows) {
@@ -106,18 +102,6 @@ class Payshop extends \Opencart\System\Engine\Model
 		}
 	}
 
-
-
-	public function getRecordByOrderId($orderId): array
-	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_payshop` WHERE `order_id` = " . $orderId);
-
-		if ($query->num_rows) {
-			return $query->row;
-		} else {
-			return [];
-		}
-	}
 
 
 	/**

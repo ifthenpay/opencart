@@ -94,23 +94,7 @@ class Multibanco extends \Opencart\System\Engine\Model
 	 */
 	public function getMultibancoRecordByReference($reference): array
 	{
-		if ($reference == '') {
-			return [];
-		}
-
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_multibanco` WHERE `reference` = " . $reference);
-
-		if ($query->num_rows) {
-			return $query->row;
-		} else {
-			return [];
-		}
-	}
-
-
-	public function getRecordByOrderId($orderId): array
-	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_multibanco` WHERE `order_id` = " . $orderId);
 
 		if ($query->num_rows) {
 			return $query->row;
