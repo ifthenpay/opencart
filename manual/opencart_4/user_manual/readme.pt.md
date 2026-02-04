@@ -5,7 +5,7 @@
 Download de versões da extensão ifthenpay para Opencart 4
 |                                             | Opencart 4 [4.0.0.1 - 4.0.2.1]                                                                        |
 | ------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| Link para descarregar instalador .ocmod.zip | [ifthenpay v4.2.0](https://github.com/ifthenpay/opencart/releases/download/4.2.0/ifthenpay.ocmod.zip) |
+| Link para descarregar instalador .ocmod.zip | [ifthenpay v4.1.2](https://github.com/ifthenpay/opencart/releases/download/4.1.2/ifthenpay.ocmod.zip) |
 
 </br>
 </br>
@@ -87,7 +87,7 @@ Para suporte, por favor crie um ticked para suporte em [Suporte ifthenpay](https
 Use a tabela abaixo para verificar a compatibilidade do extensão ifthenpay com a sua loja online.
 |                           | Opencart 3 | Opencart 4 [4.0.0.1 - 4.0.2.1] |
 | ------------------------- | ------------------------------ | ------------------------------ |
-| ifthenpay v4.0.0 - v4.2.0 | Não compatível                 | Compatível                     |
+| ifthenpay v4.0.0 - v4.1.2 | Não compatível                 | Compatível                     |
 
 </br>
 
