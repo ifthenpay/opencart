@@ -3,7 +3,7 @@
 Download latest version of the ifthenpay extension for Opencart 3.
 | | Opencart 3 [3.0.1.1 - 3.0.3.9] |
 | ------------------------------------- | --------------------------------- |
-| Link to download installer .ocmod.zip | [ifthenpay v1.4.3](https://github.com/ifthenpay/opencart/releases/download/1.4.3/ifthenpay.ocmod.zip) |
+| Link to download installer .ocmod.zip | [ifthenpay v1.4.4](https://github.com/ifthenpay/opencart/releases/download/1.4.4/ifthenpay.ocmod.zip) |
 
 </br>
 </br>
@@ -111,13 +111,13 @@ Use the table below to check the compatibility of the Ifthenpay extension with y
 
 | | Opencart 3 [3.0.1.1 - 3.0.3.9] | Opencart 4 |
 | ------------------------- | ------------------------------ | ------------------------------ |
-| ifthenpay v1.0.0 - v1.4.3 | Compatible | Not compatible |
+| ifthenpay v1.0.0 - v1.4.4 | Compatible | Not compatible |
 
 </br>
 
 ## Installation
 
-Please download the installation file of the ifthenpay extension for Opencart 3 from the GitHub page [ifthenpay v1.4.3](https://github.com/ifthenpay/opencart/releases/tag/v1.4.3).
+Please download the installation file of the ifthenpay extension for Opencart 3 from the GitHub page [ifthenpay v1.4.4](https://github.com/ifthenpay/opencart/releases/tag/v1.4.4).
 You may get from multiple places in this repository:
 
 - the link in this instruction line;
