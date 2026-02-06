@@ -34,31 +34,31 @@ class PaymentStatusFactory extends Factory
 		switch ($this->type) {
 			case Gateway::MULTIBANCO:
 				return new MultibancoPaymentStatus(
-					$this->webService,
+					$this->webService
 				);
 			case Gateway::MBWAY:
 				return new MbWayPaymentStatus(
-					$this->webService,
+					$this->webService
 				);
 			case Gateway::PAYSHOP:
 				return new PayshopPaymentStatus(
-					$this->webService,
+					$this->webService
 				);
 			case Gateway::CCARD:
 				return new CCardPaymentStatus(
-					$this->webService,
+					$this->webService
 				);
 			case Gateway::COFIDIS:
 				return new CofidisPaymentStatus(
-					$this->webService,
+					$this->webService
 				);
 			case Gateway::PIX:
 				return new PixPaymentStatus(
-					$this->webService,
+					$this->webService
 				);
 			case Gateway::IFTHENPAYGATEWAY:
 				return new IfthenpaygatewayPaymentStatus(
-					$this->webService,
+					$this->webService
 				);
 			default:
 				throw new \Exception('Unknown Payment Change Status Class');
