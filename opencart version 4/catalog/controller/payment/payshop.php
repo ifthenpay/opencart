@@ -1,10 +1,13 @@
 <?php
+
 namespace Opencart\Catalog\Controller\Extension\ifthenpay\Payment;
 
 require_once DIR_EXTENSION . 'ifthenpay/system/library/PayshopPayment.php';
+require_once DIR_EXTENSION . 'ifthenpay/system/library/CallbackService.php';
 
+use Ifthenpay\CallbackService;
 use Ifthenpay\PayshopPayment;
-
+use Ifthenpay\Utils;
 
 class Payshop extends \Opencart\System\Engine\Controller
 {
@@ -105,7 +108,6 @@ class Payshop extends \Opencart\System\Engine\Controller
 				$json['error'] = $this->language->get('error_get_reference');
 				$json['redirect'] = $this->url->link('checkout/failure', 'language=' . $this->config->get('config_language'), true);
 			}
-
 		}
 
 		$this->response->addHeader('Content-Type: application/json');
@@ -155,12 +157,46 @@ class Payshop extends \Opencart\System\Engine\Controller
 
 
 
+	public function email_payment_info(&$route, &$data)
+	{
+		if (!isset($this->session->data['ifth_payment_info'])) {
+			return;
+		}
+		$paymentInfo = $this->session->data['ifth_payment_info'];
+
+		if (!isset($paymentInfo) || !isset($paymentInfo['payment_method']) || $paymentInfo['payment_method'] != 'payshop') {
+			return;
+		}
+
+		$paymentHtml = $this->getPaymentDetailsHtml(false, true);
+
+		if (isset($data['comment'])) {
+			$data['comment'] .= '<br/>' . $paymentHtml; // append payment info to existing comment, so it does not replace other comments
+		} else {
+			$data['comment'] = $paymentHtml;
+		}
+	}
+
+
+
+	public function injectIconCss(&$route, &$data)
+	{
+		if (!$this->config->get('payment_payshop_show_icon_checkout') || !isset($data['header'])) {
+			return;
+		}
+
+		$data['header'] .= Utils::getPaymentIconCssInjectionScript('payshop');
+	}
+
+
+
 	/**
 	 * get the payment details html, it generates the html for the payment details using the success_payment_info.twig template
 	 * the $isForAdmin parameter is used to change the template inside the twig file, the reason for this is that, in admin, br tags are generated for every end of line
 	 * @param bool $isForAdmin
+	 * @param bool $isForEmail
 	 */
-	private function getPaymentDetailsHtml($isForAdmin = false)
+	private function getPaymentDetailsHtml($isForAdmin = false,  $isForEmail = false)
 	{
 		if (!isset($this->model_checkout_order)) {
 			$this->load->model('checkout/order');
@@ -189,6 +225,11 @@ class Payshop extends \Opencart\System\Engine\Controller
 			'payment_method_icon' => HTTP_SERVER . 'extension/ifthenpay/catalog/view/image/payshop.png'
 		];
 
+		if ($isForEmail) {
+			return $this->load->view('extension/ifthenpay/payment/payshopOrderEmailDetails', $params);
+		}
+
+
 		return $this->load->view('extension/ifthenpay/payment/payshopSuccessInfo', $params);
 	}
 
@@ -196,90 +237,11 @@ class Payshop extends \Opencart\System\Engine\Controller
 
 	/**
 	 * Callback function for Payshop payment method (called externaly by Ifthenpay)
-	 * must finish with die('ok') or die('fail - <code>');
-	 * code represents the error code
-	 * 10 - StoredPaymentData not found in local table.
-	 * 30 - Callback is not active.
-	 * 40 - Invalid anti-phishing key.
-	 * 50 - Order not found.
-	 * 60 - Invalid amount.
 	 */
 	public function callback()
 	{
-		try {
-			$this->load->model('checkout/order');
-			$this->load->model('extension/ifthenpay/payment/payshop');
-			$this->load->language('extension/ifthenpay/payment/payshop');
-
-			if (!isset($this->request->get['reference'])) {
-
-				throw new \Exception('StoredPaymentData not found in local table.', 10);
-			}
-
-			$storedPaymentData = $this->model_extension_ifthenpay_payment_payshop->getPayshopRecordByReference($this->request->get['reference']);
-
-			if ($storedPaymentData['status'] === 'paid') {
-				http_response_code(200);
-				die('ok - encomenda já se encontra paga');
-			}
-
-			$this->validateCallback($this->request->get, $storedPaymentData);
-
-			// update order history status
-			$this->model_checkout_order->addHistory($storedPaymentData['order_id'], (int) $this->config->get('payment_payshop_paid_status_id'), $this->language->get('comment_paid'), true);
-
-			// update payshop table record
-			$this->model_extension_ifthenpay_payment_payshop->updatePayshopRecordStatus($storedPaymentData['order_id'], 'paid');
-
-
-		} catch (\Throwable $th) {
-			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - ERROR : ' . $th->getMessage());
-
-			$code = $th->getCode() ?? '000';
-
-			http_response_code(400);
-			die('fail - ' . $code);
-		}
-		http_response_code(200);
-		die('ok');
+		(new CallbackService($this->registry))->HandleFromPayshop($this->request);
 	}
-
-
-
-	/**
-	 * Validate the callback data sent by Ifthenpay, and throws an exception with a code if something is wrong
-	 */
-	private function validateCallback($callbackData, $storedPaymentData): void
-	{
-		if (!$storedPaymentData) {
-			throw new \Exception('StoredPaymentData not found in local table.', 10);
-		}
-
-		// is callback active?
-		if (!$this->config->get('payment_payshop_activate_callback')) {
-			throw new \Exception('Callback is not active.', 30);
-		}
-		// is anti-phishing key valid?
-		if (($callbackData['phish_key'] == '') || ($callbackData['phish_key'] != $this->config->get('payment_payshop_anti_phishing_key'))) {
-			throw new \Exception('Invalid anti-phishing key.', 40);
-		}
-
-		// is order id valid? does it exist?
-		$order = $this->model_checkout_order->getOrder($storedPaymentData['order_id']);
-		if (!$order) {
-			throw new \Exception('Order not found.', 50);
-		}
-
-		// is order amount valid?
-		$callbackAmount = $callbackData['amount'];
-		$formatedAmount = $this->currency->format($order['total'], $order['currency_code'], $order['currency_value'], false);
-		$formatedAmount = (string) round($formatedAmount, 2);
-
-		if ($callbackAmount != $formatedAmount) {
-			throw new \Exception('Invalid amount.', 60);
-		}
-	}
-
 
 
 	/**

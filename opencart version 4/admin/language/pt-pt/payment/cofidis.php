@@ -1,7 +1,7 @@
 <?php
 
 // Admin logo
-$_['text_cofidis'] = '<img src="' . HTTP_CATALOG . 'extension/ifthenpay/admin/view/image/cofidis.png" alt="Ifthenpay - Cofidis Pay" title="Ifthenpay - Cofidis Pay"/>';
+$_['text_cofidis'] = '<img src="' . HTTP_CATALOG . 'extension/ifthenpay/admin/view/image/cofidis.png" height="30" alt="Ifthenpay - Cofidis Pay" title="Ifthenpay - Cofidis Pay"/>';
 
 
 // Heading
@@ -51,6 +51,7 @@ $_['entry_enable_cancel_order_cronjob'] = 'Habilitar Cron job de Cancelar';
 $_['entry_key'] = 'Chave de Cofidis Pay';
 
 $_['entry_title'] = 'Título';
+$_['entry_enable_show_icon_checkout'] = 'Exibir Ícone do Método de Pagamento';
 $_['entry_pending_status'] = 'Estado Pendente';
 $_['entry_paid_status'] = 'Estado Pago';
 $_['entry_canceled_status'] = 'Estado Cancelado';
@@ -81,6 +82,7 @@ $_['entry_plh_key'] = 'Selecione uma chave';
 
 
 // Help texts
+$_['help_enable_show_icon_checkout'] = 'Exibir o ícone deste método de pagamento no checkout (pode não funcionar como esperado com todos os temas).';
 $_['help_min_value'] = 'Exibir este método de pagamento para encomendas com valor superior ou igual a este valor. Este valor é carregado da sua conta Cofidis Pay da ifthenpay.';
 $_['help_max_value'] = 'Exibir este método de pagamento para encomendas com valor inferior ou igual a este valor. Este valor é carregado da sua conta Cofidis Pay da ifthenpay.';
 $_['help_cron_url_cancel_order'] = 'Pode configurar o cron job para alterar o estado das encomendas para "Cancelado" se esta estiver expirada 60 minutos após a confirmação. Agende o trabalho cron para ser executado a cada 1 minuto.';

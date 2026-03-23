@@ -1,5 +1,7 @@
 <?php
 
+// Admin logo
+$_['text_ccard'] = '<img src="' . HTTP_CATALOG . 'extension/ifthenpay/admin/view/image/cofidis.png" height="30" alt="Ifthenpay - Credit Card" title="Ifthenpay - Credit Card"/>';
 
 
 // Heading
@@ -54,6 +56,7 @@ $_['entry_key'] = 'Chave de Cartão de Crédito';
 $_['entry_deadline'] = 'Validade';
 
 $_['entry_title'] = 'Título';
+$_['entry_enable_show_icon_checkout'] = 'Exibir Ícone do Método de Pagamento';
 $_['entry_pending_status'] = 'Estado Pendente';
 $_['entry_paid_status'] = 'Estado Pago';
 $_['entry_canceled_status'] = 'Estado Cancelado';
@@ -73,6 +76,7 @@ $_['entry_plh_key'] = 'Selecione uma chave';
 
 
 // Help texts
+$_['help_enable_show_icon_checkout'] = 'Exibir o ícone deste método de pagamento no checkout (pode não funcionar como esperado com todos os temas).';
 $_['help_min_value'] = 'Exibir este método de pagamento para encomendas com valor superior ou igual a este valor. Deixe em branco para permitir qualquer valor.';
 $_['help_max_value'] = 'Exibir este método de pagamento para encomendas com valor inferior ou igual a este valor. Deixe em branco para permitir qualquer valor.';
 $_['help_cron_url_cancel_order'] = 'Pode configurar o cron job para alterar o estado das encomendas para "Cancelado" se não for paga 30 minutos após a confirmação. Agende o trabalho cron para ser executado a cada 1 minuto.';

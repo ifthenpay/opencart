@@ -35,7 +35,7 @@
 	<div class="container-fluid">
 		<div class="card">
 			<div class="card-header">
-				<img id="ifth_logo" src="/extension/ifthenpay/admin/view/image/multibanco.png" alt="Multibanco" title="Multibanco"/>
+				<img id="ifth_logo" src="/extension/ifthenpay/admin/view/image/multibanco.png" height="38" alt="Multibanco" title="Multibanco"/>
 				<span class="m-3">{{ version }}</span>
 
 				{# support buttons #}
@@ -191,7 +191,13 @@
 									<span class="spinner"></span>
 								</div>
 
-								<label id="lbl-sub-entity" for="input-sub-entity" class="col-sm-2 col-form-label">{% if multibanco_entity == "MB" %} {{ entry_key }} {% else %} {{ entry_sub_entity }} {% endif %}</label>
+								<label id="lbl-sub-entity" for="input-sub-entity" class="col-sm-2 col-form-label">
+									{% if multibanco_entity == "MB" %}
+										{{ entry_key }}
+									{% else %}
+										{{ entry_sub_entity }}
+									{% endif %}
+								</label>
 								<div class="col-sm-10">
 									<select name="payment_multibanco_sub_entity" id="input-sub-entity" class="form-select">
 										<option value="" {% if multibanco_sub_entity_option.value == "" %} selected {% endif %}>
@@ -220,12 +226,24 @@
 									</select>
 								</div>
 							</div>
-							{# title #}
 
+							{# title #}
 							<div class="row mb-3">
 								<label for="input-title" class="col-sm-2 col-form-label">{{ entry_title }}</label>
 								<div class="col-sm-10">
 									<input type="text" name="payment_multibanco_title" value="{{ multibanco_title }}" id="input-title" class="form-control"/>
+								</div>
+							</div>
+
+							{# show icon #}
+							<div class="row mb-3">
+								<label for="input-show-icon-checkout" class="col-sm-2 col-form-label">{{ entry_enable_show_icon_checkout }}</label>
+								<div class="col-sm-10">
+									<div class="form-check form-switch form-switch-lg">
+										<input type="hidden" name="payment_multibanco_show_icon_checkout" value="0"/>
+										<input type="checkbox" name="payment_multibanco_show_icon_checkout" value="1" id="input-show-icon-checkout" class="form-check-input" {% if multibanco_show_icon_checkout %} checked {% endif %}/>
+									</div>
+									<small class="form-text text-muted">{{ help_enable_show_icon_checkout }}</small>
 								</div>
 							</div>
 
@@ -450,5 +468,4 @@ const text_are_you_sure_test_callback = '{{ text_are_you_sure_test_callback }}';
 const sub_entity_dynamic = '{{ multibanco_dynamic_name }}';
 const ifp_lbl_sub_entity_dynamic = '{{ entry_key }}';
 const ifp_lbl_sub_entity = '{{ entry_sub_entity }}';
-
 </script>

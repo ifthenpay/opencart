@@ -1,7 +1,7 @@
 <?php
 
 // Admin logo
-$_['text_multibanco'] = '<img src="' . HTTP_CATALOG . 'extension/ifthenpay/admin/view/image/multibanco.png" alt="Ifthenpay - Multibanco" title="Ifthenpay - Multibanco"/>';
+$_['text_multibanco'] = '<img src="' . HTTP_CATALOG . 'extension/ifthenpay/admin/view/image/multibanco.png" height="30" alt="Ifthenpay - Multibanco" title="Ifthenpay - Multibanco"/>';
 
 
 // Heading
@@ -76,6 +76,7 @@ $_['text_no_deadline'] = 'No Deadline';
 
 
 $_['entry_title'] = 'Title';
+$_['entry_enable_show_icon_checkout'] = 'Show Payment Method Icon';
 $_['entry_pending_status'] = 'Pending Status';
 $_['entry_paid_status'] = 'Paid Status';
 $_['entry_canceled_status'] = 'Canceled Status';
@@ -104,7 +105,7 @@ $_['entry_plh_key'] = 'Select a key';
 
 
 // Help texts
-
+$_['help_enable_show_icon_checkout'] = 'Display this payment method icon at checkout (this may not work as expected with all themes).';
 $_['help_min_value'] = 'Display this payment method for orders with value greater or equal to this value. Leave empty to allow any.';
 $_['help_max_value'] = 'Display this payment method for orders with value lesser or equal to this value. Leave empty to allow any.';
 $_['help_cron_url_cancel_order'] = 'You can set up this cron job to change orders status to "Canceled" if order is not payed before deadline. Requires Multibanco Reference Deadline to be set in order to work. Schedule the cron job to run every 1 minute.';
@@ -128,7 +129,6 @@ $_['error_reference_empty'] = 'Error: Reference field is empty.';
 $_['error_reference_invalid'] = 'Error: Reference field is invalid.';
 $_['error_amount_empty'] = 'Error: Amount field is empty.';
 $_['error_amount_invalid'] = 'Error: Amount field is invalid.';
-$_['error_callback_test'] = 'Error: Multibanco callback test error.';
 
 
 
@@ -138,5 +138,9 @@ $_['success_backoffice_key_saved'] = 'Success: Backoffice Key saved successfully
 $_['success_clear_configuration'] = 'Success: Configuration cleared successfully.';
 $_['success_request_account'] = 'Success: Multibanco account requested successfully.';
 $_['success_refresh_accounts'] = 'Success: Multibanco accounts refreshed successfully.';
+
+
+// callback test messages
 $_['success_callback_test'] = 'Success: Multibanco callback tested successfully.';
 $_['warning_callback_test_already_paid'] = 'Warning: Multibanco callback tested, but order has already been set to paid.';
+$_['error_callback_test'] = 'Error: Multibanco callback test error.';

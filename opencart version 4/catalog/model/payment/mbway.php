@@ -1,4 +1,5 @@
 <?php
+
 namespace Opencart\Catalog\Model\Extension\ifthenpay\Payment;
 
 class Mbway extends \Opencart\System\Engine\Model
@@ -87,11 +88,14 @@ class Mbway extends \Opencart\System\Engine\Model
 
 	/**
 	 * gets a mbway record from the database by its transaction id
-	 * @param string $order_id
+	 * @param string $transactionId
 	 * @return array
 	 */
 	public function getMbwayRecordByTransactionId($transactionId): array
 	{
+		if ($transactionId == '') {
+			return [];
+		}
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_mbway` WHERE `transaction_id` = '" . $transactionId . "'");
 
 		if ($query->num_rows) {
@@ -161,5 +165,22 @@ class Mbway extends \Opencart\System\Engine\Model
 	public function updateMbwayRecordTransactionId($order_id, $transactionId): void
 	{
 		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_mbway` SET `transaction_id` = '" . $transactionId . "' WHERE `order_id` = '" . $order_id . "'");
+	}
+
+
+
+	public function getRecordByOrderId($orderId): array
+	{
+		if ($orderId == '') {
+			return [];
+		}
+
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_mbway` WHERE `order_id` = " . $orderId);
+
+		if ($query->num_rows) {
+			return $query->row;
+		} else {
+			return [];
+		}
 	}
 }

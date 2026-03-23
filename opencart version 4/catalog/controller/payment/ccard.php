@@ -1,4 +1,5 @@
 <?php
+
 namespace Opencart\Catalog\Controller\Extension\ifthenpay\Payment;
 
 require_once DIR_EXTENSION . 'ifthenpay/system/library/CcardPayment.php';
@@ -120,7 +121,6 @@ class Ccard extends \Opencart\System\Engine\Controller
 				$json['error'] = $this->language->get('error_get_transaction');
 				$json['redirect'] = $this->url->link('checkout/failure', 'language=' . $this->config->get('config_language'), true);
 			}
-
 		}
 
 		$this->response->addHeader('Content-Type: application/json');
@@ -186,8 +186,6 @@ class Ccard extends \Opencart\System\Engine\Controller
 
 				// redirect to success page
 				$this->response->redirect($this->url->link('checkout/success', 'language=' . $this->config->get('config_language')));
-
-
 			} else if ($paymentStatus === self::CANCEL_STATUS) {
 
 				// set session message that will be used back in the checkout page
@@ -201,7 +199,6 @@ class Ccard extends \Opencart\System\Engine\Controller
 
 				// redirect to checkout page
 				$this->response->redirect($this->url->link('checkout/checkout', 'language=' . $this->config->get('config_language')));
-
 			} else { // error status or any other status
 
 				// set session message that will be used back in the checkout page
@@ -214,10 +211,7 @@ class Ccard extends \Opencart\System\Engine\Controller
 
 				// redirect to checkout page
 				$this->response->redirect($this->url->link('checkout/checkout', 'language=' . $this->config->get('config_language')));
-
-
 			}
-
 		} catch (\Throwable $th) {
 
 			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - INFO : CCARD init data: ' . json_encode(['transactionId' => $transactionId, 'orderId' => $orderId, 'amount' => $amount, 'status' => 'error']));
@@ -301,13 +295,23 @@ class Ccard extends \Opencart\System\Engine\Controller
 
 			$find = '<div class="text-end">';
 			$output = str_replace($find, $content . $find, $output);
-
 		}
 
 		// clear session data to avoid showing the payment info in other pages
 		if (isset($this->session->data['ifth_payment_info'])) {
 			unset($this->session->data['ifth_payment_info']);
 		}
+	}
+
+
+
+	public function injectIconCss(&$route, &$data)
+	{
+		if (!$this->config->get('payment_ccard_show_icon_checkout') || !isset($data['header'])) {
+			return;
+		}
+
+		$data['header'] .= Utils::getPaymentIconCssInjectionScript('ccard');
 	}
 
 

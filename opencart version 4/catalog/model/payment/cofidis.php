@@ -1,4 +1,5 @@
 <?php
+
 namespace Opencart\Catalog\Model\Extension\ifthenpay\Payment;
 
 class Cofidis extends \Opencart\System\Engine\Model
@@ -86,6 +87,10 @@ class Cofidis extends \Opencart\System\Engine\Model
 
 	public function getCofidisRecordByTransactionId($transactionId): array
 	{
+		if ($transactionId == '') {
+			return [];
+		}
+
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_cofidis` WHERE `transaction_id` = '" . $transactionId . "'");
 
 		if ($query->num_rows) {
@@ -145,5 +150,22 @@ class Cofidis extends \Opencart\System\Engine\Model
 	public function updateCofidisRecordStatusByTransactionId(string $transactionId, string $status)
 	{
 		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_cofidis` SET `status` = '" . $status . "' WHERE `transaction_id` = '" . $transactionId . "'");
+	}
+
+
+
+	public function getRecordByOrderId($orderId): array
+	{
+		if ($orderId == '') {
+			return [];
+		}
+
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_cofidis` WHERE `order_id` = " . $orderId);
+
+		if ($query->num_rows) {
+			return $query->row;
+		} else {
+			return [];
+		}
 	}
 }

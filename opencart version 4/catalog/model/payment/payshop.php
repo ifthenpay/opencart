@@ -1,4 +1,5 @@
 <?php
+
 namespace Opencart\Catalog\Model\Extension\ifthenpay\Payment;
 
 class Payshop extends \Opencart\System\Engine\Model
@@ -88,11 +89,15 @@ class Payshop extends \Opencart\System\Engine\Model
 
 	/**
 	 * gets a payshop record from the database by its reference
-	 * @param string $order_id
+	 * @param string $reference
 	 * @return array
 	 */
 	public function getPayshopRecordByReference($reference): array
 	{
+		if ($reference == '') {
+			return [];
+		}
+
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_payshop` WHERE `reference` = " . $reference);
 
 		if ($query->num_rows) {
@@ -130,5 +135,22 @@ class Payshop extends \Opencart\System\Engine\Model
 	public function updatePayshopRecordStatus($order_id, $status)
 	{
 		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_payshop` SET `status` = '" . $status . "' WHERE `order_id` = '" . $order_id . "'");
+	}
+
+
+
+	public function getRecordByOrderId($orderId): array
+	{
+		if ($orderId == '') {
+			return [];
+		}
+
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_payshop` WHERE `order_id` = " . $orderId);
+
+		if ($query->num_rows) {
+			return $query->row;
+		} else {
+			return [];
+		}
 	}
 }

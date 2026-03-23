@@ -1,4 +1,5 @@
 <?php
+
 namespace Opencart\Admin\Controller\Extension\ifthenpay\Payment;
 
 require_once DIR_EXTENSION . 'ifthenpay/system/library/Gateway.php';
@@ -97,6 +98,7 @@ class Mbway extends \Opencart\System\Engine\Controller
 		// title related values
 		$title = $this->config->get('payment_mbway_title');
 		$data['mbway_title'] = $title != '' ? $title : $this->language->get('heading_title');
+		$data['mbway_show_icon_checkout'] = $this->config->get('payment_mbway_show_icon_checkout');
 
 
 
@@ -190,7 +192,6 @@ class Mbway extends \Opencart\System\Engine\Controller
 				$this->model_setting_setting->editSetting('payment_mbway', $mergedConfiguration);
 				$this->json['success'] = $this->language->get('success_backoffice_key_saved');
 			}
-
 		} else {
 
 			if ($this->validate($this->request->post)) {
@@ -240,7 +241,7 @@ class Mbway extends \Opencart\System\Engine\Controller
 				// get callback url for catalog
 				$urlCallback = $this->url->link('extension/ifthenpay/payment/mbway|callback', '', true) . Gateway::MBWAY_CALLBACK_STRING;
 				$urlCallback = str_replace(HTTP_SERVER, HTTP_CATALOG, $urlCallback);
-				$urlCallback = str_replace('{ec}', defined('VERSION') ? VERSION : 'unknown', $urlCallback);
+				$urlCallback = str_replace('{ec}', 'op_' . (defined('VERSION') ? VERSION : 'unknown'), $urlCallback);
 				$urlCallback = str_replace('{mv}', Utils::getModuleVersion(), $urlCallback);
 
 				$gateway = new Gateway();
@@ -249,7 +250,6 @@ class Mbway extends \Opencart\System\Engine\Controller
 				if (strpos($result, 'OK') === false) {
 					throw new \Exception("error activating callback");
 				}
-
 			} catch (\Throwable $th) {
 				// if it fails set to activate callback to 0 and set error message
 				$this->request->post['payment_mbway_activate_callback'] = '0';
@@ -302,12 +302,12 @@ class Mbway extends \Opencart\System\Engine\Controller
 			return false;
 		}
 
-		if ($formData['payment_mbway_min_value'] !== '' && !is_numeric($formData['payment_mbway_min_value'])) {
+		if ($formData['payment_mbway_min_value'] !== '' && (!is_numeric($formData['payment_mbway_min_value']) || $formData['payment_mbway_min_value'] < 0)) {
 			$this->json['error'] = $this->language->get('error_min_value_format');
 			return false;
 		}
 
-		if ($formData['payment_mbway_max_value'] !== '' && !is_numeric($formData['payment_mbway_max_value'])) {
+		if ($formData['payment_mbway_max_value'] !== '' && (!is_numeric($formData['payment_mbway_max_value']) || $formData['payment_mbway_max_value'] < 0)) {
 			$this->json['error'] = $this->language->get('error_max_value_format');
 			return false;
 		}
@@ -331,19 +331,23 @@ class Mbway extends \Opencart\System\Engine\Controller
 	 */
 	public function eventRenderRefundForm(&$route, &$data, &$output)
 	{
-		$this->load->model('setting/setting');
-		$this->load->language('extension/ifthenpay/payment/mbway');
-
-		// In case the extension is disabled, do nothing
-		if (!$this->model_setting_setting->getValue('payment_mbway_status')) {
+		if (!isset($data['payment_method_code']) || $data['payment_method_code'] !== 'mbway.mbway') {
 			return;
 		}
 
 		$this->load->model('sale/order');
 		$orderInfo = $this->model_sale_order->getOrder((int) $data['order_id']);
 
-		// validate if mbway payment method was used
+		// validate payment method a second time
 		if ($orderInfo['payment_method']['code'] !== 'mbway.mbway') {
+			return;
+		}
+
+		$this->load->model('setting/setting');
+		$this->load->language('extension/ifthenpay/payment/mbway', 'itpref');
+
+		// In case the extension is disabled, do nothing
+		if (!$this->model_setting_setting->getValue('payment_mbway_status')) {
 			return;
 		}
 
@@ -392,7 +396,7 @@ class Mbway extends \Opencart\System\Engine\Controller
 
 		$data['tabs'][] = [
 			'code' => 'mbway_refund',
-			'title' => $this->language->get('text_tab_refund'),
+			'title' => $this->language->get('itpref_text_tab_refund'),
 			'content' => $content
 		];
 	}
@@ -424,7 +428,6 @@ class Mbway extends \Opencart\System\Engine\Controller
 					'date_added' => $record['date_added']
 				];
 			}
-
 		}
 		return $refundArray;
 	}
@@ -438,8 +441,6 @@ class Mbway extends \Opencart\System\Engine\Controller
 
 			$this->model_extension_ifthenpay_payment_mbway->install();
 		}
-
-
 	}
 
 
@@ -753,8 +754,6 @@ class Mbway extends \Opencart\System\Engine\Controller
 				$mail->setHtml($this->load->view('extension/ifthenpay/payment/mail/refundToken', ['token' => $token]));
 				$mail->send();
 			}
-
-
 		}
 
 		if (!isset($json)) {
@@ -821,7 +820,6 @@ class Mbway extends \Opencart\System\Engine\Controller
 
 				$json['success'] = $this->language->get('success_refund');
 			}
-
 		}
 
 

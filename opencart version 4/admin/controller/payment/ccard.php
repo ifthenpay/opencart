@@ -1,4 +1,5 @@
 <?php
+
 namespace Opencart\Admin\Controller\Extension\ifthenpay\Payment;
 
 
@@ -96,7 +97,7 @@ class Ccard extends \Opencart\System\Engine\Controller
 		// title related values
 		$title = $this->config->get('payment_ccard_title');
 		$data['ccard_title'] = $title != '' ? $title : $this->language->get('heading_title');
-
+		$data['ccard_show_icon_checkout'] = $this->config->get('payment_ccard_show_icon_checkout');
 
 
 		// order status related values
@@ -185,9 +186,7 @@ class Ccard extends \Opencart\System\Engine\Controller
 
 				$this->model_setting_setting->editSetting('payment_ccard', $mergedConfiguration);
 				$this->json['success'] = $this->language->get('success_backoffice_key_saved');
-
 			}
-
 		} else {
 
 			if ($this->validate($this->request->post)) {
@@ -243,13 +242,12 @@ class Ccard extends \Opencart\System\Engine\Controller
 			$this->json['error'] = $this->language->get('error_key_empty');
 			return false;
 		}
-
-		if ($formData['payment_ccard_min_value'] !== '' && !is_numeric($formData['payment_ccard_min_value'])) {
+		if ($formData['payment_ccard_min_value'] !== '' && (!is_numeric($formData['payment_ccard_min_value']) || $formData['payment_ccard_min_value'] < 0)) {
 			$this->json['error'] = $this->language->get('error_min_value_format');
 			return false;
 		}
 
-		if ($formData['payment_ccard_max_value'] !== '' && !is_numeric($formData['payment_ccard_max_value'])) {
+		if ($formData['payment_ccard_max_value'] !== '' && (!is_numeric($formData['payment_ccard_max_value']) || $formData['payment_ccard_max_value'] < 0)) {
 			$this->json['error'] = $this->language->get('error_max_value_format');
 			return false;
 		}
@@ -273,11 +271,7 @@ class Ccard extends \Opencart\System\Engine\Controller
 	 */
 	public function eventRenderRefundForm(&$route, &$data, &$output)
 	{
-		$this->load->model('setting/setting');
-		$this->load->language('extension/ifthenpay/payment/ccard');
-
-		// In case the extension is disabled, do nothing
-		if (!$this->model_setting_setting->getValue('payment_ccard_status')) {
+		if (!isset($data['payment_method_code']) || $data['payment_method_code'] !== 'ccard.ccard') {
 			return;
 		}
 
@@ -286,6 +280,14 @@ class Ccard extends \Opencart\System\Engine\Controller
 
 		// validate if ccard payment method was used
 		if ($orderInfo['payment_method']['code'] !== 'ccard.ccard') {
+			return;
+		}
+
+		$this->load->model('setting/setting');
+		$this->load->language('extension/ifthenpay/payment/ccard', 'itpref');
+
+		// In case the extension is disabled, do nothing
+		if (!$this->model_setting_setting->getValue('payment_ccard_status')) {
 			return;
 		}
 
@@ -334,7 +336,7 @@ class Ccard extends \Opencart\System\Engine\Controller
 
 		$data['tabs'][] = [
 			'code' => 'ccard_refund',
-			'title' => $this->language->get('text_tab_refund'),
+			'title' => $this->language->get('itpref_text_tab_refund'),
 			'content' => $content
 		];
 	}
@@ -366,7 +368,6 @@ class Ccard extends \Opencart\System\Engine\Controller
 					'date_added' => $record['date_added']
 				];
 			}
-
 		}
 		return $refundArray;
 	}
@@ -637,8 +638,6 @@ class Ccard extends \Opencart\System\Engine\Controller
 				$mail->setHtml($this->load->view('extension/ifthenpay/payment/mail/refundToken', ['token' => $token]));
 				$mail->send();
 			}
-
-
 		}
 
 		if (!isset($json)) {
@@ -705,7 +704,6 @@ class Ccard extends \Opencart\System\Engine\Controller
 
 				$json['success'] = $this->language->get('success_refund');
 			}
-
 		}
 
 

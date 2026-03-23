@@ -1,5 +1,5 @@
 {% if is_to_display_in_admin %}
-<div class="col-12 p-3 border border-secondary-subtle rounded "><div class="pt-2 pb-3"><img src="{{ payment_method_icon }}" alt="MB WAY" title="MB WAY"/></div><table class="table border border-secondary-subtle rounded"><tbody><tr><td>{{text_transaction_id}}</td><td class="copy_no_spaces fw-bold">{{transaction_id}}</td></tr><tr><td>{{text_phone_number}}</td><td class="copy_no_spaces fw-bold">{{phone_number}}</td></tr><tr><td>{{text_total_to_pay}}</td><td class="fw-bold">{{total}}</td></tr></tbody></table></div>
+<div class="col-12 p-3 border border-secondary-subtle rounded "><div class="pt-2 pb-3"><img src="{{ payment_method_icon }}" height="38" alt="MB WAY" title="MB WAY"/></div><table class="table border border-secondary-subtle rounded"><tbody><tr><td>{{text_phone_number}}</td><td class="copy_no_spaces fw-bold">{{phone_number}}</td></tr><tr><td>{{text_total_to_pay}}</td><td class="fw-bold">{{total}}</td></tr></tbody></table></div>
 {% else %}
 
 
@@ -64,7 +64,7 @@
 	<div class="col-sm-12 col-md-4 p-3 border border-secondary-subtle rounded">
 		<h5 class="fw-bold">{{text_pay_by_method}}</h5>
 		<div class="pt-2 pb-3">
-			<img src="{{ payment_method_icon }}" alt="MB WAY" title="MB WAY"/>
+			<img src="{{ payment_method_icon }}" alt="MB WAY" height="38" title="MB WAY"/>
 		</div>
 		<table class="table border border-secondary-subtle rounded">
 			<tbody>

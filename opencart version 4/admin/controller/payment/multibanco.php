@@ -109,7 +109,7 @@ class Multibanco extends \Opencart\System\Engine\Controller
 		// title related values
 		$title = $this->config->get('payment_multibanco_title');
 		$data['multibanco_title'] = $title != '' ? $title : $this->language->get('heading_title');
-
+		$data['multibanco_show_icon_checkout'] = $this->config->get('payment_multibanco_show_icon_checkout');
 
 
 		// order status related values
@@ -254,7 +254,7 @@ class Multibanco extends \Opencart\System\Engine\Controller
 				// get callback url for catalog
 				$urlCallback = $this->url->link('extension/ifthenpay/payment/multibanco|callback', '', true) . Gateway::MULTIBANCO_CALLBACK_STRING;
 				$urlCallback = str_replace(HTTP_SERVER, HTTP_CATALOG, $urlCallback);
-				$urlCallback = str_replace('{ec}', defined('VERSION') ? VERSION : 'unknown', $urlCallback);
+				$urlCallback = str_replace('{ec}', 'op_' . (defined('VERSION') ? VERSION : 'unknown'), $urlCallback);
 				$urlCallback = str_replace('{mv}', Utils::getModuleVersion(), $urlCallback);
 
 				$gateway = new Gateway();

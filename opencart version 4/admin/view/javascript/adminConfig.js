@@ -26,11 +26,13 @@
 $(document).ready(function () {
 
 	setEventLst_multibancoEntityChange();
+	setEventLst_ifthenpaygatewayKeyChange();
 	setEventLst_cofidisKeyChange();
 	setEventLst_clear_config_on_click();
 	setEventLst_request_account_on_click();
 	setEventLst_internal_refresh_accounts_on_click();
 	setEventLst_test_callback_on_click();
+	setEventLst_request_ifthenpaygateway_method_on_click();
 });
 
 function setEventLst_cofidisKeyChange() {
@@ -136,14 +138,13 @@ function setEventLst_test_callback_on_click() {
 	$('#test_callback').on('click', function (e) {
 		e.preventDefault();
 
-
 		if (confirm(text_are_you_sure_test_callback)) {
-
 
 
 			let payload = {
 				'reference': $('#input-reference').val() || '',
 				'transaction_id': $('#input-transaction_id').val() || '',
+				'order_id': $('#input-order_id').val() || '',
 				'amount': $('#input-amount').val() || ''
 			};
 
@@ -253,4 +254,98 @@ function setEventLst_internal_refresh_accounts_on_click() {
 			}
 		}
 	});
+}
+
+
+function setEventLst_ifthenpaygatewayKeyChange() {
+
+	$('#input-gateway_key').on('change', function (e) {
+		e.preventDefault();
+
+		$("#entity_spinner").show();
+
+		let selectedGatewayKey = $('#input-gateway_key').val();
+
+		$.ajax({
+			url: url_get_gateway_accounts,
+			dataType: 'json',
+			data: {
+				'gateway_key': selectedGatewayKey
+			},
+			success: function (json) {
+
+				if (json['success']) {
+
+					const containerGatewayAccounts = $("#methods_container");
+					// clean methods and accounts
+					containerGatewayAccounts.find(".method").remove();
+
+					if ('payment_methods_html' in json) {
+						containerGatewayAccounts.html(json['payment_methods_html']);
+					}
+
+
+					if ('default_selected_html' in json) {
+						$('#selected_default_container').html(json['default_selected_html']);
+					}
+
+
+				}
+				$("#entity_spinner").hide();
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+		});
+	});
+}
+
+function setEventLst_request_ifthenpaygateway_method_on_click() {
+
+	$('.request_ifthenpaygateway_method').on('click', function (e) {
+		e.preventDefault();
+
+		const url = $(this).data('url');
+
+		let payload = {
+			'gateway_key': $('#input-gateway_key').val() || '',
+			'payment_method': $(this).data('method') || ''
+		};
+
+		if (confirm(text_are_you_sure_request_gateway_method)) {
+
+			$("#request_account_spinner").show();
+
+			$.ajax({
+				url: url,
+				dataType: 'json',
+				data: payload,
+				success: function (json) {
+					if (json['success']) {
+						location.reload();
+					}
+					$("#request_account_spinner").hide();
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				}
+			});
+		}
+	});
+}
+
+function updateDefaultSelect(that) {
+	const method = $(that).data('method');
+	const isSwitchOn = $(that).prop('checked');
+	const defaultPaymentSelect = $('#payment_ifthenpaygateway_default');
+
+	const target = defaultPaymentSelect.find('option[data-method="' + method + '"]');
+
+	if (target.prop('selected')) {
+		target.prop('selected', false);
+		defaultPaymentSelect.find('option').first().prop('selected', true);
+	}
+
+	target.prop('disabled', !isSwitchOn);
+
 }

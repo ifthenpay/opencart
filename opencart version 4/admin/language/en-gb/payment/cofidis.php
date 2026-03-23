@@ -1,7 +1,7 @@
 <?php
 
 // Admin logo
-$_['text_cofidis'] = '<img src="' . HTTP_CATALOG . 'extension/ifthenpay/admin/view/image/cofidis.png" alt="Ifthenpay - Cofidis Pay" title="Ifthenpay - Cofidis Pay"/>';
+$_['text_cofidis'] = '<img src="' . HTTP_CATALOG . 'extension/ifthenpay/admin/view/image/cofidis.png" height="30" alt="Ifthenpay - Cofidis Pay" title="Ifthenpay - Cofidis Pay"/>';
 
 
 // Heading
@@ -51,6 +51,7 @@ $_['entry_enable_cancel_order_cronjob'] = 'Enable Cancel Order Cron job';
 $_['entry_key'] = 'Cofidis Pay Key';
 
 $_['entry_title'] = 'Title';
+$_['entry_enable_show_icon_checkout'] = 'Show Payment Method Icon';
 $_['entry_pending_status'] = 'Pending Status';
 $_['entry_paid_status'] = 'Paid Status';
 $_['entry_canceled_status'] = 'Canceled Status';
@@ -81,6 +82,7 @@ $_['entry_plh_key'] = 'Select an key';
 
 
 // Help texts
+$_['help_enable_show_icon_checkout'] = 'Display this payment method icon at checkout (this may not work as expected with all themes).';
 $_['help_min_value'] = 'Display this payment method for orders with value greater or equal to this value. This field will load the value set in ifthenpay\'s backoffice. When editing this value make sure to keep within the limits of the values set in ifthenpay\'s backoffice.';
 $_['help_max_value'] = 'Display this payment method for orders with value lesser or equal to this value. This field will load the value set in ifthenpay\'s backoffice. When editing this value make sure to keep within the limits of the values set in ifthenpay\'s backoffice.';
 $_['help_cron_url_cancel_order'] = 'You can set up this cron job to change orders status to "Canceled" if order is expired 60 minutes after confirmation. Schedule the cron job to run every 1 minute.';

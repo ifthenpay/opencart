@@ -1,4 +1,5 @@
 <?php
+
 namespace Opencart\Admin\Model\Extension\ifthenpay\Payment;
 
 class Cofidis extends \Opencart\System\Engine\Model
@@ -18,16 +19,23 @@ class Cofidis extends \Opencart\System\Engine\Model
 
 
 		// add event for showing cofidis payment details (reference, amount...)  after checkout
-		$eventData = [
+		$this->model_setting_event->addEvent([
 			'code' => 'payment_ifthenpay_cofidis_catalog_success_payment_info',
 			'description' => 'To display Credit Card payment information after checkout success.',
 			'trigger' => 'catalog/view/common/success/after',
 			'action' => 'extension/ifthenpay/payment/cofidis.success_payment_info',
 			'status' => 1,
 			'sort_order' => 1
-		];
-		$this->model_setting_event->addEvent($eventData);
+		]);
 
+		$this->model_setting_event->addEvent([
+			'code'        => 'payment_ifthenpay_cofidis_icon_injection',
+			'description' => 'Injects CSS for Cofidis payment method icon in the checkout page.',
+			'trigger'     => 'catalog/view/checkout/checkout/before',
+			'action'      => 'extension/ifthenpay/payment/cofidis.injectIconCss',
+			'status'      => 1,
+			'sort_order'  => 1
+		]);
 	}
 
 	/**
@@ -42,6 +50,7 @@ class Cofidis extends \Opencart\System\Engine\Model
 		// delete events
 		$this->load->model('setting/event');
 		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_cofidis_catalog_success_payment_info');
+		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_cofidis_icon_injection');
 	}
 
 
@@ -69,7 +78,4 @@ class Cofidis extends \Opencart\System\Engine\Model
 		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET order_status_id = '" . (int) $orderStatusId . "', date_modified = NOW() WHERE order_id = '" . (int) $orderId . "'");
 		$this->db->query("INSERT INTO " . DB_PREFIX . "order_history SET order_id = '" . (int) $orderId . "', order_status_id = '" . (int) $orderStatusId . "', comment = '" . $this->db->escape($comment) . "', date_added = NOW()");
 	}
-
-
-
 }

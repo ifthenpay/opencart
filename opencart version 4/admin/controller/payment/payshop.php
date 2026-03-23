@@ -93,7 +93,7 @@ class Payshop extends \Opencart\System\Engine\Controller
 		// title related values
 		$title = $this->config->get('payment_payshop_title');
 		$data['payshop_title'] = $title != '' ? $title : $this->language->get('heading_title');
-
+		$data['payshop_show_icon_checkout'] = $this->config->get('payment_payshop_show_icon_checkout');
 
 
 		// order status related values
@@ -235,7 +235,7 @@ class Payshop extends \Opencart\System\Engine\Controller
 				// get callback url for catalog
 				$urlCallback = $this->url->link('extension/ifthenpay/payment/payshop|callback', '', true) . Gateway::PAYSHOP_CALLBACK_STRING;
 				$urlCallback = str_replace(HTTP_SERVER, HTTP_CATALOG, $urlCallback);
-				$urlCallback = str_replace('{ec}', defined('VERSION') ? VERSION : 'unknown', $urlCallback);
+				$urlCallback = str_replace('{ec}', 'op_' . (defined('VERSION') ? VERSION : 'unknown'), $urlCallback);
 				$urlCallback = str_replace('{mv}', Utils::getModuleVersion(), $urlCallback);
 
 				$gateway = new Gateway();
@@ -309,12 +309,12 @@ class Payshop extends \Opencart\System\Engine\Controller
 			return false;
 		}
 
-		if ($formData['payment_payshop_min_value'] !== '' && !is_numeric($formData['payment_payshop_min_value'])) {
+		if ($formData['payment_payshop_min_value'] !== '' && (!is_numeric($formData['payment_payshop_min_value']) || $formData['payment_payshop_min_value'] < 0)) {
 			$this->json['error'] = $this->language->get('error_min_value_format');
 			return false;
 		}
 
-		if ($formData['payment_payshop_max_value'] !== '' && !is_numeric($formData['payment_payshop_max_value'])) {
+		if ($formData['payment_payshop_max_value'] !== '' && (!is_numeric($formData['payment_payshop_max_value']) || $formData['payment_payshop_max_value'] < 0)) {
 			$this->json['error'] = $this->language->get('error_max_value_format');
 			return false;
 		}

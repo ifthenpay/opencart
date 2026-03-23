@@ -1,4 +1,5 @@
 <?php
+
 namespace Opencart\Admin\Model\Extension\ifthenpay\Payment;
 
 class Mbway extends \Opencart\System\Engine\Model
@@ -28,27 +29,33 @@ class Mbway extends \Opencart\System\Engine\Model
 		");
 
 		// add event for showing mbway payment details (reference, amount...)  after checkout
-		$eventData = [
+		$this->model_setting_event->addEvent([
 			'code' => 'payment_ifthenpay_mbway_catalog_success_payment_info',
 			'description' => 'To display MB WAY payment information after checkout success.',
 			'trigger' => 'catalog/view/common/success/after',
 			'action' => 'extension/ifthenpay/payment/mbway.success_payment_info',
 			'status' => 1,
 			'sort_order' => 1
-		];
-		$this->model_setting_event->addEvent($eventData);
+		]);
 
 		// add event for adding refund tab and form in admin order info page
-		$eventData = [
+		$this->model_setting_event->addEvent([
 			'code' => 'payment_ifthenpay_mbway_admin_refund',
 			'description' => 'To display MB WAY payment refund.',
 			'trigger' => 'admin/view/sale/order_info/before',
 			'action' => 'extension/ifthenpay/payment/mbway.eventRenderRefundForm',
 			'status' => 1,
 			'sort_order' => 1
-		];
-		$this->model_setting_event->addEvent($eventData);
+		]);
 
+		$this->model_setting_event->addEvent([
+			'code'        => 'payment_ifthenpay_mbway_icon_injection',
+			'description' => 'Injects CSS for MB WAY payment method icon in the checkout page.',
+			'trigger'     => 'catalog/view/checkout/checkout/before',
+			'action'      => 'extension/ifthenpay/payment/mbway.injectIconCss',
+			'status'      => 1,
+			'sort_order'  => 1
+		]);
 	}
 
 	/**
@@ -66,6 +73,7 @@ class Mbway extends \Opencart\System\Engine\Model
 		$this->load->model('setting/event');
 		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_mbway_catalog_success_payment_info');
 		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_mbway_admin_refund');
+		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_mbway_icon_injection');
 	}
 
 
@@ -128,7 +136,6 @@ class Mbway extends \Opencart\System\Engine\Model
 	}
 
 
-	// addMbwayRefundRecord
 	public function updateMbwayRecordStatus($orderId, $status)
 	{
 		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_mbway` SET `status` = '" . $status . "' WHERE `order_id` = '" . $orderId . "'");
@@ -140,7 +147,4 @@ class Mbway extends \Opencart\System\Engine\Model
 		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET order_status_id = '" . (int) $orderStatusId . "', date_modified = NOW() WHERE order_id = '" . (int) $orderId . "'");
 		$this->db->query("INSERT INTO " . DB_PREFIX . "order_history SET order_id = '" . (int) $orderId . "', order_status_id = '" . (int) $orderStatusId . "', comment = '" . $this->db->escape($comment) . "', date_added = NOW()");
 	}
-
-
-
 }

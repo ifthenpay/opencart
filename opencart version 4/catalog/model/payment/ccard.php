@@ -85,12 +85,16 @@ class Ccard extends \Opencart\System\Engine\Model
 
 
 	/**
-	 * gets a ccard record from the database by its reference
-	 * @param string $order_id
+	 * gets a ccard record from the database by its transactionid
+	 * @param string $transactionId
 	 * @return array
 	 */
 	public function getCcardRecordByTransactionId($transactionId): array
 	{
+		if ($transactionId == '') {
+			return [];
+		}
+
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_ccard` WHERE `transaction_id` = '" . $transactionId . "'");
 
 		if ($query->num_rows) {

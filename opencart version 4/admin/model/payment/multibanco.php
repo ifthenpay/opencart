@@ -1,4 +1,5 @@
 <?php
+
 namespace Opencart\Admin\Model\Extension\ifthenpay\Payment;
 
 class Multibanco extends \Opencart\System\Engine\Model
@@ -29,6 +30,25 @@ class Multibanco extends \Opencart\System\Engine\Model
 			'sort_order' => 1
 		];
 		$this->model_setting_event->addEvent($eventData);
+
+		// show payment method details in order confirmation email
+		$this->model_setting_event->addEvent([
+			'code' => 'payment_ifthenpay_multibanco_email',
+			'description' => 'To display Multibanco payment information in the order confirmation email.',
+			'trigger' => 'catalog/view/mail/order_add/before',
+			'action' => 'extension/ifthenpay/payment/multibanco.email_payment_info',
+			'status' => 1,
+			'sort_order' => 2
+		]);
+
+		$this->model_setting_event->addEvent([
+			'code'        => 'payment_ifthenpay_multibanco_icon_injection',
+			'description' => 'Injects CSS for Multibanco payment method icon in the checkout page.',
+			'trigger'     => 'catalog/view/checkout/checkout/before',
+			'action'      => 'extension/ifthenpay/payment/multibanco.injectIconCss',
+			'status'      => 1,
+			'sort_order'  => 1
+		]);
 	}
 
 	/**
@@ -43,5 +63,7 @@ class Multibanco extends \Opencart\System\Engine\Model
 		// delete events
 		$this->load->model('setting/event');
 		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_multibanco_catalog_success_payment_info');
+		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_multibanco_email');
+		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_multibanco_icon_injection');
 	}
 }

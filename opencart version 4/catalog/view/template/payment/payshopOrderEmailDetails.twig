@@ -1,0 +1,38 @@
+<div style="max-width: 400px; padding: 16px; border: 1px solid #dee2e6; border-radius: 8px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #ffffff; margin-bottom: 20px;">
+	<h5 style="margin-top: 0; margin-bottom: 12px; font-weight: bold; font-size: 16px; color: #212529;">
+		{{ text_pay_by_method }}
+	</h5>
+	<div style="padding-top: 8px; padding-bottom: 16px;">
+		<img src="{{ payment_method_icon }}" alt="Payshop" height="38" style="display: block; border: 0;" title="Payshop"/>
+	</div>
+	<table style="width: 100%; border-collapse: collapse; border: 1px solid #dee2e6; border-radius: 8px; overflow: hidden;">
+		<tbody>
+			<tr>
+				<td style="padding: 10px 8px; border-bottom: 1px solid #dee2e6; font-size: 14px; color: #495057;">
+					{{ text_reference }}
+				</td>
+				<td style="padding: 10px 8px; border-bottom: 1px solid #dee2e6; font-weight: bold; font-size: 14px; text-align: right; color: #212529;">
+					{{ reference }}
+				</td>
+			</tr>
+			{% if deadline %}
+				<tr>
+					<td style="padding: 10px 8px; border-bottom: 1px solid #dee2e6; font-size: 14px; color: #495057;">
+						{{ text_deadline }}
+					</td>
+					<td style="padding: 10px 8px; border-bottom: 1px solid #dee2e6; font-weight: bold; font-size: 14px; text-align: right; color: #212529;">
+						{{ deadline }}
+					</td>
+				</tr>
+			{% endif %}
+			<tr>
+				<td style="padding: 10px 8px; font-size: 14px; color: #495057;">
+					{{ text_total_to_pay }}
+				</td>
+				<td style="padding: 10px 8px; font-weight: bold; font-size: 14px; text-align: right; color: #212529;">
+					{{ total }}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

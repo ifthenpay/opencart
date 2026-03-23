@@ -1,14 +1,17 @@
 <?php
+
 namespace Opencart\Catalog\Controller\Extension\ifthenpay\Payment;
 
 require_once DIR_EXTENSION . 'ifthenpay/system/library/CofidisPayment.php';
 require_once DIR_EXTENSION . 'ifthenpay/system/library/Utils.php';
 require_once DIR_EXTENSION . 'ifthenpay/system/library/ApiService.php';
+require_once DIR_EXTENSION . 'ifthenpay/system/library/CallbackService.php';
 
 
 use Ifthenpay\ApiService;
 use Ifthenpay\CofidisPayment;
 use Ifthenpay\Utils;
+use Ifthenpay\CallbackService;
 
 
 class Cofidis extends \Opencart\System\Engine\Controller
@@ -136,7 +139,6 @@ class Cofidis extends \Opencart\System\Engine\Controller
 				$json['error'] = $this->language->get('error_get_transaction');
 				$json['redirect'] = $this->url->link('checkout/failure', 'language=' . $this->config->get('config_language'), true);
 			}
-
 		}
 
 		$this->response->addHeader('Content-Type: application/json');
@@ -179,41 +181,7 @@ class Cofidis extends \Opencart\System\Engine\Controller
 
 	public function callback()
 	{
-		try {
-			$this->load->model('checkout/order');
-			$this->load->model('extension/ifthenpay/payment/cofidis');
-			$this->load->language('extension/ifthenpay/payment/cofidis');
-
-			if (!isset($this->request->get['transaction_id'])) {
-				throw new \Exception('Transaction ID not present in callback data.', 20);
-			}
-
-			$storedPaymentData = $this->model_extension_ifthenpay_payment_cofidis->getCofidisRecordByTransactionId($this->request->get['transaction_id']);
-
-			if ($storedPaymentData['status'] === 'paid') {
-				http_response_code(200);
-				die('ok - encomenda já se encontra paga');
-			}
-
-			$this->validateCallback($storedPaymentData, $this->request->get);
-
-			// update order history status
-			$this->model_checkout_order->addHistory($storedPaymentData['order_id'], (int) $this->config->get('payment_cofidis_paid_status_id'), $this->language->get('comment_paid'), true);
-
-			// update cofidis table record
-			$this->model_extension_ifthenpay_payment_cofidis->updateCofidisRecordStatusByTransactionId($storedPaymentData['transaction_id'], 'paid');
-
-		} catch (\Throwable $th) {
-			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - ERROR : ' . $th->getMessage());
-
-			$code = $th->getCode() ?? '000';
-
-			http_response_code(400);
-			die('fail - ' . $code);
-		}
-
-		http_response_code(200);
-		die('ok');
+		(new CallbackService($this->registry))->HandleFromCofidis($this->request);
 	}
 
 
@@ -256,7 +224,6 @@ class Cofidis extends \Opencart\System\Engine\Controller
 
 				// redirect to success page
 				$this->response->redirect($this->url->link('checkout/success', 'language=' . $this->config->get('config_language')));
-
 			} else {
 
 				// internal verification of status to verify precise reason for not success
@@ -269,7 +236,6 @@ class Cofidis extends \Opencart\System\Engine\Controller
 				$this->model_extension_ifthenpay_payment_cofidis->updateCofidisRecordStatusByOrderIdAndHash($orderId, $hash, $status);
 				$this->response->redirect($this->url->link('checkout/failure', 'language=' . $this->config->get('config_language')));
 			}
-
 		} catch (\Throwable $th) {
 
 			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - ERROR : COFIDIS init data: ' . json_encode(['orderId' => $orderId, 'hash' => $hash, 'status' => 'error', 'error' => $th]));
@@ -324,34 +290,6 @@ class Cofidis extends \Opencart\System\Engine\Controller
 	}
 
 
-	/**
-	 * validate the callback arguments and throw an exception if any of the arguments is invalid
-	 * @param array $storedPaymentData
-	 * @param string $orderId
-	 * @return void
-	 */
-	private function validateCallback($storedPaymentData, $callbackData): void
-	{
-		// does stored payment data exist for this transaction id?
-		if (!$storedPaymentData) {
-			throw new \Exception('StoredPaymentData not found in local table.', 10);
-		}
-
-		// is order id valid? does it exist?
-		$order = $this->model_checkout_order->getOrder($storedPaymentData['order_id']);
-		if (!$order) {
-			throw new \Exception('Order not found.', 50);
-		}
-
-		// is order amount valid?
-		$callbackAmount = $callbackData['amount'];
-		$formatedAmount = $this->currency->format($order['total'], $order['currency_code'], $order['currency_value'], false);
-		$formatedAmount = (string) round($formatedAmount, 2);
-
-		if ($callbackAmount != $formatedAmount) {
-			throw new \Exception('Invalid amount.', 60);
-		}
-	}
 
 	private function validateReturnToStore($storedPaymentData, $orderId): void
 	{
@@ -403,8 +341,6 @@ class Cofidis extends \Opencart\System\Engine\Controller
 		}
 
 
-		// $tt = strpos($output, 'Failed Payment!');
-
 		if ($this->session->data['ifth_payment_info']['status'] == self::INIT_STATUS_TRUE) {
 			$content = $this->getPaymentDetailsHtml(false, false);
 			$find = '<div class="text-end">';
@@ -427,6 +363,17 @@ class Cofidis extends \Opencart\System\Engine\Controller
 		if (isset($this->session->data['ifth_payment_info'])) {
 			unset($this->session->data['ifth_payment_info']);
 		}
+	}
+
+
+
+	public function injectIconCss(&$route, &$data)
+	{
+		if (!$this->config->get('payment_cofidis_show_icon_checkout') || !isset($data['header'])) {
+			return;
+		}
+
+		$data['header'] .= Utils::getPaymentIconCssInjectionScript('cofidis');
 	}
 
 

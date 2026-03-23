@@ -1,4 +1,5 @@
 <?php
+
 namespace Opencart\Admin\Model\Extension\ifthenpay\Payment;
 
 class Ccard extends \Opencart\System\Engine\Model
@@ -38,16 +39,23 @@ class Ccard extends \Opencart\System\Engine\Model
 		$this->model_setting_event->addEvent($eventData);
 
 		// add event for adding refund tab and form in admin order info page
-		$eventData = [
+		$this->model_setting_event->addEvent([
 			'code' => 'payment_ifthenpay_ccard_admin_refund',
 			'description' => 'To display Credit Card payment refund.',
 			'trigger' => 'admin/view/sale/order_info/before',
 			'action' => 'extension/ifthenpay/payment/ccard.eventRenderRefundForm',
 			'status' => 1,
 			'sort_order' => 1
-		];
-		$this->model_setting_event->addEvent($eventData);
+		]);
 
+		$this->model_setting_event->addEvent([
+			'code'        => 'payment_ifthenpay_ccard_icon_injection',
+			'description' => 'Injects CSS for Ccard payment method icon in the checkout page.',
+			'trigger'     => 'catalog/view/checkout/checkout/before',
+			'action'      => 'extension/ifthenpay/payment/ccard.injectIconCss',
+			'status'      => 1,
+			'sort_order'  => 1
+		]);
 	}
 
 	/**
@@ -65,6 +73,7 @@ class Ccard extends \Opencart\System\Engine\Model
 		$this->load->model('setting/event');
 		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_ccard_catalog_success_payment_info');
 		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_ccard_admin_refund');
+		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_ccard_icon_injection');
 	}
 
 
@@ -139,7 +148,4 @@ class Ccard extends \Opencart\System\Engine\Model
 		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET order_status_id = '" . (int) $orderStatusId . "', date_modified = NOW() WHERE order_id = '" . (int) $orderId . "'");
 		$this->db->query("INSERT INTO " . DB_PREFIX . "order_history SET order_id = '" . (int) $orderId . "', order_status_id = '" . (int) $orderStatusId . "', comment = '" . $this->db->escape($comment) . "', date_added = NOW()");
 	}
-
-
-
 }

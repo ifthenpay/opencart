@@ -99,6 +99,7 @@ class Cofidis extends \Opencart\System\Engine\Controller
 		// title related values
 		$title = $this->config->get('payment_cofidis_title');
 		$data['cofidis_title'] = $title != '' ? $title : $this->language->get('heading_title');
+		$data['cofidis_show_icon_checkout'] = $this->config->get('payment_cofidis_show_icon_checkout');
 
 
 		// order status related values
@@ -263,7 +264,7 @@ class Cofidis extends \Opencart\System\Engine\Controller
 
 				$urlCallback = $this->url->link('extension/ifthenpay/payment/cofidis|callback', '', true) . $callbackStr;
 				$urlCallback = str_replace(HTTP_SERVER, HTTP_CATALOG, $urlCallback);
-				$urlCallback = str_replace('{ec}', defined('VERSION') ? VERSION : 'unknown', $urlCallback);
+				$urlCallback = str_replace('{ec}', 'op_' . (defined('VERSION') ? VERSION : 'unknown'), $urlCallback);
 				$urlCallback = str_replace('{mv}', Utils::getModuleVersion(), $urlCallback);
 
 				$gateway = new Gateway();
@@ -325,12 +326,12 @@ class Cofidis extends \Opencart\System\Engine\Controller
 			return false;
 		}
 
-		if ($formData['payment_cofidis_min_value'] !== '' && !is_numeric($formData['payment_cofidis_min_value'])) {
+		if ($formData['payment_cofidis_min_value'] !== '' && (!is_numeric($formData['payment_cofidis_min_value']) || $formData['payment_cofidis_min_value'] < 0)) {
 			$this->json['error'] = $this->language->get('error_min_value_format');
 			return false;
 		}
 
-		if ($formData['payment_cofidis_max_value'] !== '' && !is_numeric($formData['payment_cofidis_max_value'])) {
+		if ($formData['payment_cofidis_max_value'] !== '' && (!is_numeric($formData['payment_cofidis_max_value']) || $formData['payment_cofidis_max_value'] < 0)) {
 			$this->json['error'] = $this->language->get('error_max_value_format');
 			return false;
 		}

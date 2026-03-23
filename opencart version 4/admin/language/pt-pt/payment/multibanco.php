@@ -1,5 +1,7 @@
 <?php
 
+// Admin logo
+$_['text_multibanco'] = '<img src="' . HTTP_CATALOG . 'extension/ifthenpay/admin/view/image/multibanco.png" height="30" alt="Ifthenpay - Multibanco" title="Ifthenpay - Multibanco"/>';
 
 
 // Heading
@@ -73,6 +75,7 @@ $_['text_no_deadline'] = 'Sem Validade';
 
 
 $_['entry_title'] = 'Título';
+$_['entry_enable_show_icon_checkout'] = 'Exibir Ícone do Método de Pagamento';
 $_['entry_pending_status'] = 'Estado Pendente';
 $_['entry_paid_status'] = 'Estado Pago';
 $_['entry_canceled_status'] = 'Estado Cancelado';
@@ -100,6 +103,7 @@ $_['entry_plh_key'] = 'Selecione uma chave';
 
 
 // Help texts
+$_['help_enable_show_icon_checkout'] = 'Exibir o ícone deste método de pagamento no checkout (pode não funcionar como esperado com todos os temas).';
 $_['help_min_value'] = 'Exibir este método de pagamento para encomendas com valor superior ou igual a este valor. Deixe em branco para permitir qualquer valor.';
 $_['help_max_value'] = 'Exibir este método de pagamento para encomendas com valor inferior ou igual a este valor. Deixe em branco para permitir qualquer valor.';
 $_['help_cron_url_cancel_order'] = 'Pode configurar o cron job para alterar o estado das encomendas para "Cancelado" se não for paga dentro da validade. Necessita de Validade de Referência Multibanco atribuída para funcionar. Agende o trabalho cron para ser executado a cada 1 minuto.';
@@ -123,7 +127,6 @@ $_['error_reference_empty'] = 'Erro: O campo Referência está vazio.';
 $_['error_reference_invalid'] = 'Erro: O campo Referência é inválido.';
 $_['error_amount_empty'] = 'Erro: O Valor está vazio.';
 $_['error_amount_invalid'] = 'Erro: Formato de valor inválido.';
-$_['error_callback_test'] = 'Erro: Não foi possível testar o callback.';
 
 
 // Success messages
@@ -132,5 +135,9 @@ $_['success_backoffice_key_saved'] = 'Sucesso: Chave de backoffice guardada com 
 $_['success_clear_configuration'] = 'Sucesso: Configuração limpa com sucesso.';
 $_['success_request_account'] = 'Sucesso: Pedido de conta Multibanco efetuado com sucesso.';
 $_['success_refresh_accounts'] = 'Sucesso: Contas Multibanco atualizadas com sucesso.';
-$_['success_callback_test'] = 'Successo: Callback testado com sucesso.';
-$_['warning_callback_test_already_paid'] = 'Aviso: Callback testado com sucesso, mas o estado do pagamento já se encontra como pago.';
+
+
+// callback test messages
+$_['success_callback_test'] = 'Success: Multibanco callback tested successfully.';
+$_['warning_callback_test_already_paid'] = 'Warning: Multibanco callback tested, but order has already been set to paid.';
+$_['error_callback_test'] = 'Error: Multibanco callback test error.';

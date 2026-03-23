@@ -35,7 +35,7 @@
 	<div class="container-fluid">
 		<div class="card">
 			<div class="card-header">
-				<img id="ifth_logo" src="/extension/ifthenpay/admin/view/image/payshop.png" alt="payshopop" title="Payshop"/>
+				<img id="ifth_logo" src="/extension/ifthenpay/admin/view/image/payshop.png" height="38" alt="payshopop" title="Payshop"/>
 				<span class="m-3">{{ version }}</span>
 
 				{# support buttons #}
@@ -202,6 +202,18 @@
 								<label for="input-title" class="col-sm-2 col-form-label">{{ entry_title }}</label>
 								<div class="col-sm-10">
 									<input type="text" name="payment_payshop_title" value="{{ payshop_title }}" id="input-title" class="form-control"/>
+								</div>
+							</div>
+
+							{# show icon #}
+							<div class="row mb-3">
+								<label for="input-show-icon-checkout" class="col-sm-2 col-form-label">{{ entry_enable_show_icon_checkout }}</label>
+								<div class="col-sm-10">
+									<div class="form-check form-switch form-switch-lg">
+										<input type="hidden" name="payment_payshop_show_icon_checkout" value="0"/>
+										<input type="checkbox" name="payment_payshop_show_icon_checkout" value="1" id="input-show-icon-checkout" class="form-check-input" {% if payshop_show_icon_checkout %} checked {% endif %}/>
+									</div>
+									<small class="form-text text-muted">{{ help_enable_show_icon_checkout }}</small>
 								</div>
 							</div>
 

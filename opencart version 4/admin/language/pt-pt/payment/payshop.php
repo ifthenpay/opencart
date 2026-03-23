@@ -1,5 +1,7 @@
 <?php
 
+// Admin logo
+$_['text_payshop'] = '<img src="' . HTTP_CATALOG . 'extension/ifthenpay/admin/view/image/payshop.png" height="30" alt="Ifthenpay - Payshop" title="Ifthenpay - Payshop"/>';
 
 
 // Heading
@@ -50,6 +52,7 @@ $_['entry_key'] = 'Chave Payshop';
 $_['entry_deadline'] = 'Validade';
 
 $_['entry_title'] = 'Título';
+$_['entry_enable_show_icon_checkout'] = 'Exibir Ícone do Método de Pagamento';
 $_['entry_pending_status'] = 'Estado Pendente';
 $_['entry_paid_status'] = 'Estado Pago';
 $_['entry_canceled_status'] = 'Estado Cancelado';
@@ -79,6 +82,7 @@ $_['entry_plh_key'] = 'Selecione uma chave Payshop';
 
 
 // Help texts
+$_['help_enable_show_icon_checkout'] = 'Exibir o ícone deste método de pagamento no checkout (pode não funcionar como esperado com todos os temas).';
 $_['help_deadline'] = 'Insira o número de dias (de 1 a 99), deixe em branco se não quiser Validade.';
 $_['help_min_value'] = 'Exibir este método de pagamento para encomendas com valor superior ou igual a este valor. Deixe em branco para permitir qualquer valor.';
 $_['help_max_value'] = 'Exibir este método de pagamento para encomendas com valor inferior ou igual a este valor. Deixe em branco para permitir qualquer valor.';
@@ -100,7 +104,6 @@ $_['error_callback_activation'] = 'Erro: Não foi possível ativar o callback.';
 $_['error_transaction_id_empty'] = 'Erro: O ID de Transação está vazio.';
 $_['error_amount_empty'] = 'Erro: O Valor está vazio.';
 $_['error_amount_invalid'] = 'Erro: Formato de valor inválido.';
-$_['error_callback_test'] = 'Erro: Não foi possível testar o callback.';
 
 
 
@@ -110,5 +113,9 @@ $_['success_backoffice_key_saved'] = 'Sucesso: Chave de backoffice guardada com 
 $_['success_clear_configuration'] = 'Sucesso: Configuração limpa com sucesso.';
 $_['success_request_account'] = 'Sucesso: Pedido de conta Payshop efetuado com sucesso.';
 $_['success_refresh_accounts'] = 'Sucesso: Contas Payshop atualizadas com sucesso.';
-$_['success_callback_test'] = 'Successo: Callback testado com sucesso.';
-$_['warning_callback_test_already_paid'] = 'Aviso: Callback testado com sucesso, mas o estado do pagamento já se encontra como pago.';
+
+
+// callback test messages
+$_['success_callback_test'] = 'Success: Payshop callback tested successfully.';
+$_['warning_callback_test_already_paid'] = 'Warning: Payshop callback tested, but order has already been set to paid.';
+$_['error_callback_test'] = 'Error: Payshop callback test error.';

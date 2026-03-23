@@ -1,0 +1,95 @@
+<fieldset>
+
+	<legend>{{ text_pix_form_title }}</legend>
+
+	<form id="form-ifthenpay-pix">
+
+		<p>{{ text_pix_form_desc }}</p>
+		<label for="input-pix-name" class="col-form-label">{{ entry_pix_name }}</label>
+		<div>
+			<input type="text" name="pix_name" value="" id="input-pix-name" class="form-control"/>
+		</div>
+
+		<label for="input-pix-cpf" class="col-form-label">{{ entry_pix_cpf }}</label>
+		<div>
+			<input type="text" name="pix_cpf" value="" id="input-pix-cpf" class="form-control"/>
+		</div>
+
+		<label for="input-pix-email" class="col-form-label">{{ entry_pix_email }}</label>
+		<div>
+			<input type="text" name="pix_email" value="" id="input-pix-email" class="form-control"/>
+		</div>
+	</form>
+
+
+	<div class="d-inline-block pt-2 pd-2 w-100 text-end">
+		<button type="button" id="button-confirm" class="btn btn-primary">{{ button_confirm }}</button>
+	</div>
+</fieldset>
+<script type="text/javascript">
+	<!--
+
+// prevent enter key from submitting form
+$('#form-ifthenpay-pix').on('keydown', function (e) {
+	if (e.key == "Enter") {
+		e.preventDefault();
+	}
+});
+
+$('#button-confirm').on('click', function () {
+	let ifp_element = this;
+	let ifp_confirmUrl = '{{ action }}';
+
+	$.ajax({
+		url: ifp_confirmUrl,
+		type: 'post',
+		data: $('#form-ifthenpay-pix').serialize(),
+		contentType: 'application/x-www-form-urlencoded',
+		dataType: 'json',
+		cache: false,
+		beforeSend: function () {
+			$(ifp_element).prop('disabled', true).addClass('loading');
+		},
+		complete: function () {
+			$(ifp_element).prop('disabled', false).removeClass('loading');
+		},
+		success: function (json) {
+			$('.alert-dismissible').remove();
+			$('#form-ifthenpay-pix').find('.is-invalid').removeClass('is-invalid');
+
+
+			if (json['error']) {
+
+				const error = json['error'];
+
+				$('#alert').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + error + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+
+			
+			let selector = '';
+			if (error.toLowerCase().includes('name')) {
+				selector = '#input-pix-name';
+			}
+			else if (error.toLowerCase().includes('cpf')) {
+				selector = '#input-pix-cpf';
+			}
+			else if (error.toLowerCase().includes('email')) {
+				selector = '#input-pix-email';
+			}
+
+			const input = $(selector);
+
+			if(input) input.addClass('is-invalid').find('.form-control, .form-select, .form-check-input, .form-check-label').addClass('is-invalid');
+
+
+			} else if (json['redirect']) {
+				location = json['redirect'];
+			}
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+});
+		//
+	-->
+</script>
