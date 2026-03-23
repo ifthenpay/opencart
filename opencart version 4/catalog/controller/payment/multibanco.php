@@ -4,6 +4,7 @@ namespace Opencart\Catalog\Controller\Extension\ifthenpay\Payment;
 
 require_once DIR_EXTENSION . 'ifthenpay/system/library/MultibancoPayment.php';
 require_once DIR_EXTENSION . 'ifthenpay/system/library/CallbackService.php';
+require_once DIR_EXTENSION . 'ifthenpay/system/library/Utils.php';
 
 
 use Ifthenpay\CallbackService;
