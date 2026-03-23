@@ -3,9 +3,9 @@
 # Ifthenpay payment extension for Opencart 4
 
 Download versions of the ifthenpay extension for Opencart 4.
-|                                       | Opencart 4 [4.0.0.1 - 4.0.2.1]                                                                         |
-|---------------------------------------|--------------------------------------------------------------------------------------------------------|
-| Link to download installer .ocmod.zip | [ifthenpay v4.1.2](https://github.com/ifthenpay/opencart/releases/download/4.1.2/ifthenpay.ocmod.zip) |
+|                                       | Opencart 4 [4.0.0.1 - 4.1.0.3]                                                                        |
+|---------------------------------------|-------------------------------------------------------------------------------------------------------|
+| Link to download installer .ocmod.zip | [ifthenpay v4.2.0](https://github.com/ifthenpay/opencart/releases/download/4.2.0/ifthenpay.ocmod.zip) |
 
 </br>
 </br>
@@ -28,6 +28,9 @@ Read in ![Portuguese](assets/pt.png) [Portuguese](readme.pt.md), e ![English](as
   * [Credit Card](#credit-card)
   * [Payshop](#payshop)
   * [Cofidis Pay](#cofidis-pay)
+  * [Pix](#pix)
+  * [Ifthenpay Gateway](#ifthenpay-gateway)
+
 
 [5. Refund](#refund)
 
@@ -47,6 +50,9 @@ Read in ![Portuguese](assets/pt.png) [Portuguese](readme.pt.md), e ![English](as
   * [Paying order with MB WAY](#paying-order-with-mb-way)
   * [Paying order with Credit Card](#paying-order-with-credit-card)
   * [Paying order with Cofidis Pay](#paying-order-with-cofidis-pay)
+  * [Paying order with Pix](#paying-order-with-pix)
+  * [Paying order with Ifthenpay Gateway](#paying-order-with-ifthenpay-gateway)
+
 
 
 </br>
@@ -66,7 +72,10 @@ Read in ![Portuguese](assets/pt.png) [Portuguese](readme.pt.md), e ![English](as
 
 **Cofidis Pay** is a payment solution of up to 12 interest-free installments that makes it easier to pay for purchases by splitting them. This module uses one of the several gateways/services available in Portugal, IfthenPay.
 
+**Pix** is an instant payment solution widely used in the Brazilian financial market. It enables quick and secure transactions for purchases, using details such as CPF, email, and phone number to complete the payment.
+
 **Ifthenpay Gateway** is a payment gateway page that provides all the payment methods above in one place. This extension uses ifthenpay, one of the various gateways available in Portugal.
+
 
 **Contract with Ifthenpay is required**
 
@@ -83,9 +92,9 @@ For support, please create a support ticket at [Support ifthenpay](https://helpd
 # Compatibility
 
 Use the table below to check the compatibility of the Ifthenpay extension with your online store:
-|                           | Opencart 3 | Opencart 4 [4.0.0.1 - 4.0.2.1] |
-|---------------------------|--------------------------------|--------------------------------|
-| ifthenpay v4.0.0 - v4.1.2 | Not compatible                 | Compatible                     |
+|                           | Opencart 3     | Opencart 4 [4.0.0.1 - 4.1.0.3] |
+|---------------------------|----------------|--------------------------------|
+| ifthenpay v4.0.0 - v4.2.0 | Not compatible | Compatible                     |
 
 </br>
 
@@ -300,6 +309,64 @@ Click on Save (12) to save the changes.
 </br>
 
 
+## Pix
+
+The Pix payment method allows payment with CPF through the ifthenpay gateway.
+The Pix Keys are automatically loaded upon entering the Backoffice Key.
+Configure the payment method. The image below shows an example of a minimally functional configuration.
+
+1. **Status** - Activates the payment method, displaying it at the checkout of your store.
+2. **Enable Callback** - When enabled, the order status will be updated when the payment is received.
+3. **Enable Cancel Order Cronjob** - When enabled, a new readonly field is added with the url/command you can use to call the cancel order functionality cronjob in your server.
+4. **Pix Key** - Select a Key. You can only choose one of the Keys associated with the Backoffice Key.
+5. **Title** - The title that appears to the consumer during checkout.
+6. **Show Payment Method Icon** - Show the payment method icon image in the checkout page.
+7. **Pending Status** - Order status used during order confirmation.
+8. **Paid Status** - Order status used when payment confirmation is received.
+9. **Canceled Status** - Order status used when the order is canceled.
+10. **Geo Zone** - (optional) By selecting a geographic zone, this payment method will only be displayed for orders with a shipping address within the chosen zone.
+11. **Minimum Amount** - (optional) Displays this payment method only for orders with a value greater than the entered amount.
+12. **Maximum Amount** - (optional) Displays this payment method only for orders with a value lower than the entered amount.
+13. **Sort Order** - (optional) Sorts the payment methods on the checkout page in ascending order. Lower numbers take the first position.
+
+Click on Save (14) to save the changes.
+![img](assets/config_pix.png)
+
+</br>
+
+
+## Ifthenpay Gateway
+
+The Ifthenpay Gateway payment method allows payment with CPF through the ifthenpay gateway.
+The Ifthenpay Gateway Keys are automatically loaded upon entering the Backoffice Key.
+Configure the payment method. The image below shows an example of a minimally functional configuration.
+
+1. **Status** - Activates the payment method, displaying it at the checkout of your store.
+2. **Enable Callback** - When enabled, the order status will be updated when the payment is received.
+3. **Enable Cancel Order Cronjob** - When enabled, a new readonly field is added with the url/command you can use to call the cancel order functionality cronjob in your server.
+4. **Ifthenpay Gateway Key** - Select a Key. You can only choose one of the Keys associated with the Backoffice Key.
+5. **Payment Methods** - Select a Payment Method Key per each Method and check the checkbox if you want to display it in the gateway page.
+6. **Default Payment Method** - Select a Payment Method that will be selected in the gateway page by default.
+7. **Deadline** - (optional) Input a Deadline for gateway page link, from 1 to 99 days or leave empty if you do not want it to expire;
+8. **Title** - The title that appears to the consumer during checkout.
+9. **Show Payment Method Icon** - Show the payment method icon image in the checkout page, choose from 3 options:
+    Hide payment method icon - Display payment method title in method option; 
+    Show payment method icon - Display Ifthenpay Gateway icon in method option;
+    Show composite icon of available payment methods - Displays a composite image of all the payment method logos you have selected;
+10. **Pending Status** - Order status used during order confirmation.
+11. **Paid Status** - Order status used when payment confirmation is received.
+12. **Canceled Status** - Order status used when the order is canceled.
+13. **Geo Zone** - (optional) By selecting a geographic zone, this payment method will only be displayed for orders with a shipping address within the chosen zone.
+14. **Minimum Amount** - (optional) Displays this payment method only for orders with a value greater than the entered amount.
+15. **Maximum Amount** - (optional) Displays this payment method only for orders with a value lower than the entered amount.
+16. **Sort Order** - (optional) Sorts the payment methods on the checkout page in ascending order. Lower numbers take the first position.
+
+Click on Save (17) to save the changes.
+![img](assets/config_ifthenpaygateway.png)
+
+</br>
+
+
 ## Refund
 
 The MB WAY and Credit Card payment methods allow for full or partial refunds of the amount paid by the consumer through the refund tab on the order details page in the store's admin back office.
@@ -429,8 +496,8 @@ Note: The Multibanco reference should be entered without spaces, and the value, 
 </br>
 
 
-**MB WAY**: In the backoffice, use the following data (1) and (2) from the order payment details
-![img](assets/test_callback_data_payshop.png)
+**MB WAY**: In the backoffice, use the transaction_id (1) from your opencart database which can be filtered by order_id, and (2) from the order payment details.
+![img](assets/test_callback_data_mbway.png)
 </br>
 
 
@@ -464,6 +531,29 @@ Note: The value, if it has decimals, should be separated by a dot.
 
 </br>
 
+**Pix**: In the backoffice, use the transaction_id (1) from your opencart database which can be filtered by order_id, and (2) from the order payment details.
+![img](assets/test_callback_data_pix.png)
+</br>
+
+
+and enter them in the respective fields (1) and (2) of the Callback test form, then click on Test (3).
+Note: The value, if it has decimals, should be separated by a dot.
+![img](assets/test_callback_form_mbway.png)
+
+</br>
+
+
+**Ifthenpay Gateway**: In the backoffice, use the order ID (1) from your opencart order, and (2) from the order payment details.
+![img](assets/test_callback_data_ifthenpaygateway.png)
+</br>
+
+
+and enter them in the respective fields (1) and (2) of the Callback test form, then click on Test (3).
+Note: The value, if it has decimals, should be separated by a dot.
+![img](assets/test_callback_form_ifthenpaygateway.png)
+
+</br>
+
 
 ## Cronjob
 
@@ -476,6 +566,9 @@ A cron job is a scheduled task that is automatically executed at specific interv
 | MB WAY             | 30 minutes                     |
 | Payshop            | Configurable from 1 to 99 days |
 | Credit Card        | 30 minutes                     |
+| Cofidis Pay        | Not configurable               |
+| Pix                | 30 minutes                     |
+| Ifthenpay Gateway  | Configurable from 1 to 99 days |
 
 To activate the cron job, access the extension's configuration page and enable the "Enable Cancel Cron Job" option, then click on Save.
 The configuration page will update and display the Cron job URL (1), which should be added to your server to execute the cron job.
@@ -661,5 +754,53 @@ After the payment is processed, the order success page will be displayed.
 ![img](assets/payment_return_cofidis.png)
 
 </br>
+
+
+## Paying order with Pix
+
+Select the Pix payment method (1) and click on Continue (2).
+![img](assets/select_pix.png)
+</br>
+
+Fill in the Pix Account details, name (1), CPF (2), email(3).
+Click on Confirm Order (1).
+![img](assets/confirm_order_pix.png)
+</br>
+
+
+Proceed with payment with one of two options:
+
+- Reading QR code with mobile phone;
+- Copy the Pix code and pay with online banking; **Important Note:** In order to be redirected back to the store after paying, this page must be left open. If closed the consumer will still be able to pay, as long as he has already read the Pix code, he will only not be redirected back to the store.
+
+![img](assets/gateway_pix.png)
+</br>
+
+After the payment is processed, the order success page will be displayed.
+![img](assets/payment_return_pix.png)
+
+</br>
+
+## Paying order with Ifthenpay Gateway
+
+Select the Ifthenpay Gateway payment method (1) and click on Continue (2).
+![img](assets/select_ifthenpaygateway.png)
+</br>
+
+Click on Confirm Order (1).
+![img](assets/confirm_order_ifthenpaygateway.png)
+</br>
+
+
+In the gateway page, choose a payment method (1), and click on Confirm Order (2), redirecting to the thank you page.
+![img](assets/gateway_ifthenpaygateway.png)
+</br>
+
+After the payment is processed, the order success page will be displayed, with a link to the gateway page in case the user needs to consult the payment details for methods like Multibanco or Payshop.
+![img](assets/payment_return_ifthenpaygateway.png)
+
+</br>
+
+
 
 You have reached the end of the ifthenpay extension manual for Opencart 4.
