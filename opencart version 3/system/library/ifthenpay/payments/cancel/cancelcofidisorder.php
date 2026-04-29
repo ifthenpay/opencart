@@ -6,8 +6,6 @@ namespace Ifthenpay\Payments\Cancel;
 
 use Ifthenpay\Payments\Gateway;
 use Ifthenpay\Traits\Payments\ConvertCurrency;
-use Ifthenpay\Request\WebService;
-use GuzzleHttp\Client;
 
 
 class CancelCofidisOrder extends CancelOrder

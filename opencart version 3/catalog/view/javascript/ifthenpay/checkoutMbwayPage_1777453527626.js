@@ -247,7 +247,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
   /******/
 
-  return __webpack_require__(__webpack_require__.s = 8);
+  return __webpack_require__(__webpack_require__.s = 5);
   /******/
 })(
 /************************************************************************/
@@ -255,15 +255,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 /******/
 {
   /***/
-  "./_dev/js/checkoutCofidisPage.ts":
-  /*!****************************************!*\
-    !*** ./_dev/js/checkoutCofidisPage.ts ***!
-    \****************************************/
+  "./_dev/js/checkoutMbwayPage.ts":
+  /*!**************************************!*\
+    !*** ./_dev/js/checkoutMbwayPage.ts ***!
+    \**************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsCheckoutCofidisPageTs(module, exports, __webpack_require__) {
+  function _devJsCheckoutMbwayPageTs(module, exports, __webpack_require__) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -274,31 +274,31 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /*! reflect-metadata */
     "./node_modules/reflect-metadata/Reflect.js");
 
-    var inversify_checkoutCofidisPage_1 = __webpack_require__(
-    /*! ./container/inversify.checkoutCofidisPage */
-    "./_dev/js/container/inversify.checkoutCofidisPage.ts");
+    var inversify_checkoutMbwayPage_1 = __webpack_require__(
+    /*! ./container/inversify.checkoutMbwayPage */
+    "./_dev/js/container/inversify.checkoutMbwayPage.ts");
 
-    var CheckoutCofidisPageCreateApp_1 = __webpack_require__(
-    /*! ./facades/CheckoutCofidisPageCreateApp */
-    "./_dev/js/facades/CheckoutCofidisPageCreateApp.ts");
+    var CheckoutMbwayPageCreateApp_1 = __webpack_require__(
+    /*! ./facades/CheckoutMbwayPageCreateApp */
+    "./_dev/js/facades/CheckoutMbwayPageCreateApp.ts");
 
     $(document).ready(function () {
-      var app = inversify_checkoutCofidisPage_1["default"].get(CheckoutCofidisPageCreateApp_1.CheckoutCofidisPageCreateApp);
+      var app = inversify_checkoutMbwayPage_1["default"].get(CheckoutMbwayPageCreateApp_1.CheckoutMbwayPageCreateApp);
       app.start();
     });
     /***/
   },
 
   /***/
-  "./_dev/js/container/inversify.checkoutCofidisPage.ts":
-  /*!************************************************************!*\
-    !*** ./_dev/js/container/inversify.checkoutCofidisPage.ts ***!
-    \************************************************************/
+  "./_dev/js/container/inversify.checkoutMbwayPage.ts":
+  /*!**********************************************************!*\
+    !*** ./_dev/js/container/inversify.checkoutMbwayPage.ts ***!
+    \**********************************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsContainerInversifyCheckoutCofidisPageTs(module, exports, __webpack_require__) {
+  function _devJsContainerInversifyCheckoutMbwayPageTs(module, exports, __webpack_require__) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -309,23 +309,28 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /*! inversify */
     "./node_modules/inversify/lib/inversify.js");
 
-    var CheckoutCofidisPage_1 = __webpack_require__(
-    /*! ../events/CheckoutCofidisPage */
-    "./_dev/js/events/CheckoutCofidisPage.ts");
+    var CheckoutMbwayPage_1 = __webpack_require__(
+    /*! ../events/CheckoutMbwayPage */
+    "./_dev/js/events/CheckoutMbwayPage.ts");
 
-    var CheckoutCofidisPageCreateApp_1 = __webpack_require__(
-    /*! ../facades/CheckoutCofidisPageCreateApp */
-    "./_dev/js/facades/CheckoutCofidisPageCreateApp.ts");
+    var CheckoutMbwayPageCreateApp_1 = __webpack_require__(
+    /*! ../facades/CheckoutMbwayPageCreateApp */
+    "./_dev/js/facades/CheckoutMbwayPageCreateApp.ts");
 
     var HttpService_1 = __webpack_require__(
     /*! ../services/HttpService */
     "./_dev/js/services/HttpService.ts");
 
-    var containerCheckoutCofidisPage = new inversify_1.Container();
-    containerCheckoutCofidisPage.bind(HttpService_1.HttpService).toSelf();
-    containerCheckoutCofidisPage.bind(CheckoutCofidisPageCreateApp_1.CheckoutCofidisPageCreateApp).toSelf();
-    containerCheckoutCofidisPage.bind(CheckoutCofidisPage_1.CheckoutCofidisPage).toSelf();
-    exports["default"] = containerCheckoutCofidisPage;
+    var MbwayService_1 = __webpack_require__(
+    /*! ../services/MbwayService */
+    "./_dev/js/services/MbwayService.ts");
+
+    var containerCheckoutMbwayPage = new inversify_1.Container();
+    containerCheckoutMbwayPage.bind(HttpService_1.HttpService).toSelf();
+    containerCheckoutMbwayPage.bind(CheckoutMbwayPageCreateApp_1.CheckoutMbwayPageCreateApp).toSelf();
+    containerCheckoutMbwayPage.bind(MbwayService_1.MbwayService).toSelf();
+    containerCheckoutMbwayPage.bind(CheckoutMbwayPage_1.CheckoutMbwayPage).toSelf();
+    exports["default"] = containerCheckoutMbwayPage;
     /***/
   },
 
@@ -483,15 +488,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
 
   /***/
-  "./_dev/js/events/CheckoutCofidisPage.ts":
-  /*!***********************************************!*\
-    !*** ./_dev/js/events/CheckoutCofidisPage.ts ***!
-    \***********************************************/
+  "./_dev/js/events/CheckoutMbwayPage.ts":
+  /*!*********************************************!*\
+    !*** ./_dev/js/events/CheckoutMbwayPage.ts ***!
+    \*********************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsEventsCheckoutCofidisPageTs(module, exports, __webpack_require__) {
+  function _devJsEventsCheckoutMbwayPageTs(module, exports, __webpack_require__) {
     "use strict";
 
     var __extends = this && this.__extends || function () {
@@ -539,11 +544,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-    exports.CheckoutCofidisPage = void 0;
+    exports.CheckoutMbwayPage = void 0;
 
-    var inversify_checkoutCofidisPage_1 = __webpack_require__(
-    /*! ../container/inversify.checkoutCofidisPage */
-    "./_dev/js/container/inversify.checkoutCofidisPage.ts");
+    var inversify_1 = __webpack_require__(
+    /*! inversify */
+    "./node_modules/inversify/lib/inversify.js");
+
+    var inversify_checkoutMbwayPage_1 = __webpack_require__(
+    /*! ../container/inversify.checkoutMbwayPage */
+    "./_dev/js/container/inversify.checkoutMbwayPage.ts");
 
     var Event_1 = __webpack_require__(
     /*! ../decorators/Event */
@@ -553,27 +562,44 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /*! ../services/HttpService */
     "./_dev/js/services/HttpService.ts");
 
+    var MbwayService_1 = __webpack_require__(
+    /*! ../services/MbwayService */
+    "./_dev/js/services/MbwayService.ts");
+
     var Page_1 = __webpack_require__(
     /*! ./Page */
     "./_dev/js/events/Page.ts");
 
-    var CheckoutCofidisPage =
+    var CheckoutMbwayPage =
     /** @class */
     function (_super) {
-      __extends(CheckoutCofidisPage, _super);
+      __extends(CheckoutMbwayPage, _super);
 
-      function CheckoutCofidisPage() {
-        return _super !== null && _super.apply(this, arguments) || this;
+      function CheckoutMbwayPage(mbwayService) {
+        var _this = _super.call(this) || this;
+
+        _this.mbwayService = mbwayService;
+        return _this;
       }
 
-      CheckoutCofidisPage.prototype.confirmPayment = function (event) {
+      CheckoutMbwayPage.prototype.confirmPayment = function (event) {
         var _this = this;
 
+        console.log(event);
         this.setEventDefault(event, true);
+
+        if (!this.mbwayService.validate()) {
+          return;
+        } // if (this.mbwayService.validateMbwayInputPhone()) {
+
+
+        var fullPhoneNumber = this.mbwayService.mbwayCountryCode + '#' + this.mbwayService.mbwayPhoneVal;
         $('#button-confirm').button('loading');
-        this.httpService = inversify_checkoutCofidisPage_1["default"].get(HttpService_1.HttpService);
-        this.httpService.setUrl('index.php?route=extension/payment/cofidis/confirm');
-        this.httpService.post({}).then(function (response) {
+        this.httpService = inversify_checkoutMbwayPage_1["default"].get(HttpService_1.HttpService);
+        this.httpService.setUrl('index.php?route=extension/payment/mbway/confirm');
+        this.httpService.post({
+          mbwayInputPhone: fullPhoneNumber
+        }).then(function (response) {
           _this.eventTarget.button('reset');
 
           if (response.redirect) {
@@ -581,19 +607,24 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           }
         }).fail(function (xhr, status, error) {
           if (xhr.responseJSON) {
+            console.log(xhr.responseJSON.error);
             alert(xhr.responseJSON.error);
           } else {
+            console.log(xhr);
             alert(error);
           }
+
+          $("#button-confirm").button("reset");
         });
       };
 
-      __decorate([Event_1.Event('click', '#button-confirm'), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], CheckoutCofidisPage.prototype, "confirmPayment", null);
+      __decorate([Event_1.Event('click', '#button-confirm'), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], CheckoutMbwayPage.prototype, "confirmPayment", null);
 
-      return CheckoutCofidisPage;
+      CheckoutMbwayPage = __decorate([inversify_1.injectable(), __metadata("design:paramtypes", [MbwayService_1.MbwayService])], CheckoutMbwayPage);
+      return CheckoutMbwayPage;
     }(Page_1.Page);
 
-    exports.CheckoutCofidisPage = CheckoutCofidisPage;
+    exports.CheckoutMbwayPage = CheckoutMbwayPage;
     /***/
   },
 
@@ -657,15 +688,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
 
   /***/
-  "./_dev/js/facades/CheckoutCofidisPageCreateApp.ts":
-  /*!*********************************************************!*\
-    !*** ./_dev/js/facades/CheckoutCofidisPageCreateApp.ts ***!
-    \*********************************************************/
+  "./_dev/js/facades/CheckoutMbwayPageCreateApp.ts":
+  /*!*******************************************************!*\
+    !*** ./_dev/js/facades/CheckoutMbwayPageCreateApp.ts ***!
+    \*******************************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsFacadesCheckoutCofidisPageCreateAppTs(module, exports, __webpack_require__) {
+  function _devJsFacadesCheckoutMbwayPageCreateAppTs(module, exports, __webpack_require__) {
     "use strict";
 
     var __extends = this && this.__extends || function () {
@@ -713,50 +744,50 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-    exports.CheckoutCofidisPageCreateApp = void 0;
+    exports.CheckoutMbwayPageCreateApp = void 0;
 
     var inversify_1 = __webpack_require__(
     /*! inversify */
     "./node_modules/inversify/lib/inversify.js");
 
-    var inversify_checkoutCofidisPage_1 = __webpack_require__(
-    /*! ../container/inversify.checkoutCofidisPage */
-    "./_dev/js/container/inversify.checkoutCofidisPage.ts");
+    var inversify_checkoutMbwayPage_1 = __webpack_require__(
+    /*! ../container/inversify.checkoutMbwayPage */
+    "./_dev/js/container/inversify.checkoutMbwayPage.ts");
 
     var AppComponent_1 = __webpack_require__(
     /*! ../decorators/AppComponent */
     "./_dev/js/decorators/AppComponent.ts");
 
-    var CheckoutCofidisPage_1 = __webpack_require__(
-    /*! ../events/CheckoutCofidisPage */
-    "./_dev/js/events/CheckoutCofidisPage.ts");
+    var CheckoutMbwayPage_1 = __webpack_require__(
+    /*! ../events/CheckoutMbwayPage */
+    "./_dev/js/events/CheckoutMbwayPage.ts");
 
     var MainApp_1 = __webpack_require__(
     /*! ./MainApp */
     "./_dev/js/facades/MainApp.ts");
 
-    var CheckoutCofidisPageCreateApp =
+    var CheckoutMbwayPageCreateApp =
     /** @class */
     function (_super) {
-      __extends(CheckoutCofidisPageCreateApp, _super);
+      __extends(CheckoutMbwayPageCreateApp, _super);
 
-      function CheckoutCofidisPageCreateApp() {
+      function CheckoutMbwayPageCreateApp() {
         var _this = _super.call(this) || this;
 
-        _this.container = inversify_checkoutCofidisPage_1["default"];
+        _this.container = inversify_checkoutMbwayPage_1["default"];
         return _this;
       }
 
-      CheckoutCofidisPageCreateApp.prototype.start = function () {};
+      CheckoutMbwayPageCreateApp.prototype.start = function () {};
 
-      CheckoutCofidisPageCreateApp = __decorate([inversify_1.injectable(), AppComponent_1.AppComponent({
-        pageEvents: [CheckoutCofidisPage_1.CheckoutCofidisPage],
+      CheckoutMbwayPageCreateApp = __decorate([inversify_1.injectable(), AppComponent_1.AppComponent({
+        pageEvents: [CheckoutMbwayPage_1.CheckoutMbwayPage],
         apps: []
-      }), __metadata("design:paramtypes", [])], CheckoutCofidisPageCreateApp);
-      return CheckoutCofidisPageCreateApp;
+      }), __metadata("design:paramtypes", [])], CheckoutMbwayPageCreateApp);
+      return CheckoutMbwayPageCreateApp;
     }(MainApp_1.MainApp);
 
-    exports.CheckoutCofidisPageCreateApp = CheckoutCofidisPageCreateApp;
+    exports.CheckoutMbwayPageCreateApp = CheckoutMbwayPageCreateApp;
     /***/
   },
 
@@ -871,6 +902,14 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     function () {
       function HttpService() {}
 
+      HttpService.prototype.getWithTextType = function () {
+        return $.ajax({
+          url: this.url,
+          type: 'GET',
+          dataType: 'text'
+        });
+      };
+
       HttpService.prototype.get = function () {
         return $.ajax({
           url: this.url,
@@ -898,6 +937,116 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     }();
 
     exports.HttpService = HttpService;
+    /***/
+  },
+
+  /***/
+  "./_dev/js/services/MbwayService.ts":
+  /*!******************************************!*\
+    !*** ./_dev/js/services/MbwayService.ts ***!
+    \******************************************/
+
+  /*! no static exports found */
+
+  /***/
+  function _devJsServicesMbwayServiceTs(module, exports, __webpack_require__) {
+    "use strict";
+
+    var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+      var c = arguments.length,
+          r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+          d;
+      if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) {
+        if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+      }
+      return c > 3 && r && Object.defineProperty(target, key, r), r;
+    };
+
+    var __metadata = this && this.__metadata || function (k, v) {
+      if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+    };
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.MbwayService = void 0;
+
+    var inversify_1 = __webpack_require__(
+    /*! inversify */
+    "./node_modules/inversify/lib/inversify.js");
+
+    var MbwayService =
+    /** @class */
+    function () {
+      function MbwayService() {
+        this.MBWAY_PHONE_REGEX = /^\d+$/;
+        this.containerElement = $('#ifthenpayMbwayPhoneDiv');
+        this.phoneElement = $("#ifthenpayMbwayPhone");
+        this.mbwayPhoneVal = $("#ifthenpayMbwayPhone").val();
+        this.mbwayCountryCode = $("#ifthenpayMbwayCountryCode").val();
+      }
+
+      MbwayService.prototype.getMbwayIcon = function () {
+        return "<img src=\"" + phpVariables.catalogUrl + phpVariables.mbwaySvgUrl + "\" class=\"icon\" alt=\"mbway logo\">";
+      };
+
+      MbwayService.prototype.getMbwayInput = function () {
+        return "<div class=\"field required\" id=\"ifthenpayMbwayPhoneDiv\" style=\"width:230px!important\">\n            <div class=\"control input-container\">\n              " + this.getMbwayIcon() + "\n              <input name=\"mbwayInputPhone\" class=\"text input-field\" id=\"ifthenpayMbwayPhone\" placeholder=\"" + phpVariables.paymentMethodLanguage.mbwayPhoneNumber + "\">\n            </div>\n          </div>";
+      };
+
+      MbwayService.prototype.validate = function () {
+        var isValid = true;
+        this.clearErrors();
+
+        if (this.mbwayPhoneVal === "") {
+          this.addErrorMessageToDom(phpVariables.paymentMethodLanguage.required, this.phoneElement);
+          isValid = false;
+        } else if (!this.MBWAY_PHONE_REGEX.test(this.mbwayPhoneVal) || this.mbwayPhoneVal.length > 20) {
+          this.addErrorMessageToDom(phpVariables.paymentMethodLanguage.invalid, this.phoneElement);
+          isValid = false;
+        }
+
+        return isValid;
+      };
+
+      MbwayService.prototype.addErrorMessageToDom = function (errorMessage, inputElement) {
+        // add styles
+        inputElement.parents(".form-group").first().addClass("has-error"); // add text
+
+        inputElement.siblings(".ifthenpay_error_message").text(errorMessage);
+      };
+
+      MbwayService.prototype.clearErrors = function () {
+        this.containerElement.find(".has-error").removeClass("has-error");
+        this.containerElement.find(".ifthenpay_error_message").text("");
+      };
+
+      MbwayService.prototype.validateMbwayInputPhone = function () {
+        var ifthenpayMbwayPhoneDiv = $("#ifthenpayMbwayPhoneDiv");
+        $("#ifthenpayErrorMessage").remove();
+
+        if (ifthenpayMbwayPhoneDiv.length > 0) {
+          if (!this.mbwayPhoneVal) {
+            $(this.getErrorMessage(phpVariables.paymentMethodLanguage.required)).insertBefore(ifthenpayMbwayPhoneDiv);
+            return false;
+          } else if (!this.MBWAY_PHONE_REGEX.test(this.mbwayPhoneVal)) {
+            $(this.getErrorMessage(phpVariables.paymentMethodLanguage.invalid)).insertBefore(ifthenpayMbwayPhoneDiv);
+            return false;
+          } else {
+            return true;
+          }
+        }
+      };
+
+      MbwayService.prototype.getErrorMessage = function (errorMessage) {
+        return "<div id=\"ifthenpayErrorMessage\" class=\"alert alert-error\">" + errorMessage + "</div>";
+      };
+
+      MbwayService = __decorate([inversify_1.injectable(), __metadata("design:paramtypes", [])], MbwayService);
+      return MbwayService;
+    }();
+
+    exports.MbwayService = MbwayService;
     /***/
   },
 
@@ -6349,18 +6498,18 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
 
   /***/
-  8:
-  /*!**********************************************!*\
-    !*** multi ./_dev/js/checkoutCofidisPage.ts ***!
-    \**********************************************/
+  5:
+  /*!********************************************!*\
+    !*** multi ./_dev/js/checkoutMbwayPage.ts ***!
+    \********************************************/
 
   /*! no static exports found */
 
   /***/
   function _(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(
-    /*! /home/devilbox/data/www/opencart3/htdocs/_dev/js/checkoutCofidisPage.ts */
-    "./_dev/js/checkoutCofidisPage.ts");
+    /*! /home/ddev/opencart3/_dev/js/checkoutMbwayPage.ts */
+    "./_dev/js/checkoutMbwayPage.ts");
     /***/
   }
   /******/

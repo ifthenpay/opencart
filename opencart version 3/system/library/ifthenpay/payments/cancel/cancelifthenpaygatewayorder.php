@@ -26,8 +26,6 @@ class CancelIfthenpaygatewayOrder extends CancelOrder
 							if ($ifthenpaygatewayPayment['status'] == 'pending') {
 								$this->checkTimeChangeStatus($order);
 							}
-
-							$this->logCancelOrder($order['order_id']);
 						}
 					}
 				}

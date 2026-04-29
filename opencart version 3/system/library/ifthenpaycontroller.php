@@ -5,8 +5,6 @@ use Ifthenpay\Payments\Gateway;
 use Ifthenpay\Config\IfthenpayContainer;
 use Ifthenpay\Strategy\Form\IfthenpayConfigForms;
 use Ifthenpay\Contracts\Utility\MailInterface;
-use GuzzleHttp\Client;
-use Ifthenpay\Callback\CallbackVars;
 use Ifthenpay\Config\IfthenpayUpgrade;
 use Ifthenpay\Factory\Config\IfthenpayConfigFormFactory;
 use Ifthenpay\Forms\IfthenpaygatewayConfigForm;
@@ -35,7 +33,7 @@ class IfthenpayController extends Controller
         $this->configData = $this->model_setting_setting->getSetting('payment_' . $this->paymentMethod);
     }
 
-    protected function createUpdateAccountUserToken(): string
+    public function createUpdateAccountUserToken(): string
     {
         // if token already exists, assign it
         $storedToken = $this->config->get('payment_' . $this->paymentMethod . '_updateUserAccountToken');
@@ -364,7 +362,6 @@ class IfthenpayController extends Controller
                     break;
             }
 
-            // using curl due to issues with guzzle
             $ch = curl_init();
 
             curl_setopt_array($ch, [

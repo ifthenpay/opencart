@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Ifthenpay\Factory\Cancel;
 
 use Ifthenpay\Factory\Factory;
-use Ifthenpay\Factory\Payment\PaymentStatusFactory;
 use Ifthenpay\Builders\GatewayDataBuilder;
 use Ifthenpay\Payments\Cancel\CancelOrder;
 use Ifthenpay\Payments\Cancel\CancelMultibancoOrder;
@@ -21,14 +20,11 @@ use Ifthenpay\Payments\Gateway;
 class CancelIfthenpayOrderFactory extends Factory
 {
 	private $gatewayDataBuilder;
-	private $paymentStatusFactory;
 
 	public function __construct(
 		GatewayDataBuilder $gatewayDataBuilder,
-		PaymentStatusFactory $paymentStatusFactory
 	) {
 		$this->gatewayDataBuilder = $gatewayDataBuilder;
-		$this->paymentStatusFactory = $paymentStatusFactory;
 	}
 
 	public function build(): CancelOrder
@@ -37,50 +33,43 @@ class CancelIfthenpayOrderFactory extends Factory
 			case Gateway::MULTIBANCO:
 				return (
 					new CancelMultibancoOrder(
-						$this->gatewayDataBuilder,
-						$this->paymentStatusFactory->setType($this->type)->build()
+						$this->gatewayDataBuilder
 					)
 				)->setIfthenpayController($this->ifthenpayController);
 			case Gateway::MBWAY:
 				return (
 					new CancelMbwayOrder(
-						$this->gatewayDataBuilder,
-						$this->paymentStatusFactory->setType($this->type)->build()
+						$this->gatewayDataBuilder
 					)
 				)->setIfthenpayController($this->ifthenpayController);
 			case Gateway::PAYSHOP:
 				return (
 					new CancelPayshopOrder(
-						$this->gatewayDataBuilder,
-						$this->paymentStatusFactory->setType($this->type)->build()
+						$this->gatewayDataBuilder
 					)
 				)->setIfthenpayController($this->ifthenpayController);
 			case Gateway::CCARD:
 				return (
 					new CancelCCardOrder(
-						$this->gatewayDataBuilder,
-						$this->paymentStatusFactory->setType($this->type)->build()
+						$this->gatewayDataBuilder
 					)
 				)->setIfthenpayController($this->ifthenpayController);
 			case Gateway::COFIDIS:
 				return (
 					new CancelCofidisOrder(
-						$this->gatewayDataBuilder,
-						$this->paymentStatusFactory->setType($this->type)->build()
+						$this->gatewayDataBuilder
 					)
 				)->setIfthenpayController($this->ifthenpayController);
 			case Gateway::PIX:
 				return (
 					new CancelPixOrder(
-						$this->gatewayDataBuilder,
-						$this->paymentStatusFactory->setType($this->type)->build()
+						$this->gatewayDataBuilder
 					)
 				)->setIfthenpayController($this->ifthenpayController);
 			case Gateway::IFTHENPAYGATEWAY:
 				return (
 					new CancelIfthenpaygatewayOrder(
-						$this->gatewayDataBuilder,
-						$this->paymentStatusFactory->setType($this->type)->build()
+						$this->gatewayDataBuilder
 					)
 				)->setIfthenpayController($this->ifthenpayController);
 			default:

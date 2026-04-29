@@ -2,7 +2,6 @@
 
 namespace Ifthenpay\Config;
 
-use GuzzleHttp\Client;
 use Ifthenpay\Utility\Mix;
 use Ifthenpay\Utility\Token;
 use Ifthenpay\Utility\Status;
@@ -29,16 +28,14 @@ use Ifthenpay\Strategy\Callback\CallbackStrategy;
 use Ifthenpay\Strategy\Form\IfthenpayConfigForms;
 use Ifthenpay\Factory\Callback\CallbackDataFactory;
 use Ifthenpay\Factory\Payment\PaymentReturnFactory;
-use Ifthenpay\Factory\Payment\PaymentStatusFactory;
 use Ifthenpay\Strategy\Cancel\IfthenpayCancelOrder;
 use Ifthenpay\Strategy\Payments\IfthenpayOrderDetail;
 use Ifthenpay\Strategy\Payments\IfthenpayPaymentReturn;
-use Ifthenpay\Strategy\Payments\IfthenpayPaymentStatus;
 use Ifthenpay\Factory\Config\IfthenpayConfigFormFactory;
 use Ifthenpay\Factory\Cancel\CancelIfthenpayOrderFactory;
-use Ifthenpay\Factory\Payment\PaymentChangeStatusFactory;
 use Ifthenpay\Factory\Payment\AdminEmailPaymentDataFactory;
 use Ifthenpay\Strategy\Payments\IfthenpayAdminEmailPaymentData;
+use Ifthenpay\Factory\Payment\StrategyFactory;
 
 class IfthenpayContainer 
 {
@@ -52,12 +49,8 @@ class IfthenpayContainer
 
     private function bindDependencies(): void
     {
-        $this->ioc->bind(Client::class, function () {
-                return new Client();
-            }
-        );
         $this->ioc->bind(WebService::class, function () {
-                return new WebService($this->ioc->make(Client::class));
+                return new WebService();
             }
         );
         $this->ioc->bind(PaymentFactory::class, function () {
@@ -184,18 +177,6 @@ class IfthenpayContainer
         $this->ioc->bind(PayshopPaymentStatus::class, function() {
             return new PayshopPaymentStatus($this->ioc->make(WebService::class));
         });
-        $this->ioc->bind(PaymentChangeStatusFactory::class, function() {
-            return new PaymentChangeStatusFactory(
-                $this->ioc,
-                $this->ioc->make(GatewayDataBuilder::class)
-            );
-        });
-        $this->ioc->bind(IfthepayPaymentStatus::class, function () {
-                return new IfthenpayPaymentStatus(
-                    $this->ioc->make(PaymentChangeStatusFactory::class)
-                );
-            }
-        );
         $this->ioc->bind(Mix::class, function () {
             return new Mix();
         });
@@ -205,16 +186,9 @@ class IfthenpayContainer
         $this->ioc->bind(MailInterface::class, function() {
             return new MailUtility($this->ioc->make(Mail::class));
         });
-        $this->ioc->bind(PaymentStatusFactory::class, function() {
-            return new PaymentStatusFactory(
-                $this->ioc,
-                $this->ioc->make(WebService::class)
-            );
-        });
         $this->ioc->bind(CancelIfthenpayOrderFactory::class, function () {
             return new CancelIfthenpayOrderFactory(
-                $this->ioc->make(GatewayDataBuilder::class),
-                $this->ioc->make(PaymentStatusFactory::class)
+                $this->ioc->make(GatewayDataBuilder::class)
             );
         });
         $this->ioc->bind(IfthenpayCancelOrder::class, function() {

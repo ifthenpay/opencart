@@ -9,6 +9,5 @@ use Ifthenpay\Contracts\Payments\PaymentStatusInterface as PaymentStatusContract
 
 interface PaymentStatusInterface
 {
-    public function getPaymentStatus(): bool;
     public function setData(GatewayDataBuilder $data): PaymentStatusContract;
 }

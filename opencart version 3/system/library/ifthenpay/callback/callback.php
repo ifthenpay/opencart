@@ -86,7 +86,7 @@ class Callback
 		$this->activatedFor = true;
 	}
 
-	public function make(string $paymentType, string $moduleLink, bool $activateCallback = false, IfthenpayController $ifthenpayController): void
+	public function make(string $paymentType, string $moduleLink, bool $activateCallback, IfthenpayController $ifthenpayController): void
 	{
 
 		if ($paymentType === Gateway::IFTHENPAYGATEWAY) {

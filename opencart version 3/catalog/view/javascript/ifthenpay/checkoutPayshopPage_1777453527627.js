@@ -247,7 +247,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
   /******/
 
-  return __webpack_require__(__webpack_require__.s = 10);
+  return __webpack_require__(__webpack_require__.s = 6);
   /******/
 })(
 /************************************************************************/
@@ -255,15 +255,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 /******/
 {
   /***/
-  "./_dev/js/checkoutIfthenpaygatewayPage.ts":
-  /*!*************************************************!*\
-    !*** ./_dev/js/checkoutIfthenpaygatewayPage.ts ***!
-    \*************************************************/
+  "./_dev/js/checkoutPayshopPage.ts":
+  /*!****************************************!*\
+    !*** ./_dev/js/checkoutPayshopPage.ts ***!
+    \****************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsCheckoutIfthenpaygatewayPageTs(module, exports, __webpack_require__) {
+  function _devJsCheckoutPayshopPageTs(module, exports, __webpack_require__) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -274,31 +274,31 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /*! reflect-metadata */
     "./node_modules/reflect-metadata/Reflect.js");
 
-    var inversify_checkoutIfthenpaygatewayPage_1 = __webpack_require__(
-    /*! ./container/inversify.checkoutIfthenpaygatewayPage */
-    "./_dev/js/container/inversify.checkoutIfthenpaygatewayPage.ts");
+    var inversify_checkoutPayshopPage_1 = __webpack_require__(
+    /*! ./container/inversify.checkoutPayshopPage */
+    "./_dev/js/container/inversify.checkoutPayshopPage.ts");
 
-    var CheckoutIfthenpaygatewayPageCreateApp_1 = __webpack_require__(
-    /*! ./facades/CheckoutIfthenpaygatewayPageCreateApp */
-    "./_dev/js/facades/CheckoutIfthenpaygatewayPageCreateApp.ts");
+    var CheckoutPayshopPageCreateApp_1 = __webpack_require__(
+    /*! ./facades/CheckoutPayshopPageCreateApp */
+    "./_dev/js/facades/CheckoutPayshopPageCreateApp.ts");
 
     $(document).ready(function () {
-      var app = inversify_checkoutIfthenpaygatewayPage_1["default"].get(CheckoutIfthenpaygatewayPageCreateApp_1.CheckoutIfthenpaygatewayPageCreateApp);
+      var app = inversify_checkoutPayshopPage_1["default"].get(CheckoutPayshopPageCreateApp_1.CheckoutPayshopPageCreateApp);
       app.start();
     });
     /***/
   },
 
   /***/
-  "./_dev/js/container/inversify.checkoutIfthenpaygatewayPage.ts":
-  /*!*********************************************************************!*\
-    !*** ./_dev/js/container/inversify.checkoutIfthenpaygatewayPage.ts ***!
-    \*********************************************************************/
+  "./_dev/js/container/inversify.checkoutPayshopPage.ts":
+  /*!************************************************************!*\
+    !*** ./_dev/js/container/inversify.checkoutPayshopPage.ts ***!
+    \************************************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsContainerInversifyCheckoutIfthenpaygatewayPageTs(module, exports, __webpack_require__) {
+  function _devJsContainerInversifyCheckoutPayshopPageTs(module, exports, __webpack_require__) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -309,23 +309,23 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /*! inversify */
     "./node_modules/inversify/lib/inversify.js");
 
-    var CheckoutIfthenpaygatewayPage_1 = __webpack_require__(
-    /*! ../events/CheckoutIfthenpaygatewayPage */
-    "./_dev/js/events/CheckoutIfthenpaygatewayPage.ts");
+    var CheckoutPayshopPage_1 = __webpack_require__(
+    /*! ../events/CheckoutPayshopPage */
+    "./_dev/js/events/CheckoutPayshopPage.ts");
 
-    var CheckoutIfthenpaygatewayPageCreateApp_1 = __webpack_require__(
-    /*! ../facades/CheckoutIfthenpaygatewayPageCreateApp */
-    "./_dev/js/facades/CheckoutIfthenpaygatewayPageCreateApp.ts");
+    var CheckoutPayshopPageCreateApp_1 = __webpack_require__(
+    /*! ../facades/CheckoutPayshopPageCreateApp */
+    "./_dev/js/facades/CheckoutPayshopPageCreateApp.ts");
 
     var HttpService_1 = __webpack_require__(
     /*! ../services/HttpService */
     "./_dev/js/services/HttpService.ts");
 
-    var containerCheckoutIfthenpaygatewayPage = new inversify_1.Container();
-    containerCheckoutIfthenpaygatewayPage.bind(HttpService_1.HttpService).toSelf();
-    containerCheckoutIfthenpaygatewayPage.bind(CheckoutIfthenpaygatewayPageCreateApp_1.CheckoutIfthenpaygatewayPageCreateApp).toSelf();
-    containerCheckoutIfthenpaygatewayPage.bind(CheckoutIfthenpaygatewayPage_1.CheckoutIfthenpaygatewayPage).toSelf();
-    exports["default"] = containerCheckoutIfthenpaygatewayPage;
+    var containerCheckoutPayshopPage = new inversify_1.Container();
+    containerCheckoutPayshopPage.bind(HttpService_1.HttpService).toSelf();
+    containerCheckoutPayshopPage.bind(CheckoutPayshopPageCreateApp_1.CheckoutPayshopPageCreateApp).toSelf();
+    containerCheckoutPayshopPage.bind(CheckoutPayshopPage_1.CheckoutPayshopPage).toSelf();
+    exports["default"] = containerCheckoutPayshopPage;
     /***/
   },
 
@@ -483,15 +483,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
 
   /***/
-  "./_dev/js/events/CheckoutIfthenpaygatewayPage.ts":
-  /*!********************************************************!*\
-    !*** ./_dev/js/events/CheckoutIfthenpaygatewayPage.ts ***!
-    \********************************************************/
+  "./_dev/js/events/CheckoutPayshopPage.ts":
+  /*!***********************************************!*\
+    !*** ./_dev/js/events/CheckoutPayshopPage.ts ***!
+    \***********************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsEventsCheckoutIfthenpaygatewayPageTs(module, exports, __webpack_require__) {
+  function _devJsEventsCheckoutPayshopPageTs(module, exports, __webpack_require__) {
     "use strict";
 
     var __extends = this && this.__extends || function () {
@@ -539,11 +539,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-    exports.CheckoutIfthenpaygatewayPage = void 0;
+    exports.CheckoutPayshopPage = void 0;
 
-    var inversify_checkoutIfthenpaygatewayPage_1 = __webpack_require__(
-    /*! ../container/inversify.checkoutIfthenpaygatewayPage */
-    "./_dev/js/container/inversify.checkoutIfthenpaygatewayPage.ts");
+    var inversify_checkoutPayshopPage_1 = __webpack_require__(
+    /*! ../container/inversify.checkoutPayshopPage */
+    "./_dev/js/container/inversify.checkoutPayshopPage.ts");
 
     var Event_1 = __webpack_require__(
     /*! ../decorators/Event */
@@ -557,22 +557,22 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /*! ./Page */
     "./_dev/js/events/Page.ts");
 
-    var CheckoutIfthenpaygatewayPage =
+    var CheckoutPayshopPage =
     /** @class */
     function (_super) {
-      __extends(CheckoutIfthenpaygatewayPage, _super);
+      __extends(CheckoutPayshopPage, _super);
 
-      function CheckoutIfthenpaygatewayPage() {
+      function CheckoutPayshopPage() {
         return _super !== null && _super.apply(this, arguments) || this;
       }
 
-      CheckoutIfthenpaygatewayPage.prototype.confirmPayment = function (event) {
+      CheckoutPayshopPage.prototype.confirmPayment = function (event) {
         var _this = this;
 
         this.setEventDefault(event, true);
         $('#button-confirm').button('loading');
-        this.httpService = inversify_checkoutIfthenpaygatewayPage_1["default"].get(HttpService_1.HttpService);
-        this.httpService.setUrl('index.php?route=extension/payment/ifthenpaygateway/confirm');
+        this.httpService = inversify_checkoutPayshopPage_1["default"].get(HttpService_1.HttpService);
+        this.httpService.setUrl('index.php?route=extension/payment/payshop/confirm');
         this.httpService.post({}).then(function (response) {
           _this.eventTarget.button('reset');
 
@@ -588,12 +588,12 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         });
       };
 
-      __decorate([Event_1.Event('click', '#button-confirm'), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], CheckoutIfthenpaygatewayPage.prototype, "confirmPayment", null);
+      __decorate([Event_1.Event('click', '#button-confirm'), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], CheckoutPayshopPage.prototype, "confirmPayment", null);
 
-      return CheckoutIfthenpaygatewayPage;
+      return CheckoutPayshopPage;
     }(Page_1.Page);
 
-    exports.CheckoutIfthenpaygatewayPage = CheckoutIfthenpaygatewayPage;
+    exports.CheckoutPayshopPage = CheckoutPayshopPage;
     /***/
   },
 
@@ -657,15 +657,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
 
   /***/
-  "./_dev/js/facades/CheckoutIfthenpaygatewayPageCreateApp.ts":
-  /*!******************************************************************!*\
-    !*** ./_dev/js/facades/CheckoutIfthenpaygatewayPageCreateApp.ts ***!
-    \******************************************************************/
+  "./_dev/js/facades/CheckoutPayshopPageCreateApp.ts":
+  /*!*********************************************************!*\
+    !*** ./_dev/js/facades/CheckoutPayshopPageCreateApp.ts ***!
+    \*********************************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsFacadesCheckoutIfthenpaygatewayPageCreateAppTs(module, exports, __webpack_require__) {
+  function _devJsFacadesCheckoutPayshopPageCreateAppTs(module, exports, __webpack_require__) {
     "use strict";
 
     var __extends = this && this.__extends || function () {
@@ -713,50 +713,50 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-    exports.CheckoutIfthenpaygatewayPageCreateApp = void 0;
+    exports.CheckoutPayshopPageCreateApp = void 0;
 
     var inversify_1 = __webpack_require__(
     /*! inversify */
     "./node_modules/inversify/lib/inversify.js");
 
-    var inversify_checkoutIfthenpaygatewayPage_1 = __webpack_require__(
-    /*! ../container/inversify.checkoutIfthenpaygatewayPage */
-    "./_dev/js/container/inversify.checkoutIfthenpaygatewayPage.ts");
+    var inversify_checkoutPayshopPage_1 = __webpack_require__(
+    /*! ../container/inversify.checkoutPayshopPage */
+    "./_dev/js/container/inversify.checkoutPayshopPage.ts");
 
     var AppComponent_1 = __webpack_require__(
     /*! ../decorators/AppComponent */
     "./_dev/js/decorators/AppComponent.ts");
 
-    var CheckoutIfthenpaygatewayPage_1 = __webpack_require__(
-    /*! ../events/CheckoutIfthenpaygatewayPage */
-    "./_dev/js/events/CheckoutIfthenpaygatewayPage.ts");
+    var CheckoutPayshopPage_1 = __webpack_require__(
+    /*! ../events/CheckoutPayshopPage */
+    "./_dev/js/events/CheckoutPayshopPage.ts");
 
     var MainApp_1 = __webpack_require__(
     /*! ./MainApp */
     "./_dev/js/facades/MainApp.ts");
 
-    var CheckoutIfthenpaygatewayPageCreateApp =
+    var CheckoutPayshopPageCreateApp =
     /** @class */
     function (_super) {
-      __extends(CheckoutIfthenpaygatewayPageCreateApp, _super);
+      __extends(CheckoutPayshopPageCreateApp, _super);
 
-      function CheckoutIfthenpaygatewayPageCreateApp() {
+      function CheckoutPayshopPageCreateApp() {
         var _this = _super.call(this) || this;
 
-        _this.container = inversify_checkoutIfthenpaygatewayPage_1["default"];
+        _this.container = inversify_checkoutPayshopPage_1["default"];
         return _this;
       }
 
-      CheckoutIfthenpaygatewayPageCreateApp.prototype.start = function () {};
+      CheckoutPayshopPageCreateApp.prototype.start = function () {};
 
-      CheckoutIfthenpaygatewayPageCreateApp = __decorate([inversify_1.injectable(), AppComponent_1.AppComponent({
-        pageEvents: [CheckoutIfthenpaygatewayPage_1.CheckoutIfthenpaygatewayPage],
+      CheckoutPayshopPageCreateApp = __decorate([inversify_1.injectable(), AppComponent_1.AppComponent({
+        pageEvents: [CheckoutPayshopPage_1.CheckoutPayshopPage],
         apps: []
-      }), __metadata("design:paramtypes", [])], CheckoutIfthenpaygatewayPageCreateApp);
-      return CheckoutIfthenpaygatewayPageCreateApp;
+      }), __metadata("design:paramtypes", [])], CheckoutPayshopPageCreateApp);
+      return CheckoutPayshopPageCreateApp;
     }(MainApp_1.MainApp);
 
-    exports.CheckoutIfthenpaygatewayPageCreateApp = CheckoutIfthenpaygatewayPageCreateApp;
+    exports.CheckoutPayshopPageCreateApp = CheckoutPayshopPageCreateApp;
     /***/
   },
 
@@ -870,6 +870,14 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /** @class */
     function () {
       function HttpService() {}
+
+      HttpService.prototype.getWithTextType = function () {
+        return $.ajax({
+          url: this.url,
+          type: 'GET',
+          dataType: 'text'
+        });
+      };
 
       HttpService.prototype.get = function () {
         return $.ajax({
@@ -6349,18 +6357,18 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
 
   /***/
-  10:
-  /*!*******************************************************!*\
-    !*** multi ./_dev/js/checkoutIfthenpaygatewayPage.ts ***!
-    \*******************************************************/
+  6:
+  /*!**********************************************!*\
+    !*** multi ./_dev/js/checkoutPayshopPage.ts ***!
+    \**********************************************/
 
   /*! no static exports found */
 
   /***/
   function _(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(
-    /*! /home/devilbox/data/www/opencart3/htdocs/_dev/js/checkoutIfthenpaygatewayPage.ts */
-    "./_dev/js/checkoutIfthenpaygatewayPage.ts");
+    /*! /home/ddev/opencart3/_dev/js/checkoutPayshopPage.ts */
+    "./_dev/js/checkoutPayshopPage.ts");
     /***/
   }
   /******/

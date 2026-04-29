@@ -37,7 +37,7 @@
 		{% endif %}
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<img src="view/image/payment/ifthenpay/multibanco.png" alt="multibanco logo" height="38px"/>
+				<img src="view/image/payment/ifthenpay/multibanco.png" alt="multibanco logo" height="38px" data-refresh-url="{{ refreshIfthenpayAccountsUrl }}"/>
 				<span class="ph-version">v{{moduleVersion}}</span>
 				{% if not payment_multibanco_backofficeKey %}
 					<a href="https://www.ifthenpay.com/downloads/ifmb/contratomb.pdf" target="_blank" class="btn btn-default" id="create-account-btn">{{ create_account_now }}</a>

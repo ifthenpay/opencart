@@ -25,15 +25,11 @@ class CancelCCardOrder extends CancelOrder
                         $this->gatewayDataBuilder->setCCardKey($this->ifthenpayController->config->get('payment_ccard_ccardKey'));
                         $this->gatewayDataBuilder->setReferencia((string) $order['order_id']);                        
                         $this->gatewayDataBuilder->setTotalToPay((string)$this->convertToCurrency($order, $this->ifthenpayController));
-                        if (!$this->paymentStatus->setData($this->gatewayDataBuilder)->getPaymentStatus()) {
-                            $this->checkTimeChangeStatus($order);
-                        }
-                        $this->logCancelOrder($order['order_id']);
+                        
+						$this->checkTimeChangeStatus($order);
                     }
                 }
             }
         }
     }
 }
-
-

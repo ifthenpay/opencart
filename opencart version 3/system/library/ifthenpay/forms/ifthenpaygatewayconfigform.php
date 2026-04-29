@@ -284,7 +284,7 @@ class IfthenpaygatewayConfigForm extends ConfigForm
 
 
 
-    public function generateSelectedDefaultHtml(array $paymentMethodGroupArray, array $storedMethods = [], string $storedDefaultPaymentMethod): string
+    public function generateSelectedDefaultHtml(array $paymentMethodGroupArray, array $storedMethods, string $storedDefaultPaymentMethod): string
     {
         $this->ifthenpayController->language->get('extension/ifthenpay/payment/ifthenpaygateway');
 

@@ -16,6 +16,7 @@ class ComposerStaticInit654773d2d648577744cf4449aafb3536
         array (
             'Illuminate\\Contracts\\' => 21,
             'Illuminate\\Container\\' => 21,
+            'Ifthenpay\\' => 10,
         ),
     );
 
@@ -36,6 +37,14 @@ class ComposerStaticInit654773d2d648577744cf4449aafb3536
         array (
             0 => __DIR__ . '/..' . '/illuminate/container',
         ),
+        'Ifthenpay\\' => 
+        array (
+            0 => '/ifthenpay',
+        ),
+    );
+
+    public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
@@ -43,6 +52,7 @@ class ComposerStaticInit654773d2d648577744cf4449aafb3536
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit654773d2d648577744cf4449aafb3536::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit654773d2d648577744cf4449aafb3536::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit654773d2d648577744cf4449aafb3536::$classMap;
 
         }, null, ClassLoader::class);
     }

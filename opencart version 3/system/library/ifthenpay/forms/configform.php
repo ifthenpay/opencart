@@ -175,6 +175,9 @@ abstract class ConfigForm
         } else {
             $this->data['error_warning'] = '';
         }
+
+		$userToken = $this->ifthenpayController->createUpdateAccountUserToken();
+		$this->data['refreshIfthenpayAccountsUrl'] = $this->ifthenpayController->config->get('config_secure') ? rtrim(HTTP_CATALOG, '/') : rtrim(HTTPS_CATALOG, '/') . '/index.php?route=extension/payment/' . $this->paymentMethod . '/updateUserAccount&user_token=' . $userToken;
     }
 
     protected function setGatewayBuilderData(): void
@@ -612,10 +615,7 @@ abstract class ConfigForm
 
     private function generateAndSavePaymentLogo($paymentMethodGroups, $paymentLogoType): bool
     {
-        // TODO: are these variables needed?
-        $typeComposite = 'composite';
         $typeTitle = '0';
-        $typeDefault = '1';
 
 
         // exit early if is only showing text instead of logo
@@ -843,34 +843,35 @@ abstract class ConfigForm
      * Validate max min order value in admin module settings
      * @return void
      */
-    protected function validateMinMax(): void
-    {
+	protected function validateMinMax(): void
+	{
 
-        if (
-            isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_minimum_value']) &&
-            isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_maximum_value'])
-        ) {
+		if (
+			isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_minimum_value']) &&
+			isset($this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_maximum_value'])
+		) {
 
-            $max = $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_maximum_value'];
-            $min = $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_minimum_value'];
+			$max = $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_maximum_value'];
+			$min = $this->ifthenpayController->request->post['payment_' . $this->paymentMethod . '_minimum_value'];
 
+	
 
-            // validate maximum order value being number and larger than 0
-            if ($max < 0 || (!is_numeric($max) && $max != '')) {
-                $this->ifthenpayController->error['warning'] = $this->ifthenpayController->language->get('error_invalid_max_number');
-            }
+			// validate maximum order value being number and larger than 0
+			if ($max != '' && (!is_numeric($max) || $max <= 0)) {
+				$this->ifthenpayController->error['warning'] = $this->ifthenpayController->language->get('error_invalid_max_number');
+			}
 
-            // validate minimum order value being number and larger than 0
-            if ($min < 0 || (!is_numeric($min) && $min != '')) {
-                $this->ifthenpayController->error['warning'] = $this->ifthenpayController->language->get('error_invalid_min_number');
-            }
+			// validate minimum order value being number and larger than 0
+			if ($min != '' && (!is_numeric($min) || $min <= 0)) {
+				$this->ifthenpayController->error['warning'] = $this->ifthenpayController->language->get('error_invalid_min_number');
+			}
 
-            // validate minimum order value being larger than maximum
-            if ($min >= $max && ($min != '' && $max != '')) {
-                $this->ifthenpayController->error['warning'] = $this->ifthenpayController->language->get('error_incompatible_min_max');
-            }
-        }
-    }
+			// validate minimum order value being larger than maximum
+			if ($min >= $max && ($min != '' && $max != '')) {
+				$this->ifthenpayController->error['warning'] = $this->ifthenpayController->language->get('error_incompatible_min_max');
+			}
+		}
+	}
 
     /**
      * Validates payment method specific values, such as entity subentity and other

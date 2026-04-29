@@ -3,8 +3,7 @@
 use Ifthenpay\Utility\Mix;
 use Ifthenpay\Payments\Gateway;
 use Ifthenpay\Builders\GatewayDataBuilder;
-use Ifthenpay\Builders\TwigDataBuilder;
-use Ifthenpay\Factory\Payment\PaymentStatusFactory;
+use Ifthenpay\Payments\MbWayPaymentStatus;
 use Ifthenpay\Strategy\Payments\IfthenpayPaymentReturn;
 
 class ControllerExtensionPaymentMbway extends IfthenpayControllerCatalog
@@ -132,10 +131,10 @@ class ControllerExtensionPaymentMbway extends IfthenpayControllerCatalog
                 $mbwayPayment = $this->model_extension_payment_mbway->getPaymentByOrderId($this->request->post['orderId'])->row;
                 $configData = $this->model_setting_setting->getSetting('payment_mbway');
                 $gatewayDataBuilder = $this->ifthenpayContainer->getIoc()->make(GatewayDataBuilder::class);
-                $mbwayPaymentStatus = $this->ifthenpayContainer->getIoc()->make(PaymentStatusFactory::class)->setType($this->paymentMethod)->build();
+			    $mbwayPaymentStatus = $this->ifthenpayContainer->getIoc()->make(MbWayPaymentStatus::class);
+
                 $gatewayDataBuilder->setMbwayKey($configData['payment_mbway_mbwayKey']);
                 $gatewayDataBuilder->setIdPedido($mbwayPayment['id_transacao']);
-
 
                 $mbwayKey = $configData['payment_mbway_mbwayKey'];
                 $requestId = $mbwayPayment['id_transacao'];

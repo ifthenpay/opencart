@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Payments\Cancel;
 
-use Ifthenpay\Contracts\Payments\PaymentStatusInterface;
 use Ifthenpay\Traits\Payments\GatewayDataBuilderBackofficeKey;
 use Ifthenpay\Builders\GatewayDataBuilder;
 
@@ -14,7 +13,6 @@ abstract class CancelOrder
 	use GatewayDataBuilderBackofficeKey;
 
 	protected $gatewayDataBuilder;
-	protected $paymentStatus;
 	protected $paymentRepository;
 	protected $pendingOrders;
 	protected $paymentMethod;
@@ -23,10 +21,8 @@ abstract class CancelOrder
 
 	public function __construct(
 		GatewayDataBuilder $gatewayDataBuilder,
-		PaymentStatusInterface $paymentStatus
 	) {
 		$this->gatewayDataBuilder = $gatewayDataBuilder;
-		$this->paymentStatus = $paymentStatus;
 		$this->dynamicModelName = 'model_extension_payment_' . $this->paymentMethod;
 	}
 
@@ -40,9 +36,17 @@ abstract class CancelOrder
 
 	protected function checkTimeChangeStatus(array $order, string $days = null, string $paymentDeadline = null, string $dateFormat = null)
 	{
+		$dbTimezone = $this->ifthenpayController->config->get('config_timezone');
+
 		date_default_timezone_set('Europe/Lisbon');
+		if (!empty($dbTimezone)) {
+			$time = new \DateTime($order['date_added'], new \DateTimeZone($dbTimezone));
+			$time->setTimezone(new \DateTimeZone('Europe/Lisbon'));
+		} else {
+			$time = new \DateTime($order['date_added']);
+		}
+
 		$today = new \DateTime(date("Y-m-d G:i"));
-		$time = new \DateTime($order['date_added']);
 		if (!is_null($days) && is_null($paymentDeadline) && is_null($dateFormat)) {
 			$time->add(new \DateInterval('P' . $days . 'D'));
 			$time->settime(0, 0);
@@ -65,6 +69,7 @@ abstract class CancelOrder
 				true,
 				true
 			);
+			$this->logCancelOrder($order['order_id']);
 		}
 	}
 

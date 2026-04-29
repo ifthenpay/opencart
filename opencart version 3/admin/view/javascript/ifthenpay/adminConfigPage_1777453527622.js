@@ -247,7 +247,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
   /******/
 
-  return __webpack_require__(__webpack_require__.s = 4);
+  return __webpack_require__(__webpack_require__.s = 0);
   /******/
 })(
 /************************************************************************/
@@ -255,15 +255,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 /******/
 {
   /***/
-  "./_dev/js/checkoutMultibancoPage.ts":
-  /*!*******************************************!*\
-    !*** ./_dev/js/checkoutMultibancoPage.ts ***!
-    \*******************************************/
+  "./_dev/js/adminConfigPage.ts":
+  /*!************************************!*\
+    !*** ./_dev/js/adminConfigPage.ts ***!
+    \************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsCheckoutMultibancoPageTs(module, exports, __webpack_require__) {
+  function _devJsAdminConfigPageTs(module, exports, __webpack_require__) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -274,31 +274,148 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /*! reflect-metadata */
     "./node_modules/reflect-metadata/Reflect.js");
 
-    var inversify_checkoutMultibancoPage_1 = __webpack_require__(
-    /*! ./container/inversify.checkoutMultibancoPage */
-    "./_dev/js/container/inversify.checkoutMultibancoPage.ts");
+    var inversify_adminConfigPage_1 = __webpack_require__(
+    /*! ./container/inversify.adminConfigPage */
+    "./_dev/js/container/inversify.adminConfigPage.ts");
 
-    var CheckoutMultibancoPageCreateApp_1 = __webpack_require__(
-    /*! ./facades/CheckoutMultibancoPageCreateApp */
-    "./_dev/js/facades/CheckoutMultibancoPageCreateApp.ts");
+    var AdminConfigPageCreateApp_1 = __webpack_require__(
+    /*! ./facades/AdminConfigPageCreateApp */
+    "./_dev/js/facades/AdminConfigPageCreateApp.ts");
 
     $(document).ready(function () {
-      var app = inversify_checkoutMultibancoPage_1["default"].get(CheckoutMultibancoPageCreateApp_1.CheckoutMultibancoPageCreateApp);
-      app.start();
+      var app = inversify_adminConfigPage_1["default"].get(AdminConfigPageCreateApp_1.AdminConfigPageCreateApp);
+      app.start(); // show or hide dynamic multibanco on page load
+
+      var domGp_deadLineGp = document.getElementById("ifthenpayMultibancoDeadline_group");
+
+      if (domGp_deadLineGp !== null) {
+        var domSel_MultiBancoEntidade = document.getElementById("ifthenpayMultibancoEntidade");
+        var domSel_deadLineSel = document.getElementById("ifthenpayMultibancoDeadline");
+
+        if (domSel_MultiBancoEntidade.value === 'MB') {
+          // show deadline select dropdown
+          domGp_deadLineGp.style.display = 'block';
+          domSel_deadLineSel === null || domSel_deadLineSel === void 0 ? void 0 : domSel_deadLineSel.removeAttribute('disabled');
+        } else {
+          // hide deadline select dropdown
+          domGp_deadLineGp.style.display = 'none';
+          domSel_deadLineSel === null || domSel_deadLineSel === void 0 ? void 0 : domSel_deadLineSel.setAttribute('disabled', '');
+        }
+      }
     });
     /***/
   },
 
   /***/
-  "./_dev/js/container/inversify.checkoutMultibancoPage.ts":
-  /*!***************************************************************!*\
-    !*** ./_dev/js/container/inversify.checkoutMultibancoPage.ts ***!
-    \***************************************************************/
+  "./_dev/js/classes/Callback.ts":
+  /*!*************************************!*\
+    !*** ./_dev/js/classes/Callback.ts ***!
+    \*************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsContainerInversifyCheckoutMultibancoPageTs(module, exports, __webpack_require__) {
+  function _devJsClassesCallbackTs(module, exports, __webpack_require__) {
+    "use strict";
+
+    var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+      var c = arguments.length,
+          r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+          d;
+      if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) {
+        if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+      }
+      return c > 3 && r && Object.defineProperty(target, key, r), r;
+    };
+
+    var __metadata = this && this.__metadata || function (k, v) {
+      if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+    };
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.Callback = void 0;
+
+    var inversify_1 = __webpack_require__(
+    /*! inversify */
+    "./node_modules/inversify/lib/inversify.js");
+
+    var IfthenpayPaymentMethods_1 = __webpack_require__(
+    /*! ../interfaces/IfthenpayPaymentMethods */
+    "./_dev/js/interfaces/IfthenpayPaymentMethods.ts");
+
+    var Callback =
+    /** @class */
+    function () {
+      function Callback() {
+        this.callbackUrl = $('#callbackUrl');
+        this.splitString = '[ENTIDADE]';
+        this.mediaQuerieDesktop = 'only screen and (min-width: 31.25em) and (max-width: 107.188em)';
+      }
+
+      Callback.prototype.checkMediaQuerieDesktop = function () {
+        if (matchMedia(this.mediaQuerieDesktop).matches) {
+          this.splitString = '[CHAVE_ANTI_PHISHING]';
+        }
+
+        return null;
+      };
+
+      Callback.prototype.setSplitString = function () {
+        switch (new URLSearchParams(window.location.search).get('route').replace('extension/payment/', '')) {
+          case IfthenpayPaymentMethods_1.IfthenpayPaymentMethod.MULTIBANCO:
+            this.splitString = '[ENTIDADE]';
+            this.checkMediaQuerieDesktop();
+            break;
+
+          case IfthenpayPaymentMethods_1.IfthenpayPaymentMethod.MBWAY:
+            this.splitString = '[REFERENCIA]';
+            this.checkMediaQuerieDesktop();
+            break;
+
+          case IfthenpayPaymentMethods_1.IfthenpayPaymentMethod.PAYSHOP:
+            this.splitString = '[ID_CLIENTE]';
+            this.checkMediaQuerieDesktop();
+            break;
+
+          case IfthenpayPaymentMethods_1.IfthenpayPaymentMethod.CCARD:
+            this.splitString = '[REQUEST_ID]';
+            this.checkMediaQuerieDesktop();
+
+          default:
+            break;
+        }
+      };
+
+      Callback.prototype.init = function () {
+        // todo: this is thought to be unecessary, will remove entire class after further testing
+        this.callbackUrl.show(); // if (this.callbackUrl.length > 0) {
+        //     this.setSplitString();
+        //     const html = this.callbackUrl.html().split(this.splitString);
+        //     this.callbackUrl.html(html[0] + "<br>" + this.splitString + html.slice(1).join(this.splitString));
+        //     this.callbackUrl.show();
+        // }
+      };
+
+      Callback = __decorate([inversify_1.injectable(), __metadata("design:paramtypes", [])], Callback);
+      return Callback;
+    }();
+
+    exports.Callback = Callback;
+    /***/
+  },
+
+  /***/
+  "./_dev/js/container/inversify.adminConfigPage.ts":
+  /*!********************************************************!*\
+    !*** ./_dev/js/container/inversify.adminConfigPage.ts ***!
+    \********************************************************/
+
+  /*! no static exports found */
+
+  /***/
+  function _devJsContainerInversifyAdminConfigPageTs(module, exports, __webpack_require__) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -309,23 +426,28 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /*! inversify */
     "./node_modules/inversify/lib/inversify.js");
 
-    var CheckoutMultibancoPage_1 = __webpack_require__(
-    /*! ../events/CheckoutMultibancoPage */
-    "./_dev/js/events/CheckoutMultibancoPage.ts");
+    var Callback_1 = __webpack_require__(
+    /*! ../classes/Callback */
+    "./_dev/js/classes/Callback.ts");
 
-    var CheckoutMultibancoPageCreateApp_1 = __webpack_require__(
-    /*! ../facades/CheckoutMultibancoPageCreateApp */
-    "./_dev/js/facades/CheckoutMultibancoPageCreateApp.ts");
+    var AdminConfigPage_1 = __webpack_require__(
+    /*! ../events/AdminConfigPage */
+    "./_dev/js/events/AdminConfigPage.ts");
+
+    var AdminConfigPageCreateApp_1 = __webpack_require__(
+    /*! ../facades/AdminConfigPageCreateApp */
+    "./_dev/js/facades/AdminConfigPageCreateApp.ts");
 
     var HttpService_1 = __webpack_require__(
     /*! ../services/HttpService */
     "./_dev/js/services/HttpService.ts");
 
-    var containerCheckoutMultibancoPage = new inversify_1.Container();
-    containerCheckoutMultibancoPage.bind(HttpService_1.HttpService).toSelf();
-    containerCheckoutMultibancoPage.bind(CheckoutMultibancoPageCreateApp_1.CheckoutMultibancoPageCreateApp).toSelf();
-    containerCheckoutMultibancoPage.bind(CheckoutMultibancoPage_1.CheckoutMultibancoPage).toSelf();
-    exports["default"] = containerCheckoutMultibancoPage;
+    var containerAdminConfigPage = new inversify_1.Container();
+    containerAdminConfigPage.bind(HttpService_1.HttpService).toSelf();
+    containerAdminConfigPage.bind(Callback_1.Callback).toSelf();
+    containerAdminConfigPage.bind(AdminConfigPage_1.AdminConfigPage).toSelf();
+    containerAdminConfigPage.bind(AdminConfigPageCreateApp_1.AdminConfigPageCreateApp).toSelf();
+    exports["default"] = containerAdminConfigPage;
     /***/
   },
 
@@ -483,15 +605,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
 
   /***/
-  "./_dev/js/events/CheckoutMultibancoPage.ts":
-  /*!**************************************************!*\
-    !*** ./_dev/js/events/CheckoutMultibancoPage.ts ***!
-    \**************************************************/
+  "./_dev/js/events/AdminConfigPage.ts":
+  /*!*******************************************!*\
+    !*** ./_dev/js/events/AdminConfigPage.ts ***!
+    \*******************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsEventsCheckoutMultibancoPageTs(module, exports, __webpack_require__) {
+  function _devJsEventsAdminConfigPageTs(module, exports, __webpack_require__) {
     "use strict";
 
     var __extends = this && this.__extends || function () {
@@ -539,11 +661,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-    exports.CheckoutMultibancoPage = void 0;
+    exports.AdminConfigPage = void 0;
 
-    var inversify_checkoutMultibancoPage_1 = __webpack_require__(
-    /*! ../container/inversify.checkoutMultibancoPage */
-    "./_dev/js/container/inversify.checkoutMultibancoPage.ts");
+    var inversify_adminConfigPage_1 = __webpack_require__(
+    /*! ../container/inversify.adminConfigPage */
+    "./_dev/js/container/inversify.adminConfigPage.ts");
 
     var Event_1 = __webpack_require__(
     /*! ../decorators/Event */
@@ -557,29 +679,212 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /*! ./Page */
     "./_dev/js/events/Page.ts");
 
-    var CheckoutMultibancoPage =
+    var AdminConfigPage =
     /** @class */
     function (_super) {
-      __extends(CheckoutMultibancoPage, _super);
+      __extends(AdminConfigPage, _super);
 
-      function CheckoutMultibancoPage() {
+      function AdminConfigPage() {
         return _super !== null && _super.apply(this, arguments) || this;
       }
 
-      CheckoutMultibancoPage.prototype.confirmPayment = function (event) {
+      AdminConfigPage.prototype.getUrlParam = function (type) {
+        var urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(type);
+      };
+
+      AdminConfigPage.prototype.changeEntidade = function (event) {
+        var _this = this;
+
+        this.setEventDefault(event, false);
+        this.spinner = this.eventTarget.next(".appSpinner");
+        var containerSubEntidade = $("#ifthenpayMultibancoSubentidade");
+        this.spinner.show();
+        this.httpService = inversify_adminConfigPage_1["default"].get(HttpService_1.HttpService);
+        this.httpService.setUrl("index.php?route=extension/payment/multibanco/getSubEntidade&user_token=" + this.getUrlParam("user_token"));
+        this.httpService.post({
+          entidade: $(event.target).val()
+        }).then(function (response) {
+          containerSubEntidade.find("option").remove();
+          Object.keys(response).forEach(function (key) {
+            var first = true;
+            response[key].SubEntidade.forEach(function (subEntidade) {
+              // set the first element of subentity as selected
+              if (first) {
+                _this.documentFragment.append($("<option value=\"" + subEntidade + "\" selected>" + subEntidade + "</option>"));
+
+                first = false;
+              } else {
+                _this.documentFragment.append($("<option value=\"" + subEntidade + "\">" + subEntidade + "</option>"));
+              }
+            });
+          });
+          containerSubEntidade.append(_this.documentFragment);
+
+          _this.spinner.hide(); // show or hide dynamic multibanco deadline on entidade change
+
+
+          var domGp_deadLineGp = document.getElementById("ifthenpayMultibancoDeadline_group");
+
+          if (domGp_deadLineGp !== null) {
+            var domSel_deadLineSel = document.getElementById("ifthenpayMultibancoDeadline");
+
+            if ($(event.target).val() === "MB") {
+              domGp_deadLineGp.style.display = "block";
+              domSel_deadLineSel === null || domSel_deadLineSel === void 0 ? void 0 : domSel_deadLineSel.removeAttribute("disabled");
+            } else {
+              domGp_deadLineGp.style.display = "none";
+              domSel_deadLineSel === null || domSel_deadLineSel === void 0 ? void 0 : domSel_deadLineSel.setAttribute("disabled", "");
+            }
+          }
+        }).fail(function (xhr, status, error) {
+          if (xhr.responseJSON) {
+            alert(xhr.responseJSON.error);
+          } else {
+            alert(error);
+          }
+
+          _this.spinner.hide();
+        });
+      };
+
+      AdminConfigPage.prototype.resetIfthenpayAccount = function (event) {
         var _this = this;
 
         this.setEventDefault(event, true);
-        $('#button-confirm').button('loading');
-        this.httpService = inversify_checkoutMultibancoPage_1["default"].get(HttpService_1.HttpService);
-        this.httpService.setUrl('index.php?route=extension/payment/multibanco/confirm');
+        this.spinner = this.eventTarget.next(".appSpinner");
+        this.spinner.show();
+        this.httpService = inversify_adminConfigPage_1["default"].get(HttpService_1.HttpService);
+        this.httpService.setUrl(this.eventTarget.attr("href"));
         this.httpService.post({}).then(function (response) {
-          _this.eventTarget.button('reset');
+          if (response.success) {
+            _this.spinner.hide();
 
-          if (response.redirect) {
-            location = response.redirect;
+            location.reload();
+          } else {
+            alert(response.validationError);
           }
         }).fail(function (xhr, status, error) {
+          if (xhr.responseJSON) {
+            alert(xhr.responseJSON.error);
+          } else {
+            alert(error);
+          }
+
+          _this.spinner.hide();
+        });
+      };
+
+      AdminConfigPage.prototype.copyCronUrl = function (event) {
+        this.setEventDefault(event, true);
+        this.eventTarget.parent().prev().select();
+        document.execCommand("copy");
+      };
+
+      AdminConfigPage.prototype.requestNewAccount = function (event) {
+        var _this = this;
+
+        this.setEventDefault(event, true);
+        this.spinner = this.eventTarget.next(".appSpinner");
+        this.spinner.show();
+        this.httpService = inversify_adminConfigPage_1["default"].get(HttpService_1.HttpService);
+        this.httpService.setUrl(this.eventTarget.attr("href"));
+        this.httpService.post({}).then(function (response) {
+          alert(response.success);
+
+          _this.eventTarget.parent().remove();
+        }).fail(function (xhr, status, error) {
+          if (xhr.responseJSON) {
+            alert(xhr.responseJSON.error);
+          } else {
+            alert(error);
+          }
+
+          _this.spinner.hide();
+        });
+      };
+
+      AdminConfigPage.prototype.requestDynamicMultibancoAccount = function (event) {
+        var _this = this;
+
+        this.setEventDefault(event, true);
+        this.spinner = this.eventTarget.next(".appSpinner");
+        this.spinner.show();
+        this.httpService = inversify_adminConfigPage_1["default"].get(HttpService_1.HttpService);
+        this.httpService.setUrl(this.eventTarget.attr("href"));
+        this.httpService.post({}).then(function (response) {
+          alert(response.success);
+
+          _this.eventTarget.parent().parent().remove();
+        }).fail(function (xhr, status, error) {
+          if (xhr.responseJSON) {
+            alert(xhr.responseJSON.error);
+          } else {
+            alert(error);
+          }
+
+          _this.spinner.hide();
+        });
+      };
+      /**
+       * Event handler for testing the callback url inside the admin config page
+       * @param event
+       * @returns
+       */
+
+
+      AdminConfigPage.prototype.testCallback = function (event) {
+        var bootstrapMsgContainer = $("#callback_result");
+        var msgEmptyFields = bootstrapMsgContainer.data("msgemptyfields");
+        var referenceDom = $("#reference");
+        var amountDom = $("#amount");
+        var methodDom = $("#test_callback");
+        var payshopTransactionIdDom = $("#payshop_transaction_id");
+        var cofidisTransactionIdDom = $("#cofidis_transaction_id");
+        var pixTransactionIdDom = $("#pix_transaction_id");
+        var orderIdDom = $("#order_id"); // message template
+
+        var msgHtml = "\n                <div class=\"alert alert-{{type}} alert-dismissible\">\n                {{message}}\n                    <button type=\"button\" class=\"close\" data-dismiss=\"alert\">\xD7</button>\n                </div>\n        ";
+        var method = methodDom.data("paymentmethod").length ? methodDom.data("paymentmethod") : "";
+        var reference = referenceDom.length ? referenceDom.val() : "";
+        var amount = amountDom.length ? amountDom.val() : "";
+        var payshopTransactionId = payshopTransactionIdDom.length ? payshopTransactionIdDom.val() : "";
+        var cofidisTransactionId = cofidisTransactionIdDom.length ? cofidisTransactionIdDom.val() : "";
+        var pixTransactionId = pixTransactionIdDom.length ? pixTransactionIdDom.val() : "";
+        var orderId = orderIdDom.length ? orderIdDom.val() : ""; // verify if multibanco or mbway or payshop have arguments
+
+        if (method === "multibanco" && (reference === "" || amount === "") || method === "mbway" && (amount === "" || orderId === "") || method === "cofidis" && (amount === "" || cofidisTransactionId === "") || method === "pix" && (amount === "" || pixTransactionId === "") || method === "payshop" && (reference === "" || amount === "" || payshopTransactionId === "") || method === "ifthenpaygateway" && (amount === "" || orderId === "")) {
+          bootstrapMsgContainer.html(msgHtml.replace("{{type}}", "danger").replace("{{message}}", msgEmptyFields));
+          return;
+        }
+
+        this.setEventDefault(event, true);
+        this.httpService = inversify_adminConfigPage_1["default"].get(HttpService_1.HttpService);
+        this.httpService.setUrl(this.eventTarget.data("url"));
+        this.httpService.post({
+          reference: reference,
+          amount: amount,
+          payshop_transaction_id: payshopTransactionId,
+          cofidis_transaction_id: cofidisTransactionId,
+          pix_transaction_id: pixTransactionId,
+          order_id: orderId
+        }).then(function (response) {
+          console.log(response);
+          var msgType = "";
+
+          if (response.status === "success") {
+            msgType = "success";
+          } else if (response.status === "warning") {
+            msgType = "warning";
+          } else {
+            msgType = "danger";
+          }
+
+          bootstrapMsgContainer.html(msgHtml.replace("{{type}}", msgType).replace("{{message}}", response.message));
+        }).fail(function (xhr, status, error) {
+          console.log(error);
+          console.log(xhr);
+
           if (xhr.responseJSON) {
             alert(xhr.responseJSON.error);
           } else {
@@ -588,12 +893,155 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         });
       };
 
-      __decorate([Event_1.Event('click', '#button-confirm'), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], CheckoutMultibancoPage.prototype, "confirmPayment", null);
+      AdminConfigPage.prototype.changeCofidisLoadMinMax = function (event) {
+        var _this = this;
 
-      return CheckoutMultibancoPage;
+        this.setEventDefault(event, false);
+        this.spinner = this.eventTarget.next(".appSpinner");
+        this.spinner.show();
+        this.httpService = inversify_adminConfigPage_1["default"].get(HttpService_1.HttpService);
+        this.httpService.setUrl("index.php?route=extension/payment/cofidis/getMinMaxCofidis&user_token=" + this.getUrlParam("user_token"));
+        var cofidisKey = this.eventTarget.val();
+        this.httpService.post({
+          cofidis_key: cofidisKey
+        }).then(function (response) {
+          $("#input-minimum-value").val(response["min"]);
+          $("#input-maximum-value").val(response["max"]);
+
+          _this.spinner.hide();
+        }).fail(function (xhr, status, error) {
+          if (xhr.responseJSON) {
+            alert(xhr.responseJSON.error);
+          } else {
+            alert(error);
+          }
+
+          _this.spinner.hide();
+        });
+      };
+
+      AdminConfigPage.prototype.requestIfthenpaygatewayMethod = function (event) {
+        var _this = this;
+
+        this.setEventDefault(event, false);
+        this.spinner = this.eventTarget.next(".appSpinner");
+        this.spinner.show();
+        this.httpService = inversify_adminConfigPage_1["default"].get(HttpService_1.HttpService);
+        this.httpService.setUrl("index.php?route=extension/payment/ifthenpaygateway/ajaxRequestIfthenpaygatewayMethod&user_token=" + this.getUrlParam("user_token"));
+        var payload = {
+          gateway_key: $("#ifthenpayIfthenpaygatewayKey").val() || "",
+          payment_method: this.eventTarget.data("method") || ""
+        };
+        this.httpService.post(payload).then(function (response) {
+          location.reload();
+
+          _this.spinner.hide();
+        }).fail(function (xhr, status, error) {
+          _this.spinner.hide();
+        });
+      };
+
+      AdminConfigPage.prototype.getIfthenpaygatewayMethodsOnGatewayKeyChange = function (event) {
+        var _this = this;
+
+        this.setEventDefault(event, false);
+        this.spinner = this.eventTarget.next(".appSpinner");
+        this.spinner.show();
+        this.httpService = inversify_adminConfigPage_1["default"].get(HttpService_1.HttpService);
+        this.httpService.setUrl("index.php?route=extension/payment/ifthenpaygateway/ajaxGetIfthenpayGatewayMethods&user_token=" + this.getUrlParam("user_token"));
+        var payload = {
+          gateway_key: $("#ifthenpayIfthenpaygatewayKey").val() || ""
+        };
+        this.httpService.post(payload).then(function (response) {
+          var containerGatewayAccounts = $("#methods_container"); // clean methods and accounts
+
+          containerGatewayAccounts.find(".method").remove();
+
+          if ("payment_methods_html" in response) {
+            containerGatewayAccounts.html(response["payment_methods_html"]);
+          }
+
+          if ("default_selected_html" in response) {
+            $("#selected_default_container").html(response["default_selected_html"]);
+          }
+
+          _this.spinner.hide();
+        }).fail(function (xhr, status, error) {
+          _this.spinner.hide();
+        });
+      };
+
+      AdminConfigPage.prototype.updateSelectedDefault = function (event) {
+        this.setEventDefault(event, false);
+        this.spinner = this.eventTarget.next(".appSpinner");
+        this.spinner.show();
+        var method = this.eventTarget.data('method');
+        var isSwitchOn = this.eventTarget.prop('checked');
+        var defaultPaymentSelect = $('#payment_ifthenpaygateway_default');
+        var target = defaultPaymentSelect.find('option[data-method="' + method + '"]');
+        target.prop('disabled', !isSwitchOn);
+
+        if (target.prop('selected')) {
+          target.prop('selected', false);
+          defaultPaymentSelect.find('option').first().prop('selected', true);
+        }
+      };
+
+      AdminConfigPage.prototype.updateAccounts = function (event) {
+        this.setEventDefault(event, false);
+
+        if (!(event.ctrlKey && event.shiftKey && event.altKey)) {
+          return;
+        } // expect confirm dialog to avoid accidental clicks
+
+
+        if (!confirm("Are you sure you want to update the accounts? This action cannot be undone.")) {
+          return;
+        }
+
+        var url = $(event.target).data("refresh-url");
+
+        if (!url) {
+          alert("Refresh URL not found.");
+          return;
+        }
+
+        this.httpService = inversify_adminConfigPage_1["default"].get(HttpService_1.HttpService);
+        this.httpService.setUrl(url);
+        this.httpService.getWithTextType().then(function (response) {
+          alert(response);
+          location.reload();
+        }).fail(function (xhr, status, error) {
+          console.error("Error refreshing accounts:", error);
+        });
+      };
+
+      __decorate([Event_1.Event("change", "#ifthenpayMultibancoEntidade"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "changeEntidade", null);
+
+      __decorate([Event_1.Event("click", "#resetIfthenpayAccount"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "resetIfthenpayAccount", null);
+
+      __decorate([Event_1.Event("click", "#button-copy, #button-copy-payment-status"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "copyCronUrl", null);
+
+      __decorate([Event_1.Event("click", "#requestNewAccount"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "requestNewAccount", null);
+
+      __decorate([Event_1.Event("click", "#requestDynamicMultibancoAccount"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "requestDynamicMultibancoAccount", null);
+
+      __decorate([Event_1.Event("click", "#test_callback"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "testCallback", null);
+
+      __decorate([Event_1.Event("change", "#ifthenpayCofidisKey"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "changeCofidisLoadMinMax", null);
+
+      __decorate([Event_1.Event("click", "#methods_container", ".request_ifthenpaygateway_method"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "requestIfthenpaygatewayMethod", null);
+
+      __decorate([Event_1.Event("change", "#ifthenpayIfthenpaygatewayKey"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "getIfthenpaygatewayMethodsOnGatewayKeyChange", null);
+
+      __decorate([Event_1.Event("change", "#methods_container", ".method_checkbox_input"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "updateSelectedDefault", null);
+
+      __decorate([Event_1.Event("click", ".panel-heading", "img"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "updateAccounts", null);
+
+      return AdminConfigPage;
     }(Page_1.Page);
 
-    exports.CheckoutMultibancoPage = CheckoutMultibancoPage;
+    exports.AdminConfigPage = AdminConfigPage;
     /***/
   },
 
@@ -657,15 +1105,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
 
   /***/
-  "./_dev/js/facades/CheckoutMultibancoPageCreateApp.ts":
-  /*!************************************************************!*\
-    !*** ./_dev/js/facades/CheckoutMultibancoPageCreateApp.ts ***!
-    \************************************************************/
+  "./_dev/js/facades/AdminConfigPageCreateApp.ts":
+  /*!*****************************************************!*\
+    !*** ./_dev/js/facades/AdminConfigPageCreateApp.ts ***!
+    \*****************************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsFacadesCheckoutMultibancoPageCreateAppTs(module, exports, __webpack_require__) {
+  function _devJsFacadesAdminConfigPageCreateAppTs(module, exports, __webpack_require__) {
     "use strict";
 
     var __extends = this && this.__extends || function () {
@@ -713,50 +1161,54 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-    exports.CheckoutMultibancoPageCreateApp = void 0;
+    exports.AdminConfigPageCreateApp = void 0;
 
     var inversify_1 = __webpack_require__(
     /*! inversify */
     "./node_modules/inversify/lib/inversify.js");
 
-    var inversify_checkoutMultibancoPage_1 = __webpack_require__(
-    /*! ../container/inversify.checkoutMultibancoPage */
-    "./_dev/js/container/inversify.checkoutMultibancoPage.ts");
+    var Callback_1 = __webpack_require__(
+    /*! ../classes/Callback */
+    "./_dev/js/classes/Callback.ts");
+
+    var inversify_adminConfigPage_1 = __webpack_require__(
+    /*! ../container/inversify.adminConfigPage */
+    "./_dev/js/container/inversify.adminConfigPage.ts");
 
     var AppComponent_1 = __webpack_require__(
     /*! ../decorators/AppComponent */
     "./_dev/js/decorators/AppComponent.ts");
 
-    var CheckoutMultibancoPage_1 = __webpack_require__(
-    /*! ../events/CheckoutMultibancoPage */
-    "./_dev/js/events/CheckoutMultibancoPage.ts");
+    var AdminConfigPage_1 = __webpack_require__(
+    /*! ../events/AdminConfigPage */
+    "./_dev/js/events/AdminConfigPage.ts");
 
     var MainApp_1 = __webpack_require__(
     /*! ./MainApp */
     "./_dev/js/facades/MainApp.ts");
 
-    var CheckoutMultibancoPageCreateApp =
+    var AdminConfigPageCreateApp =
     /** @class */
     function (_super) {
-      __extends(CheckoutMultibancoPageCreateApp, _super);
+      __extends(AdminConfigPageCreateApp, _super);
 
-      function CheckoutMultibancoPageCreateApp() {
+      function AdminConfigPageCreateApp() {
         var _this = _super.call(this) || this;
 
-        _this.container = inversify_checkoutMultibancoPage_1["default"];
+        _this.container = inversify_adminConfigPage_1["default"];
         return _this;
       }
 
-      CheckoutMultibancoPageCreateApp.prototype.start = function () {};
+      AdminConfigPageCreateApp.prototype.start = function () {};
 
-      CheckoutMultibancoPageCreateApp = __decorate([inversify_1.injectable(), AppComponent_1.AppComponent({
-        pageEvents: [CheckoutMultibancoPage_1.CheckoutMultibancoPage],
-        apps: []
-      }), __metadata("design:paramtypes", [])], CheckoutMultibancoPageCreateApp);
-      return CheckoutMultibancoPageCreateApp;
+      AdminConfigPageCreateApp = __decorate([inversify_1.injectable(), AppComponent_1.AppComponent({
+        pageEvents: [AdminConfigPage_1.AdminConfigPage],
+        apps: [Callback_1.Callback]
+      }), __metadata("design:paramtypes", [])], AdminConfigPageCreateApp);
+      return AdminConfigPageCreateApp;
     }(MainApp_1.MainApp);
 
-    exports.CheckoutMultibancoPageCreateApp = CheckoutMultibancoPageCreateApp;
+    exports.AdminConfigPageCreateApp = AdminConfigPageCreateApp;
     /***/
   },
 
@@ -836,6 +1288,34 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
 
   /***/
+  "./_dev/js/interfaces/IfthenpayPaymentMethods.ts":
+  /*!*******************************************************!*\
+    !*** ./_dev/js/interfaces/IfthenpayPaymentMethods.ts ***!
+    \*******************************************************/
+
+  /*! no static exports found */
+
+  /***/
+  function _devJsInterfacesIfthenpayPaymentMethodsTs(module, exports, __webpack_require__) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.IfthenpayPaymentMethod = void 0;
+    var IfthenpayPaymentMethod;
+
+    (function (IfthenpayPaymentMethod) {
+      IfthenpayPaymentMethod["MULTIBANCO"] = "multibanco";
+      IfthenpayPaymentMethod["MBWAY"] = "mbway";
+      IfthenpayPaymentMethod["PAYSHOP"] = "payshop";
+      IfthenpayPaymentMethod["CCARD"] = "ccard";
+    })(IfthenpayPaymentMethod = exports.IfthenpayPaymentMethod || (exports.IfthenpayPaymentMethod = {}));
+    /***/
+
+  },
+
+  /***/
   "./_dev/js/services/HttpService.ts":
   /*!*****************************************!*\
     !*** ./_dev/js/services/HttpService.ts ***!
@@ -871,6 +1351,14 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     function () {
       function HttpService() {}
 
+      HttpService.prototype.getWithTextType = function () {
+        return $.ajax({
+          url: this.url,
+          type: 'GET',
+          dataType: 'text'
+        });
+      };
+
       HttpService.prototype.get = function () {
         return $.ajax({
           url: this.url,
@@ -898,6 +1386,62 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     }();
 
     exports.HttpService = HttpService;
+    /***/
+  },
+
+  /***/
+  "./_dev/scss/ifthenpayConfig.scss":
+  /*!****************************************!*\
+    !*** ./_dev/scss/ifthenpayConfig.scss ***!
+    \****************************************/
+
+  /*! no static exports found */
+
+  /***/
+  function _devScssIfthenpayConfigScss(module, exports) {// removed by extract-text-webpack-plugin
+
+    /***/
+  },
+
+  /***/
+  "./_dev/scss/ifthenpayConfirmPage.scss":
+  /*!*********************************************!*\
+    !*** ./_dev/scss/ifthenpayConfirmPage.scss ***!
+    \*********************************************/
+
+  /*! no static exports found */
+
+  /***/
+  function _devScssIfthenpayConfirmPageScss(module, exports) {// removed by extract-text-webpack-plugin
+
+    /***/
+  },
+
+  /***/
+  "./_dev/scss/ifthenpayPaymentMethodSetup.scss":
+  /*!****************************************************!*\
+    !*** ./_dev/scss/ifthenpayPaymentMethodSetup.scss ***!
+    \****************************************************/
+
+  /*! no static exports found */
+
+  /***/
+  function _devScssIfthenpayPaymentMethodSetupScss(module, exports) {// removed by extract-text-webpack-plugin
+
+    /***/
+  },
+
+  /***/
+  "./_dev/scss/paymentOptions.scss":
+  /*!***************************************!*\
+    !*** ./_dev/scss/paymentOptions.scss ***!
+    \***************************************/
+
+  /*! no static exports found */
+
+  /***/
+  function _devScssPaymentOptionsScss(module, exports) {// removed by extract-text-webpack-plugin
+
     /***/
   },
 
@@ -6349,18 +6893,34 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
 
   /***/
-  4:
-  /*!*************************************************!*\
-    !*** multi ./_dev/js/checkoutMultibancoPage.ts ***!
-    \*************************************************/
+  0:
+  /*!**********************************************************************************************************************************************************************************************!*\
+    !*** multi ./_dev/js/adminConfigPage.ts ./_dev/scss/ifthenpayConfig.scss ./_dev/scss/ifthenpayPaymentMethodSetup.scss ./_dev/scss/ifthenpayConfirmPage.scss ./_dev/scss/paymentOptions.scss ***!
+    \**********************************************************************************************************************************************************************************************/
 
   /*! no static exports found */
 
   /***/
   function _(module, exports, __webpack_require__) {
+    __webpack_require__(
+    /*! /home/ddev/opencart3/_dev/js/adminConfigPage.ts */
+    "./_dev/js/adminConfigPage.ts");
+
+    __webpack_require__(
+    /*! /home/ddev/opencart3/_dev/scss/ifthenpayConfig.scss */
+    "./_dev/scss/ifthenpayConfig.scss");
+
+    __webpack_require__(
+    /*! /home/ddev/opencart3/_dev/scss/ifthenpayPaymentMethodSetup.scss */
+    "./_dev/scss/ifthenpayPaymentMethodSetup.scss");
+
+    __webpack_require__(
+    /*! /home/ddev/opencart3/_dev/scss/ifthenpayConfirmPage.scss */
+    "./_dev/scss/ifthenpayConfirmPage.scss");
+
     module.exports = __webpack_require__(
-    /*! /home/devilbox/data/www/opencart3/htdocs/_dev/js/checkoutMultibancoPage.ts */
-    "./_dev/js/checkoutMultibancoPage.ts");
+    /*! /home/ddev/opencart3/_dev/scss/paymentOptions.scss */
+    "./_dev/scss/paymentOptions.scss");
     /***/
   }
   /******/

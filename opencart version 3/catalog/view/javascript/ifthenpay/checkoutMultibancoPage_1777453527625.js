@@ -247,7 +247,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
   /******/
 
-  return __webpack_require__(__webpack_require__.s = 7);
+  return __webpack_require__(__webpack_require__.s = 4);
   /******/
 })(
 /************************************************************************/
@@ -255,15 +255,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 /******/
 {
   /***/
-  "./_dev/js/checkoutCcardPage.ts":
-  /*!**************************************!*\
-    !*** ./_dev/js/checkoutCcardPage.ts ***!
-    \**************************************/
+  "./_dev/js/checkoutMultibancoPage.ts":
+  /*!*******************************************!*\
+    !*** ./_dev/js/checkoutMultibancoPage.ts ***!
+    \*******************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsCheckoutCcardPageTs(module, exports, __webpack_require__) {
+  function _devJsCheckoutMultibancoPageTs(module, exports, __webpack_require__) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -274,31 +274,31 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /*! reflect-metadata */
     "./node_modules/reflect-metadata/Reflect.js");
 
-    var inversify_checkoutCcardPage_1 = __webpack_require__(
-    /*! ./container/inversify.checkoutCcardPage */
-    "./_dev/js/container/inversify.checkoutCcardPage.ts");
+    var inversify_checkoutMultibancoPage_1 = __webpack_require__(
+    /*! ./container/inversify.checkoutMultibancoPage */
+    "./_dev/js/container/inversify.checkoutMultibancoPage.ts");
 
-    var CheckoutCcardPageCreateApp_1 = __webpack_require__(
-    /*! ./facades/CheckoutCcardPageCreateApp */
-    "./_dev/js/facades/CheckoutCcardPageCreateApp.ts");
+    var CheckoutMultibancoPageCreateApp_1 = __webpack_require__(
+    /*! ./facades/CheckoutMultibancoPageCreateApp */
+    "./_dev/js/facades/CheckoutMultibancoPageCreateApp.ts");
 
     $(document).ready(function () {
-      var app = inversify_checkoutCcardPage_1["default"].get(CheckoutCcardPageCreateApp_1.CheckoutCcardPageCreateApp);
+      var app = inversify_checkoutMultibancoPage_1["default"].get(CheckoutMultibancoPageCreateApp_1.CheckoutMultibancoPageCreateApp);
       app.start();
     });
     /***/
   },
 
   /***/
-  "./_dev/js/container/inversify.checkoutCcardPage.ts":
-  /*!**********************************************************!*\
-    !*** ./_dev/js/container/inversify.checkoutCcardPage.ts ***!
-    \**********************************************************/
+  "./_dev/js/container/inversify.checkoutMultibancoPage.ts":
+  /*!***************************************************************!*\
+    !*** ./_dev/js/container/inversify.checkoutMultibancoPage.ts ***!
+    \***************************************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsContainerInversifyCheckoutCcardPageTs(module, exports, __webpack_require__) {
+  function _devJsContainerInversifyCheckoutMultibancoPageTs(module, exports, __webpack_require__) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -309,23 +309,23 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /*! inversify */
     "./node_modules/inversify/lib/inversify.js");
 
-    var CheckoutCcardPage_1 = __webpack_require__(
-    /*! ../events/CheckoutCcardPage */
-    "./_dev/js/events/CheckoutCcardPage.ts");
+    var CheckoutMultibancoPage_1 = __webpack_require__(
+    /*! ../events/CheckoutMultibancoPage */
+    "./_dev/js/events/CheckoutMultibancoPage.ts");
 
-    var CheckoutCcardPageCreateApp_1 = __webpack_require__(
-    /*! ../facades/CheckoutCcardPageCreateApp */
-    "./_dev/js/facades/CheckoutCcardPageCreateApp.ts");
+    var CheckoutMultibancoPageCreateApp_1 = __webpack_require__(
+    /*! ../facades/CheckoutMultibancoPageCreateApp */
+    "./_dev/js/facades/CheckoutMultibancoPageCreateApp.ts");
 
     var HttpService_1 = __webpack_require__(
     /*! ../services/HttpService */
     "./_dev/js/services/HttpService.ts");
 
-    var containerCheckoutCcardPage = new inversify_1.Container();
-    containerCheckoutCcardPage.bind(HttpService_1.HttpService).toSelf();
-    containerCheckoutCcardPage.bind(CheckoutCcardPageCreateApp_1.CheckoutCcardPageCreateApp).toSelf();
-    containerCheckoutCcardPage.bind(CheckoutCcardPage_1.CheckoutCcardPage).toSelf();
-    exports["default"] = containerCheckoutCcardPage;
+    var containerCheckoutMultibancoPage = new inversify_1.Container();
+    containerCheckoutMultibancoPage.bind(HttpService_1.HttpService).toSelf();
+    containerCheckoutMultibancoPage.bind(CheckoutMultibancoPageCreateApp_1.CheckoutMultibancoPageCreateApp).toSelf();
+    containerCheckoutMultibancoPage.bind(CheckoutMultibancoPage_1.CheckoutMultibancoPage).toSelf();
+    exports["default"] = containerCheckoutMultibancoPage;
     /***/
   },
 
@@ -483,15 +483,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
 
   /***/
-  "./_dev/js/events/CheckoutCcardPage.ts":
-  /*!*********************************************!*\
-    !*** ./_dev/js/events/CheckoutCcardPage.ts ***!
-    \*********************************************/
+  "./_dev/js/events/CheckoutMultibancoPage.ts":
+  /*!**************************************************!*\
+    !*** ./_dev/js/events/CheckoutMultibancoPage.ts ***!
+    \**************************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsEventsCheckoutCcardPageTs(module, exports, __webpack_require__) {
+  function _devJsEventsCheckoutMultibancoPageTs(module, exports, __webpack_require__) {
     "use strict";
 
     var __extends = this && this.__extends || function () {
@@ -539,11 +539,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-    exports.CheckoutCcardPage = void 0;
+    exports.CheckoutMultibancoPage = void 0;
 
-    var inversify_checkoutCcardPage_1 = __webpack_require__(
-    /*! ../container/inversify.checkoutCcardPage */
-    "./_dev/js/container/inversify.checkoutCcardPage.ts");
+    var inversify_checkoutMultibancoPage_1 = __webpack_require__(
+    /*! ../container/inversify.checkoutMultibancoPage */
+    "./_dev/js/container/inversify.checkoutMultibancoPage.ts");
 
     var Event_1 = __webpack_require__(
     /*! ../decorators/Event */
@@ -557,22 +557,22 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /*! ./Page */
     "./_dev/js/events/Page.ts");
 
-    var CheckoutCcardPage =
+    var CheckoutMultibancoPage =
     /** @class */
     function (_super) {
-      __extends(CheckoutCcardPage, _super);
+      __extends(CheckoutMultibancoPage, _super);
 
-      function CheckoutCcardPage() {
+      function CheckoutMultibancoPage() {
         return _super !== null && _super.apply(this, arguments) || this;
       }
 
-      CheckoutCcardPage.prototype.confirmPayment = function (event) {
+      CheckoutMultibancoPage.prototype.confirmPayment = function (event) {
         var _this = this;
 
         this.setEventDefault(event, true);
         $('#button-confirm').button('loading');
-        this.httpService = inversify_checkoutCcardPage_1["default"].get(HttpService_1.HttpService);
-        this.httpService.setUrl('index.php?route=extension/payment/ccard/confirm');
+        this.httpService = inversify_checkoutMultibancoPage_1["default"].get(HttpService_1.HttpService);
+        this.httpService.setUrl('index.php?route=extension/payment/multibanco/confirm');
         this.httpService.post({}).then(function (response) {
           _this.eventTarget.button('reset');
 
@@ -588,12 +588,12 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         });
       };
 
-      __decorate([Event_1.Event('click', '#button-confirm'), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], CheckoutCcardPage.prototype, "confirmPayment", null);
+      __decorate([Event_1.Event('click', '#button-confirm'), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], CheckoutMultibancoPage.prototype, "confirmPayment", null);
 
-      return CheckoutCcardPage;
+      return CheckoutMultibancoPage;
     }(Page_1.Page);
 
-    exports.CheckoutCcardPage = CheckoutCcardPage;
+    exports.CheckoutMultibancoPage = CheckoutMultibancoPage;
     /***/
   },
 
@@ -657,15 +657,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
 
   /***/
-  "./_dev/js/facades/CheckoutCcardPageCreateApp.ts":
-  /*!*******************************************************!*\
-    !*** ./_dev/js/facades/CheckoutCcardPageCreateApp.ts ***!
-    \*******************************************************/
+  "./_dev/js/facades/CheckoutMultibancoPageCreateApp.ts":
+  /*!************************************************************!*\
+    !*** ./_dev/js/facades/CheckoutMultibancoPageCreateApp.ts ***!
+    \************************************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsFacadesCheckoutCcardPageCreateAppTs(module, exports, __webpack_require__) {
+  function _devJsFacadesCheckoutMultibancoPageCreateAppTs(module, exports, __webpack_require__) {
     "use strict";
 
     var __extends = this && this.__extends || function () {
@@ -713,50 +713,50 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-    exports.CheckoutCcardPageCreateApp = void 0;
+    exports.CheckoutMultibancoPageCreateApp = void 0;
 
     var inversify_1 = __webpack_require__(
     /*! inversify */
     "./node_modules/inversify/lib/inversify.js");
 
-    var inversify_checkoutCcardPage_1 = __webpack_require__(
-    /*! ../container/inversify.checkoutCcardPage */
-    "./_dev/js/container/inversify.checkoutCcardPage.ts");
+    var inversify_checkoutMultibancoPage_1 = __webpack_require__(
+    /*! ../container/inversify.checkoutMultibancoPage */
+    "./_dev/js/container/inversify.checkoutMultibancoPage.ts");
 
     var AppComponent_1 = __webpack_require__(
     /*! ../decorators/AppComponent */
     "./_dev/js/decorators/AppComponent.ts");
 
-    var CheckoutCcardPage_1 = __webpack_require__(
-    /*! ../events/CheckoutCcardPage */
-    "./_dev/js/events/CheckoutCcardPage.ts");
+    var CheckoutMultibancoPage_1 = __webpack_require__(
+    /*! ../events/CheckoutMultibancoPage */
+    "./_dev/js/events/CheckoutMultibancoPage.ts");
 
     var MainApp_1 = __webpack_require__(
     /*! ./MainApp */
     "./_dev/js/facades/MainApp.ts");
 
-    var CheckoutCcardPageCreateApp =
+    var CheckoutMultibancoPageCreateApp =
     /** @class */
     function (_super) {
-      __extends(CheckoutCcardPageCreateApp, _super);
+      __extends(CheckoutMultibancoPageCreateApp, _super);
 
-      function CheckoutCcardPageCreateApp() {
+      function CheckoutMultibancoPageCreateApp() {
         var _this = _super.call(this) || this;
 
-        _this.container = inversify_checkoutCcardPage_1["default"];
+        _this.container = inversify_checkoutMultibancoPage_1["default"];
         return _this;
       }
 
-      CheckoutCcardPageCreateApp.prototype.start = function () {};
+      CheckoutMultibancoPageCreateApp.prototype.start = function () {};
 
-      CheckoutCcardPageCreateApp = __decorate([inversify_1.injectable(), AppComponent_1.AppComponent({
-        pageEvents: [CheckoutCcardPage_1.CheckoutCcardPage],
+      CheckoutMultibancoPageCreateApp = __decorate([inversify_1.injectable(), AppComponent_1.AppComponent({
+        pageEvents: [CheckoutMultibancoPage_1.CheckoutMultibancoPage],
         apps: []
-      }), __metadata("design:paramtypes", [])], CheckoutCcardPageCreateApp);
-      return CheckoutCcardPageCreateApp;
+      }), __metadata("design:paramtypes", [])], CheckoutMultibancoPageCreateApp);
+      return CheckoutMultibancoPageCreateApp;
     }(MainApp_1.MainApp);
 
-    exports.CheckoutCcardPageCreateApp = CheckoutCcardPageCreateApp;
+    exports.CheckoutMultibancoPageCreateApp = CheckoutMultibancoPageCreateApp;
     /***/
   },
 
@@ -870,6 +870,14 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /** @class */
     function () {
       function HttpService() {}
+
+      HttpService.prototype.getWithTextType = function () {
+        return $.ajax({
+          url: this.url,
+          type: 'GET',
+          dataType: 'text'
+        });
+      };
 
       HttpService.prototype.get = function () {
         return $.ajax({
@@ -6349,18 +6357,18 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
 
   /***/
-  7:
-  /*!********************************************!*\
-    !*** multi ./_dev/js/checkoutCcardPage.ts ***!
-    \********************************************/
+  4:
+  /*!*************************************************!*\
+    !*** multi ./_dev/js/checkoutMultibancoPage.ts ***!
+    \*************************************************/
 
   /*! no static exports found */
 
   /***/
   function _(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(
-    /*! /home/devilbox/data/www/opencart3/htdocs/_dev/js/checkoutCcardPage.ts */
-    "./_dev/js/checkoutCcardPage.ts");
+    /*! /home/ddev/opencart3/_dev/js/checkoutMultibancoPage.ts */
+    "./_dev/js/checkoutMultibancoPage.ts");
     /***/
   }
   /******/

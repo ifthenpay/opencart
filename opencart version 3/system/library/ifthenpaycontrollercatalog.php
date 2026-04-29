@@ -6,7 +6,6 @@ use Ifthenpay\Config\IfthenpayContainer;
 use Ifthenpay\Exceptions\Checkoutformvalexception;
 use Ifthenpay\Strategy\Payments\IfthenpayPaymentReturn;
 use Ifthenpay\Strategy\Cancel\IfthenpayCancelOrder;
-use Ifthenpay\Strategy\Payments\IfthenpayPaymentStatus;
 use Ifthenpay\Strategy\Payments\IfthenpayAdminEmailPaymentData;
 use Ifthenpay\Strategy\Callback\CallbackStrategy;
 use Ifthenpay\Strategy\Payments\IfthenpayOrderDetail;
@@ -62,7 +61,7 @@ class IfthenpayControllerCatalog extends Controller
             }
             $ifthenpayGateway = $this->ifthenpayContainer->getIoc()->make(Gateway::class);
 
-            $ifthenpayGateway->authenticate($backofficeKey);
+            $ifthenpayGateway->authenticate($backofficeKey, $this->paymentMethod);
             $modelAdmin->editSettingValue(
                 'payment_' . $this->paymentMethod,
                 'payment_' . $this->paymentMethod . '_userPaymentMethods',

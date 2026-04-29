@@ -20,15 +20,10 @@ class CancelMbwayOrder extends CancelOrder
                     if (!empty($mbwayPayment)) {
                         $this->gatewayDataBuilder->setMbwayKey($this->ifthenpayController->config->get('payment_mbway_mbwayKey'));
                         $this->gatewayDataBuilder->setIdPedido($mbwayPayment['id_transacao']);
-                        if (!$this->paymentStatus->setData($this->gatewayDataBuilder)->getPaymentStatus()) {
-                            $this->checkTimeChangeStatus($order);
-                        }
-                        $this->logCancelOrder($order['order_id']);
+                        $this->checkTimeChangeStatus($order);
                     }
                 }
             }
         }
     }
 }
-
-

@@ -42,16 +42,6 @@ class MbWay extends Payment implements PaymentMethodInterface
 
     private function setReferencia(): void
     {
-        $payload = [
-            'mbWayKey' => $this->mbwayKey,
-            'orderId' => $this->orderId,
-            'amount' => $this->valor,
-            'mobileNumber' => $this->telemovel,
-            'email' => '',
-            'descricao' => str_replace('{{order_id}}', $this->orderId, $this->mbwayDescription ?? '')
-        ];
-
-
         $this->mbwayPedido = $this->webService->postRequest(
             'https://api.ifthenpay.com/spg/payment/mbway',
             [

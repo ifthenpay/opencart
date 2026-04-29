@@ -30,14 +30,11 @@ class CancelMultibancoOrder extends CancelOrder
                                     false
                                 )
                             );
-                            if (!$this->paymentStatus->setData($this->gatewayDataBuilder)->getPaymentStatus()) {
-                                if ($multibancoPayment['validade']) {
-                                    $this->checkTimeChangeStatus($order, null, $multibancoPayment['validade'], 'd-m-Y');
-                                } else {
-                                    $this->checkTimeChangeStatus($order, $this->ifthenpayController->config->get('payment_multibanco_deadline'), null, null);
-                                }                                
-                            }
-                            $this->logCancelOrder($order['order_id']);
+							if ($multibancoPayment['validade'] ?? false) {
+								$this->checkTimeChangeStatus($order, null, $multibancoPayment['validade'], 'd-m-Y');
+							} else {
+								$this->checkTimeChangeStatus($order, $this->ifthenpayController->config->get('payment_multibanco_deadline'), null, null);
+							}                                
                         } else {
                             $this->ifthenpayController->model_extension_payment_multibanco
                                 ->log($order['order_id'], 'Multibanco order was not canceled because deadline is not defined');
@@ -48,5 +45,3 @@ class CancelMultibancoOrder extends CancelOrder
         }
     }
 }
-
-

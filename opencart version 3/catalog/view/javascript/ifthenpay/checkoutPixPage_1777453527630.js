@@ -247,7 +247,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
   /******/
 
-  return __webpack_require__(__webpack_require__.s = 6);
+  return __webpack_require__(__webpack_require__.s = 9);
   /******/
 })(
 /************************************************************************/
@@ -255,15 +255,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 /******/
 {
   /***/
-  "./_dev/js/checkoutPayshopPage.ts":
-  /*!****************************************!*\
-    !*** ./_dev/js/checkoutPayshopPage.ts ***!
-    \****************************************/
+  "./_dev/js/checkoutPixPage.ts":
+  /*!************************************!*\
+    !*** ./_dev/js/checkoutPixPage.ts ***!
+    \************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsCheckoutPayshopPageTs(module, exports, __webpack_require__) {
+  function _devJsCheckoutPixPageTs(module, exports, __webpack_require__) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -274,31 +274,31 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /*! reflect-metadata */
     "./node_modules/reflect-metadata/Reflect.js");
 
-    var inversify_checkoutPayshopPage_1 = __webpack_require__(
-    /*! ./container/inversify.checkoutPayshopPage */
-    "./_dev/js/container/inversify.checkoutPayshopPage.ts");
+    var inversify_checkoutPixPage_1 = __webpack_require__(
+    /*! ./container/inversify.checkoutPixPage */
+    "./_dev/js/container/inversify.checkoutPixPage.ts");
 
-    var CheckoutPayshopPageCreateApp_1 = __webpack_require__(
-    /*! ./facades/CheckoutPayshopPageCreateApp */
-    "./_dev/js/facades/CheckoutPayshopPageCreateApp.ts");
+    var CheckoutPixPageCreateApp_1 = __webpack_require__(
+    /*! ./facades/CheckoutPixPageCreateApp */
+    "./_dev/js/facades/CheckoutPixPageCreateApp.ts");
 
     $(document).ready(function () {
-      var app = inversify_checkoutPayshopPage_1["default"].get(CheckoutPayshopPageCreateApp_1.CheckoutPayshopPageCreateApp);
+      var app = inversify_checkoutPixPage_1["default"].get(CheckoutPixPageCreateApp_1.CheckoutPixPageCreateApp);
       app.start();
     });
     /***/
   },
 
   /***/
-  "./_dev/js/container/inversify.checkoutPayshopPage.ts":
-  /*!************************************************************!*\
-    !*** ./_dev/js/container/inversify.checkoutPayshopPage.ts ***!
-    \************************************************************/
+  "./_dev/js/container/inversify.checkoutPixPage.ts":
+  /*!********************************************************!*\
+    !*** ./_dev/js/container/inversify.checkoutPixPage.ts ***!
+    \********************************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsContainerInversifyCheckoutPayshopPageTs(module, exports, __webpack_require__) {
+  function _devJsContainerInversifyCheckoutPixPageTs(module, exports, __webpack_require__) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -309,23 +309,28 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /*! inversify */
     "./node_modules/inversify/lib/inversify.js");
 
-    var CheckoutPayshopPage_1 = __webpack_require__(
-    /*! ../events/CheckoutPayshopPage */
-    "./_dev/js/events/CheckoutPayshopPage.ts");
+    var CheckoutPixPage_1 = __webpack_require__(
+    /*! ../events/CheckoutPixPage */
+    "./_dev/js/events/CheckoutPixPage.ts");
 
-    var CheckoutPayshopPageCreateApp_1 = __webpack_require__(
-    /*! ../facades/CheckoutPayshopPageCreateApp */
-    "./_dev/js/facades/CheckoutPayshopPageCreateApp.ts");
+    var CheckoutPixPageCreateApp_1 = __webpack_require__(
+    /*! ../facades/CheckoutPixPageCreateApp */
+    "./_dev/js/facades/CheckoutPixPageCreateApp.ts");
 
     var HttpService_1 = __webpack_require__(
     /*! ../services/HttpService */
     "./_dev/js/services/HttpService.ts");
 
-    var containerCheckoutPayshopPage = new inversify_1.Container();
-    containerCheckoutPayshopPage.bind(HttpService_1.HttpService).toSelf();
-    containerCheckoutPayshopPage.bind(CheckoutPayshopPageCreateApp_1.CheckoutPayshopPageCreateApp).toSelf();
-    containerCheckoutPayshopPage.bind(CheckoutPayshopPage_1.CheckoutPayshopPage).toSelf();
-    exports["default"] = containerCheckoutPayshopPage;
+    var PixService_1 = __webpack_require__(
+    /*! ../services/PixService */
+    "./_dev/js/services/PixService.ts");
+
+    var containerCheckoutPixPage = new inversify_1.Container();
+    containerCheckoutPixPage.bind(HttpService_1.HttpService).toSelf();
+    containerCheckoutPixPage.bind(CheckoutPixPageCreateApp_1.CheckoutPixPageCreateApp).toSelf();
+    containerCheckoutPixPage.bind(CheckoutPixPage_1.CheckoutPixPage).toSelf();
+    containerCheckoutPixPage.bind(PixService_1.PixService).toSelf();
+    exports["default"] = containerCheckoutPixPage;
     /***/
   },
 
@@ -483,15 +488,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
 
   /***/
-  "./_dev/js/events/CheckoutPayshopPage.ts":
-  /*!***********************************************!*\
-    !*** ./_dev/js/events/CheckoutPayshopPage.ts ***!
-    \***********************************************/
+  "./_dev/js/events/CheckoutPixPage.ts":
+  /*!*******************************************!*\
+    !*** ./_dev/js/events/CheckoutPixPage.ts ***!
+    \*******************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsEventsCheckoutPayshopPageTs(module, exports, __webpack_require__) {
+  function _devJsEventsCheckoutPixPageTs(module, exports, __webpack_require__) {
     "use strict";
 
     var __extends = this && this.__extends || function () {
@@ -539,11 +544,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-    exports.CheckoutPayshopPage = void 0;
+    exports.CheckoutPixPage = void 0;
 
-    var inversify_checkoutPayshopPage_1 = __webpack_require__(
-    /*! ../container/inversify.checkoutPayshopPage */
-    "./_dev/js/container/inversify.checkoutPayshopPage.ts");
+    var inversify_1 = __webpack_require__(
+    /*! inversify */
+    "./node_modules/inversify/lib/inversify.js");
+
+    var inversify_checkoutPixPage_1 = __webpack_require__(
+    /*! ../container/inversify.checkoutPixPage */
+    "./_dev/js/container/inversify.checkoutPixPage.ts");
 
     var Event_1 = __webpack_require__(
     /*! ../decorators/Event */
@@ -553,28 +562,40 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /*! ../services/HttpService */
     "./_dev/js/services/HttpService.ts");
 
+    var PixService_1 = __webpack_require__(
+    /*! ../services/PixService */
+    "./_dev/js/services/PixService.ts");
+
     var Page_1 = __webpack_require__(
     /*! ./Page */
     "./_dev/js/events/Page.ts");
 
-    var CheckoutPayshopPage =
+    var CheckoutPixPage =
     /** @class */
     function (_super) {
-      __extends(CheckoutPayshopPage, _super);
+      __extends(CheckoutPixPage, _super);
 
-      function CheckoutPayshopPage() {
-        return _super !== null && _super.apply(this, arguments) || this;
+      function CheckoutPixPage(pixService) {
+        var _this = _super.call(this) || this;
+
+        _this.pixService = pixService;
+        return _this;
       }
 
-      CheckoutPayshopPage.prototype.confirmPayment = function (event) {
+      CheckoutPixPage.prototype.confirmPayment = function (event) {
         var _this = this;
 
         this.setEventDefault(event, true);
-        $('#button-confirm').button('loading');
-        this.httpService = inversify_checkoutPayshopPage_1["default"].get(HttpService_1.HttpService);
-        this.httpService.setUrl('index.php?route=extension/payment/payshop/confirm');
-        this.httpService.post({}).then(function (response) {
-          _this.eventTarget.button('reset');
+
+        if (!this.pixService.validate()) {
+          return;
+        }
+
+        $("#button-confirm").button("loading");
+        this.httpService = inversify_checkoutPixPage_1["default"].get(HttpService_1.HttpService);
+        this.httpService.setUrl("index.php?route=extension/payment/pix/confirm");
+        this.httpService.post(this.pixService.getFormData()).then(function (response) {
+          _this.eventTarget.button("reset");
 
           if (response.redirect) {
             location = response.redirect;
@@ -585,15 +606,18 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           } else {
             alert(error);
           }
+
+          $("#button-confirm").button("reset");
         });
       };
 
-      __decorate([Event_1.Event('click', '#button-confirm'), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], CheckoutPayshopPage.prototype, "confirmPayment", null);
+      __decorate([Event_1.Event("click", "#button-confirm"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], CheckoutPixPage.prototype, "confirmPayment", null);
 
-      return CheckoutPayshopPage;
+      CheckoutPixPage = __decorate([inversify_1.injectable(), __metadata("design:paramtypes", [PixService_1.PixService])], CheckoutPixPage);
+      return CheckoutPixPage;
     }(Page_1.Page);
 
-    exports.CheckoutPayshopPage = CheckoutPayshopPage;
+    exports.CheckoutPixPage = CheckoutPixPage;
     /***/
   },
 
@@ -657,15 +681,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
 
   /***/
-  "./_dev/js/facades/CheckoutPayshopPageCreateApp.ts":
-  /*!*********************************************************!*\
-    !*** ./_dev/js/facades/CheckoutPayshopPageCreateApp.ts ***!
-    \*********************************************************/
+  "./_dev/js/facades/CheckoutPixPageCreateApp.ts":
+  /*!*****************************************************!*\
+    !*** ./_dev/js/facades/CheckoutPixPageCreateApp.ts ***!
+    \*****************************************************/
 
   /*! no static exports found */
 
   /***/
-  function _devJsFacadesCheckoutPayshopPageCreateAppTs(module, exports, __webpack_require__) {
+  function _devJsFacadesCheckoutPixPageCreateAppTs(module, exports, __webpack_require__) {
     "use strict";
 
     var __extends = this && this.__extends || function () {
@@ -713,50 +737,50 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-    exports.CheckoutPayshopPageCreateApp = void 0;
+    exports.CheckoutPixPageCreateApp = void 0;
 
     var inversify_1 = __webpack_require__(
     /*! inversify */
     "./node_modules/inversify/lib/inversify.js");
 
-    var inversify_checkoutPayshopPage_1 = __webpack_require__(
-    /*! ../container/inversify.checkoutPayshopPage */
-    "./_dev/js/container/inversify.checkoutPayshopPage.ts");
+    var inversify_checkoutPixPage_1 = __webpack_require__(
+    /*! ../container/inversify.checkoutPixPage */
+    "./_dev/js/container/inversify.checkoutPixPage.ts");
 
     var AppComponent_1 = __webpack_require__(
     /*! ../decorators/AppComponent */
     "./_dev/js/decorators/AppComponent.ts");
 
-    var CheckoutPayshopPage_1 = __webpack_require__(
-    /*! ../events/CheckoutPayshopPage */
-    "./_dev/js/events/CheckoutPayshopPage.ts");
+    var CheckoutPixPage_1 = __webpack_require__(
+    /*! ../events/CheckoutPixPage */
+    "./_dev/js/events/CheckoutPixPage.ts");
 
     var MainApp_1 = __webpack_require__(
     /*! ./MainApp */
     "./_dev/js/facades/MainApp.ts");
 
-    var CheckoutPayshopPageCreateApp =
+    var CheckoutPixPageCreateApp =
     /** @class */
     function (_super) {
-      __extends(CheckoutPayshopPageCreateApp, _super);
+      __extends(CheckoutPixPageCreateApp, _super);
 
-      function CheckoutPayshopPageCreateApp() {
+      function CheckoutPixPageCreateApp() {
         var _this = _super.call(this) || this;
 
-        _this.container = inversify_checkoutPayshopPage_1["default"];
+        _this.container = inversify_checkoutPixPage_1["default"];
         return _this;
       }
 
-      CheckoutPayshopPageCreateApp.prototype.start = function () {};
+      CheckoutPixPageCreateApp.prototype.start = function () {};
 
-      CheckoutPayshopPageCreateApp = __decorate([inversify_1.injectable(), AppComponent_1.AppComponent({
-        pageEvents: [CheckoutPayshopPage_1.CheckoutPayshopPage],
+      CheckoutPixPageCreateApp = __decorate([inversify_1.injectable(), AppComponent_1.AppComponent({
+        pageEvents: [CheckoutPixPage_1.CheckoutPixPage],
         apps: []
-      }), __metadata("design:paramtypes", [])], CheckoutPayshopPageCreateApp);
-      return CheckoutPayshopPageCreateApp;
+      }), __metadata("design:paramtypes", [])], CheckoutPixPageCreateApp);
+      return CheckoutPixPageCreateApp;
     }(MainApp_1.MainApp);
 
-    exports.CheckoutPayshopPageCreateApp = CheckoutPayshopPageCreateApp;
+    exports.CheckoutPixPageCreateApp = CheckoutPixPageCreateApp;
     /***/
   },
 
@@ -871,6 +895,14 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     function () {
       function HttpService() {}
 
+      HttpService.prototype.getWithTextType = function () {
+        return $.ajax({
+          url: this.url,
+          type: 'GET',
+          dataType: 'text'
+        });
+      };
+
       HttpService.prototype.get = function () {
         return $.ajax({
           url: this.url,
@@ -898,6 +930,179 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     }();
 
     exports.HttpService = HttpService;
+    /***/
+  },
+
+  /***/
+  "./_dev/js/services/PixService.ts":
+  /*!****************************************!*\
+    !*** ./_dev/js/services/PixService.ts ***!
+    \****************************************/
+
+  /*! no static exports found */
+
+  /***/
+  function _devJsServicesPixServiceTs(module, exports, __webpack_require__) {
+    "use strict";
+
+    var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+      var c = arguments.length,
+          r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+          d;
+      if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) {
+        if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+      }
+      return c > 3 && r && Object.defineProperty(target, key, r), r;
+    };
+
+    var __metadata = this && this.__metadata || function (k, v) {
+      if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+    };
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.PixService = void 0;
+
+    var inversify_1 = __webpack_require__(
+    /*! inversify */
+    "./node_modules/inversify/lib/inversify.js");
+
+    var PixService =
+    /** @class */
+    function () {
+      function PixService() {
+        this.setElements();
+        this.setValues();
+      }
+
+      PixService.prototype.setElements = function () {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+
+        this.containerElement = (_a = $('#ifthenpayPixForm')) !== null && _a !== void 0 ? _a : "";
+        this.nameElement = (_b = $("#ifthenpay_pix_customerName")) !== null && _b !== void 0 ? _b : "";
+        this.cpfElement = (_c = $("#ifthenpay_pix_customerCpf")) !== null && _c !== void 0 ? _c : "";
+        this.emailElement = (_d = $("#ifthenpay_pix_customerEmail")) !== null && _d !== void 0 ? _d : "";
+        this.phoneElement = (_e = $("#ifthenpay_pix_customerPhone")) !== null && _e !== void 0 ? _e : "";
+        this.addressElement = (_f = $("#ifthenpay_pix_customerAddress")) !== null && _f !== void 0 ? _f : "";
+        this.streetNumberElement = (_g = $("#ifthenpay_pix_customerStreetNumber")) !== null && _g !== void 0 ? _g : "";
+        this.cityElement = (_h = $("#ifthenpay_pix_customerCity")) !== null && _h !== void 0 ? _h : "";
+        this.zipCodeElement = (_j = $("#ifthenpay_pix_customerZipCode")) !== null && _j !== void 0 ? _j : "";
+        this.stateElement = (_k = $("#ifthenpay_pix_customerState")) !== null && _k !== void 0 ? _k : "";
+
+        if (this.nameElement === "") {
+          console.log("Unable to initialize pix form, missing one or more form fields");
+        }
+      };
+
+      PixService.prototype.setValues = function () {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+
+        this.name = (_a = this.nameElement.val()) !== null && _a !== void 0 ? _a : "";
+        this.cpf = (_b = this.cpfElement.val()) !== null && _b !== void 0 ? _b : "";
+        this.email = (_c = this.emailElement.val()) !== null && _c !== void 0 ? _c : "";
+        this.phone = (_d = this.phoneElement.val()) !== null && _d !== void 0 ? _d : "";
+        this.address = (_e = this.addressElement.val()) !== null && _e !== void 0 ? _e : "";
+        this.streetNumber = (_f = this.streetNumberElement.val()) !== null && _f !== void 0 ? _f : "";
+        this.city = (_g = this.cityElement.val()) !== null && _g !== void 0 ? _g : "";
+        this.zipCode = (_h = this.zipCodeElement.val()) !== null && _h !== void 0 ? _h : "";
+        this.state = (_j = this.stateElement.val()) !== null && _j !== void 0 ? _j : "";
+      };
+
+      PixService.prototype.getFormData = function () {
+        return {
+          customerName: this.name,
+          customerCpf: this.cpf,
+          customerEmail: this.email,
+          customerPhone: this.phone,
+          customerAddress: this.address,
+          customerStreetNumber: this.streetNumber,
+          customerCity: this.city,
+          customerZipCode: this.zipCode,
+          customerState: this.state
+        };
+      };
+
+      PixService.prototype.validate = function () {
+        var isValid = true;
+        this.clearErrors();
+
+        if (this.name === "") {
+          this.addErrorMessageToDom(phpVariables.pixName.required, this.nameElement);
+          isValid = false;
+        } else if (this.name.length > 150) {
+          this.addErrorMessageToDom(phpVariables.pixName.invalid, this.nameElement);
+        }
+
+        var cpfRegex = new RegExp(/^(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{11})$/);
+
+        if (this.cpf === "") {
+          this.addErrorMessageToDom(phpVariables.pixCpf.required, this.cpfElement);
+          isValid = false;
+        } else if (!cpfRegex.test(this.cpf)) {
+          this.addErrorMessageToDom(phpVariables.pixCpf.invalid, this.cpfElement);
+          isValid = false;
+        }
+
+        var emailRegex = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+
+        if (this.email === "") {
+          this.addErrorMessageToDom(phpVariables.pixEmail.required, this.emailElement);
+          isValid = false;
+        } else if (!emailRegex.test(this.email)) {
+          this.addErrorMessageToDom(phpVariables.pixEmail.invalid, this.emailElement);
+        }
+
+        if (this.phone.length > 20) {
+          this.addErrorMessageToDom(phpVariables.pixPhoneNumber.invalid, this.phoneElement);
+          isValid = false;
+        }
+
+        if (this.address.length > 250) {
+          this.addErrorMessageToDom(phpVariables.pixAddress.invalid, this.addressElement);
+          isValid = false;
+        }
+
+        if (this.streetNumber.length > 20) {
+          this.addErrorMessageToDom(phpVariables.pixStreetNumber.invalid, this.streetNumberElement);
+          isValid = false;
+        }
+
+        if (this.city.length > 20) {
+          this.addErrorMessageToDom(phpVariables.pixCity.invalid, this.cityElement);
+          isValid = false;
+        }
+
+        if (this.zipCode.length > 20) {
+          this.addErrorMessageToDom(phpVariables.pixZipCode.invalid, this.zipCodeElement);
+          isValid = false;
+        }
+
+        if (this.state.length > 20) {
+          this.addErrorMessageToDom(phpVariables.pixState.invalid, this.stateElement);
+          isValid = false;
+        }
+
+        return isValid;
+      };
+
+      PixService.prototype.addErrorMessageToDom = function (errorMessage, inputElement) {
+        // add styles
+        inputElement.parents('.form-group').first().addClass('has-error'); // add text
+
+        inputElement.siblings('.ifthenpay_error_message').text(errorMessage);
+      };
+
+      PixService.prototype.clearErrors = function () {
+        this.containerElement.find('.has-error').removeClass('has-error');
+        this.containerElement.find('.ifthenpay_error_message').text('');
+      };
+
+      PixService = __decorate([inversify_1.injectable(), __metadata("design:paramtypes", [])], PixService);
+      return PixService;
+    }();
+
+    exports.PixService = PixService;
     /***/
   },
 
@@ -6349,18 +6554,18 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
 
   /***/
-  6:
-  /*!**********************************************!*\
-    !*** multi ./_dev/js/checkoutPayshopPage.ts ***!
-    \**********************************************/
+  9:
+  /*!******************************************!*\
+    !*** multi ./_dev/js/checkoutPixPage.ts ***!
+    \******************************************/
 
   /*! no static exports found */
 
   /***/
   function _(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(
-    /*! /home/devilbox/data/www/opencart3/htdocs/_dev/js/checkoutPayshopPage.ts */
-    "./_dev/js/checkoutPayshopPage.ts");
+    /*! /home/ddev/opencart3/_dev/js/checkoutPixPage.ts */
+    "./_dev/js/checkoutPixPage.ts");
     /***/
   }
   /******/

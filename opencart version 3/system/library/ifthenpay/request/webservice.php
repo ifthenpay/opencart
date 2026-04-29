@@ -4,68 +4,99 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Request;
 
-use GuzzleHttp\Client;
-
 class WebService
 {
-    private $client;
-    private $response;
+    private string $responseBody = '';
+    private int $responseStatusCode = 0;
+    private string $responseReasonPhrase = '';
 
-    public function __construct(Client $client)
+    public function getResponse(): self
     {
-        $this->client = $client;
+        return $this;
     }
 
-    public function getResponse()
+    public function getStatusCode(): int
     {
-        return $this->response;
+        return $this->responseStatusCode;
     }
 
-    public function getXmlConvertedResponseToArray(): array
+    public function getReasonPhrase(): string
     {
-        return json_decode(json_encode(json_decode((string) simplexml_load_string($this->response->getBody()->getContents()))[0]), true);
+        return $this->responseReasonPhrase;
     }
 
-    public function getResponseJson(): array
+	public function getResponseJson(): array
+	{
+		$data = json_decode($this->responseBody, true);
+
+		if (json_last_error() !== JSON_ERROR_NONE) {
+			throw new \RuntimeException('JSON decoding failed: ' . json_last_error_msg());
+		}
+
+		return $data;
+	}
+
+    private function curlExec(string $url, array $options = []): void
     {
-        return json_decode(json_encode(json_decode((string) $this->response->getBody())), true);
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+
+        foreach ($options as $opt => $value) {
+            curl_setopt($ch, $opt, $value);
+        }
+
+        $result = curl_exec($ch);
+
+        if ($result === false) {
+            $error = curl_error($ch);
+			if (PHP_VERSION_ID < 80000) { curl_close($ch); }
+            throw new \RuntimeException('cURL error: ' . $error);
+        }
+
+        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $this->responseStatusCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $this->responseBody = substr($result, $headerSize);
+
+        $rawHeaders = substr($result, 0, $headerSize);
+        preg_match('/HTTP\/[\d.]+ \d+ (.+)/', $rawHeaders, $matches);
+        $this->responseReasonPhrase = isset($matches[1]) ? trim($matches[1]) : '';
+
+		if (PHP_VERSION_ID < 80000) {
+        curl_close($ch);
+    }
     }
 
     public function postRequest(string $url, array $data, bool $jsonContentType = false): self
     {
-        try {
-            $this->response = $this->client->post(
-                $url,
-                $jsonContentType ? ['json' => $data] :
-                ['form_params' => $data]
-            );
-            return $this;
-        } catch (\Throwable $th) {
-            if (get_class($th) === 'InvalidArgumentException' && $th->getMessage() === 'No method can handle the form_params config key') {
-                try {
-                    $this->response = $this->client->post(
-                        $url,
-                        $jsonContentType ? ['json' => $data] :
-                        ['body' => $data]
-                    );
-                    return $this;
-                } catch (\Throwable $th) {
-                    throw $th;
-                }
-            } else {
-                throw $th;
-            }
-            
+        if ($jsonContentType) {
+            $payload = json_encode($data);
+            $this->curlExec($url, [
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => $payload,
+                CURLOPT_HTTPHEADER => [
+                    'Content-Type: application/json',
+                    'Content-Length: ' . strlen($payload),
+                ],
+            ]);
+        } else {
+            $this->curlExec($url, [
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => http_build_query($data),
+            ]);
         }
+
+        return $this;
     }
 
     public function getRequest(string $url, array $data = []): self
     {
-        try {
-            $this->response = $this->client->get($url, ['query' => $data]);
-            return $this;
-        } catch (\Throwable $th) {
-            throw $th;
+        if (!empty($data)) {
+            $url .= '?' . http_build_query($data);
         }
+
+        $this->curlExec($url);
+
+        return $this;
     }
 }

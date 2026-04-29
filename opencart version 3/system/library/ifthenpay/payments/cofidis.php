@@ -42,7 +42,7 @@ class Cofidis extends Payment implements PaymentMethodInterface
 		$payload['amount'] = $this->valor;
 
 		$this->cofidisPedido = $this->webService->postRequest(
-			'http://ifthenpay.com/api/cofidis/init/' . $this->cofidisKey,
+			'https://ifthenpay.com/api/cofidis/init/' . $this->cofidisKey,
 			$payload,
 			true
 		)->getResponseJson();

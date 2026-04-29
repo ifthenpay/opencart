@@ -29,14 +29,11 @@ class CancelPayshopOrder extends CancelOrder
                                     false
                                 )
                             );
-                            if (!$this->paymentStatus->setData($this->gatewayDataBuilder)->getPaymentStatus()) {
-                                if ($payshopPayment['validade']) {
-                                    $this->checkTimeChangeStatus($order, null, $payshopPayment['validade'], 'Ymd');
-                                } else {
-                                    $this->checkTimeChangeStatus($order, $this->ifthenpayController->config->get('payment_payshop_validade'), null, null);
-                                }  
-                            }
-                            $this->logCancelOrder($order['order_id']);
+							if ($payshopPayment['validade'] ?? false) {
+								$this->checkTimeChangeStatus($order, null, $payshopPayment['validade'], 'Ymd');
+							} else {
+								$this->checkTimeChangeStatus($order, $this->ifthenpayController->config->get('payment_payshop_validade'), null, null);
+							}  
                         } else {
                             $this->ifthenpayController->model_extension_payment_payshop
                                 ->log($order['order_id'], 'Payshop order was not canceled because deadline is not defined');
@@ -47,5 +44,3 @@ class CancelPayshopOrder extends CancelOrder
         }
     }
 }
-
-
