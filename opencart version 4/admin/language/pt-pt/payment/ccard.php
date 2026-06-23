@@ -1,7 +1,7 @@
 <?php
 
 // Admin logo
-$_['text_ccard'] = '<img src="' . HTTP_CATALOG . 'extension/ifthenpay/admin/view/image/cofidis.png" height="30" alt="Ifthenpay - Credit Card" title="Ifthenpay - Credit Card"/>';
+$_['text_ccard'] = '<img src="' . HTTP_CATALOG . 'extension/ifthenpay/admin/view/image/ccard.png" height="30" alt="Ifthenpay - Credit Card" title="Ifthenpay - Credit Card"/>';
 
 
 // Heading
