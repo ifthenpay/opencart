@@ -5,7 +5,7 @@
 Download de versões da extensão ifthenpay para Opencart 4
 |                                             | Opencart 4 [4.0.0.1 - 4.1.0.3]                                                                        |
 |---------------------------------------------|-------------------------------------------------------------------------------------------------------|
-| Link para descarregar instalador .ocmod.zip | [ifthenpay v4.2.1](https://github.com/ifthenpay/opencart/releases/download/4.2.1/ifthenpay.ocmod.zip) |
+| Link para descarregar instalador .ocmod.zip | [ifthenpay v4.2.2](https://github.com/ifthenpay/opencart/releases/download/4.2.2/ifthenpay.ocmod.zip) |
 
 </br>
 </br>
@@ -18,7 +18,9 @@ Ler em ![Português](assets/pt.png) [Português](readme.pt.md), e ![Inglês](ass
 
 [2. Compatibilidade](#compatibilidade)
 
-[3. Instalação](#instalação)
+[3. Instalação e atualização](#instalação-e-atualização)
+  * [Instalação](#instalação) 
+  * [Atualização](#atualização) 
 
 [4. Configuração](#configuração)
   * [Chave Backoffice](#chave-backoffice)
@@ -37,10 +39,11 @@ Ler em ![Português](assets/pt.png) [Português](readme.pt.md), e ![Inglês](ass
 [6. Outros](#outros)
   * [Suporte](#suporte)
   * [Requerer criação de conta adicional](#requerer-criação-de-conta-adicional)
+  * [Recarregar contas](#recarregar-contas)
   * [Limpeza de Configuração](#limpeza-de-configuração)
   * [Callback](#callback)
   * [Testar Callback](#testar-callback)
-  * [Cronjob](#cronjob)
+  * [Cron job](#cron-job)
   * [Logs](#logs)
 
 
@@ -96,14 +99,15 @@ Para suporte, por favor crie um ticked para suporte em [Suporte ifthenpay](https
 Use a tabela abaixo para verificar a compatibilidade do extensão ifthenpay com a sua loja online.
 |                           | Opencart 3     | Opencart 4 [4.0.0.1 - 4.1.0.3] |
 |---------------------------|----------------|--------------------------------|
-| ifthenpay v4.0.0 - v4.2.1 | Não compatível | Compatível                     |
+| ifthenpay v4.0.0 - v4.2.2 | Não compatível | Compatível                     |
 
 </br>
 
 
-# Instalação
+# Instalação e Atualização
 
-Descarregue o ficheiro de instalação da extensão ifthenpay para Opencart 4 na página do github [ifthenpay v4.0.0](https://github.com/ifthenpay/opencart/releases/tag/v4.0.0).
+## Instalação
+Descarregue o ficheiro de instalação da extensão ifthenpay para Opencart 4 na página do github [ifthenpay v4.2.2](https://github.com/ifthenpay/opencart/releases/tag/v4.2.2).
 Pode descarregar de varios pontos neste repositório:
  - o link nesta linha de instrução;
  - na página de releases, onde pode escolher a versão que precisa, mas note que a ifthenpay publica as releases para ambas versões do opencart 3 e 4 neste repositório;
@@ -140,6 +144,32 @@ Procure o método de pagamento que pretende instalar (exemplo Multibanco) e cliq
 </br>
 
 
+## Atualização
+**NOTA:** Na versão 3 do OpenCart era possível atualizar a extensão carregando a versão mais recente na página Extensões -> Instalador, mas isso já não é possível na versão 4.
+
+Se tiver o cron job principal do OpenCart a correr em segundo plano, este verificará atualizações diariamente e acionará uma notificação caso exista uma atualização disponível.
+![img](assets/update_notification.png)
+</br>
+
+Quando uma nova atualização for lançada, um painel de aviso aparecerá em qualquer uma das páginas de configuração dos métodos de pagamento.
+![img](assets/upgrade_panel.png)
+</br>
+
+
+Existem dois caminhos de atualização possíveis:
+
+**Script de atualização (recomendado)**
+
+Clique no botão "Atualizar" e confirme para executar o script de atualização. Este irá descarregar os ficheiros da nova versão, atualizar a pasta da extensão ifthenpay e executar quaisquer outras tarefas relacionadas com a atualização.
+Numa atualização bem-sucedida, será exibido um alerta de sucesso verde confirmando que a atualização foi concluída.
+</br>
+
+**Atualização Manual**
+
+Descarregue o instalador, desinstale completamente a extensão atual e reinstale a nova versão. Isto resultará na perda da configuração atual.
+
+
+
 # Configuração
 
 Após instalar o método de pagamento, é necessário configurar este com os dados da sua conta ifthenpay.
@@ -168,7 +198,7 @@ Configure o método de pagamento, a imagem abaixo mostra um exemplo de configura
 
 1. **Estado** - Ativa o método de pagamento, exibindo-o no checkout da sua loja;
 2. **Ativar Callback** - Ao ativar, o estado da encomenda será atualizado quando o pagamento for recebido;
-3. **Habilitar Cron job de Cancelar** - Ao ativar, permite que o cronjob de cancelamento de encomendas execute neste método em específico (utilizado quando não deseja que o cronjob execute em todos os métodos de pagamento);
+3. **Habilitar Cron job de Cancelar** - Ao ativar, permite que o cron job de cancelamento de encomendas execute neste método em específico (utilizado quando não deseja que o cron job execute em todos os métodos de pagamento);
 4. **Entidade** - Selecionar uma Entidade. Apenas pode selecionar uma das Entidades associadas à Chave Backoffice;
 5. **Subentidade** - Selecionar uma Sub-Entidade. Apenas pode selecionar uma das Sub-Entidades associadas à Entidade escolhida anteriormente;
 6. **Título** - Título que aparece ao consumidor no checkout;
@@ -217,7 +247,7 @@ Configure o método de pagamento, a imagem abaixo mostra um exemplo de configura
 2. **Ativar Callback** - Ao ativar, o estado da encomenda será atualizado quando o pagamento for recebido;
 3. **Exibir Contagem Decrescente no Checkout** - Ao ativar, exibe a contagem decrescente do tempo limite para pagamento na página de sucesso da encomenda. Desative se encontrar conflitos com extensãos de one page checkout;
 4. **Habilitar Reembolso em Vendas/Encomendas** - Ao habilitar, adiciona uma tab de reembolso na página de detalhes de encomenda no backoffice admin que permite a um administrador da loja online devolver o valor parcial ou total, pago pelo consumidor;
-5. **Habilitar Cron job de Cancelar** - Ao ativar, permite que o cronjob de cancelamento de encomendas execute neste método em específico (utilizado quando não deseja que o cronjob execute em todos os métodos de pagamento);
+5. **Habilitar Cron job de Cancelar** - Ao ativar, permite que o cron job de cancelamento de encomendas execute neste método em específico (utilizado quando não deseja que o cron job execute em todos os métodos de pagamento);
 6. **Chave MB WAY** - Selecionar uma Chave. Apenas pode selecionar uma das Chaves associadas à Chave Backoffice;
 7. **Título** - Título que aparece ao consumidor no checkout;
 8. **Estado Pendente** - Estado de encomenda usado na confirmação da encomenda;
@@ -267,7 +297,7 @@ Configure o método de pagamento, a imagem abaixo mostra um exemplo de configura
 
 1. **Estado** - Ativa o método de pagamento, exibindo-o no checkout da sua loja;
 2. **Ativar Callback** - Ao ativar, o estado da encomenda será atualizado quando o pagamento for recebido;
-3. **Habilitar Cron job de Cancelar** - Ao ativar, permite que o cronjob de cancelamento de encomendas execute neste método em específico (utilizado quando não deseja que o cronjob execute em todos os métodos de pagamento);
+3. **Habilitar Cron job de Cancelar** - Ao ativar, permite que o cron job de cancelamento de encomendas execute neste método em específico (utilizado quando não deseja que o cron job execute em todos os métodos de pagamento);
 4. **Chave Payshop** - Selecionar uma Chave. Apenas pode selecionar uma das Chaves associadas à Chave Backoffice;
 5. **Validade** - Selecionar o número de dias de validade da referência Payshop. De 1 a 99 dias, deixe vazio se não pretender que expire;
 6. **Título** - Título que aparece ao consumidor no checkout;
@@ -317,7 +347,7 @@ Configure o método de pagamento, a imagem abaixo mostra um exemplo de configura
 
 1. **Estado** - Ativa o método de pagamento, exibindo-o no checkout da sua loja;
 2. **Ativar Callback** - Ao ativar, o estado da encomenda será atualizado quando o pagamento for recebido;
-3. **Enable Cancel Order Cronjob** - Ao habilitar, adiciona um novo campo, apenas de leitura, com o url/comando que pode usar para chamar o cronjob de funcionalide de cancelar encomenda;
+3. **Enable Cancel Order Cron job** - Ao habilitar, adiciona um novo campo, apenas de leitura, com o url/comando que pode usar para chamar o cron job de funcionalide de cancelar encomenda;
 4. **Chave Pix** - Selecionar uma Chave. Apenas pode selecionar uma das Chaves associadas à Chave Backoffice;
 5. **Título** - Título que aparece ao consumidor no checkout;
 6. **Exibir Ícone do Método de Pagamento** - Habilite para exibir a imagem do ícone do método de pagamento na página de checkout.
@@ -343,7 +373,7 @@ Configure o método de pagamento, a imagem abaixo mostra um exemplo de configura
 
 1. **Estado** - Ativa o método de pagamento, exibindo-o no checkout da sua loja;
 2. **Ativar Callback** - Ao ativar, o estado da encomenda será atualizado quando o pagamento for recebido;
-3. **Enable Cancel Order Cronjob** - Ao habilitar, adiciona um novo campo, apenas de leitura, com o url/comando que pode usar para chamar o cronjob de funcionalide de cancelar encomenda;
+3. **Enable Cancel Order Cron job** - Ao habilitar, adiciona um novo campo, apenas de leitura, com o url/comando que pode usar para chamar o cron job de funcionalide de cancelar encomenda;
 4. **Chave Ifthenpay Gateway** - Selecionar uma Chave. Apenas pode selecionar uma das Chaves associadas à Chave Backoffice;
 5. **Métodos de Pagamento** - Selecionar uma conta por cada método de pagamento e colocar o visto na checkbox dos métodos que pretende exibir na página de gateway;
 6. **Método de Pagamento por Defeito** - Selecionar um método de pagamento que estará selecionado por defeito na página da gateway quando o consumidor aceder a esta;
@@ -554,9 +584,9 @@ Nota: o valor, se tiver casas decimais, deve ser separado por um ponto.
 </br>
 
 
-## Cronjob
+## Cron job
 
-Um cronjob é uma tarefa programada executada automaticamente em intervalos específicos no sistema. O extensão ifthenpay disponibiliza um cronjob para verificar o estado dos pagamentos, e cancelar encomendas que não foram pagas dentro do tempo limite configurado. A tabela abaixo mostra o tempo limite para cada método de pagamento, o qual o cronjob verifica e cancela as encomendas que não foram pagas dentro do tempo limite. Este tempo limite pode ser configurado apenas para o método de pagamento Multibanco com Referências Dinâmicas e Payshop.
+Um cron job é uma tarefa programada executada automaticamente em intervalos específicos no sistema. O extensão ifthenpay disponibiliza um cron job para verificar o estado dos pagamentos, e cancelar encomendas que não foram pagas dentro do tempo limite configurado. A tabela abaixo mostra o tempo limite para cada método de pagamento, o qual o cron job verifica e cancela as encomendas que não foram pagas dentro do tempo limite. Este tempo limite pode ser configurado apenas para o método de pagamento Multibanco com Referências Dinâmicas e Payshop.
 
 | Método de Pagamento | Validade do pagamento       |
 |---------------------|-----------------------------|
@@ -570,8 +600,8 @@ Um cronjob é uma tarefa programada executada automaticamente em intervalos espe
 | Ifthenpay Gateway   | Configurável de 1 a 99 dias |
 
 
-Para ativar o cronjob, aceda à página de configuração do extensão e ative a opção Habilitar Cron job de Cancelar e clique em salvar.
-A página de configuração atualizará e apresentará a URL do cronjob (1), a qual deve ser adicionada ao seu servidor para que este execute o cronjob.
+Para ativar o cron job, aceda à página de configuração do extensão e ative a opção Habilitar Cron job de Cancelar e clique em salvar.
+A página de configuração atualizará e apresentará a URL do cron job (1), a qual deve ser adicionada ao seu servidor para que este execute o cron job.
 ![img](assets/cronjob_url.png)
 
 </br>

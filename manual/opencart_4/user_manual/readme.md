@@ -5,7 +5,7 @@
 Download versions of the ifthenpay extension for Opencart 4.
 |                                       | Opencart 4 [4.0.0.1 - 4.1.0.3]                                                                        |
 |---------------------------------------|-------------------------------------------------------------------------------------------------------|
-| Link to download installer .ocmod.zip | [ifthenpay v4.2.1](https://github.com/ifthenpay/opencart/releases/download/4.2.1/ifthenpay.ocmod.zip) |
+| Link to download installer .ocmod.zip | [ifthenpay v4.2.2](https://github.com/ifthenpay/opencart/releases/download/4.2.2/ifthenpay.ocmod.zip) |
 
 </br>
 </br>
@@ -18,7 +18,9 @@ Read in ![Portuguese](assets/pt.png) [Portuguese](readme.pt.md), e ![English](as
 
 [2. Compatibility](#compatibility)
 
-[3. Installation](#installation)
+[3. Installation and Updating](#installation-and-updating)
+  * [Installation](#installation) 
+  * [Updating](#updating) 
 
 [4. Configuration](#configuration)
   * [Backoffice Key](#backoffice-key)
@@ -37,10 +39,11 @@ Read in ![Portuguese](assets/pt.png) [Portuguese](readme.pt.md), e ![English](as
 [6. Other](#other)
   * [Support](#support)
   * [Request additional account](#request-additional-account)
+  * [Refresh accounts](#refresh-accounts)
   * [Reset Configuration](#reset-configuration)
   * [Callback](#callback)
   * [Test Callback](#test-callback)
-  * [Cronjob](#cronjob)
+  * [cron job](#cron-job)
   * [Logs](#logs)
 
 
@@ -94,13 +97,15 @@ For support, please create a support ticket at [Support ifthenpay](https://helpd
 Use the table below to check the compatibility of the Ifthenpay extension with your online store:
 |                           | Opencart 3     | Opencart 4 [4.0.0.1 - 4.1.0.3] |
 |---------------------------|----------------|--------------------------------|
-| ifthenpay v4.0.0 - v4.2.1 | Not compatible | Compatible                     |
+| ifthenpay v4.0.0 - v4.2.2 | Not compatible | Compatible                     |
 
 </br>
 
 
-# Installation
-Please download the installation file of the ifthenpay extension for Opencart 4 from the GitHub page [ifthenpay v4.0.0](https://github.com/ifthenpay/opencart/releases/tag/v4.0.0).
+# Installation and Updating
+
+## Installation
+Please download the installation file of the ifthenpay extension for Opencart 4 from the GitHub page [ifthenpay v4.2.2](https://github.com/ifthenpay/opencart/releases/tag/v4.2.2).
 ![img](assets/download_installer.png)
 You may get from multiple places in this repository:
  - the link in this instruction line;
@@ -135,6 +140,29 @@ Find the payment method you want to install (e.g., Multibanco) and click on "Ins
 ![img](assets/install_method.png)
 
 </br>
+
+## Updating
+**NOTE:** On version 3 of OpenCart it was possible to update the extension by uploading the newest version in the Extensions -> Installer page, but that is no longer possible on version 4.
+
+If you have OpenCart's main cron job running in the background, it will check for updates every day and trigger a notification if an update is available.
+![img](assets/update_notification.png)
+</br>
+
+When a new update is released, a warning panel will appear on any of the payment methods configuration pages.
+![img](assets/upgrade_panel.png)
+</br>
+
+
+There are two possible update paths:
+
+**Update script (recommended)**
+Click the "Update" button and confirm to run the update script. This will download the new version files, update the ifthenpay extension folder, and run any other tasks related to the update.
+On a successful update, a green success alert will be displayed confirming the update was completed.
+
+
+**Manual Update**
+Download the installer, and uninstall the current extension completely, then reinstall the new version. This will result in the loss of the current configuration.
+
 
 
 # Configuration
@@ -317,7 +345,7 @@ Configure the payment method. The image below shows an example of a minimally fu
 
 1. **Status** - Activates the payment method, displaying it at the checkout of your store.
 2. **Enable Callback** - When enabled, the order status will be updated when the payment is received.
-3. **Enable Cancel Order Cronjob** - When enabled, a new readonly field is added with the url/command you can use to call the cancel order functionality cronjob in your server.
+3. **Enable Cancel Order cron job** - When enabled, a new readonly field is added with the url/command you can use to call the cancel order functionality cron job in your server.
 4. **Pix Key** - Select a Key. You can only choose one of the Keys associated with the Backoffice Key.
 5. **Title** - The title that appears to the consumer during checkout.
 6. **Show Payment Method Icon** - Show the payment method icon image in the checkout page.
@@ -343,7 +371,7 @@ Configure the payment method. The image below shows an example of a minimally fu
 
 1. **Status** - Activates the payment method, displaying it at the checkout of your store.
 2. **Enable Callback** - When enabled, the order status will be updated when the payment is received.
-3. **Enable Cancel Order Cronjob** - When enabled, a new readonly field is added with the url/command you can use to call the cancel order functionality cronjob in your server.
+3. **Enable Cancel Order Cron job** - When enabled, a new readonly field is added with the url/command you can use to call the cancel order functionality cron job in your server.
 4. **Ifthenpay Gateway Key** - Select a Key. You can only choose one of the Keys associated with the Backoffice Key.
 5. **Payment Methods** - Select a Payment Method Key per each Method and check the checkbox if you want to display it in the gateway page.
 6. **Default Payment Method** - Select a Payment Method that will be selected in the gateway page by default.
@@ -555,7 +583,7 @@ Note: The value, if it has decimals, should be separated by a dot.
 </br>
 
 
-## Cronjob
+## Cron job
 
 A cron job is a scheduled task that is automatically executed at specific intervals in the system. The ifthenpay extension provides a cron job to check the payment status and cancel orders that haven't been paid within the configured time limit. The table below shows the time limit for each payment method, which the cron job checks and cancels orders that haven't been paid within the time limit. This time limit can be configured only for the Multibanco with Dynamic References and Payshop payment methods.
 
