@@ -96,9 +96,6 @@ class Cofidis extends \Opencart\System\Engine\Controller
 
 			// get transaction url
 			$cofidisKey = $this->config->get('payment_cofidis_key');
-			$formatedAmount = $this->currency->format($orderInfo['total'], $orderInfo['currency_code'], $orderInfo['currency_value'], false);
-			$formatedAmount = (string) round($formatedAmount, 2);
-
 
 			$hash = Utils::generateString(20);
 
@@ -150,7 +147,8 @@ class Cofidis extends \Opencart\System\Engine\Controller
 		$customerData = [];
 
 		$customerData['orderId'] = $orderInfo['order_id'];
-		$customerData['amount'] = $orderInfo['total'];
+		$amount = $this->currency->format($orderInfo['total'], $orderInfo['currency_code'], $orderInfo['currency_value'], false);
+		$customerData['amount'] = (string) round($amount, 2);
 		$customerData['customerName'] = $orderInfo['shipping_firstname'] . " " . $orderInfo['shipping_lastname'];
 		$customerData['customerEmail'] = $orderInfo['email'];
 		$customerData['customerPhone'] = $orderInfo['telephone'];

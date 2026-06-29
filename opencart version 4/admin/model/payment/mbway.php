@@ -2,8 +2,14 @@
 
 namespace Opencart\Admin\Model\Extension\ifthenpay\Payment;
 
+require_once DIR_EXTENSION . 'ifthenpay/system/library/CronTrait.php';
+
+use Ifthenpay\CronTrait;
+
 class Mbway extends \Opencart\System\Engine\Model
 {
+	use CronTrait;
+	
 	public function install(): void
 	{
 		$this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "ifthenpay_mbway` (
@@ -56,6 +62,8 @@ class Mbway extends \Opencart\System\Engine\Model
 			'status'      => 1,
 			'sort_order'  => 1
 		]);
+
+		$this->installCron();
 	}
 
 	/**
@@ -65,7 +73,7 @@ class Mbway extends \Opencart\System\Engine\Model
 	public function uninstall(): void
 	{
 		// delete ifthenpay_mbway table
-		$this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "ifthenpaymbway`");
+		$this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "ifthenpay_mbway`");
 		// delete ifthenpay_mbway_refund table
 		$this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "ifthenpay_mbway_refund`");
 
@@ -74,6 +82,8 @@ class Mbway extends \Opencart\System\Engine\Model
 		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_mbway_catalog_success_payment_info');
 		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_mbway_admin_refund');
 		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_mbway_icon_injection');
+
+		$this->uninstallCron();
 	}
 
 

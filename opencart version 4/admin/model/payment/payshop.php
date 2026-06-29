@@ -2,9 +2,13 @@
 
 namespace Opencart\Admin\Model\Extension\ifthenpay\Payment;
 
+require_once DIR_EXTENSION . 'ifthenpay/system/library/CronTrait.php';
+
+use Ifthenpay\CronTrait;
+
 class Payshop extends \Opencart\System\Engine\Model
 {
-
+	use CronTrait;
 
 	public function install(): void
 	{
@@ -50,6 +54,8 @@ class Payshop extends \Opencart\System\Engine\Model
 			'status'      => 1,
 			'sort_order'  => 1
 		]);
+
+		$this->installCron();
 	}
 
 
@@ -61,12 +67,14 @@ class Payshop extends \Opencart\System\Engine\Model
 	public function uninstall(): void
 	{
 		// delete ifthenpay_payshop table
-		$this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "ifthenpaypayshop`");
+		$this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "ifthenpay_payshop`");
 
 		// delete events
 		$this->load->model('setting/event');
 		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_payshop_catalog_success_payment_info');
 		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_payshop_email');
 		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_payshop_icon_injection');
+
+		$this->uninstallCron();
 	}
 }

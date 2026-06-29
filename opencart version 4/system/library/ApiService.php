@@ -15,7 +15,7 @@ class ApiService
 	private const URL_IFTHENPAY_POST_REFUND = 'https://ifthenpay.com/api/endpoint/payments/refund';
 	private const URL_IFTHENPAY_UPGRADE = 'https://ifthenpay.com/modulesUpgrade/opencart/4/upgrade.json';
 	public const URL_MBWAY_GET_PAYMENT_STATUS = 'https://api.ifthenpay.com/spg/payment/mbway/status';
-	private const URL_COFIDIS_SET_REQUEST = 'http://ifthenpay.com/api/cofidis/init/';
+	private const URL_COFIDIS_SET_REQUEST = 'https://ifthenpay.com/api/cofidis/init/';
 	public const URL_COFIDIS_GET_MAX_MIN_AMOUNT = 'https://ifthenpay.com/api/cofidis/limits';
 	public const URL_COFIDIS_GET_PAYMENT_STATUS = 'https://ifthenpay.com/api/cofidis/status';
 	private const URL_GET_GATEWAYKEYS_BY_BACKOFFICE = 'https://ifthenpay.com/IfmbWS/ifthenpaymobile.asmx/GetGatewayKeys';

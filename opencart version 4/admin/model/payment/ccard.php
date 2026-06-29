@@ -2,8 +2,14 @@
 
 namespace Opencart\Admin\Model\Extension\ifthenpay\Payment;
 
+require_once DIR_EXTENSION . 'ifthenpay/system/library/CronTrait.php';
+
+use Ifthenpay\CronTrait;
+
 class Ccard extends \Opencart\System\Engine\Model
 {
+	use CronTrait;
+	
 	public function install(): void
 	{
 		$this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "ifthenpay_ccard` (
@@ -56,6 +62,8 @@ class Ccard extends \Opencart\System\Engine\Model
 			'status'      => 1,
 			'sort_order'  => 1
 		]);
+
+		$this->installCron();
 	}
 
 	/**
@@ -65,7 +73,7 @@ class Ccard extends \Opencart\System\Engine\Model
 	public function uninstall(): void
 	{
 		// delete ifthenpay_ccard table
-		$this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "ifthenpayccard`");
+		$this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "ifthenpay_ccard`");
 		// delete ifthenpay_ccard_refund table
 		$this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "ifthenpay_ccard_refund`");
 
@@ -74,6 +82,16 @@ class Ccard extends \Opencart\System\Engine\Model
 		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_ccard_catalog_success_payment_info');
 		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_ccard_admin_refund');
 		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_ccard_icon_injection');
+
+		// if only a single row is returned
+		$rows = $this->db->query("SELECT `code` FROM `" . DB_PREFIX . "setting` WHERE `store_id` = '0' AND `code` = 'payment_ifthenpay'");
+
+		// delete the row if it exists
+		if ($rows->num_rows === 1) {
+			$this->db->query("DELETE FROM `" . DB_PREFIX . "setting` WHERE `store_id` = '0' AND `code` = 'payment_ifthenpay' AND `key` = 'payment_ifthenpay_update_notified_version'");
+		}
+
+		$this->uninstallCron();
 	}
 
 

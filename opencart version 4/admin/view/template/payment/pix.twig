@@ -68,9 +68,15 @@
 								{{ module_upgrade.body}}
 							</div>
 						</div>
-						<div class="text-center">
-
-							<a href="{{ module_upgrade.download }}" title="{{ text_download_installer_btn }}" class="btn btn-primary">{{ text_download_installer_btn }}<i class="fa-solid fa-download ms-2"></i>
+						<div class="text-center" style="position: relative;">
+							<div id="upgrade_spinner" class="spinner_background_absolute" style="display: none;">
+								<span class="spinner"></span>
+							</div>
+							<button id="upgrade_module" type="button" data-url="{{ module_upgrade.download }}" data-version="{{ module_upgrade.version }}" class="btn btn-primary me-2">
+								{{ text_update_btn }}<i class="fa-solid fa-rotate ms-2"></i>
+							</button>
+							<a href="{{ module_upgrade.download }}" title="{{ text_download_installer_btn }}" class="btn btn-light">
+								{{ text_download_installer_btn }}<i class="fa-solid fa-download ms-2"></i>
 							</a>
 						</div>
 					</fieldset>
@@ -168,6 +174,20 @@
 
 							{% endif %}
 
+
+							{# refresh accounts #}
+
+							<div class="row mb-3" style="position: relative;">
+								<label class="col-sm-2 col-form-label">{{ text_accounts_label }}</label>
+								<div class="col-sm-10">
+									<div id="refresh_accounts_spinner" class="spinner_background_absolute" style="display: none;">
+										<span class="spinner"></span>
+									</div>
+									<button id="refresh_accounts" type="button" title="{{ text_btn_refresh_accounts }}" class="btn btn-primary">
+										{{ text_btn_refresh_accounts }}<i class="fa-solid fa-rotate ms-2"></i>
+									</button>
+								</div>
+							</div>
 
 							{# key #}
 
@@ -389,6 +409,8 @@
 const url_request_account = '{{ url_request_account }}';
 const url_refresh_accounts = '{{ url_refresh_accounts }}';
 const url_test_callback = '{{ url_test_callback }}';
+const url_upgrade = '{{ url_upgrade }}';
+const text_are_you_sure_update = '{{ text_are_you_sure_update }}';
 
 const text_are_you_sure_clear = '{{ text_are_you_sure_clear }}';
 const text_are_you_sure_request_account = '{{ text_are_you_sure_request_account }}';

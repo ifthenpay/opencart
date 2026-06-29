@@ -2,8 +2,14 @@
 
 namespace Opencart\Admin\Model\Extension\ifthenpay\Payment;
 
+require_once DIR_EXTENSION . 'ifthenpay/system/library/CronTrait.php';
+
+use Ifthenpay\CronTrait;
+
 class Multibanco extends \Opencart\System\Engine\Model
 {
+	use CronTrait;
+	
 	public function install(): void
 	{
 		$this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "ifthenpay_multibanco` (
@@ -49,6 +55,8 @@ class Multibanco extends \Opencart\System\Engine\Model
 			'status'      => 1,
 			'sort_order'  => 1
 		]);
+
+		$this->installCron();
 	}
 
 	/**
@@ -58,12 +66,14 @@ class Multibanco extends \Opencart\System\Engine\Model
 	public function uninstall(): void
 	{
 		// delete ifthenpay_multibanco table
-		$this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "ifthenpaymultibanco`");
+		$this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "ifthenpay_multibanco`");
 
 		// delete events
 		$this->load->model('setting/event');
 		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_multibanco_catalog_success_payment_info');
 		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_multibanco_email');
 		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_multibanco_icon_injection');
+
+		$this->uninstallCron();
 	}
 }

@@ -25,6 +25,7 @@ $_['text_button_close_btn'] = 'Confirm Order';
 $_['text_goto_gateway_btn'] = 'Go to Ifthenpay Gateway';
 $_['text_payment_url'] = 'Payment URL';
 $_['text_deadline'] = 'Deadline';
+$_['text_processed_by_ifthenpay'] = 'Processed by Ifthenpay';
 
 
 

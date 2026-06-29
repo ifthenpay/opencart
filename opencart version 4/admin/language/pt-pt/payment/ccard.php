@@ -37,9 +37,13 @@ $_['text_ifthenpay_team_will_request'] = 'Ao fazê-lo, irá notificar a equipa d
 $_['text_request_ccard_account_btn'] = 'Pedir Conta de Cartão de Crédito';
 $_['text_are_you_sure_request_account'] = 'Tem certeza de que deseja pedir uma conta de cartão de crédito?';
 $_['text_are_you_sure_refresh_accounts'] = 'Tem certeza de que deseja atualizar as contas de cartão de crédito?';
+$_['text_accounts_label'] = 'Contas';
+$_['text_btn_refresh_accounts'] = 'Atualizar';
 $_['text_upgrade'] = 'Atualizar';
 $_['text_new_version_available'] = 'Nova versão disponível!';
 $_['text_download_installer_btn'] = 'Descarregar instalador';
+$_['text_update_btn'] = 'Atualizar';
+$_['text_are_you_sure_update'] = 'Tem a certeza que quer atualizar a extensão? Isto irá substituir os ficheiros da extensão pela versão mais recente.';
 $_['text_user_manual_btn'] = 'Instruções';
 $_['text_support_btn'] = 'Suporte';
 
@@ -83,6 +87,10 @@ $_['help_cron_url_cancel_order'] = 'Pode configurar o cron job para alterar o es
 
 // Error messages
 $_['error_permission'] = 'Aviso: Não tem permissão para modificar o pagamento por cartão de crédito!';
+$_['error_upgrade'] = 'Erro: Falha na atualização da extensão.';
+$_['error_upgrade_download'] = 'Erro: Falha ao descarregar a atualização.';
+$_['error_upgrade_extract'] = 'Erro: Falha ao extrair a atualização.';
+$_['error_upgrade_url_invalid'] = 'Erro: URL de atualização inválido.';
 $_['error_backoffice_key_accounts_request'] = 'Erro: Não foi possível obter contas. Verifique se a chave de backoffice está correta.';
 $_['error_backoffice_key_format'] = 'Erro: Formato de chave de backoffice inválido.';
 $_['error_backoffice_key_empty'] = 'Erro: O campo Chave de Backoffice está vazio.';
@@ -92,6 +100,7 @@ $_['error_min_value_greater_than_zero'] = 'Erro: Valor mínimo deve ser maior qu
 $_['error_max_value_format'] = 'Erro: Formato de valor máximo inválido.';
 $_['error_max_value_greater_than_zero'] = 'Erro: Valor mínimo deve ser maior que zero.';
 $_['error_min_value_greater_than_max_value'] = 'Erro: O valor mínimo deve ser menor que o valor máximo.';
+$_['error_refresh_accounts'] = 'Erro: Não foi possível atualizar as contas do Ifthenpay. Por favor, tente novamente mais tarde ou contacte o suporte do Ifthenpay se o problema persistir.';
 
 
 
@@ -99,6 +108,7 @@ $_['error_min_value_greater_than_max_value'] = 'Erro: O valor mínimo deve ser m
 $_['success_admin_configuration'] = 'Sucesso: Configuração guardada com sucesso.';
 $_['success_backoffice_key_saved'] = 'Sucesso: Chave de backoffice guardada com sucesso.';
 $_['success_clear_configuration'] = 'Sucesso: Configuração limpa com sucesso.';
+$_['success_upgrade'] = 'Sucesso: Extensão atualizada com sucesso.';
 $_['success_request_account'] = 'Sucesso: Conta de cartão de crédito pedida com sucesso.';
 $_['success_refresh_accounts'] = 'Sucesso: Contas de cartão de crédito atualizadas com sucesso.';
 

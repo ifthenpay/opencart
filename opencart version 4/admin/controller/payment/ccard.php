@@ -8,15 +8,20 @@ require_once DIR_EXTENSION . 'ifthenpay/system/library/Gateway.php';
 require_once DIR_EXTENSION . 'ifthenpay/system/library/Utils.php';
 require_once DIR_EXTENSION . 'ifthenpay/system/library/CcardPayment.php';
 require_once DIR_EXTENSION . 'ifthenpay/system/library/ApiService.php';
+require_once DIR_EXTENSION . 'ifthenpay/system/library/UpgradeTrait.php';
+require_once DIR_EXTENSION . 'ifthenpay/system/library/IfthenpayService.php';
 
 
 use Ifthenpay\Gateway;
 use Ifthenpay\Utils;
 use Ifthenpay\CcardPayment;
 use Ifthenpay\ApiService;
+use Ifthenpay\UpgradeTrait;
+use Ifthenpay\IfthenpayService;
 
 class Ccard extends \Opencart\System\Engine\Controller
 {
+	use UpgradeTrait;
 
 	private const PAYMENTMETHOD = 'CCARD';
 	private const STATUS_PAID = 'paid';
@@ -24,11 +29,13 @@ class Ccard extends \Opencart\System\Engine\Controller
 
 	private $json = [];
 	private $logger;
+	private $ifthenpayService;
 
 	public function __construct($registry)
 	{
 		parent::__construct($registry);
 		$this->logger = new \Opencart\System\Library\Log('ifthenpay.log');
+		$this->ifthenpayService = new IfthenpayService($this->registry);
 	}
 
 
@@ -48,6 +55,7 @@ class Ccard extends \Opencart\System\Engine\Controller
 
 		// add url variables for javascript
 		$data['url_clear_configuration'] = $this->url->link('extension/ifthenpay/payment/ccard.ajaxClearConfiguration', 'user_token=' . $this->session->data['user_token'], true);
+		$data['url_upgrade'] = $this->url->link('extension/ifthenpay/payment/ccard.ajaxUpgrade', 'user_token=' . $this->session->data['user_token'], true);
 		$data['url_request_account'] = $this->url->link('extension/ifthenpay/payment/ccard.ajaxRequestAccount', 'user_token=' . $this->session->data['user_token'], true);
 		$data['url_refresh_accounts'] = $this->url->link('extension/ifthenpay/payment/ccard.ajaxRefreshAccounts', 'user_token=' . $this->session->data['user_token'], true);
 
@@ -143,6 +151,7 @@ class Ccard extends \Opencart\System\Engine\Controller
 		if (version_compare($checkIfModuleUpgradeResult['version'], Utils::getModuleVersion(false), '>')) {
 			return [
 				'upgrade' => true,
+				'version' => $checkIfModuleUpgradeResult['version'],
 				'body' => $checkIfModuleUpgradeResult['description'],
 				'download' => $checkIfModuleUpgradeResult['download']
 			];
@@ -493,34 +502,13 @@ class Ccard extends \Opencart\System\Engine\Controller
 			$this->json['error'] = $this->language->get('error_permission');
 		}
 
-		$this->load->model('setting/setting');
-		$savedSettings = $this->model_setting_setting->getSetting('payment_ccard');
-
-		$savedBackofficeKey = $this->config->get('payment_ccard_backoffice_key');
-
-
-		if (empty($savedBackofficeKey)) {
-			$json['error'] = 'User account backoffice key is not present';
-		}
-
-		$gateway = new Gateway();
-		$accounts = $gateway->getAccountsByBackofficeKeyAndMethod($savedBackofficeKey, self::PAYMENTMETHOD);
-
-		if ($accounts === []) {
-			$json['error'] = 'No Credit Card accounts were found for this backoffice key';
-		}
-
-		if ($accounts !== []) {
-			$savedSettings['payment_ccard_accounts'] = json_encode($accounts);
-		}
-
-		if (!isset($json)) {
-			$this->model_setting_setting->editSetting('payment_ccard', $savedSettings);
-			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - INFO : Accounts refreshed with success internally');
-
-			// TODO: this message being passed both in the json and the session is a bit redundant, but it is currently needed to pass message of success while reloading the page
+		try {
+			$this->ifthenpayService->refreshAccount(strtolower(self::PAYMENTMETHOD));
 			$json['success'] = $this->language->get('success_refresh_accounts');
 			$this->session->data['success'] = $this->language->get('success_refresh_accounts');
+		} catch (\Throwable $th) {
+			$json['error'] = $this->language->get('error_refresh_accounts');
+			$this->session->data['error'] = $this->language->get('error_refresh_accounts');
 		}
 
 		$this->response->addHeader('Content-Type: application/json');
@@ -535,32 +523,12 @@ class Ccard extends \Opencart\System\Engine\Controller
 	 */
 	public function refreshAccountsCtrl()
 	{
-		$this->load->language('extension/ifthenpay/payment/ccard');
-
-		$this->load->model('setting/setting');
-		$savedSettings = $this->model_setting_setting->getSetting('payment_ccard');
-
-		$savedBackofficeKey = $this->config->get('payment_ccard_backoffice_key');
-
-		if (empty($savedBackofficeKey)) {
+		try {
+			$this->ifthenpayService->refreshAccount(strtolower(self::PAYMENTMETHOD));
+		} catch (\Throwable $th) {
 			http_response_code(400);
-			die('User account backoffice key is not present');
+			die('Error refreshing accounts: ' . $th->getMessage());
 		}
-
-		$gateway = new Gateway();
-		$accounts = $gateway->getAccountsByBackofficeKeyAndMethod($savedBackofficeKey, self::PAYMENTMETHOD);
-
-		if ($accounts === []) {
-			http_response_code(400);
-			die('No Credit Card accounts were found for this backoffice key');
-		}
-
-		if ($accounts !== []) {
-			$savedSettings['payment_ccard_accounts'] = json_encode($accounts);
-		}
-
-		$this->model_setting_setting->editSetting('payment_ccard', $savedSettings);
-		$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - INFO : Accounts refreshed with success from email request');
 
 		http_response_code(200);
 		die('Accounts refreshed with success');

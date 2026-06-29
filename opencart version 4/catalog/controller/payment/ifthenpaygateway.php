@@ -203,7 +203,7 @@ class Ifthenpaygateway extends \Opencart\System\Engine\Controller
 
 			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - INFO : IFTHENPAYGATEWAY init data: ' . json_encode(['orderId' => $orderId, 'status' => 'error', 'message' => $th->getMessage()]));
 
-			$this->session->data['ifth_payment_info']['status'] == 'failed';
+			$this->session->data['ifth_payment_info']['status'] = 'failed';
 			$this->response->redirect($this->url->link('checkout/failure', 'language=' . $this->config->get('config_language')));
 		}
 	}
@@ -253,7 +253,7 @@ class Ifthenpaygateway extends \Opencart\System\Engine\Controller
 
 			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - INFO : IFTHENPAYGATEWAY init data: ' . json_encode(['orderId' => $storedPaymentData['order_id'], 'status' => 'error', 'message' => $th->getMessage()]));
 
-			$this->session->data['ifth_payment_info']['status'] == 'failed';
+			$this->session->data['ifth_payment_info']['status'] = 'failed';
 			$this->response->redirect($this->url->link('checkout/failure', 'language=' . $this->config->get('config_language')));
 		}
 
@@ -285,7 +285,7 @@ class Ifthenpaygateway extends \Opencart\System\Engine\Controller
 
 			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - INFO : IFTHENPAYGATEWAY init data: ' . json_encode(['transactionId' => $transactionId, 'status' => 'error', 'message' => $th->getMessage()]));
 
-			$this->session->data['ifth_payment_info']['status'] == 'failed';
+			$this->session->data['ifth_payment_info']['status'] = 'failed';
 			$this->response->redirect($this->url->link('checkout/failure', 'language=' . $this->config->get('config_language')));
 		}
 
@@ -316,7 +316,7 @@ class Ifthenpaygateway extends \Opencart\System\Engine\Controller
 
 			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - INFO : IFTHENPAYGATEWAY init data: ' . json_encode(['transactionId' => $transactionId, 'status' => 'error', 'message' => $th->getMessage()]));
 
-			$this->session->data['ifth_payment_info']['status'] == 'failed';
+			$this->session->data['ifth_payment_info']['status'] = 'failed';
 			$this->response->redirect($this->url->link('checkout/failure', 'language=' . $this->config->get('config_language')));
 		}
 

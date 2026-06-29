@@ -30,9 +30,11 @@ $(document).ready(function () {
 	setEventLst_cofidisKeyChange();
 	setEventLst_clear_config_on_click();
 	setEventLst_request_account_on_click();
+	setEventLst_refresh_accounts_on_click();
 	setEventLst_internal_refresh_accounts_on_click();
 	setEventLst_test_callback_on_click();
 	setEventLst_request_ifthenpaygateway_method_on_click();
+	setEventLst_upgrade_on_click();
 });
 
 function setEventLst_cofidisKeyChange() {
@@ -229,6 +231,36 @@ function setEventLst_request_account_on_click() {
 }
 
 
+function setEventLst_refresh_accounts_on_click() {
+
+	$('#refresh_accounts').on('click', function (e) {
+
+		if (confirm(text_are_you_sure_refresh_accounts)) {
+
+			$("#refresh_accounts_spinner").show();
+
+			$.ajax({
+				url: url_refresh_accounts,
+				dataType: 'json',
+				success: function (json) {
+					$("#refresh_accounts_spinner").hide();
+					if (json['success']) {
+						location.reload();
+					}
+					if (json['error']) {
+						alert(json['error']);
+					}
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					$("#refresh_accounts_spinner").hide();
+					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				}
+			});
+		}
+	});
+}
+
+
 function setEventLst_internal_refresh_accounts_on_click() {
 
 	$('#ifth_logo').on('click', function (e) {
@@ -333,6 +365,45 @@ function setEventLst_request_ifthenpaygateway_method_on_click() {
 		}
 	});
 }
+
+function setEventLst_upgrade_on_click() {
+
+	$('#upgrade_module').on('click', function (e) {
+		e.preventDefault();
+
+		if (confirm(text_are_you_sure_update)) {
+			const downloadUrl = $(this).data('url');
+			const newVersion = $(this).data('version');
+
+			$("#upgrade_spinner").show();
+
+			$.ajax({
+				url: url_upgrade,
+				type: 'POST',
+				dataType: 'json',
+				data: {
+					'download_url': downloadUrl,
+					'new_version': newVersion
+				},
+				success: function (json) {
+					if (json['success']) {
+						alert(json['success']);
+						location.reload();
+					}
+					if (json['error']) {
+						alert(json['error']);
+					}
+					$("#upgrade_spinner").hide();
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+					$("#upgrade_spinner").hide();
+				}
+			});
+		}
+	});
+}
+
 
 function updateDefaultSelect(that) {
 	const method = $(that).data('method');

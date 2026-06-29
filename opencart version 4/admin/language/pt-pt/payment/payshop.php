@@ -35,6 +35,8 @@ $_['text_ifthenpay_team_will_create'] = 'Ao fazer-lo, irá notificar a equipa da
 $_['text_request_payshop_account_btn'] = 'Pedir Conta Payshop';
 $_['text_are_you_sure_request_account'] = 'Tem certeza de que deseja pedir uma conta Payshop?';
 $_['text_are_you_sure_refresh_accounts'] = 'Tem certeza de que deseja atualizar as contas Payshop?';
+$_['text_accounts_label'] = 'Contas';
+$_['text_btn_refresh_accounts'] = 'Atualizar';
 
 
 
@@ -71,6 +73,8 @@ $_['text_are_you_sure_test_callback'] = 'Tem certeza de que deseja testar o call
 $_['text_upgrade'] = 'Atualização';
 $_['text_new_version_available'] = 'Nova versão disponível!';
 $_['text_download_installer_btn'] = 'Descarregar instalador';
+$_['text_update_btn'] = 'Atualizar';
+$_['text_are_you_sure_update'] = 'Tem a certeza que quer atualizar a extensão? Isto irá substituir os ficheiros da extensão pela versão mais recente.';
 $_['text_user_manual_btn'] = 'Instruções';
 $_['text_support_btn'] = 'Suporte';
 
@@ -101,9 +105,14 @@ $_['error_max_value_format'] = 'Erro: Formato de valor máximo inválido.';
 $_['error_max_value_greater_than_zero'] = 'Erro: Valor mínimo deve ser maior que zero.';
 $_['error_min_value_greater_than_max_value'] = 'Erro: O valor mínimo deve ser menor que o valor máximo.';
 $_['error_callback_activation'] = 'Erro: Não foi possível ativar o callback.';
+$_['error_upgrade'] = 'Erro: Falha na atualização da extensão.';
+$_['error_upgrade_download'] = 'Erro: Falha ao descarregar a atualização.';
+$_['error_upgrade_extract'] = 'Erro: Falha ao extrair a atualização.';
+$_['error_upgrade_url_invalid'] = 'Erro: URL de atualização inválido.';
 $_['error_transaction_id_empty'] = 'Erro: O ID de Transação está vazio.';
 $_['error_amount_empty'] = 'Erro: O Valor está vazio.';
 $_['error_amount_invalid'] = 'Erro: Formato de valor inválido.';
+$_['error_refresh_accounts'] = 'Erro: Não foi possível atualizar as contas do Ifthenpay. Por favor, tente novamente mais tarde ou contacte o suporte do Ifthenpay se o problema persistir.';
 
 
 
@@ -111,11 +120,12 @@ $_['error_amount_invalid'] = 'Erro: Formato de valor inválido.';
 $_['success_admin_configuration'] = 'Sucesso: Configuração guardada com sucesso.';
 $_['success_backoffice_key_saved'] = 'Sucesso: Chave de backoffice guardada com sucesso.';
 $_['success_clear_configuration'] = 'Sucesso: Configuração limpa com sucesso.';
+$_['success_upgrade'] = 'Sucesso: Extensão atualizada com sucesso.';
 $_['success_request_account'] = 'Sucesso: Pedido de conta Payshop efetuado com sucesso.';
 $_['success_refresh_accounts'] = 'Sucesso: Contas Payshop atualizadas com sucesso.';
 
 
 // callback test messages
-$_['success_callback_test'] = 'Success: Payshop callback tested successfully.';
-$_['warning_callback_test_already_paid'] = 'Warning: Payshop callback tested, but order has already been set to paid.';
-$_['error_callback_test'] = 'Error: Payshop callback test error.';
+$_['success_callback_test'] = 'Sucesso: Callback Payshop testado com sucesso.';
+$_['warning_callback_test_already_paid'] = 'Aviso: Callback Payshop testado, mas a encomenda já foi definida como paga.';
+$_['error_callback_test'] = 'Erro: Erro no teste do callback Payshop.';

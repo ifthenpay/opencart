@@ -277,7 +277,7 @@ class Pix extends \Opencart\System\Engine\Controller
 
 			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - INFO : PIX init data: ' . json_encode(['orderId' => $orderId, 'status' => 'error', 'message' => $th->getMessage()]));
 
-			$this->session->data['ifth_payment_info']['status'] == 'failed';
+			$this->session->data['ifth_payment_info']['status'] = 'failed';
 			$this->response->redirect($this->url->link('checkout/failure', 'language=' . $this->config->get('config_language')));
 		}
 	}

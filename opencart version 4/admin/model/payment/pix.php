@@ -2,8 +2,14 @@
 
 namespace Opencart\Admin\Model\Extension\ifthenpay\Payment;
 
+require_once DIR_EXTENSION . 'ifthenpay/system/library/CronTrait.php';
+
+use Ifthenpay\CronTrait;
+
 class Pix extends \Opencart\System\Engine\Model
 {
+	use CronTrait;
+	
 	public function install(): void
 	{
 		$this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "ifthenpay_pix` (
@@ -35,6 +41,8 @@ class Pix extends \Opencart\System\Engine\Model
 			'status'      => 1,
 			'sort_order'  => 1
 		]);
+
+		$this->installCron();
 	}
 
 	/**
@@ -44,12 +52,14 @@ class Pix extends \Opencart\System\Engine\Model
 	public function uninstall(): void
 	{
 		// delete ifthenpay_pix table
-		$this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "ifthenpaypix`");
+		$this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "ifthenpay_pix`");
 
 		// delete events
 		$this->load->model('setting/event');
 		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_pix_catalog_success_payment_info');
 		$this->model_setting_event->deleteEventByCode('payment_ifthenpay_pix_icon_injection');
+
+		$this->uninstallCron();
 	}
 
 

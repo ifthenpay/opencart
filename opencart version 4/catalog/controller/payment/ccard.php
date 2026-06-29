@@ -216,7 +216,7 @@ class Ccard extends \Opencart\System\Engine\Controller
 
 			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - INFO : CCARD init data: ' . json_encode(['transactionId' => $transactionId, 'orderId' => $orderId, 'amount' => $amount, 'status' => 'error']));
 
-			$this->session->data['ifth_payment_info']['status'] == 'failed';
+			$this->session->data['ifth_payment_info']['status'] = 'failed';
 			$this->response->redirect($this->url->link('checkout/failure', 'language=' . $this->config->get('config_language')));
 		}
 

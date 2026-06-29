@@ -20,7 +20,7 @@ $_['text_info_desc_line5'] = "O pagamento das prestações será efetuado no car
 
 // Order history
 $_['comment_pending'] = 'Cofidis Pay: Encomenda pendente de pagamento.';
-$_['comment_awaiting_approval'] = 'Cofidis Pay: Encomenda paga.';
+$_['comment_paid'] = 'Cofidis Pay: Encomenda paga.';
 $_['comment_canceled_by_customer'] = 'Cofidis Pay: Encomenda cancelada pelo cliente.';
 $_['comment_failure'] = 'Cofidis Pay: Ocorreu um erro durante o pagamento da encomenda.';
 $_['comment_canceled_by_cron'] = 'Cofidis Pay: Encomenda cancelada automaticamente devido à validade de pagamento.';

@@ -38,6 +38,8 @@ $_['text_no_ifthenpaygateway_accounts_found'] = 'Não foram encontradas contas d
 $_['text_to_request_a_ifthenpaygateway_account'] = 'Para pedir uma conta de Ifthenpay Gateway para o seu contrato, clique no botão "Pedir Conta de Ifthenpay Gateway".';
 $_['text_ifthenpay_team_will_request'] = 'Ao fazê-lo, irá notificar a equipa da Ifthenpay, que posteriormente lhe pedirá os documentos necessários por e-mail, para completar o processo.';
 $_['text_request_ifthenpaygateway_account_btn'] = 'Pedir Conta de Ifthenpay Gateway';
+$_['text_accounts_label'] = 'Contas';
+$_['text_btn_refresh_accounts'] = 'Atualizar';
 
 $_['text_request_ifthenpaygateway_method_btn'] = 'Pedir Método de Ifthenpay Gateway';
 
@@ -61,7 +63,6 @@ $_['entry_key'] = 'Chave de Ifthenpay Gateway';
 $_['entry_methods'] = 'Métodos de Pagamento';
 $_['entry_method_selected_default'] = 'Método selecionado (por defeito)';
 $_['entry_deadline'] = 'Validade';
-$_['entry_deadline'] = 'Validade';
 $_['entry_select_gateway_key_to_view_methods'] = 'Por favor selecione uma chave de Ifthenpay Gateway para mostrar este campo.';
 
 $_['entry_title'] = 'Título';
@@ -84,6 +85,8 @@ $_['text_are_you_sure_test_callback'] = 'Tem certeza de que deseja testar o call
 $_['text_upgrade'] = 'Atualização';
 $_['text_new_version_available'] = 'Nova versão disponível!';
 $_['text_download_installer_btn'] = 'Descarregar instalador';
+$_['text_update_btn'] = 'Atualizar';
+$_['text_are_you_sure_update'] = 'Tem a certeza que quer atualizar a extensão? Isto irá substituir os ficheiros da extensão pela versão mais recente.';
 $_['text_user_manual_btn'] = 'Instruções';
 $_['text_support_btn'] = 'Suporte';
 
@@ -106,7 +109,11 @@ $_['help_max_value'] = 'Exibir este método de pagamento para encomendas com val
 $_['help_cron_url_cancel_order'] = 'Pode configurar o cron job para alterar o estado das encomendas para "Cancelado" se não for paga dentro da validade. Necessita de Validade de Ifthenpay Gateway atribuída para funcionar. Agende o trabalho cron para ser executado a cada 1 minuto.';
 
 // Error messages
-$_['error_permission'] = 'Aviso: Não tem permissão para modificar o pagamento por Cofidis!';
+$_['error_permission'] = 'Aviso: Não tem permissão para modificar o pagamento por Ifthenpay Gateway!';
+$_['error_upgrade'] = 'Erro: Falha na atualização da extensão.';
+$_['error_upgrade_download'] = 'Erro: Falha ao descarregar a atualização.';
+$_['error_upgrade_extract'] = 'Erro: Falha ao extrair a atualização.';
+$_['error_upgrade_url_invalid'] = 'Erro: URL de atualização inválido.';
 $_['error_backoffice_key_accounts_request'] = 'Erro: Não foi possível obter contas. Verifique se a chave de backoffice está correta.';
 $_['error_backoffice_key_format'] = 'Erro: Formato de chave de backoffice inválido.';
 $_['error_backoffice_key_empty'] = 'Erro: O campo Chave de Backoffice está vazio.';
@@ -119,17 +126,20 @@ $_['error_min_value_greater_than_max_value'] = 'Erro: O valor mínimo deve ser m
 $_['error_order_id_empty'] = 'Erro: Campo ID de Encomenda está vazio.';
 $_['error_invalid_request'] = 'Erro: Request inválido.';
 $_['error_deadline_format'] = 'Erro: Formato de validade inválido.';
+$_['error_refresh_accounts'] = 'Erro: Não foi possível atualizar as contas do Ifthenpay. Por favor, tente novamente mais tarde ou contacte o suporte do Ifthenpay se o problema persistir.';
+
 
 // Success messages
 $_['success_admin_configuration'] = 'Sucesso: Configuração guardada com sucesso.';
 $_['success_backoffice_key_saved'] = 'Sucesso: Chave de backoffice guardada com sucesso.';
 $_['success_clear_configuration'] = 'Sucesso: Configuração limpa com sucesso.';
+$_['success_upgrade'] = 'Sucesso: Extensão atualizada com sucesso.';
 $_['success_request_account'] = 'Sucesso: Conta de Ifthenpay Gateway pedida com sucesso.';
 $_['success_refresh_accounts'] = 'Sucesso: Contas de Ifthenpay Gateway atualizadas com sucesso.';
-$_['success_request_gateway_method'] = 'Success: Método de Ifthenpay Gateway pedido com sucesso.';
+$_['success_request_gateway_method'] = 'Sucesso: Método de Ifthenpay Gateway pedido com sucesso.';
 
 
 // callback test messages
-$_['success_callback_test'] = 'Success: Ifthenpay Gateway callback tested successfully.';
-$_['warning_callback_test_already_paid'] = 'Warning: Ifthenpay Gateway callback tested, but order has already been set to paid.';
-$_['error_callback_test'] = 'Error: Ifthenpay Gateway callback test error.';
+$_['success_callback_test'] = 'Sucesso: Callback Ifthenpay Gateway testado com sucesso.';
+$_['warning_callback_test_already_paid'] = 'Aviso: Callback Ifthenpay Gateway testado, mas a encomenda já foi definida como paga.';
+$_['error_callback_test'] = 'Erro: Erro no teste do callback Ifthenpay Gateway.';

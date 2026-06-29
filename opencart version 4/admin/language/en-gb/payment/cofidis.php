@@ -38,6 +38,8 @@ $_['text_ifthenpay_team_will_request'] = 'By doing so, you will notify ifthenpay
 $_['text_request_cofidis_account_btn'] = 'Request Cofidis Pay Account';
 $_['text_are_you_sure_request_account'] = 'Are you sure you want to request a Cofidis Pay account?';
 $_['text_are_you_sure_refresh_accounts'] = 'Are you sure you want to refresh the Cofidis Pay accounts?';
+$_['text_accounts_label'] = 'Accounts';
+$_['text_btn_refresh_accounts'] = 'Refresh';
 
 
 
@@ -70,6 +72,8 @@ $_['text_are_you_sure_test_callback'] = 'Are you sure you want to test the callb
 $_['text_upgrade'] = 'Upgrade';
 $_['text_new_version_available'] = 'New version available!';
 $_['text_download_installer_btn'] = 'Download installer';
+$_['text_update_btn'] = 'Update';
+$_['text_are_you_sure_update'] = 'Are you sure you want to update the extension? This will replace the extension files with the latest version.';
 $_['text_user_manual_btn'] = 'Instructions';
 $_['text_support_btn'] = 'Support';
 
@@ -92,6 +96,10 @@ $_['help_cron_url_cancel_order'] = 'You can set up this cron job to change order
 
 // Error messages
 $_['error_permission'] = 'Warning: You do not have permission to modify payment Cofidis Pay!';
+$_['error_upgrade'] = 'Error: Extension update failed.';
+$_['error_upgrade_download'] = 'Error: Failed to download the update.';
+$_['error_upgrade_extract'] = 'Error: Failed to extract the update.';
+$_['error_upgrade_url_invalid'] = 'Error: Invalid update URL.';
 $_['error_backoffice_key_accounts_request'] = 'Error: Could not get accounts. Please check your backoffice key.';
 $_['error_backoffice_key_format'] = 'Error: Backoffice key format is invalid.';
 $_['error_backoffice_key_empty'] = 'Error: Backoffice key field is empty.';
@@ -104,6 +112,7 @@ $_['error_min_value_greater_than_max_value'] = 'Error: Minimum value must be les
 $_['error_min_value_less_than_ifthenpay_value'] = 'Error: Order Minimum Value can not be lesser than ifthenpay\'s defined value.';
 $_['error_max_value_less_than_ifthenpay_value'] = 'Error: Order Maximum Value can not be greater than ifthenpay\'s defined value.';
 $_['error_unable_to_get_min_max_values_from_ifthenpay'] = 'Error: Could not get ifthenpay\'s min and max values.';
+$_['error_refresh_accounts'] = 'Unable to refresh accounts from Ifthenpay. Please try again later, or contact Ifthenpay support if the problem persists.';
 
 
 
@@ -111,6 +120,7 @@ $_['error_unable_to_get_min_max_values_from_ifthenpay'] = 'Error: Could not get 
 $_['success_admin_configuration'] = 'Success: Configuration saved.';
 $_['success_backoffice_key_saved'] = 'Success: Backoffice Key saved successfully.';
 $_['success_clear_configuration'] = 'Success: Configuration cleared successfully.';
+$_['success_upgrade'] = 'Success: Extension updated successfully.';
 $_['success_request_account'] = 'Success: Cofidis Pay account requested successfully.';
 $_['success_refresh_accounts'] = 'Success: Cofidis Pay accounts refreshed successfully.';
 $_['success_callback_test'] = 'Success: Cofidis Pay callback tested successfully.';

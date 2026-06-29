@@ -49,9 +49,13 @@ $_['text_request_dynamic_multibanco_account_btn'] = 'Request Dynamic Multibanco 
 
 $_['text_are_you_sure_request_account'] = 'Are you sure you want to request a Multibanco account?';
 $_['text_are_you_sure_refresh_accounts'] = 'Are you sure you want to refresh the Multibanco accounts?';
+$_['text_accounts_label'] = 'Accounts';
+$_['text_btn_refresh_accounts'] = 'Refresh';
 $_['text_upgrade'] = 'Upgrade';
 $_['text_new_version_available'] = 'New version available!';
 $_['text_download_installer_btn'] = 'Download installer';
+$_['text_update_btn'] = 'Update';
+$_['text_are_you_sure_update'] = 'Are you sure you want to update the extension? This will replace the extension files with the latest version.';
 $_['text_user_manual_btn'] = 'Instructions';
 $_['text_support_btn'] = 'Support';
 
@@ -125,10 +129,15 @@ $_['error_max_value_format'] = 'Error: Maximum value format is invalid.';
 $_['error_max_value_greater_than_zero'] = 'Error: Maximum value must be greater than zero.';
 $_['error_min_value_greater_than_max_value'] = 'Error: Minimum value must be lesser than maximum value.';
 $_['error_callback_activation'] = 'Error: Unable to activate Callback.';
+$_['error_upgrade'] = 'Error: Extension update failed.';
+$_['error_upgrade_download'] = 'Error: Failed to download the update.';
+$_['error_upgrade_extract'] = 'Error: Failed to extract the update.';
+$_['error_upgrade_url_invalid'] = 'Error: Invalid update URL.';
 $_['error_reference_empty'] = 'Error: Reference field is empty.';
 $_['error_reference_invalid'] = 'Error: Reference field is invalid.';
 $_['error_amount_empty'] = 'Error: Amount field is empty.';
 $_['error_amount_invalid'] = 'Error: Amount field is invalid.';
+$_['error_refresh_accounts'] = 'Unable to refresh accounts from Ifthenpay. Please try again later, or contact Ifthenpay support if the problem persists.';
 
 
 
@@ -136,6 +145,7 @@ $_['error_amount_invalid'] = 'Error: Amount field is invalid.';
 $_['success_admin_configuration'] = 'Success: Configuration saved.';
 $_['success_backoffice_key_saved'] = 'Success: Backoffice Key saved successfully.';
 $_['success_clear_configuration'] = 'Success: Configuration cleared successfully.';
+$_['success_upgrade'] = 'Success: Extension updated successfully.';
 $_['success_request_account'] = 'Success: Multibanco account requested successfully.';
 $_['success_refresh_accounts'] = 'Success: Multibanco accounts refreshed successfully.';
 

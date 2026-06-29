@@ -6,14 +6,19 @@ require_once DIR_EXTENSION . 'ifthenpay/system/library/Gateway.php';
 require_once DIR_EXTENSION . 'ifthenpay/system/library/Utils.php';
 require_once DIR_EXTENSION . 'ifthenpay/system/library/PixPayment.php';
 require_once DIR_EXTENSION . 'ifthenpay/system/library/ApiService.php';
+require_once DIR_EXTENSION . 'ifthenpay/system/library/UpgradeTrait.php';
+require_once DIR_EXTENSION . 'ifthenpay/system/library/IfthenpayService.php';
 
 use Ifthenpay\Gateway;
 use Ifthenpay\Utils;
 use Ifthenpay\PixPayment;
 use Ifthenpay\ApiService;
+use Ifthenpay\UpgradeTrait;
+use Ifthenpay\IfthenpayService;
 
 class Pix extends \Opencart\System\Engine\Controller
 {
+	use UpgradeTrait;
 
 	private const PAYMENTMETHOD = 'PIX';
 	private const STATUS_PAID = 'paid';
@@ -21,11 +26,13 @@ class Pix extends \Opencart\System\Engine\Controller
 
 	private $json = [];
 	private $logger;
+	private $ifthenpayService;
 
 	public function __construct($registry)
 	{
 		parent::__construct($registry);
 		$this->logger = new \Opencart\System\Library\Log('ifthenpay.log');
+		$this->ifthenpayService = new IfthenpayService($this->registry);
 	}
 
 	/**
@@ -43,6 +50,7 @@ class Pix extends \Opencart\System\Engine\Controller
 
 		// add url variables for javascript
 		$data['url_clear_configuration'] = $this->url->link('extension/ifthenpay/payment/pix.ajaxClearConfiguration', 'user_token=' . $this->session->data['user_token'], true);
+		$data['url_upgrade'] = $this->url->link('extension/ifthenpay/payment/pix.ajaxUpgrade', 'user_token=' . $this->session->data['user_token'], true);
 		$data['url_request_account'] = $this->url->link('extension/ifthenpay/payment/pix.ajaxRequestAccount', 'user_token=' . $this->session->data['user_token'], true);
 		$data['url_refresh_accounts'] = $this->url->link('extension/ifthenpay/payment/pix.ajaxRefreshAccounts', 'user_token=' . $this->session->data['user_token'], true);
 		$data['url_test_callback'] = $this->url->link('extension/ifthenpay/payment/pix.ajaxTestCallback', 'user_token=' . $this->session->data['user_token'], true);
@@ -144,6 +152,7 @@ class Pix extends \Opencart\System\Engine\Controller
 		if (version_compare($checkIfModuleUpgradeResult['version'], Utils::getModuleVersion(false), '>')) {
 			return [
 				'upgrade' => true,
+				'version' => $checkIfModuleUpgradeResult['version'],
 				'body' => $checkIfModuleUpgradeResult['description'],
 				'download' => $checkIfModuleUpgradeResult['download']
 			];
@@ -221,41 +230,22 @@ class Pix extends \Opencart\System\Engine\Controller
 		$activateCallback = $this->request->post['payment_pix_activate_callback'];
 		$savedActivateCallback = $this->config->get('payment_pix_activate_callback');
 
-		$backofficeKey = $this->config->get('payment_pix_backoffice_key');
 		$key = $this->request->post['payment_pix_key'];
-
 		$savedKey = $this->config->get('payment_pix_key');
-
 
 		if (
 			($activateCallback === '1' && $savedActivateCallback !== '1') ||
 			($activateCallback === '1' && $savedActivateCallback === '1' && $key !== $savedKey)
 		) {
-
-			$antiPhishingKey = md5((string) rand());
 			try {
-				// get callback url for catalog
-				$urlCallback = $this->url->link('extension/ifthenpay/payment/pix|callback', '', true) . Gateway::PIX_CALLBACK_STRING;
-				$urlCallback = str_replace(HTTP_SERVER, HTTP_CATALOG, $urlCallback);
-				$urlCallback = str_replace('{ec}', 'op_' . (defined('VERSION') ? VERSION : 'unknown'), $urlCallback);
-				$urlCallback = str_replace('{mv}', Utils::getModuleVersion(), $urlCallback);
+				[$callbackUrl, $antiPhishingKey] = $this->ifthenpayService->registerCallback(strtolower(self::PAYMENTMETHOD), self::PAYMENTMETHOD, $key, Gateway::PIX_CALLBACK_STRING);
 
-				$gateway = new Gateway();
-				$result = $gateway->requestActivateCallback($backofficeKey, self::PAYMENTMETHOD, $key, $antiPhishingKey, $urlCallback);
-
-				if (strpos($result, 'OK') === false) {
-					throw new \Exception("error activating callback");
-				}
+				$this->request->post['payment_' . strtolower(self::PAYMENTMETHOD) . '_anti_phishing_key'] = $antiPhishingKey;
+				$this->request->post['payment_' . strtolower(self::PAYMENTMETHOD) . '_url_callback'] = $callbackUrl;
 			} catch (\Throwable $th) {
 				// if it fails set to activate callback to 0 and set error message
 				$this->request->post['payment_pix_activate_callback'] = '0';
 				$this->json['error'] = $this->language->get('error_callback_activation');
-			}
-
-			if (!isset($this->json['error'])) {
-				// set $antiPhishingKey and $urlCallback to the request to save to database
-				$this->request->post['payment_pix_anti_phishing_key'] = $antiPhishingKey;
-				$this->request->post['payment_pix_url_callback'] = $urlCallback;
 			}
 		}
 	}
@@ -348,7 +338,7 @@ class Pix extends \Opencart\System\Engine\Controller
 		$this->load->language('extension/ifthenpay/payment/pix');
 
 		if (!$this->user->hasPermission('modify', 'extension/ifthenpay/payment/pix')) {
-			$this->json['error'] = $this->language->get('error_permission');
+			$json['error'] = $this->language->get('error_permission');
 		}
 
 		if (!isset($this->request->get['transaction_id']) || (isset($this->request->get['transaction_id']) && $this->request->get['transaction_id'] == '')) {
@@ -494,34 +484,13 @@ class Pix extends \Opencart\System\Engine\Controller
 			$this->json['error'] = $this->language->get('error_permission');
 		}
 
-		$this->load->model('setting/setting');
-		$savedSettings = $this->model_setting_setting->getSetting('payment_pix');
-
-		$savedBackofficeKey = $this->config->get('payment_pix_backoffice_key');
-
-
-		if (empty($savedBackofficeKey)) {
-			$json['error'] = 'User account backoffice key is not present';
-		}
-
-		$gateway = new Gateway();
-		$accounts = $gateway->getAccountsByBackofficeKeyAndMethod($savedBackofficeKey, self::PAYMENTMETHOD);
-
-		if ($accounts === []) {
-			$json['error'] = 'No PIX accounts were found for this backoffice key';
-		}
-
-		if ($accounts !== []) {
-			$savedSettings['payment_pix_accounts'] = json_encode($accounts);
-		}
-
-		if (!isset($json)) {
-			$this->model_setting_setting->editSetting('payment_pix', $savedSettings);
-			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - INFO : Accounts refreshed with success internally');
-
-			// TODO: this message being passed both in the json and the session is a bit redundant, but it is currently needed to pass message of success while reloading the page
+		try {
+			$this->ifthenpayService->refreshAccount(strtolower(self::PAYMENTMETHOD));
 			$json['success'] = $this->language->get('success_refresh_accounts');
 			$this->session->data['success'] = $this->language->get('success_refresh_accounts');
+		} catch (\Throwable $th) {
+			$json['error'] = $this->language->get('error_refresh_accounts');
+			$this->session->data['error'] = $this->language->get('error_refresh_accounts');
 		}
 
 		$this->response->addHeader('Content-Type: application/json');
@@ -535,32 +504,12 @@ class Pix extends \Opencart\System\Engine\Controller
 	 */
 	public function refreshAccountsCtrl()
 	{
-		$this->load->language('extension/ifthenpay/payment/pix');
-
-		$this->load->model('setting/setting');
-		$savedSettings = $this->model_setting_setting->getSetting('payment_pix');
-
-		$savedBackofficeKey = $this->config->get('payment_pix_backoffice_key');
-
-		if (empty($savedBackofficeKey)) {
+		try {
+			$this->ifthenpayService->refreshAccount(strtolower(self::PAYMENTMETHOD));
+		} catch (\Throwable $th) {
 			http_response_code(400);
-			die('User account backoffice key is not present');
+			die('Error refreshing accounts: ' . $th->getMessage());
 		}
-
-		$gateway = new Gateway();
-		$accounts = $gateway->getAccountsByBackofficeKeyAndMethod($savedBackofficeKey, self::PAYMENTMETHOD);
-
-		if ($accounts === []) {
-			http_response_code(400);
-			die('No PIX accounts were found for this backoffice key');
-		}
-
-		if ($accounts !== []) {
-			$savedSettings['payment_pix_accounts'] = json_encode($accounts);
-		}
-
-		$this->model_setting_setting->editSetting('payment_pix', $savedSettings);
-		$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - INFO : Accounts refreshed with success from email request');
 
 		http_response_code(200);
 		die('Accounts refreshed with success');
