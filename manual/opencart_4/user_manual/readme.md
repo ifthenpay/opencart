@@ -471,6 +471,16 @@ IMPORTANT: When requesting an account for the Credit Card payment method, the if
 </br>
 
 
+## Refresh accounts
+
+If you Requested a new account creation by phone or something went wrong and helpdesk team was unable to refresh your accounts, you can do it yourself
+> **Note:** Available from version 4.2.2.
+
+* At extension configuration page, there will be a "Refresh" button. Click the button (1) and confirm (2) to reload the available accounts assigned to your backoffice key.
+
+![img](assets/refresh_accounts.png)
+</br>
+
 ## Reset Configuration
 
 This functionality allows you to reset the configuration of the payment method and is useful in the following scenarios:

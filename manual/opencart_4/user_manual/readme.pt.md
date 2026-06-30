@@ -473,6 +473,16 @@ IMPORTANTE: Ao pedir uma conta para o método de pagamento por Cartão de Crédi
 </br>
 
 
+## Recarregar contas
+
+Se solicitou a criação de uma nova conta por telefone ou algo correu mal e a equipa de helpdesk não conseguiu atualizar as suas contas, pode fazê-lo você mesmo
+> **Nota:** Disponível a partir da versão 4.2.2.
+
+* Na página de configuração da extensão, existirá um botão "Atualizar". Clique no botão (1) e confirme (2) para recarregar as contas disponíveis atribuídas à sua chave de backoffice.
+
+![img](assets/refresh_accounts.png)
+</br>
+
 ## Limpeza de Configuração
 
 Esta funcionalidade permite limpar as configurações do método de pagamento e é útil nos seguintes cenários:
