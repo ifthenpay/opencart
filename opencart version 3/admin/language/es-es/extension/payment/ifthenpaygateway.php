@@ -8,8 +8,8 @@ $_['text_payment'] = 'Pago';
 $_['text_success'] = 'Éxito: ¡Has modificado el módulo de pago Ifthenpay Gateway!';
 $_['text_ifthenpaygateway'] = '<a href="https://ifthenpay.com" target="_blank"><img src="view/image/payment/ifthenpay/ifthenpaygateway.png" alt="Ifthenpay Gateway Logo" title="Ifthenpay Gateway" style="border: 1px solid #EEEEEE; height: 38px;" /><br /></a>';
 $_['create_account_now'] = '¡Crea una cuenta ahora!';
-$_['text_home'] = 'Home';
-$_['text_all_zones'] = 'All zones';
+$_['text_home'] = 'Inicio';
+$_['text_all_zones'] = 'Todas las zonas';
 
 //Entry
 $_['entry_backoffice_key'] = 'Clave de Backoffice';
@@ -18,6 +18,9 @@ $_['help_place_holder_backoffice_key'] = 'xxxx-xxxx-xxxx-xxxx';
 $_['add_new_accounts'] = '¿Has añadido una nueva cuenta a tu contrato?';
 $_['add_new_accounts_explain'] = 'Para configurar una cuenta diferente, presiona el botón de reinicio. Al hacerlo, se borrarán los ajustes actuales de este método de pago y podrás insertar una nueva clave de backoffice asociada a tu contrato.';
 $_['reset_accounts'] = 'Reiniciar Cuentas';
+$_['refresh_accounts_lbl'] = 'Cuentas';
+$_['refresh_accounts_btn'] = 'Actualizar';
+$_['refresh_accounts_help'] = 'Actualizar cuentas y mostrar nuevas claves si están disponibles.';
 $_['sandbox_help'] = 'Activa el modo sandbox para probar el módulo sin activar el callback.';
 $_['sandbox_mode'] = 'Modo Sandbox';
 $_['dontHaveAccount_ifthenpaygateway'] = '¿No tienes una cuenta de Ifthenpay Gateway?';

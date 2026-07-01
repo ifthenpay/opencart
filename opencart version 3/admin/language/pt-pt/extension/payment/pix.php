@@ -22,6 +22,9 @@ $_['text_disabled'] = 'Desativado';
 $_['add_new_accounts'] = 'Adicionou uma nova conta ao seu contrato?';
 $_['add_new_accounts_explain'] = 'Para escolher um conta nova prima o botão de reset, irá limpar as opções atuais deste método de pagamento, e será pedido que insira uma backoffice key associada ao seu contrato.';
 $_['reset_accounts'] = 'Reset Contas';
+$_['refresh_accounts_lbl'] = 'Contas';
+$_['refresh_accounts_btn'] = 'Recarregar';
+$_['refresh_accounts_help'] = 'Recarregar contas e mostrar novas chaves, se disponíveis.';
 $_['sandbox_help'] = 'Ative o modo sandbox, para poder testar o módulo sem ativar o callback.';
 $_['sandbox_mode'] = 'Modo Sandbox';
 $_['reset_account_success'] = 'Conta Ifthenpay reinicializada com sucesso!';
@@ -75,7 +78,7 @@ $_['sandboxActivated'] = 'Modo Sandbox activo';
 $_['show_paymentMethod_logo'] = 'Mostrar o Logotipo do Método de Pagamento no Checkout';
 
 // Error
-$_['error_permission'] = 'Aviso: Não tem permissão para modificar o módulo MB WAY!';
+$_['error_permission'] = 'Aviso: Não tem permissão para modificar o módulo Pix!';
 $_['error_backofficeKey_required'] = 'Chave de acesso ao backoffice é obrigatória!';
 $_['error_backofficeKey_already_reset'] = 'Chave de acesso ao backoffice já se encontra limpa!';
 

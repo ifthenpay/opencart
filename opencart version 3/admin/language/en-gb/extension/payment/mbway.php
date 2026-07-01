@@ -18,6 +18,9 @@ $_['help_place_holder_backoffice_key'] = 'xxxx-xxxx-xxxx-xxxx';
 $_['add_new_accounts'] = 'Added a new account to your contract?';
 $_['add_new_accounts_explain'] = 'To set a different account press the reset button, doing so will clear this payment method\'s current settings, and allow you to insert a new backoffice key associated with your contract.';
 $_['reset_accounts'] = 'Reset Accounts';
+$_['refresh_accounts_lbl'] = 'Accounts';
+$_['refresh_accounts_btn'] = 'Refresh';
+$_['refresh_accounts_help'] = 'Refresh accounts and show new keys if available.';
 $_['sandbox_help'] = 'Activate sandbox mode, to test the module without activating the callback.';
 $_['sandbox_mode'] = 'Sandbox Mode';
 $_['dontHaveAccount_mbway'] = 'Don\'t have an MB WAY account?';
@@ -75,7 +78,7 @@ $_['requestAccount_mbway'] = 'Request MB WAY account creation';
 
 
 // Error
-$_['error_permission'] = 'Warning: No permission to modify  MB WAY!';
+$_['error_permission'] = 'Warning: No permission to modify MB WAY!';
 $_['error_backofficeKey_required'] = 'Backoffice key is required!';
 $_['error_backofficeKey_already_reset'] = 'Backoffice key already blank!';
 $_['error_backofficeKey_error'] = 'Error saving Backoffice key!';

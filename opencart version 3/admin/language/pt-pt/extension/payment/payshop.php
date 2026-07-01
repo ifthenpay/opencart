@@ -22,6 +22,9 @@ $_['switch_disable'] = 'Desativar';
 $_['add_new_accounts'] = 'Adicionou uma nova conta ao seu contrato?';
 $_['add_new_accounts_explain'] = 'Para escolher um conta nova prima o botão de reset, irá limpar as opções atuais deste método de pagamento, e será pedido que insira uma backoffice key associada ao seu contrato.';
 $_['reset_accounts'] = 'Reset Contas';
+$_['refresh_accounts_lbl'] = 'Contas';
+$_['refresh_accounts_btn'] = 'Recarregar';
+$_['refresh_accounts_help'] = 'Recarregar contas e mostrar novas chaves, se disponíveis.';
 $_['sandbox_help'] = 'Ative o modo sandbox, para poder testar o módulo sem ativar o callback.';
 $_['sandbox_mode'] = 'Modo Sandbox';
 $_['dontHaveAccount_payshop'] = 'Não tem conta Payshop?';
@@ -62,8 +65,8 @@ $_['dontHaveAccount_payshop'] = 'Não tem conta Payshop?';
 $_['requestAccount_payshop'] = 'Solicitar criação de conta Payshop';
 $_['request_new_account_success'] = 'Email a solicitar nova conta enviado com sucesso.';
 $_['request_new_account_error'] = 'Erro ao enviar email a solicitar nova conta.';
-$_['activate_cancelPayshopOrder'] = 'Cancelar Encomenda Multibanco';
-$_['payshopOrderCancel_help'] = 'Cancele a encomenda Multibanco após a referência expirar.';
+$_['activate_cancelPayshopOrder'] = 'Cancelar Encomenda Payshop';
+$_['payshopOrderCancel_help'] = 'Cancele a encomenda Payshop após a referência expirar.';
 
 
 $_['label_cron_url'] = 'URL do Cron';

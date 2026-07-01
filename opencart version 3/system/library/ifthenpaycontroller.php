@@ -193,6 +193,65 @@ class IfthenpayController extends Controller
         }
     }
 
+ 	public function refreshAccounts()
+    {
+		try {
+            $backofficeKey = $this->configData['payment_' . $this->paymentMethod . '_backofficeKey'] ?? NULL;
+
+            // handle error if there is no backoffice key installed
+            if (!$backofficeKey) {
+                $this->response->addHeader('Content-Type: application/json');
+                $this->response->setOutput(json_encode([
+                    'success' => null,
+                    'validationError' => $this->language->get('error_backofficeKey_required')
+                ]));
+                throw new Exception("reset_account_error");
+            }
+
+            $ifthenpayGateway = $this->ifthenpayContainer->getIoc()->make(Gateway::class);
+
+            $ifthenpayGateway->authenticate($backofficeKey, $this->paymentMethod);
+
+            $this->model_setting_setting->editSettingValue(
+                'payment_' . $this->paymentMethod,
+                'payment_' . $this->paymentMethod . '_userPaymentMethods',
+                serialize($ifthenpayGateway->getPaymentMethods($this->paymentMethod))
+			);
+
+            $this->model_setting_setting->editSettingValue(
+                'payment_' . $this->paymentMethod,
+                'payment_' . $this->paymentMethod . '_userAccount',
+                serialize($ifthenpayGateway->getAccount())
+            );
+
+            $this->model_setting_setting->editSettingValue(
+                'payment_' . $this->paymentMethod,
+                'payment_' . $this->paymentMethod . '_updateUserAccountToken',
+                ''
+            );
+
+            $this->{$this->dynamicModelName}->log('', 'User Accounts refreshed with success!');
+            $this->response->addHeader('Content-Type: application/json');
+            $this->response->setOutput(json_encode([
+                'success' => $this->language->get('refresh_accounts_success')
+            ]));
+
+        } catch (\Throwable $th) {
+
+            $this->{$this->dynamicModelName}->log([
+                'requestData' => $this->request->get,
+                'errorMessage' => $th->getMessage()
+            ], 'Error Refreshing User Accounts');
+
+    		$this->response->addHeader('Content-Type: application/json');
+            $this->response->addHeader('HTTP/1.0 400 Bad Request');
+            $this->response->setOutput(json_encode([
+                'error' => $this->language->get($e->getMessage())
+            ]));
+        }
+    }
+
+
     /**
      * Resets a single payment method to the point where it is still installed,
      * but you are required to input the backoffice key again

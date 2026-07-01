@@ -133,6 +133,12 @@ abstract class ConfigForm
             )
         );
 
+		$this->data['refreshIfthenpayAccountsAdminUrl'] = $this->ifthenpayController->url->link(
+			'extension/payment/' . $this->paymentMethod . '/refreshAccounts',
+			'user_token=' . $this->ifthenpayController->session->data['user_token'],
+			true
+		);
+
         $this->data['resetIfthnepayAccountsUrl'] = $this->ifthenpayController->url->link(
             'extension/payment/' . $this->paymentMethod . '/resetUserAccounts',
             'user_token=' . $this->ifthenpayController->session->data['user_token'],
@@ -754,7 +760,9 @@ abstract class ConfigForm
 
 
 
-        if (!empty($this->configData)) {
+		if (!empty($this->configData) &&
+			!(count($this->configData) === 1 && isset($this->configData['payment_' . $this->paymentMethod . '_updateUserAccountToken']))
+		) {
             if (
                 $this->paymentMethod == 'ifthenpaygateway' &&
                 !$this->generateAndSavePaymentLogo($this->ifthenpayController->request->post['payment_ifthenpaygateway_methods'], $this->ifthenpayController->request->post['payment_ifthenpaygateway_showPaymentMethodLogo'])

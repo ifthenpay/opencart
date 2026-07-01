@@ -748,6 +748,33 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         });
       };
 
+      AdminConfigPage.prototype.refreshIfthenpayAccounts = function (event) {
+        var _this = this;
+
+        this.setEventDefault(event, true);
+        this.spinner = this.eventTarget.next(".appSpinner");
+        this.spinner.show();
+        this.httpService = inversify_adminConfigPage_1["default"].get(HttpService_1.HttpService);
+        this.httpService.setUrl(this.eventTarget.attr("href"));
+        this.httpService.post({}).then(function (response) {
+          if (response.success) {
+            _this.spinner.hide();
+
+            location.reload();
+          } else {
+            alert(response.validationError);
+          }
+        }).fail(function (xhr, status, error) {
+          if (xhr.responseJSON) {
+            alert(xhr.responseJSON.error);
+          } else {
+            alert(error);
+          }
+
+          _this.spinner.hide();
+        });
+      };
+
       AdminConfigPage.prototype.resetIfthenpayAccount = function (event) {
         var _this = this;
 
@@ -1017,6 +1044,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       };
 
       __decorate([Event_1.Event("change", "#ifthenpayMultibancoEntidade"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "changeEntidade", null);
+
+      __decorate([Event_1.Event("click", "#refreshIfthenpayAccountsBtn"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "refreshIfthenpayAccounts", null);
 
       __decorate([Event_1.Event("click", "#resetIfthenpayAccount"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "resetIfthenpayAccount", null);
 
