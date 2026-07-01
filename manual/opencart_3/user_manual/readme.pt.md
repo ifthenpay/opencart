@@ -3,7 +3,7 @@
 Download de versões da extensão ifthenpay para Opencart 3.
 | | Opencart 3 [3.0.1.1 - 3.0.3.9] |
 | ------------------------------------- | --------------------------------- |
-| Link para descarregar instalador .ocmod.zip | [ifthenpay v1.4.5](https://github.com/ifthenpay/opencart/releases/download/1.4.5/ifthenpay.ocmod.zip) |
+| Link para descarregar instalador .ocmod.zip | [ifthenpay v1.4.6](https://github.com/ifthenpay/opencart/releases/download/1.4.6/ifthenpay.ocmod.zip) |
 
 </br>
 </br>
@@ -32,6 +32,7 @@ Ler em ![Portuguese](assets/pt.png) [Português](readme.pt.md), ou ![English](as
 
 - [Mensagem de instruções de pagamento](#mensagem-de-instruções-de-pagamento)
 - [Requerer criação de conta adicional](#requerer-criação-de-conta-adicional)
+- [Recarregar contas](#recarregar-contas)
 - [Limpeza de Configuração](#limpeza-de-configuração)
 - [Callback](#callback)
 - [Testar Callback](#testar-callback)
@@ -111,13 +112,13 @@ Use a tabela abaixo para verificar a compatibilidade do extensão ifthenpay com 
 
 | | Opencart 3 [3.0.1.1 - 3.0.3.9] | Opencart 4 |
 | ------------------------- | ------------------------------ | ------------------------------ |
-| ifthenpay v1.0.0 - v1.4.5 | Compatível | Não compatível |
+| ifthenpay v1.0.0 - v1.4.6 | Compatível | Não compatível |
 
 </br>
 
 ## Instalação
 
-Descarregue o ficheiro de instalação da extensão ifthenpay para Opencart 4 na página do github [ifthenpay v1.4.5](https://github.com/ifthenpay/opencart/releases/tag/v1.4.5).
+Descarregue o ficheiro de instalação da extensão ifthenpay para Opencart 4 na página do github [ifthenpay v1.4.6](https://github.com/ifthenpay/opencart/releases/tag/v1.4.6).
 Pode descarregar de varios pontos neste repositório:
 
 - o link nesta linha de instrução;
@@ -429,6 +430,15 @@ Assim, a equipa da ifthenpay adicionará o método de pagamento à sua conta, at
 
 IMPORTANTE: Ao pedir uma conta para o método de pagamento por Cartão de Crédito, a equipa da ifthenpay irá contactá-lo para pedir mais informações sobre a sua loja online e o seu negócio antes de ativar o método de pagamento.
 
+</br>
+
+### Recarregar contas
+
+> **Nota:** Disponível a partir da versão 1.4.6.
+Esta funcionalidade permite-lhe atualizar as contas do método de pagamento, sendo útil caso tenha solicitado à equipa de helpdesk novas chaves de conta ou entidades.
+Ao clicar neste botão, as chaves de conta/entidades disponíveis do método de pagamento serão recarregadas, tornando possível selecionar as recém-adicionadas.
+
+![img](assets/refresh_accounts.png)
 </br>
 
 ### Limpeza de Configuração

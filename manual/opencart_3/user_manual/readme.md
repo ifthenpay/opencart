@@ -3,7 +3,7 @@
 Download latest version of the ifthenpay extension for Opencart 3.
 | | Opencart 3 [3.0.1.1 - 3.0.3.9] |
 | ------------------------------------- | --------------------------------- |
-| Link to download installer .ocmod.zip | [ifthenpay v1.4.5](https://github.com/ifthenpay/opencart/releases/download/1.4.5/ifthenpay.ocmod.zip) |
+| Link to download installer .ocmod.zip | [ifthenpay v1.4.6](https://github.com/ifthenpay/opencart/releases/download/1.4.6/ifthenpay.ocmod.zip) |
 
 </br>
 </br>
@@ -56,6 +56,7 @@ Read in ![Portuguese](assets/pt.png) [Portuguese](readme.pt.md), or ![English](a
   - [Ifthenpay Gateway](#ifthenpay-gateway)
 - [Other](#other)
   - [Request additional account](#request-additional-account)
+  - [Refresh Accounts](#refresh-accounts)
   - [Reset Configuration](#reset-configuration)
   - [Callback](#callback)
   - [Test Callback](#test-callback)
@@ -111,13 +112,13 @@ Use the table below to check the compatibility of the Ifthenpay extension with y
 
 | | Opencart 3 [3.0.1.1 - 3.0.3.9] | Opencart 4 |
 | ------------------------- | ------------------------------ | ------------------------------ |
-| ifthenpay v1.0.0 - v1.4.5 | Compatible | Not compatible |
+| ifthenpay v1.0.0 - v1.4.6 | Compatible | Not compatible |
 
 </br>
 
 ## Installation
 
-Please download the installation file of the ifthenpay extension for Opencart 3 from the GitHub page [ifthenpay v1.4.5](https://github.com/ifthenpay/opencart/releases/tag/v1.4.5).
+Please download the installation file of the ifthenpay extension for Opencart 3 from the GitHub page [ifthenpay v1.4.6](https://github.com/ifthenpay/opencart/releases/tag/v1.4.6).
 You may get from multiple places in this repository:
 
 - the link in this instruction line;
@@ -429,6 +430,15 @@ As a result, the ifthenpay team will add the payment method to your account, upd
 
 IMPORTANT: When requesting an account for the Credit Card payment method, the ifthenpay team will contact you to request more information about your online store and your business before activating the payment method.
 
+</br>
+
+### Refresh Accounts
+
+> **Note:** Available from version 1.4.6.
+This functionality allows you to refresh the payment method's accounts, and is useful if you requested the helpdesk team for new account keys or entities.
+Clicking this button will reload the available payment method's account key/entities, making it possible to select the newly added ones. 
+
+![img](assets/refresh_accounts.png)
 </br>
 
 ### Reset Configuration
