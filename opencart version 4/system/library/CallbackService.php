@@ -42,6 +42,15 @@ class CallbackService
 		$this->logger = new Log('ifthenpay.log');
 	}
 
+	/**
+	 * OpenCart 4's addHistory()/editOrderStatusId() no longer update `order`.`date_modified`
+	 * (OpenCart 3 did). Keep it in sync for order status changes coming from ifthenpay callbacks.
+	 */
+	private function updateOrderDateModified($order_id): void
+	{
+		$this->registry->db->query("UPDATE `" . DB_PREFIX . "order` SET `date_modified` = NOW() WHERE `order_id` = '" . (int) $order_id . "'");
+	}
+
 
 
 	public function HandleFromMultibanco(Request $request)
@@ -393,6 +402,7 @@ class CallbackService
 
 		// update order history status
 		$this->registry->model_checkout_order->addHistory($storedData['order_id'], (int) $this->registry->config->get('payment_multibanco_paid_status_id'), $this->registry->language->get('comment_paid'), true);
+		$this->updateOrderDateModified($storedData['order_id']);
 
 		// update multibanco table record
 		$this->registry->model_extension_ifthenpay_payment_multibanco->updateMultibancoRecordStatus($storedData['order_id'], 'paid');
@@ -460,6 +470,7 @@ class CallbackService
 
 		// update order history status
 		$this->registry->model_checkout_order->addHistory($storedData['order_id'], (int) $this->registry->config->get('payment_mbway_paid_status_id'), $this->registry->language->get('comment_paid'), true);
+		$this->updateOrderDateModified($storedData['order_id']);
 
 		// update mbway table record
 		$this->registry->model_extension_ifthenpay_payment_mbway->updateMbwayRecordStatus($storedData['order_id'], 'paid');
@@ -530,6 +541,7 @@ class CallbackService
 
 		// update order history status
 		$this->registry->model_checkout_order->addHistory($storedData['order_id'], (int) $this->registry->config->get('payment_payshop_paid_status_id'), $this->registry->language->get('comment_paid'), true);
+		$this->updateOrderDateModified($storedData['order_id']);
 
 		// update payshop table record
 		$this->registry->model_extension_ifthenpay_payment_payshop->updatePayshopRecordStatus($storedData['order_id'], 'paid');
@@ -599,6 +611,7 @@ class CallbackService
 
 		// update order history status
 		$this->registry->model_checkout_order->addHistory($storedData['order_id'], (int) $this->registry->config->get('payment_cofidis_paid_status_id'), $this->registry->language->get('comment_paid'), true);
+		$this->updateOrderDateModified($storedData['order_id']);
 
 		// update cofidis table record
 		$this->registry->model_extension_ifthenpay_payment_cofidis->updateCofidisRecordStatusByTransactionId($storedData['transaction_id'], 'paid');
@@ -717,6 +730,7 @@ class CallbackService
 
 
 		$this->registry->model_checkout_order->addHistory($orderId, (int) $this->registry->config->get('payment_ifthenpaygateway_paid_status_id'), $comment, true);
+		$this->updateOrderDateModified($orderId);
 
 		// update ifthenpaygateway table record
 		$this->registry->model_extension_ifthenpay_payment_ifthenpaygateway->updateIfthenpaygatewayRecordStatus($storedDataIfthenpaygateway['order_id'], 'paid');
@@ -782,6 +796,7 @@ class CallbackService
 
 		// update order history status
 		$this->registry->model_checkout_order->addHistory($storedData['order_id'], (int) $this->registry->config->get('payment_pix_paid_status_id'), $this->registry->language->get('comment_paid'), true);
+		$this->updateOrderDateModified($storedData['order_id']);
 
 		// update pix table record
 		$this->registry->model_extension_ifthenpay_payment_pix->updatePixRecordStatus($storedData['order_id'], 'paid');
