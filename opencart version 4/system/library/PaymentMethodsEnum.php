@@ -8,7 +8,6 @@ enum PaymentMethodsEnum: string
 	case MBWAY = 'mbway';
 	case PAYSHOP = 'payshop';
 	case CCARD = 'ccard';
-	case COFIDIS = 'cofidis';
 	case IFTHENPAYGATEWAY = 'ifthenpaygateway';
 	case PIX = 'pix';
 }

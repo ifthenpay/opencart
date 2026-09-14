@@ -15,9 +15,6 @@ class ApiService
 	private const URL_IFTHENPAY_POST_REFUND = 'https://ifthenpay.com/api/endpoint/payments/refund';
 	private const URL_IFTHENPAY_UPGRADE = 'https://ifthenpay.com/modulesUpgrade/opencart/4/upgrade.json';
 	public const URL_MBWAY_GET_PAYMENT_STATUS = 'https://api.ifthenpay.com/spg/payment/mbway/status';
-	private const URL_COFIDIS_SET_REQUEST = 'https://ifthenpay.com/api/cofidis/init/';
-	public const URL_COFIDIS_GET_MAX_MIN_AMOUNT = 'https://ifthenpay.com/api/cofidis/limits';
-	public const URL_COFIDIS_GET_PAYMENT_STATUS = 'https://ifthenpay.com/api/cofidis/status';
 	private const URL_GET_GATEWAYKEYS_BY_BACKOFFICE = 'https://ifthenpay.com/IfmbWS/ifthenpaymobile.asmx/GetGatewayKeys';
 	private const URL_GET_ACCOUNTS_BY_GATEWAYKEY = 'https://ifthenpay.com/IfmbWS/ifthenpaymobile.asmx/GetAccountsByGatewayKey';
 	private const URL_GET_GLOBALLY_AVAILABLE_METHODS = 'https://api.ifthenpay.com/gateway/methods/available';
@@ -160,37 +157,6 @@ class ApiService
 
 
 
-	public function requestCofidisMaxMinAmount($cofidisKey)
-	{
-		$result = $this->sendRequest(
-			'GET',
-			self::URL_COFIDIS_GET_MAX_MIN_AMOUNT . '/' . $cofidisKey,
-			[]
-		);
-
-		return $result;
-	}
-
-
-
-	public function requestCheckCofidisPaymentStatus($cofidisKey, $transactionId)
-	{
-		$payload = [
-			'cofidisKey' => $cofidisKey,
-			'requestId' => $transactionId,
-		];
-
-		$result = $this->sendRequest(
-			'POST',
-			self::URL_COFIDIS_GET_PAYMENT_STATUS,
-			$payload
-		);
-
-		return $result;
-	}
-
-
-
 	/**
 	 * POST request to get a Multibanco dynamic payment reference
 	 * @param string $entity
@@ -328,21 +294,6 @@ class ApiService
 			$payload
 		);
 	}
-
-
-	public function requestCofidisUrl($cofidisKey, $returnUrl, $customerData)
-	{
-
-		$payload = $customerData;
-		$payload['returnUrl'] = $returnUrl;
-
-		return $this->sendRequest(
-			'POST',
-			self::URL_COFIDIS_SET_REQUEST . $cofidisKey,
-			$payload
-		);
-	}
-
 
 
 	/**

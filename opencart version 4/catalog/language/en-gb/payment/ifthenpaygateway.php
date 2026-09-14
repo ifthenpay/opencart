@@ -3,7 +3,6 @@
 // Methods
 $_['str_ifthenpaygateway'] = 'Ifthenpay Gateway';
 $_['str_ccard'] = 'Credit Card';
-$_['str_cofidis'] = 'Cofidis Pay';
 $_['str_mbway'] = 'MB WAY';
 $_['str_multibanco'] = 'Multibanco';
 $_['str_payshop'] = 'Payshop';

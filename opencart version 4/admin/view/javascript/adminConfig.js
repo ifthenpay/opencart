@@ -6,7 +6,6 @@
 // const url_request_account = '{{ url_request_account }}';
 // const url_refresh_accounts = '{{ url_refresh_accounts }}';
 // const url_test_callback = '{{ url_test_callback }}';
-// const url_get_max_min_limits = '{{ url_get_max_min_limits }}';
 
 // const entry_plh_sub_entity = '{{ entry_plh_sub_entity }}';
 // const text_are_you_sure_clear = '{{ text_are_you_sure_clear }}';
@@ -27,7 +26,6 @@ $(document).ready(function () {
 
 	setEventLst_multibancoEntityChange();
 	setEventLst_ifthenpaygatewayKeyChange();
-	setEventLst_cofidisKeyChange();
 	setEventLst_clear_config_on_click();
 	setEventLst_request_account_on_click();
 	setEventLst_refresh_accounts_on_click();
@@ -36,50 +34,6 @@ $(document).ready(function () {
 	setEventLst_request_ifthenpaygateway_method_on_click();
 	setEventLst_upgrade_on_click();
 });
-
-function setEventLst_cofidisKeyChange() {
-
-	$('#input_cofidis_key').on('change', function (e) {
-		e.preventDefault();
-
-		$(".max_min_spinner").show();
-
-		const $cofidisKey = $('#input_cofidis_key').val();
-
-		$.ajax({
-			url: url_get_max_min_limits,
-			dataType: 'json',
-			data: {
-				'key': $cofidisKey
-			},
-			success: function (json) {
-				if (json['success']) {
-
-					const inputMin = $('#input-min-value');
-					const inputMax = $('#input-max-value');
-
-					inputMin.val('');
-					inputMax.val('');
-
-					if (Object.keys(json['success']).length > 0) {
-
-						const min = json['success']['min'] ?? '';
-						const max = json['success']['max'] ?? '';
-
-						inputMin.val(min);
-						inputMax.val(max);
-					}
-
-				}
-				$(".max_min_spinner").hide();
-			},
-			error: function (xhr, ajaxOptions, thrownError) {
-				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-			}
-		});
-	});
-}
-
 
 /**
  * Sets event listener for multibanco entity change, to update subentity select by ajax to controller

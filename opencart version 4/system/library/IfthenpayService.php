@@ -58,11 +58,6 @@ class IfthenpayService
 					$entity = PaymentMethodsEnum::PAYSHOP->name;
 					$subEntity = $storedSettings['payment_' . $method . '_key'] ?? null;
 					break;
-				case PaymentMethodsEnum::COFIDIS->value:
-					$callbackStr  = Gateway::COFIDIS_CALLBACK_STRING;
-					$entity = PaymentMethodsEnum::COFIDIS->name;
-					$subEntity = $storedSettings['payment_' . $method . '_key'] ?? null;
-					break;
 				case PaymentMethodsEnum::IFTHENPAYGATEWAY->value:
 					$callbackStr  = Gateway::IFTHENPAYGATEWAY_CALLBACK_STRING;
 					$entity = PaymentMethodsEnum::IFTHENPAYGATEWAY->name;

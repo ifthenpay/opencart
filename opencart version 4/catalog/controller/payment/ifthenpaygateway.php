@@ -108,12 +108,17 @@ class Ifthenpaygateway extends \Opencart\System\Engine\Controller
 			$daysToDeadline = $this->config->get('payment_ifthenpaygateway_deadline');
 			$deadline = Utils::dateAfterDays($daysToDeadline);
 
+			// removes cofidis from the list of methods, next time the configuration is saved, since it is not supported in the gateway
+			$storedMethods = $this->config->get('payment_ifthenpaygateway_methods');
+			if (is_array($storedMethods)) {
+				unset($storedMethods['COFIDIS']);
+			}
 
 			$methods = array_map(function ($item) {
 				if (isset($item['is_active']) && $item['is_active'] === '1') {
 					return $item['account'];
 				}
-			}, $this->config->get('payment_ifthenpaygateway_methods'));
+			}, $storedMethods);
 
 
 			$methodsStr = implode(';', str_replace(' ', '', $methods));
@@ -421,6 +426,9 @@ class Ifthenpaygateway extends \Opencart\System\Engine\Controller
 
 		if ($this->config->get('payment_ifthenpaygateway_show_icon_checkout') === '2') {
 			$paymentMethods = $this->config->get('payment_ifthenpaygateway_methods');
+			if (is_array($paymentMethods)) {
+				unset($paymentMethods['COFIDIS']);
+			}
 
 			$activePaymentMethods = [];
 			foreach ($paymentMethods as $key => $value) {

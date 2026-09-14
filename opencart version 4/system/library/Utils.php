@@ -149,7 +149,6 @@ class Utils
 			'mbway' => 90,
 			'payshop' => 50,
 			'ccard' => 64,
-			'cofidis' => 168,
 			'google' => 108,
 			'apple' => 104,
 			'pix' => 100,

@@ -9,7 +9,6 @@ use Ifthenpay\ApiService;
 class Gateway
 {
 	private $paymentMethods = [
-		'COFIDIS',
 		'MULTIBANCO',
 		'MB',
 		'MBWAY',
@@ -26,7 +25,6 @@ class Gateway
 	public const MULTIBANCO_CALLBACK_STRING = '&ec={ec}&mv={mv}&phish_key=[CHAVE_ANTI_PHISHING]&order_id=[ORDER_ID]&reference=[REFERENCIA]&amount=[VALOR]';
 	public const PAYSHOP_CALLBACK_STRING = '&ec={ec}&mv={mv}&phish_key=[CHAVE_ANTI_PHISHING]&order_id=[ORDER_ID]&reference=[REFERENCIA]&amount=[VALOR]';
 	public const MBWAY_CALLBACK_STRING = '&ec={ec}&mv={mv}&phish_key=[CHAVE_ANTI_PHISHING]&order_id=[ORDER_ID]&transaction_id=[ID_TRANSACAO]&amount=[VALOR]';
-	public const COFIDIS_CALLBACK_STRING = '&ec={ec}&mv={mv}&phish_key=[CHAVE_ANTI_PHISHING]&order_id=[ORDER_ID]&transaction_id=[ID_TRANSACAO]&amount=[VALOR]';
 	public const IFTHENPAYGATEWAY_CALLBACK_STRING = '&ec={ec}&mv={mv}&phish_key=[ANTI_PHISHING_KEY]&order_id=[ORDER_ID]&amount=[AMOUNT]&reference=[REFERENCE]&transaction_id=[TRANSACTION_ID]&pmt=[PAYMENT_METHOD]';
 	public const PIX_CALLBACK_STRING = '&ec={ec}&mv={mv}&phish_key=[CHAVE_ANTI_PHISHING]&order_id=[ORDER_ID]&transaction_id=[ID_TRANSACAO]&amount=[VALOR]';
 

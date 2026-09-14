@@ -25,7 +25,6 @@ class CallbackService
 		'mbway',
 		'multibanco',
 		'payshop',
-		'cofidis',
 		'pix',
 	];
 
@@ -200,55 +199,6 @@ class CallbackService
 
 
 
-	public function HandleFromCofidis(Request $request)
-	{
-
-		try {
-
-			// set this config values to instance to later validate against callback data
-			$this->isCallbackActive = $this->registry->config->get('payment_cofidis_activate_callback');
-			$this->antiPhishingKey = $this->registry->config->get('payment_cofidis_anti_phishing_key');
-
-			$transactionId = isset($request->get['transaction_id']) ? $request->get['transaction_id'] : '';
-			$orderId = isset($request->get['order_id']) ? $request->get['order_id'] : '';
-
-			// check if there is a record in cofidis table
-			$this->registry->load->model('extension/ifthenpay/payment/cofidis');
-			$storedData = $this->registry->model_extension_ifthenpay_payment_cofidis->getCofidisRecordByTransactionId($transactionId);
-
-			if (!empty($storedData)) {
-				$this->processCallbackForCofidis($request, $storedData);
-			} else {
-
-
-				$this->registry->load->model('extension/ifthenpay/payment/ifthenpaygateway');
-				$storedData = $this->registry->model_extension_ifthenpay_payment_ifthenpaygateway->getIfthenpayGatewayRecordByOrderId($orderId);
-
-				if (!empty($storedData)) {
-
-					$this->processCallbackForIfthenpayGateway($request, $storedData);
-				}
-
-				if (empty($storedData)) {
-					// no payment method data was found in local tables of ifthenpay
-					throw new \Exception('StoredPaymentData not found in local table.', 10);
-				}
-			}
-		} catch (\Throwable $th) {
-			$this->logger->write('IFTHENPAY - HandleFromCofidis - ERROR : ' . $th->getMessage());
-
-			$code = $th->getCode() ?? '000';
-
-			http_response_code(400);
-			die('fail - ' . $code);
-		}
-
-		http_response_code(200);
-		die('ok');
-	}
-
-
-
 	public function HandleFromIfthenpayGateway(Request $request)
 	{
 
@@ -296,9 +246,6 @@ class CallbackService
 								break;
 							case 'payshop':
 								$this->processCallbackForPayshop($request, $storedData);
-								break;
-							case 'cofidis':
-								$this->processCallbackForCofidis($request, $storedData);
 								break;
 							case 'pix':
 								$this->processCallbackForPix($request, $storedData);
@@ -592,76 +539,6 @@ class CallbackService
 
 
 	/* -------------------------------------------------------------------------- */
-	/*                                COFIDIS                                     */
-	/* -------------------------------------------------------------------------- */
-
-
-
-	private function processCallbackForCofidis(Request $request, array $storedData)
-	{
-		$this->registry->load->model('extension/ifthenpay/payment/cofidis');
-		$this->registry->load->language('extension/ifthenpay/payment/cofidis');
-
-		if ($storedData['status'] === 'paid') {
-			http_response_code(200);
-			die('ok - encomenda já se encontra paga');
-		}
-
-		$this->validateCallbackCofidis($request->get, $storedData);
-
-		// update order history status
-		$this->registry->model_checkout_order->addHistory($storedData['order_id'], (int) $this->registry->config->get('payment_cofidis_paid_status_id'), $this->registry->language->get('comment_paid'), true);
-		$this->updateOrderDateModified($storedData['order_id']);
-
-		// update cofidis table record
-		$this->registry->model_extension_ifthenpay_payment_cofidis->updateCofidisRecordStatusByTransactionId($storedData['transaction_id'], 'paid');
-
-		http_response_code(200);
-		die('ok');
-	}
-
-
-
-	private function validateCallbackCofidis($callbackData, $storedPaymentData): void
-	{
-
-		if (!isset($callbackData['transaction_id'])) {
-			throw new \Exception('Transaction not present in callback data.', 20);
-		}
-
-
-		if ($callbackData['transaction_id'] != $storedPaymentData['transaction_id']) {
-			throw new \Exception('Transaction ID not present in callback data.', 25);
-		}
-
-		// is callback active?
-		if (!$this->isCallbackActive) {
-			throw new \Exception('Callback is not active.', 30);
-		}
-		// is anti-phishing key valid?
-		if (($callbackData['phish_key'] == '') || ($callbackData['phish_key'] != $this->antiPhishingKey)) {
-			throw new \Exception('Invalid anti-phishing key.', 40);
-		}
-
-		// is order id valid? does it exist?
-		$order = $this->registry->model_checkout_order->getOrder($storedPaymentData['order_id']);
-		if (!$order) {
-			throw new \Exception('Order not found.', 50);
-		}
-
-		// is order amount valid?
-		$callbackAmount = $callbackData['amount'];
-		$formatedAmount = $this->registry->currency->format($order['total'], $order['currency_code'], $order['currency_value'], false);
-		$formatedAmount = (string) round($formatedAmount, 2);
-
-		if ($callbackAmount != $formatedAmount) {
-			throw new \Exception('Invalid amount.', 60);
-		}
-	}
-
-
-
-	/* -------------------------------------------------------------------------- */
 	/*                              IFTHENPAYGATEWAY                              */
 	/* -------------------------------------------------------------------------- */
 
@@ -702,9 +579,6 @@ class CallbackService
 				break;
 			case 'payshop':
 				$method = $this->registry->language->get('str_payshop');
-				break;
-			case 'cofidis':
-				$method = $this->registry->language->get('str_cofidis');
 				break;
 			case 'pix':
 				$method = $this->registry->language->get('str_pix');
