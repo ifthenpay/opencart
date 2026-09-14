@@ -3,7 +3,7 @@
 Download de versões da extensão ifthenpay para Opencart 3.
 | | Opencart 3 [3.0.1.1 - 3.0.3.9] |
 | ------------------------------------- | --------------------------------- |
-| Link para descarregar instalador .ocmod.zip | [ifthenpay v1.4.6](https://github.com/ifthenpay/opencart/releases/download/1.4.6/ifthenpay.ocmod.zip) |
+| Link para descarregar instalador .ocmod.zip | [ifthenpay v1.4.7](https://github.com/ifthenpay/opencart/releases/download/1.4.7/ifthenpay.ocmod.zip) |
 
 </br>
 </br>
@@ -24,7 +24,6 @@ Ler em ![Portuguese](assets/pt.png) [Português](readme.pt.md), ou ![English](as
 - [MB WAY](#mb-way)
 - [Cartão de Crédito](#cartão-de-crédito)
 - [Payshop](#payshop)
-- [Cofidis Pay](#cofidis-pay)
 - [Pix](#pix)
 - [Ifthenpay Gateway](#ifthenpay-gateway)
 
@@ -52,7 +51,6 @@ Ler em ![Portuguese](assets/pt.png) [Português](readme.pt.md), ou ![English](as
   - [MB WAY](#mb-way)
   - [Cartão de Crédito](#cartão-de-crédito)
   - [Payshop](#payshop)
-  - [Cofidis Pay](#cofidis-pay)
   - [Pix](#pix)
   - [Ifthenpay Gateway](#ifthenpay-gateway)
 - [Experiência do Utilizador Consumidor](#experiência-do-utilizador-consumidor)
@@ -60,7 +58,6 @@ Ler em ![Portuguese](assets/pt.png) [Português](readme.pt.md), ou ![English](as
   - [Pagar encomenda com Payshop](#pagar-encomenda-com-payshop)
   - [Pagar encomenda com MB WAY](#pagar-encomenda-com-mb-way)
   - [Pagar encomenda com cartão de crédito](#pagar-encomenda-com-cartão-de-crédito)
-  - [Pagar encomenda com Cofidis Pay](#pagar-encomenda-com-cofidis-pay)
   - [Pagar encomenda com Pix](#pagar-encomenda-com-pix)
   - [Pagar encomenda com Ifthenpay Gateway](#pagar-encomenda-com-ifthenpay-gateway)
 
@@ -80,8 +77,6 @@ Ler em ![Portuguese](assets/pt.png) [Português](readme.pt.md), ou ![English](as
 **Payshop** é um método de pagamento que permite ao consumidor pagar com referência Payshop. Esta extensão permite gerar uma referência de pagamento que o consumidor pode usar para pagar a sua encomenda num agente Payshop ou CTT. Este plugin usa a ifthenpay, uma das várias gateways disponíveis em Portugal.
 
 **Cartão de Crédito** Esta extensão permite gerar um pagamento por Visa ou Master card, que o consumidor pode usar para pagar a sua encomenda. Este plugin usa a ifthenpay, uma das várias gateways disponíveis em Portugal.
-
-**Cofidis Pay** é uma solução de pagamento que facilita o pagamento de compras ao dividir o valor até 12 prestações sem juros. Este extensão usa a ifthenpay, uma das várias gateways disponíveis em Portugal.
 
 **Pix** é uma solução de pagamento instantâneo amplamente usada no mercado financeiro brasileiro. Permite realizar compras de forma rápida e segura, utilizando dados como CPF, e-mail e número de telemóvel para efetuar o pagamento.
 
@@ -105,13 +100,13 @@ Use a tabela abaixo para verificar a compatibilidade do extensão ifthenpay com 
 
 | | Opencart 3 [3.0.1.1 - 3.0.3.9] | Opencart 4 |
 | ------------------------- | ------------------------------ | ------------------------------ |
-| ifthenpay v1.0.0 - v1.4.6 | Compatível | Não compatível |
+| ifthenpay v1.0.0 - v1.4.7 | Compatível | Não compatível |
 
 </br>
 
 ## Instalação
 
-Descarregue o ficheiro de instalação da extensão ifthenpay para Opencart 4 na página do github [ifthenpay v1.4.6](https://github.com/ifthenpay/opencart/releases/tag/v1.4.6).
+Descarregue o ficheiro de instalação da extensão ifthenpay para Opencart 4 na página do github [ifthenpay v1.4.7](https://github.com/ifthenpay/opencart/releases/tag/v1.4.7).
 Pode descarregar de varios pontos neste repositório:
 
 - o link nesta linha de instrução;
@@ -296,35 +291,6 @@ Clique em salvar (17) para guardar as alterações.
 
 </br>
 
-### Cofidis Pay
-
-O método de pagamento Cofidis Pay permite ao consumidor pagar em prestações.
-As Chaves Cofidis Pay  são carregadas automaticamente, na introdução da Chave Backoffice.
-Configure o método de pagamento, a imagem abaixo mostra um exemplo de configuração minimamente funcional.
-
-1. **Estado** - Ativa o método de pagamento, exibindo-o no checkout da sua loja;
-2. **Sandbox** - Previne a ativação do callback quando salva a configuração.
-3. **Ativar Callback** - Ao ativar, o estado da encomenda será atualizado quando o pagamento for recebido;
-4. **Habilitar Cron job de Cancelar** - Ao ativar, permite que o cronjob de cancelamento de encomendas execute neste método em específico (utilizado quando não deseja que o cronjob execute em todos os métodos de pagamento);
-5. **Chave Cofidis Pay** - Selecionar uma Chave. Apenas pode selecionar uma das Chaves associadas à Chave Backoffice;
-6. **Estado Cancelado** - Estado de encomenda usado quando a encomenda é cancelada;
-7. **Estado Aprovado** - Estado de encomenda usado quando aprovação é recebida;
-8. **Estado Falhado** - Estado de encomenda usado quando o pedido de transação falha;
-9. **Estado Pendente** - Estado de encomenda usado na confirmação da encomenda;
-10. **Estado Pago** - Estado de encomenda usado quando é recebido confirmação de pagamento;
-11. **Zona Geo** - (opcional) Ao selecionar uma zona, apenas exibe este método de pagamento para encomendas com morada de envio pertencentes à zona selecionada;
-12. **Valor Mínimo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor superior ao valor inserido;
-13. **Valor Máximo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor inferior ao valor inserido;
-14. **Exibir Logo do Método de Pagamento** - (opcional) Exibe o logo deste método de pagamento no checkout, desabilitar esta opção exibirá o Título do método de pagamento.
-15. **Título** - Título que é exibido ao consumidor no checkout no caso de o logo não ser exibido;
-16. **Instrução do Método de Pagamento** - (opcional) Apresenta uma mensagem de instrução no checkout. Utilizada para informar o cliente sobre o método de pagamento escolhido. Pode ser editada nos ficheiros de tradução.
-17. **Ordenação** - (opcional) Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar.
-
-Clique em salvar (18) para guardar as alterações.
-![img](assets/config_cofidis.png)
-
-</br>
-
 ### Pix
 
 O método de pagamento Pix, permite pagar com CPF através da gateway ifthenpay.
@@ -504,13 +470,6 @@ Nota: o valor, se tiver casas decimais, deve ser separado por um ponto.
 
 </br>
 
-**Cofidis Pay**: No backoffice, use os seguintes dados (1) e (2) dos detalhes de pagamento de encomenda
-![img](assets/test_callback_data_cofidis.png)
-</br>
-
-e introduza-os nos respetivos campos (1) e (2) do formulário de teste de callback e clique em Testar (3).
-Nota: o valor, se tiver casas decimais, deve ser separado por um ponto.
-![img](assets/test_callback_form_cofidis.png)
 
 </br>
 
@@ -541,7 +500,6 @@ Um cronjob é uma tarefa programada executada automaticamente em intervalos espe
 | MB WAY              | 4 minutos                   |
 | Payshop             | Configurável de 1 a 99 dias |
 | Cartão de Crédito   | Não possui                  |
-| Cofidis Pay         | 60 minutos                  |
 | Pix                 | 5 minutos                   |
 | Ifthenpay Gateaway  | Configurável de 1 a 99 dias |
 
@@ -657,65 +615,6 @@ Após o pagamento ser processado, será exibida a página de sucesso da encomend
 
 </br>
 
-### Pagar encomenda com Cofidis Pay
-
-Selecionar o método de pagamento Cartão de Crédito (1) e clicar em Continuar (2).
-![img](assets/select_cofidis.png)
-</br>
-
-Clicar em Confirmar Encomenda.
-
-- Entre ou, se não tiver conta faça o registo com Cofidis Pay:
-
-1. Clique "Avançar" para registar em Cofidis Pay;
-2. Ou se tiver uma conta Cofidis Pay, preencha as suas credencias de acesso e clique entrar;
-![img](assets/cofidis_payment_1.png)
-</br>
-
-- Número de prestações, faturação e dados pessoais:
-
-1. Selecione o número de prestações que deseja;
-2. Verifique o sumário do plano de pagamento;
-3. Preencha os seus dados pessoais e de faturação;
-4. Clique em "Avançar" para continuar;
-![img](assets/cofidis_payment_2.png)
-</br>
-
-- Termos e condições:
-
-1. Selecione "Li e autorizo" para concordar com os termos e condições;
-2. Clique em "Avançar"
-![img](assets/cofidis_payment_3.png)
-</br>
-
-- Formalização do acordo:
-
-1. Clique em "Enviar código";
-![img](assets/cofidis_payment_4.png)
-</br>
-
-- Código de autenticação da formalização do acordo:
-
-1. Preencha o com o código que recebeu no telemóvel;
-2. Clique em "Confirmar código";
-![img](assets/cofidis_payment_5.png)
-</br>
-
-- Resumo e Pagamento:
-
-1. Preencha com os detalhes do seu cartão de crédito(número, data de expiração e CW), e clique em "Validar";
-![img](assets/cofidis_payment_6.png)
-</br>
-
-- Sucesso e voltar à loja:
-
-1. Clique no icone para voltar à loja;
-![img](assets/cofidis_payment_7.png)
-</br>
-
-Após o pagamento ser processado, será exibida a página de sucesso da encomenda.
-![img](assets/payment_return_cofidis.png)
-</br>
 
 ### Pagar encomenda com Pix
 

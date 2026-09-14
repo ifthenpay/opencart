@@ -3,7 +3,7 @@
 Download latest version of the ifthenpay extension for Opencart 3.
 | | Opencart 3 [3.0.1.1 - 3.0.3.9] |
 | ------------------------------------- | --------------------------------- |
-| Link to download installer .ocmod.zip | [ifthenpay v1.4.6](https://github.com/ifthenpay/opencart/releases/download/1.4.6/ifthenpay.ocmod.zip) |
+| Link to download installer .ocmod.zip | [ifthenpay v1.4.7](https://github.com/ifthenpay/opencart/releases/download/1.4.7/ifthenpay.ocmod.zip) |
 
 </br>
 </br>
@@ -24,7 +24,6 @@ Read in ![Portuguese](assets/pt.png) [Portuguese](readme.pt.md), or ![English](a
 - [MB WAY](#mb-way)
 - [Credit Card](#credit-card)
 - [Payshop](#payshop)
-- [Cofidis Pay](#cofidis-pay)
 - [Pix](#pix)
 - [Ifthenpay Gateway](#ifthenpay-gateway)
 
@@ -52,7 +51,6 @@ Read in ![Portuguese](assets/pt.png) [Portuguese](readme.pt.md), or ![English](a
   - [MB WAY](#mb-way)
   - [Credit Card](#credit-card)
   - [Payshop](#payshop)
-  - [Cofidis Pay](#cofidis-pay)
   - [Pix](#pix)
   - [Ifthenpay Gateway](#ifthenpay-gateway)
 - [Customer usage experience](#customer-usage-experience)
@@ -60,7 +58,6 @@ Read in ![Portuguese](assets/pt.png) [Portuguese](readme.pt.md), or ![English](a
   - [Paying order with Payshop](#paying-order-with-payshop)
   - [Paying order with MB WAY](#paying-order-with-mb-way)
   - [Paying order with Credit Card](#paying-order-with-credit-card)
-  - [Paying order with Cofidis Pay](#paying-order-with-cofidis-pay)
   - [Paying order with Pix](#paying-order-with-pix)
   - [Paying order with Ifthenpay Gateway](#paying-order-with-ifthenpay-gateway)
 
@@ -80,8 +77,6 @@ Read in ![Portuguese](assets/pt.png) [Portuguese](readme.pt.md), or ![English](a
 **Payshop** is a Portuguese payment method that allows the consumer to pay with a Payshop reference. This extension enables the generation of a payment reference that the consumer can use to pay for their order at a Payshop agent or CTT (Portuguese postal service). This extension uses ifthenpay, one of the various gateways available in Portugal.
 
 **Credit Card** This extension allows generating a payment through Visa or MasterCard, which the consumer can use to pay for their order. This extension uses ifthenpay, one of the various gateways available in Portugal.
-
-**Cofidis Pay** is a payment solution of up to 12 interest-free installments that makes it easier to pay for purchases by splitting them. This extension uses one of the several gateways/services available in Portugal, IfthenPay.
 
 **Pix** is an instant payment solution widely used in the Brazilian financial market. It enables quick and secure transactions for purchases, using details such as CPF, email, and phone number to complete the payment.
 
@@ -105,13 +100,13 @@ Use the table below to check the compatibility of the Ifthenpay extension with y
 
 | | Opencart 3 [3.0.1.1 - 3.0.3.9] | Opencart 4 |
 | ------------------------- | ------------------------------ | ------------------------------ |
-| ifthenpay v1.0.0 - v1.4.6 | Compatible | Not compatible |
+| ifthenpay v1.0.0 - v1.4.7 | Compatible | Not compatible |
 
 </br>
 
 ## Installation
 
-Please download the installation file of the ifthenpay extension for Opencart 3 from the GitHub page [ifthenpay v1.4.6](https://github.com/ifthenpay/opencart/releases/tag/v1.4.6).
+Please download the installation file of the ifthenpay extension for Opencart 3 from the GitHub page [ifthenpay v1.4.7](https://github.com/ifthenpay/opencart/releases/tag/v1.4.7).
 You may get from multiple places in this repository:
 
 - the link in this instruction line;
@@ -296,35 +291,6 @@ Click on Save (17) to save the changes.
 
 </br>
 
-### Cofidis Pay
-
-The Cofidis Pay payment method allows the consumer to pay in installments.
-The Cofidis Pay Keys are automatically loaded upon entering the Backoffice Key.
-Configure the payment method. The image below shows an example of a minimally functional configuration.
-
-1. **Status** - Activates the payment method, displaying it at the checkout of your store.
-2. **Sandbox** - Prevents activation of callback when saving configuration.
-3. **Enable Callback** - When enabled, the order status will be updated when the payment is received.
-4. **Enable Cancel Cron Job** - When enabled, allows the order cancellation cron job to run for this specific method (used when you don't want the cron job to run for all payment methods).
-5. **Cofidis Pay Key** - Select a Key. You can only choose one of the Keys associated with the Backoffice Key.
-6. **Canceled Status** - Order status used when the order is canceled.
-7. **Approved Status** - Order status used when payment approval is received.
-8. **Failed Status** - Order status used when payment fails while requesting transaction.
-9. **Pending Status** - Order status used during order confirmation.
-10. **Paid Status** - Order status used when payment confirmation is received.
-11. **Geo Zone** - (optional) By selecting a geographic zone, this payment method will only be displayed for orders with a shipping address within the chosen zone.
-12. **Minimum Amount** - (optional) Displays this payment method only for orders with a value greater than the entered amount. **Important Notice:** On Cofidis Key selection, this input is updated with value configured in ifthenpay's backoffice, and when editing, it can not be less then the value specified in ifthenpay's backoffice.;
-13. **Maximum Amount** - (optional) Displays this payment method only for orders with a value lower than the entered amount. **Important Notice:** On Cofidis Key selection, this input is updated with value configured in ifthenpay's backoffice, and when editing, it can not be greater then the value specified in ifthenpay's backoffice.;
-14. **Show Payment Method Logo** - Display this payment method logo image on checkout, disabling this option will display the Payment Method Title.
-15. **Title** - The title that appears to the consumer during checkout.
-16. **Payment Method Instruction** - (optional) Displays an instruction message at the checkout. Used to inform the customer about the chosen payment method. Can be edited in the translations files.
-17. **Sort Order** - (optional) Sorts the payment methods on the checkout page in ascending order. Lower numbers take the first position.
-
-Click on Save (18) to save the changes.
-![img](assets/config_cofidis.png)
-
-</br>
-
 ### Pix
 
 The Pix payment method allows payment with CPF through the ifthenpay gateway.
@@ -456,7 +422,7 @@ After clearing the configuration, you will be prompted to enter the Backoffice K
 
 ### Callback
 
-IMPORTANT: Only the Multibanco, MB WAY, Payshop, Cofidis Pay, and Ifthenpay Gateway payment methods allow activating the Callback. The Credit Card method changes the order status automatically without using the Callback.
+IMPORTANT: Only the Multibanco, MB WAY, Payshop, and Ifthenpay Gateway payment methods allow activating the Callback. The Credit Card method changes the order status automatically without using the Callback.
 
 The Callback is a feature that, when enabled, allows your store to receive notifications of successful payments. Upon receiving a successful payment for an order, the ifthenpay server communicates with your store, changing the order status to "Processing." You can use ifthenpay payments without activating the Callback, but your orders won't automatically update their status.
 
@@ -504,13 +470,8 @@ Note: The value, if it has decimals, should be separated by a dot.
 
 </br>
 
-**Cofidis Pay**: In the backoffice, use the following data (1) and (2) from the order payment details
-![img](assets/test_callback_data_cofidis.png)
-</br>
-
 and enter them in the respective fields (1) and (2) of the Callback test form, then click on Test (3).
 Note: The value, if it has decimals, should be separated by a dot.
-![img](assets/test_callback_form_cofidis.png)
 
 </br>
 
@@ -541,7 +502,6 @@ A cron job is a scheduled task that is automatically executed at specific interv
 | MB WAY             | 4 minutes                      |
 | Payshop            | Configurable from 1 to 99 days |
 | Credit Card        | No deadline                    |
-| Cofidis Pay        | 60 minutes                     |
 | Pix                | 5 minutes                      |
 | Ifthenpay Gateaway | Configurable from 1 to 99 days |
 
@@ -655,66 +615,6 @@ You can go back (6), returning to the checkout page.
 After the payment is processed, the order success page will be displayed.
 ![img](assets/payment_return_ccard.png)
 
-</br>
-
-### Paying order with Cofidis Pay
-
-Select the Cofidis Pay payment method (1) and click on Continue (2).
-![img](assets/select_cofidis.png)
-</br>
-
-Click on Confirm Order.
-
-- Login or, if you don't have an account, sign up with Cofidis Pay:
-
-1. Click "Avançar" to sign up with Cofidis Pay;
-2. Or if you have a Cofidis Pay account, fill in your access credentials and click enter;
-   ![img](assets/cofidis_payment_1.png)
-   </br>
-
-- Number of installments and billing and personal data:
-
-1. Select the number of installments you wish;
-2. Verify the summary of the the payment plan;
-3. Fill in your personal and billing data;
-4. Click "Avançar" to continue;
-   ![img](assets/cofidis_payment_2.png)
-   </br>
-
-- Terms and Conditions:
-
-1. Select "Li e autorizo" to agree with terms and conditions;
-2. Click "Avançar"
-   ![img](assets/cofidis_payment_3.png)
-   </br>
-
-- Agreement formalization:
-
-1. Click "Enviar código";
-   ![img](assets/cofidis_payment_4.png)
-   </br>
-
-- Agreement formalization authentication code:
-
-1. Fill in the code you received on your phone;
-2. Click "Confirmar código";
-   ![img](assets/cofidis_payment_5.png)
-   </br>
-
-- Summary and Payment:
-
-1. Fill in your credit card details (number, expiration date and CW), and click "Validar";
-   ![img](assets/cofidis_payment_6.png)
-   </br>
-
-- Success and return to store:
-
-1. Click the return icon to return to the store;
-   ![img](assets/cofidis_payment_7.png)
-   </br>
-
-After the payment is processed, the order success page will be displayed.
-![img](assets/payment_return_cofidis.png)
 </br>
 
 ### Paying order with Pix
