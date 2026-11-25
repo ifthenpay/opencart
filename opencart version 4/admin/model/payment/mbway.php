@@ -90,7 +90,7 @@ class Mbway extends \Opencart\System\Engine\Model
 
 	public function getMbwayRecordByOrderId($orderId)
 	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_mbway` WHERE `order_id` = '" . $orderId . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_mbway` WHERE `order_id` = '" . $this->db->escape((string) $orderId) . "'");
 
 		if ($query->num_rows) {
 			return $query->row;
@@ -103,7 +103,7 @@ class Mbway extends \Opencart\System\Engine\Model
 
 	public function getMbwayRefundRecordByOrderId($orderId)
 	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_mbway_refund` WHERE `order_id` = '" . $orderId . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_mbway_refund` WHERE `order_id` = '" . $this->db->escape((string) $orderId) . "'");
 
 		if ($query->num_rows) {
 			return $query->row;
@@ -117,7 +117,7 @@ class Mbway extends \Opencart\System\Engine\Model
 
 	public function getAllMbwayRefundRecordsByOrderId($orderId)
 	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_mbway_refund` WHERE `order_id` = '" . $orderId . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_mbway_refund` WHERE `order_id` = '" . $this->db->escape((string) $orderId) . "'");
 
 		if ($query->num_rows) {
 			return $query->rows;
@@ -129,7 +129,7 @@ class Mbway extends \Opencart\System\Engine\Model
 
 	public function getTotalAmountRefunded($orderId)
 	{
-		$query = $this->db->query("SELECT SUM(`amount`) AS total_amount FROM `" . DB_PREFIX . "ifthenpay_mbway_refund` WHERE `order_id` = '" . $orderId . "'");
+		$query = $this->db->query("SELECT SUM(`amount`) AS total_amount FROM `" . DB_PREFIX . "ifthenpay_mbway_refund` WHERE `order_id` = '" . $this->db->escape((string) $orderId) . "'");
 
 		if ($query->num_rows) {
 			return $query->row['total_amount'];
@@ -142,13 +142,13 @@ class Mbway extends \Opencart\System\Engine\Model
 	// addMbwayRefundRecord
 	public function addMbwayRefundRecord($orderId, $amount, $description)
 	{
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "ifthenpay_mbway_refund` SET `order_id` = '" . $orderId . "', `amount` = '" . $this->db->escape($amount) . "', `description` = '" . $this->db->escape($description) . "', `date_added` = NOW()");
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "ifthenpay_mbway_refund` SET `order_id` = '" . $this->db->escape((string) $orderId) . "', `amount` = '" . $this->db->escape($amount) . "', `description` = '" . $this->db->escape($description) . "', `date_added` = NOW()");
 	}
 
 
 	public function updateMbwayRecordStatus($orderId, $status)
 	{
-		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_mbway` SET `status` = '" . $status . "' WHERE `order_id` = '" . $orderId . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_mbway` SET `status` = '" . $this->db->escape((string) $status) . "' WHERE `order_id` = '" . $this->db->escape((string) $orderId) . "'");
 	}
 
 

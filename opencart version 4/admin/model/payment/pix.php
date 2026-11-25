@@ -66,7 +66,7 @@ class Pix extends \Opencart\System\Engine\Model
 
 	public function getPixRecordByOrderId($orderId)
 	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_pix` WHERE `order_id` = '" . $orderId . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_pix` WHERE `order_id` = '" . $this->db->escape((string) $orderId) . "'");
 
 		if ($query->num_rows) {
 			return $query->row;
@@ -79,7 +79,7 @@ class Pix extends \Opencart\System\Engine\Model
 
 	public function updatepixRecordStatus($orderId, $status)
 	{
-		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_pix` SET `status` = '" . $status . "' WHERE `order_id` = '" . $orderId . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_pix` SET `status` = '" . $this->db->escape((string) $status) . "' WHERE `order_id` = '" . $this->db->escape((string) $orderId) . "'");
 	}
 
 

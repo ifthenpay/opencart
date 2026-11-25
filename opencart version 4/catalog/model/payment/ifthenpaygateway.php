@@ -75,17 +75,17 @@ class Ifthenpaygateway extends \Opencart\System\Engine\Model
 	 */
 	public function addIfthenpaygatewayRecord(array $data): void
 	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_ifthenpaygateway` WHERE `order_id` = '" . $data['order_id'] . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_ifthenpaygateway` WHERE `order_id` = '" . $this->db->escape((string) $data['order_id']) . "'");
 
 		if ($query->num_rows) {
 			return;
 		}
 
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "ifthenpay_ifthenpaygateway` SET " .
-			"`order_id` = '" . $data['order_id'] . "', " .
-			"`transaction_id` = '" . $data['transaction_id'] . "', " .
-			"`deadline` = '" . $data['deadline'] . "', " .
-			"`status` = '" . $data['status'] . "', " .
+			"`order_id` = '" . $this->db->escape((string) $data['order_id']) . "', " .
+			"`transaction_id` = '" . $this->db->escape((string) $data['transaction_id']) . "', " .
+			"`deadline` = '" . $this->db->escape((string) $data['deadline']) . "', " .
+			"`status` = '" . $this->db->escape((string) $data['status']) . "', " .
 			"`date_added` = NOW()");
 	}
 
@@ -93,7 +93,7 @@ class Ifthenpaygateway extends \Opencart\System\Engine\Model
 
 	public function getIfthenpaygatewayRecordByTransactionId($transactionId): array
 	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_ifthenpaygateway` WHERE `transaction_id` = '" . $transactionId . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_ifthenpaygateway` WHERE `transaction_id` = '" . $this->db->escape((string) $transactionId) . "'");
 
 		if ($query->num_rows) {
 			return $query->row;
@@ -110,7 +110,7 @@ class Ifthenpaygateway extends \Opencart\System\Engine\Model
 			return [];
 		}
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_ifthenpaygateway` WHERE `order_id` = '" . $orderId . "' order by date_added desc limit 1");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_ifthenpaygateway` WHERE `order_id` = '" . $this->db->escape((string) $orderId) . "' order by date_added desc limit 1");
 
 		if ($query->num_rows) {
 			return $query->row;
@@ -140,7 +140,7 @@ class Ifthenpaygateway extends \Opencart\System\Engine\Model
 
 	public function updateIfthenpaygatewayRecordStatus($orderId, $status)
 	{
-		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_ifthenpaygateway` SET `status` = '" . $status . "' WHERE `order_id` = '" . $orderId . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_ifthenpaygateway` SET `status` = '" . $this->db->escape((string) $status) . "' WHERE `order_id` = '" . $this->db->escape((string) $orderId) . "'");
 	}
 
 
@@ -153,6 +153,6 @@ class Ifthenpaygateway extends \Opencart\System\Engine\Model
 	 */
 	public function updateIfthenpaygatewayRecordStatusByTransactionId($transactionId, $status)
 	{
-		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_ifthenpaygateway` SET `status` = '" . $status . "' WHERE `transaction_id` = '" . $transactionId . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_ifthenpaygateway` SET `status` = '" . $this->db->escape((string) $status) . "' WHERE `transaction_id` = '" . $this->db->escape((string) $transactionId) . "'");
 	}
 }

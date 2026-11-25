@@ -77,10 +77,10 @@ class Pix extends \Opencart\System\Engine\Model
 	public function addPixRecord(array $data): void
 	{
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "ifthenpay_pix` SET " .
-			"`order_id` = '" . $data['order_id'] . "', " .
-			"`payment_url` = '" . $data['payment_url'] . "', " .
-			"`transaction_id` = '" . $data['transaction_id'] . "', " .
-			"`status` = '" . $data['status'] . "', " .
+			"`order_id` = '" . $this->db->escape((string) $data['order_id']) . "', " .
+			"`payment_url` = '" . $this->db->escape((string) $data['payment_url']) . "', " .
+			"`transaction_id` = '" . $this->db->escape((string) $data['transaction_id']) . "', " .
+			"`status` = '" . $this->db->escape((string) $data['status']) . "', " .
 			"`date_added` = NOW()");
 	}
 
@@ -97,7 +97,7 @@ class Pix extends \Opencart\System\Engine\Model
 			return [];
 		}
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_pix` WHERE `transaction_id` = '" . $transactionId . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_pix` WHERE `transaction_id` = '" . $this->db->escape((string) $transactionId) . "'");
 
 		if ($query->num_rows) {
 			return $query->row;
@@ -132,14 +132,14 @@ class Pix extends \Opencart\System\Engine\Model
 	 */
 	public function updatePixRecordStatus($transactionId, $status)
 	{
-		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_pix` SET `status` = '" . $status . "' WHERE `order_id` = '" . $transactionId . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_pix` SET `status` = '" . $this->db->escape((string) $status) . "' WHERE `order_id` = '" . $this->db->escape((string) $transactionId) . "'");
 	}
 
 
 
 	public function getRecordByOrderId($orderId): array
 	{
-		if ($orderId == '') {
+		if ($orderId == '' || !ctype_digit((string) $orderId)) {
 			return [];
 		}
 

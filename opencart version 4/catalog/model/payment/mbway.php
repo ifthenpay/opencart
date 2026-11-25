@@ -77,10 +77,10 @@ class Mbway extends \Opencart\System\Engine\Model
 	public function addMbwayRecord(array $data): void
 	{
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "ifthenpay_mbway` SET " .
-			"`order_id` = '" . $data['order_id'] . "', " .
-			"`phone_number` = '" . $data['phone_number'] . "', " .
-			"`transaction_id` = '" . $data['transaction_id'] . "', " .
-			"`status` = '" . $data['status'] . "', " .
+			"`order_id` = '" . $this->db->escape((string) $data['order_id']) . "', " .
+			"`phone_number` = '" . $this->db->escape((string) $data['phone_number']) . "', " .
+			"`transaction_id` = '" . $this->db->escape((string) $data['transaction_id']) . "', " .
+			"`status` = '" . $this->db->escape((string) $data['status']) . "', " .
 			"`date_added` = NOW()");
 	}
 
@@ -96,7 +96,7 @@ class Mbway extends \Opencart\System\Engine\Model
 		if ($transactionId == '') {
 			return [];
 		}
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_mbway` WHERE `transaction_id` = '" . $transactionId . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_mbway` WHERE `transaction_id` = '" . $this->db->escape((string) $transactionId) . "'");
 
 		if ($query->num_rows) {
 			return $query->row;
@@ -114,7 +114,7 @@ class Mbway extends \Opencart\System\Engine\Model
 	 */
 	public function getMbwayRecordByOrderId($orderId): array
 	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_mbway` WHERE `order_id` = '" . $orderId . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_mbway` WHERE `order_id` = '" . $this->db->escape((string) $orderId) . "'");
 
 		if ($query->num_rows) {
 			return $query->row;
@@ -151,7 +151,7 @@ class Mbway extends \Opencart\System\Engine\Model
 	 */
 	public function updateMbwayRecordStatus($order_id, $status): void
 	{
-		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_mbway` SET `status` = '" . $status . "' WHERE `order_id` = '" . $order_id . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_mbway` SET `status` = '" . $this->db->escape((string) $status) . "' WHERE `order_id` = '" . $this->db->escape((string) $order_id) . "'");
 	}
 
 
@@ -164,14 +164,14 @@ class Mbway extends \Opencart\System\Engine\Model
 	 */
 	public function updateMbwayRecordTransactionId($order_id, $transactionId): void
 	{
-		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_mbway` SET `transaction_id` = '" . $transactionId . "' WHERE `order_id` = '" . $order_id . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_mbway` SET `transaction_id` = '" . $this->db->escape((string) $transactionId) . "' WHERE `order_id` = '" . $this->db->escape((string) $order_id) . "'");
 	}
 
 
 
 	public function getRecordByOrderId($orderId): array
 	{
-		if ($orderId == '') {
+		if ($orderId == '' || !ctype_digit((string) $orderId)) {
 			return [];
 		}
 

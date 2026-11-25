@@ -79,7 +79,7 @@ class Ifthenpaygateway extends \Opencart\System\Engine\Model
 
 	public function updateIfthenpaygatewayRecordStatus($orderId, $status)
 	{
-		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_ifthenpaygateway` SET `status` = '" . $status . "' WHERE `order_id` = '" . $orderId . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_ifthenpaygateway` SET `status` = '" . $this->db->escape((string) $status) . "' WHERE `order_id` = '" . $this->db->escape((string) $orderId) . "'");
 	}
 
 

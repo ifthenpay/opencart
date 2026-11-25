@@ -7,6 +7,7 @@ require_once DIR_EXTENSION . 'ifthenpay/system/library/IfthenpayService.php';
 
 use Ifthenpay\IfthenpayService;
 use Opencart\System\Library\DB;
+use Opencart\System\Library\Log;
 use Opencart\System\Engine\Registry;
 
 class UpgradeTasks
@@ -16,6 +17,7 @@ class UpgradeTasks
 	private DB $db;
 	private Registry $registry;
 	private IfthenpayService $ifthenpayService;
+	private Log $logger;
 
 	public function __construct(DB $db, Registry $registry, ?string $currentVersion = null, ?string $newVersion = null)
 	{
@@ -24,6 +26,7 @@ class UpgradeTasks
 		$this->currentVersion = $currentVersion;
 		$this->newVersion = $newVersion;
 		$this->ifthenpayService = new IfthenpayService($this->registry);
+		$this->logger = new Log('ifthenpay.log');
 	}
 
 
@@ -63,11 +66,19 @@ class UpgradeTasks
 	}
 
 	/**
-	 * Cofidis was removed as a standalone payment method in 4.2.4. Its controller/model files are gone,
-	 * so any site that still has it installed must have its extension registration, event hooks and
-	 * settings cleared out — otherwise the dangling event hooks (which fire on every checkout/success
-	 * page, not just Cofidis orders) and the checkout payment-method loop would try to load the deleted
-	 * files and break checkout for every payment method, not just Cofidis.
+	 * Cofidis was removed as a standalone payment method in 4.2.4. Its controller/model files are gone
+	 * from this release, but `UpgradeService::copyDir()` only overwrites/adds files from the new release
+	 * onto a site's existing installation — it never deletes files that aren't shipped anymore. So a site
+	 * upgrading from an older version would still have the old `admin/controller/payment/cofidis.php` (and
+	 * the rest of its files) sitting on disk after the copy step, and since the admin Extensions > Payments
+	 * list is built by scanning every extension's admin/controller/payment folder for PHP files, Cofidis
+	 * would keep showing up there — now with an "Install" button, since its `oc_extension` row is gone but
+	 * the installable file remains.
+	 *
+	 * On top of deleting those obsolete files, any site that still has it installed must have its extension
+	 * registration, event hooks and settings cleared out — otherwise the dangling event hooks (which fire on
+	 * every checkout/success page, not just Cofidis orders) and the checkout payment-method loop would try to
+	 * load the deleted files and break checkout for every payment method, not just Cofidis.
 	 *
 	 * The `ifthenpay_cofidis` DB table is intentionally left untouched so historical orders placed with
 	 * Cofidis remain viewable in both the storefront and admin.
@@ -75,6 +86,8 @@ class UpgradeTasks
 	 */
 	private function removeCofidisPaymentMethod(): void
 	{
+		$this->deleteObsoleteCofidisFiles();
+
 		// remove the event hooks first, regardless of install state, since they run on every checkout/success page
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "event` WHERE `code` IN ('payment_ifthenpay_cofidis_catalog_success_payment_info', 'payment_ifthenpay_cofidis_icon_injection')");
 
@@ -98,6 +111,41 @@ class UpgradeTasks
 		} else {
 			$this->registry->load->model('setting/cron');
 			$this->registry->get('model_setting_cron')->deleteCronByCode('ifthenpay_check_upgrade');
+		}
+	}
+
+	/**
+	 * Deletes the Cofidis files that used to ship with the extension and are no longer part of the release,
+	 * which the plain file-copy upgrade step leaves behind on disk. Safe to run even if a given file was
+	 * never installed (e.g. a site installed after 4.2.4) since each path is checked before removal.
+	 * @return void
+	 */
+	private function deleteObsoleteCofidisFiles(): void
+	{
+		$obsoleteFiles = [
+			'system/library/CofidisPayment.php',
+			'admin/controller/payment/cofidis.php',
+			'admin/model/payment/cofidis.php',
+			'admin/view/template/payment/cofidis.twig',
+			'admin/view/image/cofidis.png',
+			'admin/language/en-gb/payment/cofidis.php',
+			'admin/language/pt-pt/payment/cofidis.php',
+			'catalog/controller/payment/cofidis.php',
+			'catalog/model/payment/cofidis.php',
+			'catalog/view/template/payment/cofidisConfirmFormAndBtn.twig',
+			'catalog/view/template/payment/cofidisSuccessInfo.twig',
+			'catalog/view/image/cofidis.png',
+			'catalog/view/image/compact/cofidis.png',
+			'catalog/language/en-gb/payment/cofidis.php',
+			'catalog/language/pt-pt/payment/cofidis.php',
+		];
+
+		foreach ($obsoleteFiles as $relativePath) {
+			$path = DIR_EXTENSION . 'ifthenpay/' . $relativePath;
+
+			if (is_file($path) && !@unlink($path)) {
+				$this->logger->write("IFTHENPAY - [WARNING] - UpgradeTasks failed to delete obsolete file (check file permissions): $path");
+			}
 		}
 	}
 

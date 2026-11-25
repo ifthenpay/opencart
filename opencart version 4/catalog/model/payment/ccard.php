@@ -76,9 +76,9 @@ class Ccard extends \Opencart\System\Engine\Model
 	public function addCcardRecord(array $data): void
 	{
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "ifthenpay_ccard` SET " .
-			"`order_id` = '" . $data['order_id'] . "', " .
-			"`transaction_id` = '" . $data['transaction_id'] . "', " .
-			"`status` = '" . $data['status'] . "', " .
+			"`order_id` = '" . $this->db->escape((string) $data['order_id']) . "', " .
+			"`transaction_id` = '" . $this->db->escape((string) $data['transaction_id']) . "', " .
+			"`status` = '" . $this->db->escape((string) $data['status']) . "', " .
 			"`date_added` = NOW()");
 	}
 
@@ -95,7 +95,7 @@ class Ccard extends \Opencart\System\Engine\Model
 			return [];
 		}
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_ccard` WHERE `transaction_id` = '" . $transactionId . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_ccard` WHERE `transaction_id` = '" . $this->db->escape((string) $transactionId) . "'");
 
 		if ($query->num_rows) {
 			return $query->row;
@@ -130,6 +130,6 @@ class Ccard extends \Opencart\System\Engine\Model
 	 */
 	public function updateCcardRecordStatusByTransactionId($transactionId, $status)
 	{
-		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_ccard` SET `status` = '" . $status . "' WHERE `transaction_id` = '" . $transactionId . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_ccard` SET `status` = '" . $this->db->escape((string) $status) . "' WHERE `transaction_id` = '" . $this->db->escape((string) $transactionId) . "'");
 	}
 }

@@ -77,11 +77,11 @@ class Payshop extends \Opencart\System\Engine\Model
 	public function addPayshopRecord(array $data): void
 	{
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "ifthenpay_payshop` SET " .
-			"`reference` = '" . $data['reference'] . "', " .
-			"`order_id` = '" . $data['order_id'] . "', " .
-			"`status` = '" . $data['status'] . "', " .
-			"`transaction_id` = '" . $data['transaction_id'] . "', " .
-			"`deadline` = '" . $data['deadline'] . "', " .
+			"`reference` = '" . $this->db->escape((string) $data['reference']) . "', " .
+			"`order_id` = '" . $this->db->escape((string) $data['order_id']) . "', " .
+			"`status` = '" . $this->db->escape((string) $data['status']) . "', " .
+			"`transaction_id` = '" . $this->db->escape((string) $data['transaction_id']) . "', " .
+			"`deadline` = '" . $this->db->escape((string) $data['deadline']) . "', " .
 			"`date_added` = NOW()");
 	}
 
@@ -94,7 +94,7 @@ class Payshop extends \Opencart\System\Engine\Model
 	 */
 	public function getPayshopRecordByReference($reference): array
 	{
-		if ($reference == '') {
+		if ($reference == '' || !ctype_digit((string) $reference)) {
 			return [];
 		}
 
@@ -134,14 +134,14 @@ class Payshop extends \Opencart\System\Engine\Model
 	 */
 	public function updatePayshopRecordStatus($order_id, $status)
 	{
-		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_payshop` SET `status` = '" . $status . "' WHERE `order_id` = '" . $order_id . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_payshop` SET `status` = '" . $this->db->escape((string) $status) . "' WHERE `order_id` = '" . $this->db->escape((string) $order_id) . "'");
 	}
 
 
 
 	public function getRecordByOrderId($orderId): array
 	{
-		if ($orderId == '') {
+		if ($orderId == '' || !ctype_digit((string) $orderId)) {
 			return [];
 		}
 

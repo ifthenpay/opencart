@@ -98,7 +98,7 @@ class Ccard extends \Opencart\System\Engine\Model
 
 	public function getCcardRecordByOrderId($orderId)
 	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_ccard` WHERE `order_id` = '" . $orderId . "' order by date_added desc limit 1");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_ccard` WHERE `order_id` = '" . $this->db->escape((string) $orderId) . "' order by date_added desc limit 1");
 
 		if ($query->num_rows) {
 			return $query->row;
@@ -111,7 +111,7 @@ class Ccard extends \Opencart\System\Engine\Model
 
 	public function getCcardRefundRecordByOrderId($orderId)
 	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_ccard_refund` WHERE `order_id` = '" . $orderId . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_ccard_refund` WHERE `order_id` = '" . $this->db->escape((string) $orderId) . "'");
 
 		if ($query->num_rows) {
 			return $query->row;
@@ -125,7 +125,7 @@ class Ccard extends \Opencart\System\Engine\Model
 
 	public function getAllCcardRefundRecordsByOrderId($orderId)
 	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_ccard_refund` WHERE `order_id` = '" . $orderId . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "ifthenpay_ccard_refund` WHERE `order_id` = '" . $this->db->escape((string) $orderId) . "'");
 
 		if ($query->num_rows) {
 			return $query->rows;
@@ -137,7 +137,7 @@ class Ccard extends \Opencart\System\Engine\Model
 
 	public function getTotalAmountRefunded($orderId)
 	{
-		$query = $this->db->query("SELECT SUM(`amount`) AS total_amount FROM `" . DB_PREFIX . "ifthenpay_ccard_refund` WHERE `order_id` = '" . $orderId . "'");
+		$query = $this->db->query("SELECT SUM(`amount`) AS total_amount FROM `" . DB_PREFIX . "ifthenpay_ccard_refund` WHERE `order_id` = '" . $this->db->escape((string) $orderId) . "'");
 
 		if ($query->num_rows) {
 			return $query->row['total_amount'];
@@ -150,14 +150,14 @@ class Ccard extends \Opencart\System\Engine\Model
 	// addCcardRefundRecord
 	public function addCcardRefundRecord($orderId, $amount, $description)
 	{
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "ifthenpay_ccard_refund` SET `order_id` = '" . $orderId . "', `amount` = '" . $this->db->escape($amount) . "', `description` = '" . $this->db->escape($description) . "', `date_added` = NOW()");
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "ifthenpay_ccard_refund` SET `order_id` = '" . $this->db->escape((string) $orderId) . "', `amount` = '" . $this->db->escape($amount) . "', `description` = '" . $this->db->escape($description) . "', `date_added` = NOW()");
 	}
 
 
 	// addCcardRefundRecord
 	public function updateCcardRecordStatus($orderId, $status)
 	{
-		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_ccard` SET `status` = '" . $status . "' WHERE `order_id` = '" . $orderId . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_ccard` SET `status` = '" . $this->db->escape((string) $status) . "' WHERE `order_id` = '" . $this->db->escape((string) $orderId) . "'");
 	}
 
 

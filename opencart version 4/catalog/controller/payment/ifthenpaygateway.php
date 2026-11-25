@@ -219,6 +219,7 @@ class Ifthenpaygateway extends \Opencart\System\Engine\Controller
 	{
 
 		$transactionId = isset($this->request->get['transaction_id']) ? $this->request->get['transaction_id'] : '';
+		$storedPaymentData = [];
 
 		try {
 
@@ -234,29 +235,33 @@ class Ifthenpaygateway extends \Opencart\System\Engine\Controller
 			$storedPaymentData = $this->model_extension_ifthenpay_payment_ifthenpaygateway->getIfthenpaygatewayRecordByTransactionId($transactionId);
 
 
+			if (!$storedPaymentData) {
+				throw new \Exception('StoredPaymentData not found in local table.', 10);
+			}
+
 			$this->validateSuccessCallback($this->request->get, $storedPaymentData);
 
-			$this->model_checkout_order->addHistory(
-				$storedPaymentData['order_id'],
-				$this->config->get('payment_ifthenpaygateway_paid_status_id'),
-				$this->language->get('comment_paid'),
-				true
-			);
-
-			// update ifthenpaygateway table record
-			$this->model_extension_ifthenpay_payment_ifthenpaygateway->updateIfthenpaygatewayRecordStatusByTransactionId($transactionId, 'paid');
-
+			// paid status is set only by the callback
+			$order = $this->model_checkout_order->getOrder($storedPaymentData['order_id']);
+			if ((int) $order['order_status_id'] === 0) {
+				$this->model_checkout_order->addHistory(
+					$storedPaymentData['order_id'],
+					$this->config->get('payment_ifthenpaygateway_pending_status_id'),
+					isset($this->session->data['ifth_payment_info']['order_id']) ? $this->getPaymentDetailsHtml(true, false) : '',
+					true
+				);
+			}
 
 			$this->session->data['ifth_payment_info']['status'] = 'paid';
 
-			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - INFO : IFTHENPAYGATEWAY init data: ' . json_encode(['orderId' => $storedPaymentData['order_id'], 'status' => 'paid']));
+			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - INFO : IFTHENPAYGATEWAY success return (awaiting callback to set paid): ' . json_encode(['orderId' => $storedPaymentData['order_id'], 'transactionId' => $transactionId]));
 
 
 			// redirect to success page
 			$this->response->redirect($this->url->link('checkout/success', 'language=' . $this->config->get('config_language')));
 		} catch (\Throwable $th) {
 
-			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - INFO : IFTHENPAYGATEWAY init data: ' . json_encode(['orderId' => $storedPaymentData['order_id'], 'status' => 'error', 'message' => $th->getMessage()]));
+			$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - INFO : IFTHENPAYGATEWAY init data: ' . json_encode(['orderId' => $storedPaymentData['order_id'] ?? '', 'status' => 'error', 'message' => $th->getMessage()]));
 
 			$this->session->data['ifth_payment_info']['status'] = 'failed';
 			$this->response->redirect($this->url->link('checkout/failure', 'language=' . $this->config->get('config_language')));

@@ -158,7 +158,17 @@ class Ccard extends \Opencart\System\Engine\Controller
 
 			if ($paymentStatus === self::SUCCESS_STATUS) {
 
+				$this->validateSignature($orderId, $amount, $transactionId, $this->request->get['sk'] ?? '');
+
 				$this->validateCallback($storedPaymentData, $orderId, $amount);
+
+				if ($storedPaymentData['status'] === 'paid') {
+					$this->response->redirect($this->url->link('checkout/success', 'language=' . $this->config->get('config_language')));
+				}
+
+				if ($storedPaymentData['status'] !== 'pending') {
+					throw new \Exception('Invalid status transition from ' . $storedPaymentData['status'] . ' to paid.', 80);
+				}
 
 				$this->model_checkout_order->addHistory(
 					$storedPaymentData['order_id'],
@@ -192,7 +202,9 @@ class Ccard extends \Opencart\System\Engine\Controller
 				$this->session->data['ifth_message'] = 'Credit card payment canceled by user.';
 
 				// registration of the cancelation
-				$this->model_extension_ifthenpay_payment_ccard->updateCcardRecordStatusByTransactionId($transactionId, 'canceled');
+				if ($storedPaymentData && $storedPaymentData['status'] === 'pending') {
+					$this->model_extension_ifthenpay_payment_ccard->updateCcardRecordStatusByTransactionId($transactionId, 'canceled');
+				}
 
 				$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - INFO : CCARD init data: ' . json_encode(['transactionId' => $transactionId, 'orderId' => $orderId, 'amount' => $amount, 'status' => 'canceled']));
 
@@ -205,7 +217,9 @@ class Ccard extends \Opencart\System\Engine\Controller
 				$this->session->data['ifth_message'] = 'Credit card payment failed, please try again or choose a different payment method.';
 
 				// registration of the cancelation
-				$this->model_extension_ifthenpay_payment_ccard->updateCcardRecordStatusByTransactionId($transactionId, 'failed');
+				if ($storedPaymentData && $storedPaymentData['status'] === 'pending') {
+					$this->model_extension_ifthenpay_payment_ccard->updateCcardRecordStatusByTransactionId($transactionId, 'failed');
+				}
 
 				$this->logger->write('IFTHENPAY - ' . self::PAYMENTMETHOD . ' - INFO : CCARD init data: ' . json_encode(['transactionId' => $transactionId, 'orderId' => $orderId, 'amount' => $amount, 'status' => 'error']));
 
@@ -222,6 +236,26 @@ class Ccard extends \Opencart\System\Engine\Controller
 
 		return;
 	}
+
+
+	/**
+	 * validate the sk signature sent by the gateway on the success return
+	 */
+	private function validateSignature($orderId, $amount, $transactionId, $sk): void
+	{
+		$ccardKey = (string) $this->config->get('payment_ccard_key');
+
+		if ($ccardKey === '' || !is_string($sk) || $sk === '') {
+			throw new \Exception('Missing signature.', 70);
+		}
+
+		$expectedSk = hash_hmac('sha256', $orderId . $amount . $transactionId, $ccardKey);
+
+		if (!hash_equals($expectedSk, $sk)) {
+			throw new \Exception('Invalid signature.', 70);
+		}
+	}
+
 
 
 	/**

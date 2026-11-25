@@ -77,12 +77,12 @@ class Multibanco extends \Opencart\System\Engine\Model
 	public function addMultibancoRecord(array $data): void
 	{
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "ifthenpay_multibanco` SET " .
-			"`entity` = '" . $data['entity'] . "', " .
-			"`reference` = '" . $data['reference'] . "', " .
-			"`order_id` = '" . $data['order_id'] . "', " .
-			"`status` = '" . $data['status'] . "', " .
-			"`request_id` = '" . $data['request_id'] . "', " .
-			"`deadline` = '" . $data['deadline'] . "', " .
+			"`entity` = '" . $this->db->escape((string) $data['entity']) . "', " .
+			"`reference` = '" . $this->db->escape((string) $data['reference']) . "', " .
+			"`order_id` = '" . $this->db->escape((string) $data['order_id']) . "', " .
+			"`status` = '" . $this->db->escape((string) $data['status']) . "', " .
+			"`request_id` = '" . $this->db->escape((string) $data['request_id']) . "', " .
+			"`deadline` = '" . $this->db->escape((string) $data['deadline']) . "', " .
 			"`date_added` = NOW()");
 	}
 
@@ -95,7 +95,7 @@ class Multibanco extends \Opencart\System\Engine\Model
 	 */
 	public function getMultibancoRecordByReference($reference): array
 	{
-		if ($reference == '') {
+		if ($reference == '' || !ctype_digit((string) $reference)) {
 			return [];
 		}
 
@@ -135,14 +135,14 @@ class Multibanco extends \Opencart\System\Engine\Model
 	 */
 	public function updateMultibancoRecordStatus($order_id, $status)
 	{
-		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_multibanco` SET `status` = '" . $status . "' WHERE `order_id` = '" . $order_id . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "ifthenpay_multibanco` SET `status` = '" . $this->db->escape((string) $status) . "' WHERE `order_id` = '" . $this->db->escape((string) $order_id) . "'");
 	}
 
 
 
 	public function getRecordByOrderId($orderId): array
 	{
-		if ($orderId == '') {
+		if ($orderId == '' || !ctype_digit((string) $orderId)) {
 			return [];
 		}
 
